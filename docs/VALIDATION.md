@@ -1,53 +1,64 @@
-# rc25 验证记录 / Validation
+# rc26 验证记录 / Validation
 
-版本：`2.0.0rc25`。本地环境：macOS ARM64 / Python 3.12.13。
+版本：`2.0.0rc26`。本地环境：macOS ARM64 / Python 3.12.13。
 
-## 字库加载优化
+## 修复与可复现问题
 
-本轮仅优化 `.p2dfont` 加载与索引构建：大多数无歧义匹配键共享不可变标签元组，只为实际冲突积累集合并最终排序；每行二进制摘要一次解包，保留完整 16 字节及首次出现顺序；歧义检查按需遍历摘要，不再提前展开整行键。保留 ZIP 文件集合、大小、SHA256、数据集摘要、NPY 形状、字库身份、Unicode、拓扑、别名和歧义计数的全部校验。
+此前，多标签轮廓窗口被标记为歧义而不生成 `GlyphMatch`，后续只比较唯一候选，导致这类窗口从重叠判断中消失。例如原本被内部“一”轮廓阻止的完整“图”，增加一个把该轮廓标成“二”的字库后，反而被接受，甚至可以参与字体锁定。这不是更多字库提供了确认依据。
 
-| 同时加载十个 r2 字库 | rc24 | rc25 |
+rc26 保留歧义窗口的半开区间，先拒绝与其重叠的唯一候选，再执行已有的唯一候选重叠判断。排序、前缀最大端点和二分查找避免新增逐候选扫描全部歧义窗口；相邻端点不算重叠。完整父字、内部子字形、跨字边界窗口和单个字库内部的多标签均适用。已有字体锁定及来源行复核可在锚点和全部竞争窗口证据成立时恢复完整字形；不能用受阻候选先建立自己的字体锁定。
+
+新增 `font_ambiguous_overlap_rejections` 记录初次扫描受阻候选数，不等于最终未输出字符数。几何、字库数据、数值取整规则、比例门槛均未修改。恢复继续只消费保存的 DXF 与 `.p2dfont`，不使用 OCR 或原字体文件。
+
+## 回归与原轮廓证据
+
+新增 **19 项回归全部在冻结 rc25 上复现错误输出或错误字体锁定**，修复后通过。覆盖同库/跨库同形标签、汉字/字母/数字竞争、字库顺序、描边/填充、完整父字/内部子字/跨界、相邻端点、原实体保留及幂等。原有含歧义标点的 `ABCDi` 样例仍恢复完整，但必须经过四个独立字母锚点支持的同行复核；`ABCi` 不能再依赖自身冲突字形达到四字母锁定门槛。
+
+针对性 70 项、最终全量源码 **443 项**及修改文件 Ruff 通过。安装 wheel 与精确提交的跨平台 CI 结果见本版本发行记录；CI 在每个平台分别验证源码与隔离安装包。五条 DeprecationWarning 来自 PyMuPDF SWIG。
+
+| 定向样例 | 基线 | rc26 |
 | --- | ---: | ---: |
-| 中位加载耗时 | 5.759 秒 | 2.311 秒 |
-| 进程峰值 RSS 中位数 | 1,097,023,488 字节 | 888,520,704 字节 |
-| 模板表示 | 246,293 | 246,293 |
-| 匹配键 | 2,288,068 | 2,288,068 |
+| 十字库同时加载，84 个保存 DXF 完整恢复 | rc25：70/84 | **63/84** |
+| 十字库输出字符 | rc25：1275 | **1244** |
+| 十字库的完整 52 字母样例 | rc25：20/20 | **20/20** |
+| 各自对应字体，84 个 PDF 完整恢复 | rc24：82/84 | **82/84** |
+| 对应字体的输出字符 | rc24：1306 | **1306** |
+| 额外 ABCD8w PDF | 历史：6/6 | **6/6** |
 
-三轮交替运行，每次使用独立 Python 进程并同时保留十个字库。计时只包括 `load_font_catalog`，指纹核对在计时与内存采样之后；操作系统文件缓存已预热。加载耗时约减少 **60%**，进程峰值 RSS 约减少 **19%**。这是同一台机器上的字库加载对照，不是 PDF 全流程提速，也不是所有机器的性能保证。
+84-DXF 对照缓存一次已校验的全部十个字库对象，在同一原始图元的副本上分别运行冻结 rc25 与 rc26。独立审计不调用新二分算法，直接枚举所有区间对，核对初始候选集合；并从 DXF 原子重新计算每个歧义窗口的精确掩码、摘要、拓扑、标签与边界。共核验 **24 个歧义窗口、20 个受重叠阻止的唯一候选**。原始唯一候选与全部冲突预测在两版一致，修复只使原先遗漏的冲突继续生效。
 
-六次运行的所有字库字段逐项指纹一致，包括模板顺序、字节摘要/掩码、拓扑、别名映射、模板引用、匹配键顺序与完整冲突标签、宽高比索引及歧义计数。10 个输入字库 SHA256 与公开 r2 清单一致。原始测量和逐项记录见 [CATALOG_LOADING.json](CATALOG_LOADING.json)。
+八个罕见汉字样例因失去无冲突字体锚点，共少输出 **31 个字符**；其中一个样例在基线就不完整，因此完整样例数减少七个。不能据此认定 31 个旧标签全部错误，也不能把这次变化称为识别率提升。未确认轮廓全部保留。另有 **10 个完整父字**通过既有来源行复核恢复；每个父字内的全部子窗口、精确预测、独立锚点、源句柄、包含关系、高度和连续来源均重新核验，其中两个此前绕过了这一步。
 
-## 回归证据
+84 个对应字体 PDF 本轮全部重新执行 PDF→DXF→TEXT，82 个完整恢复，两个 Jigmo 常用汉字样例继续保留完整轮廓竞争。两组输出分别对 **1244 / 1306 个字形**核对原字体 cmap、BoundsPen、生成坐标、保存 TEXT、源句柄和字形摘要；最大边界差 **0.000867 mm 以内**，审计容差 0.05 mm。原字体仅用于独立审计，不用于运行时匹配。两组所有原始模型空间实体组码在去除恢复层/XDATA 标记后与 rc23 相同，保存 DXF 审计错误/修复均为 0。
 
-新增 **8 项兼容性检查**，在冻结 rc24 加载器与 rc25 上均通过：v1/v2、1/3/32 个摘要变体、首尾和内部 NUL 字节、去重与顺序、拓扑、规范掩码缺失拒绝，以及大量同形标签与单码位 NFKC 别名。原有篡改、格式和轮廓恢复用例继续运行。全量源码 **424 项通过**；修改模块和新增测试的 Ruff 检查通过。安装包与精确提交的 CI 结果另见本版本发行记录。
+另外 **16 个正常资源加载 PDF 检查**不复用缓存：八个英文/扩展 J 完整样例、四个因组合字库歧义正确保留轮廓的样例，以及这四个使用对应字体字库时的完整输出。16 个预期结果全部通过，包含 12 个完整输出和 4 个保留歧义的结果，不能把它们称为 16 个完整识别。隔离 wheel 使用同一入口并验证 worker 导入安装包。完整逐项数据见 [OPEN_FONT_VALIDATION.json](OPEN_FONT_VALIDATION.json)，安装包结果见本版本发行记录。
 
-84 个保存 DXF 副本使用新加载器读取全部十个字库后重新识别，与 rc24 比较**每个识别报告字段、全部实体库标签和句柄**。仅排除已检查格式的 `EZDXF_META/WRITTEN_BY_EZDXF` 保存时间；原图元、文字、块、样式和资源引用均一致。结果仍为 **70 个完整、14 个部分或未确认，1275 个发布字符**；十字体的 **20 个大小写 52 字母描边/填充样例全部完整**。保存 DXF 审计错误和修复均为 0。
+## BIM 实图与比例限制
 
-以上 84 个用例缓存了已校验字库对象，属于保存 DXF 的识别回归。另取三个英文字体及扩展 J 的描边/填充 PDF，共 **8 个样例**，通过正常无缓存资源加载重新执行 PDF→DXF→TEXT，全部完整恢复。该入口也用于隔离 wheel 验证；发行记录明确列出完成结果。运行时继续只从持久化 DXF 和字库恢复文字，不使用 OCR 或原字体文件。
+本轮使用不变的 r2 core 资源，重新转换内部 **22 PDF / 22 页**。22 份均产出保存 DXF，转换失败 0；全部仍为 `degraded`，CLI 退出码 5。重新核对输入 SHA256/预检、保存输出 SHA256、实际 TEXT 句柄和尺寸验证；所有 DXF 组码与 rc24 相同，仅两个 HEADER GUID 不同。审计错误和修复均为 0。
 
-## 保留的历史结果与限制
+结果为 **238 TEXT / 1035 字符**；内置精确匹配 1042，外部字库候选 262，字体锁定及外部发布字符均为 0。比例状态：9 calibrated、6 declared_approximate、6 paper、1 unknown；geometry_valid 为 **13/22**。九份已标定图仍超出 **0.2%** 尺寸误差门槛，不放宽阈值，不把产出 DXF 当成工程验收通过。公开脱敏摘要见 [validation.json](validation.json)。
 
-- **rc24 对应字体 PDF：82/84 完整**，两个 Jigmo 样例仍有完整汉字轮廓竞争。本轮未重新转换这 84 个 PDF；本轮 84-DXF 对照使用组合字库，二者不能混为一次测试。
-- **rc24 BIM：22 PDF / 22 页**均产出 DXF，仍全部 `degraded`；238 TEXT / 1035 字符，0 外部字库发布字符。比例状态为 9 calibrated、6 declared_approximate、6 paper、1 unknown；geometry_valid 为 13/22。九份已标定图仍超出 0.2% 尺寸误差门槛。本轮未重跑该批次，几何和比例算法未修改。原有摘要保留 rc24 标记：[validation.json](validation.json)。
-- 历史 rc11 的 **4290 份去重 PDF / 12577 页**仅代表当时的基础转换测试，本轮未重跑。
-- 十字库的 **14 个汉字样例**仍部分或未确认。定向 20 pt 样例不能证明任意字体、字号、字重或 IVS 异体序列的准确率。模板覆盖不等于文字识别成功，产出 DXF 不等于工程验收通过。
+历史 rc11 的 **4290 份去重 PDF / 12577 页**仅代表当时的基础转换测试，本轮未重跑。历史 rc20 填充修复及 rc25 加载性能证据保留原版本标记；本轮没有重新做性能测量。rc25 的加载优化代码保持原样：[CATALOG_LOADING.json](CATALOG_LOADING.json)。
 
-## 分发
+## 分发与范围
 
-两个 r2 ZIP 的字节及 SHA256 不变，包含 245,496 个原始模板和 797 个填充表示。无需重新下载或重建。主源码、wheel、sdist 排除私有 PDF/DXF、外部字体/字库和个人路径；独立资源包保留原许可。
+仍为预发布。组合字库的 **21 个样例**部分恢复或未确认；对应字体两个 Jigmo 样例仍未补齐。定向 20 pt 样例不能证明任意字体、字号、字重或 IVS 异体序列的准确率。模板覆盖不等于识别成功。
 
-CI 验证 Ubuntu/Python 3.10、Ubuntu/3.13、macOS/3.12、Windows/3.12 的源码、构建、元数据、分发内容、依赖和隔离安装包。上述真实字库性能与实图回归为本地验证，不代表所有 CI 平台均运行这批资源。五条 DeprecationWarning 来自 PyMuPDF SWIG。
+两个 r2 ZIP 的字节和 SHA256 不变，含 245,496 个原始模板、797 个填充表示，无需重新下载或重建。源码、wheel、sdist 排除私有 PDF/DXF、外部字体/字库与个人路径，独立资源包保留原许可。CI 范围为 Ubuntu/Python 3.10、Ubuntu/3.13、macOS/3.12、Windows/3.12；真实字库和 BIM 语料为本地验证，不表示各 CI 平台也运行了这些资源。
 
 ## English
 
-rc25 reduces temporary index allocations, decodes each digest row in one operation, and checks ambiguity without eagerly materializing all match keys. Unique keys share immutable label tuples; actual conflicts retain set accumulation and a final sort. All archive, hash, shape, identity, Unicode, topology, alias and ambiguity validations are retained, including v1 compatibility.
+rc26 fixes ambiguous source windows disappearing from overlap checks when they do not create a unique `GlyphMatch`. Adding another catalog could previously admit a conflicting parent or child and allow it to bootstrap its own font lock. Sorted half-open spans, prefix maximum endpoints and binary search retain these conflicts without a new all-pairs loop. Adjacent endpoints remain separate. Established source-row rechecks may restore a whole glyph only with independent anchors and all original conflict evidence. Geometry, catalog bytes, raster rounding and scale thresholds remain unchanged; runtime matching uses persisted DXF and catalogs without OCR or source fonts.
 
-Three alternating fresh-process trials on one macOS ARM64 host measured ten-catalog loading at a median **5.759→2.311 seconds**, with median process peak RSS **1,097,023,488→888,520,704 bytes**: about **60% less loading time and 19% lower peak RSS**. All catalogs remain resident together. OS file caches are warm; fingerprinting occurs after timing/RSS sampling. These are local loader measurements, not end-to-end PDF or cross-platform performance claims.
+All **19 added regressions fail on frozen rc25** for incorrect TEXT or font-lock behavior and pass after the fix. Seventy focused tests, **443 source tests** and scoped Ruff pass. Isolated-wheel and exact-commit CI results are recorded in the release; five warnings are from PyMuPDF SWIG.
 
-Every catalog field, all **246,293 templates and 2,288,068 lookup keys**, their iteration order, masks/digests, template references, normalization and ambiguity indexes match rc24 across all six runs. Input hashes match the r2 release manifests. [Raw measurements and regression data](CATALOG_LOADING.json) are published.
+Across 84 persisted DXFs with all ten catalogs cached together, complete cases change from **70/84 to 63/84**, with **1244 characters instead of 1275**. All **20 full-alphabet probes remain complete**. Independent all-pairs overlap checks verify 24 ambiguous windows and 20 blocked unique candidates; raw candidates and conflict predictions match frozen rc25 exactly. Eight rare-Han cases lose sufficient font-lock anchors, withholding 31 prior characters while retaining their original outlines. This does not establish that every withheld label was wrong and is not an accuracy increase. Ten whole parents pass existing anchored row rechecks; every internal competing window and all source, containment, height and anchor evidence were independently recomputed.
 
-Eight new characterization tests pass on both the frozen rc24 loader and rc25, covering legacy/current schemas, 1/3/32 variants, opaque NUL-containing digests, ordering/deduplication, topology, canonical-mask rejection and many Unicode label collisions. The source suite passes **424 tests**; scoped Ruff passes. Isolated-wheel and exact-commit CI results are recorded in the release.
+All 84 matching-face PDFs were freshly converted and remain **82/84 complete**, with two unresolved Jigmo common-Han cases. Independent original-font cmap/BoundsPen checks validate all **1244 combined-catalog and 1306 matching-face output glyphs**, source handles, digests and positions; maximum bbox error is below **0.000867 mm** against a 0.05 mm audit tolerance. All original modelspace entity tags equal rc23 after removing only recovery metadata, and all saved-DXF audits have zero errors/fixes. Six ABCD8w PDF probes also pass.
 
-All **84 saved-DXF recognition reports** match rc24 in every field. Every entitydb tag and handle also matches, except the validated ezdxf writer timestamp. Geometry, recovered text, blocks, styles and references are preserved. Results remain **70 complete / 14 partial or unconfirmed**, with **1275 published characters** and all **20 English alphabet probes** complete; audits report zero errors/fixes. These runs reuse validated catalog objects. Eight additional normal-loading PDF conversions cover three Latin faces and Extension J in both stroke/fill pipelines; all complete. The same entry point is used for isolated-wheel verification.
+Sixteen normal uncached resource-loading checks produce **12 complete outputs and four correctly withheld ambiguous runs**. They cover positive English/Extension J cases and conflicting Han cases under combined versus matching-face catalog selection. All 16 expected outcomes pass; these are not 16 complete recognitions. The same entry point is used for installed-wheel checks with source-free worker resolution. [Detailed font evidence](OPEN_FONT_VALIDATION.json) and the release record distinguish these scopes.
 
-The **82/84 matching-face PDFs and 22 BIM PDFs** retain their explicitly versioned **rc24** evidence and were not rerun in rc25. All 22 BIM drawings were degraded; nine calibrated sheets exceeded the 0.2% dimension-error gate. The historical 4290-PDF corpus was not rerun. No geometry, scale, recognition threshold or font-resource change is included. Remaining ambiguity is preserved as geometry. Reuse the existing r2 bundles; main distributions exclude private drawings and external font resources.
+The fresh **22-PDF BIM batch** produces all DXFs with zero conversion failures, but all remain degraded (CLI exit 5). All saved DXF group pairs match rc24 except two HEADER GUIDs. Input/output hashes, actual TEXT handles and dimension validation are verified: **238 TEXT / 1035 characters**, 262 external candidates, zero external locks/characters; scales are 9 calibrated, 6 declared approximate, 6 paper, 1 unknown. The geometry gate passes **13/22**; nine calibrated drawings still exceed the **0.2%** dimension-error limit. See the [sanitized summary](validation.json).
+
+The historical rc11 4290-PDF/12577-page corpus was not rerun. rc20 fill-repair and rc25 performance evidence remain explicitly historical; rc25 loading code is unchanged and no new timing claim is made. Reuse identical r2 resources. These targeted probes do not establish arbitrary-font recognition, cross-platform real-corpus acceptance or full engineering readiness.

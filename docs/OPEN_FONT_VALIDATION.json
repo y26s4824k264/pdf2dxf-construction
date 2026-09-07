@@ -1,6 +1,6 @@
 {
   "schema": "pdf2dxf.open_font_validation.v1",
-  "version": "2.0.0rc24",
+  "version": "2.0.0rc26",
   "source_lock_sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
   "unicode_reference": {
     "url": "https://www.unicode.org/Public/17.0.0/ucd/UnicodeData.txt",
@@ -2616,10 +2616,11 @@
       }
     ],
     "baseline_comparison": {
-      "version": "2.0.0rc23",
+      "version": "2.0.0rc24",
       "complete_text_cases": 82,
       "additional_published_characters": 0,
       "previously_published_characters_preserved": true,
+      "all_published_text_identical": true,
       "changes": []
     },
     "saved_output_audit": {
@@ -10015,7 +10016,7 @@
   "additional_digit_probes": {
     "cases": 6,
     "all_passed": true,
-    "runtime": "rc24 with unchanged r2 catalogs; original rc21 PDFs reused",
+    "runtime": "rc26 with unchanged r2 catalogs; original rc21 PDFs reused",
     "rows": [
       {
         "font": "han-mincho-plane0",
@@ -10266,133 +10267,271 @@
     "historical_version": "2.0.0rc22"
   },
   "source_catalog_selection": {
-    "version": "2.0.0rc24",
-    "runtime": "source runtime with normal uncached resource loading; all ten catalogs from downloaded r2 bundles",
-    "cases": 8,
-    "complete_text_cases": 8,
-    "partial_text_cases": 0,
+    "version": "2.0.0rc26",
+    "runtime": "source runtime with normal uncached resource loading",
+    "source_free_working_directory": false,
+    "worker_resolution_verified": false,
+    "cases": 16,
+    "expected_results_passed": 16,
+    "complete_text_cases": 12,
+    "ambiguous_runs_preserved": 4,
     "conversion_failures": 0,
-    "all_observed_results_and_ambiguity_gates_verified": true,
     "rows": [
       {
         "font": "latin-sans-regular",
         "case": "english52",
+        "pipeline": "stroke",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "stroke",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "complete": true,
-        "ambiguous_windows": 0,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "latin-sans-regular",
         "case": "english52",
+        "pipeline": "fill",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "fill",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "complete": true,
-        "ambiguous_windows": 0,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "han-gothic-part1",
         "case": "english52",
+        "pipeline": "stroke",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "stroke",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "complete": true,
-        "ambiguous_windows": 0,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 2,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "han-gothic-part1",
         "case": "english52",
+        "pipeline": "fill",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "fill",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "complete": true,
-        "ambiguous_windows": 0,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 2,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "han-gothic-part2",
         "case": "english52",
+        "pipeline": "stroke",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "stroke",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "complete": true,
-        "ambiguous_windows": 0,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 2,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "han-gothic-part2",
         "case": "english52",
+        "pipeline": "fill",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "fill",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "complete": true,
-        "ambiguous_windows": 0,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 2,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "han-gothic-part2",
         "case": "extension-323b0",
-        "selection": "all-ten",
-        "catalogs": 10,
         "pipeline": "stroke",
+        "selection": "all-ten",
+        "catalogs": 10,
         "expected": "𲎰𲎱𲎲𲎳",
         "actual": "𲎰𲎱𲎲𲎳",
-        "complete": true,
-        "ambiguous_windows": 3,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 1,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       },
       {
         "font": "han-gothic-part2",
         "case": "extension-323b0",
+        "pipeline": "fill",
         "selection": "all-ten",
         "catalogs": 10,
-        "pipeline": "fill",
         "expected": "𲎰𲎱𲎲𲎳",
         "actual": "𲎰𲎱𲎲𲎳",
-        "complete": true,
-        "ambiguous_windows": 3,
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 1,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "selection": "all-ten",
+        "catalogs": 10,
+        "expected": "",
+        "actual": "",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 1,
+        "locked_fonts": 0,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "selection": "matching-face",
+        "catalogs": 1,
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "selection": "all-ten",
+        "catalogs": 10,
+        "expected": "",
+        "actual": "",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 1,
+        "locked_fonts": 0,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "selection": "matching-face",
+        "catalogs": 1,
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "stroke",
+        "selection": "all-ten",
+        "catalogs": 10,
+        "expected": "",
+        "actual": "",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 2,
+        "locked_fonts": 0,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "stroke",
+        "selection": "matching-face",
+        "catalogs": 1,
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "fill",
+        "selection": "all-ten",
+        "catalogs": 10,
+        "expected": "",
+        "actual": "",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 2,
+        "locked_fonts": 0,
+        "original_entity_tags_equal_rc24": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "fill",
+        "selection": "matching-face",
+        "catalogs": 1,
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "expected_result_passed": true,
+        "ambiguous_overlap_rejections": 0,
+        "locked_fonts": 1,
+        "original_entity_tags_equal_rc24": true,
         "audit_errors": 0,
         "audit_fixes": 0
       }
     ]
   },
   "all_ten_catalog_regression": {
-    "version": "2.0.0rc24",
-    "baseline": "2.0.0rc23",
+    "version": "2.0.0rc26",
+    "baseline": "2.0.0rc25",
     "cases": 84,
     "catalogs_loaded_together": 10,
-    "baseline_complete": 64,
-    "complete": 70,
-    "partial_or_unconfirmed": 14,
-    "new_characters": 6,
-    "row_recheck_glyphs": 8,
+    "baseline_complete": 70,
+    "complete": 63,
+    "partial_or_unconfirmed": 21,
+    "previously_published_glyphs_now_withheld": 31,
+    "published_glyphs": 1244,
     "all_original_entity_tags_unchanged": true,
-    "all_previous_published_characters_preserved": true,
-    "method": "Reset recovery metadata on copies of the 84 persisted rc23 font DXFs. Execute frozen rc23 and current rc24 full DXF recognizers with all ten downloaded r2 catalogs; cache only validated catalog objects to avoid repeated disk parsing. Independent PDF and installed-wheel checks exercise uncached resource loading. These are targeted 20pt samples, not universal-font accuracy.",
+    "method": "Fresh recognition on copies of 84 persisted font DXFs, using frozen rc25 and current rc26 with all ten validated r2 catalogs cached once. Unresolved competing windows remain geometry; loss of previously emitted labels is disclosed, not counted as an accuracy increase.",
+    "seconds": 38.53977654204937,
     "rows": [
       {
         "font": "cjk-sans-sc-regular",
@@ -10403,11 +10542,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10418,11 +10557,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10433,11 +10572,11 @@
         "actual": "建筑结构平",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10448,11 +10587,11 @@
         "actual": "建筑结构平面图",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10463,11 +10602,11 @@
         "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10478,11 +10617,11 @@
         "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10493,11 +10632,11 @@
         "actual": "𫝆𫝑𫝓𫝚",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10508,11 +10647,11 @@
         "actual": "𫝆𫝑𫝓𫝚",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10523,11 +10662,11 @@
         "actual": "你兔再冤",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -10538,11 +10677,11 @@
         "actual": "你兔再冤",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10553,11 +10692,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10568,11 +10707,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10583,11 +10722,11 @@
         "actual": "建筑结构平",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10598,11 +10737,11 @@
         "actual": "建筑结构平面图",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10613,11 +10752,11 @@
         "actual": "𫝆𫝑𫝓𫝚",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10628,11 +10767,11 @@
         "actual": "𫝆𫝑𫝓𫝚",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10643,11 +10782,11 @@
         "actual": "你兔再冤",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -10658,41 +10797,41 @@
         "actual": "你兔再冤",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "latin-sans-regular",
         "case": "english52",
         "pipeline": "stroke",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz",
+        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
-        "baseline_complete": false,
+        "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "latin-sans-regular",
         "case": "english52",
         "pipeline": "fill",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz",
+        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
-        "baseline_complete": false,
+        "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "latin-serif-regular",
@@ -10703,11 +10842,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "latin-serif-regular",
@@ -10718,11 +10857,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "latin-mono-regular",
@@ -10733,11 +10872,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "latin-mono-regular",
@@ -10748,11 +10887,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane0",
@@ -10763,11 +10902,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane0",
@@ -10778,11 +10917,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane0",
@@ -10793,11 +10932,11 @@
         "actual": "筑结构平",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane0",
@@ -10808,11 +10947,11 @@
         "actual": "筑结构平面",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10823,11 +10962,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10838,11 +10977,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10853,11 +10992,11 @@
         "actual": "𠀀𠀁𠀂𠀃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10868,11 +11007,11 @@
         "actual": "𠀀𠀁𠀂𠀃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10883,11 +11022,11 @@
         "actual": "𪜀𪜁𪜂𪜃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10898,11 +11037,11 @@
         "actual": "𪜀𪜁𪜂𪜃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10913,11 +11052,11 @@
         "actual": "𫝀𫝁𫝂𫝃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10928,11 +11067,11 @@
         "actual": "𫝀𫝁𫝂𫝃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10943,11 +11082,11 @@
         "actual": "𫠠𫠡𫠢𫠣",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10958,11 +11097,11 @@
         "actual": "𫠠𫠡𫠢𫠣",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10973,11 +11112,11 @@
         "actual": "𬺰𬺱𬺲𬺳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -10988,11 +11127,11 @@
         "actual": "𬺰𬺱𬺲𬺳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -11003,11 +11142,11 @@
         "actual": "𮯰𮯱𮯲𮯳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -11018,11 +11157,11 @@
         "actual": "𮯰𮯱𮯲𮯳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -11033,11 +11172,11 @@
         "actual": "丽丸乁𠄢",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane2",
@@ -11048,11 +11187,11 @@
         "actual": "丽丸乁𠄢",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11063,11 +11202,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11078,11 +11217,11 @@
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11093,11 +11232,11 @@
         "actual": "𰀀𰀁𰀂𰀃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11108,11 +11247,11 @@
         "actual": "𰀀𰀁𰀂𰀃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11123,11 +11262,11 @@
         "actual": "𱍐𱍑𱍒𱍓",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11138,11 +11277,11 @@
         "actual": "𱍐𱍑𱍒𱍓",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11153,11 +11292,11 @@
         "actual": "𲎰𲎱𲎲𲎳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane3",
@@ -11168,41 +11307,41 @@
         "actual": "𲎰𲎱𲎲𲎳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
         "case": "english52",
         "pipeline": "stroke",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz",
+        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
-        "baseline_complete": false,
+        "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
         "case": "english52",
         "pipeline": "fill",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz",
+        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
-        "baseline_complete": false,
+        "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11210,14 +11349,14 @@
         "pipeline": "stroke",
         "expected": "𠀀𠀁𠀂𠀃",
         "before": "𠀀𠀁𠀂𠀃",
-        "actual": "𠀀𠀁𠀂𠀃",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 1,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11225,14 +11364,14 @@
         "pipeline": "fill",
         "expected": "𠀀𠀁𠀂𠀃",
         "before": "𠀀𠀁𠀂𠀃",
-        "actual": "𠀀𠀁𠀂𠀃",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 1,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11240,14 +11379,14 @@
         "pipeline": "stroke",
         "expected": "𪜀𪜁𪜂𪜃",
         "before": "𪜀𪜁𪜂",
-        "actual": "𪜀𪜁𪜂",
+        "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 2,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11255,14 +11394,14 @@
         "pipeline": "fill",
         "expected": "𪜀𪜁𪜂𪜃",
         "before": "𪜀𪜁𪜂𪜃",
-        "actual": "𪜀𪜁𪜂𪜃",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 2,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11273,11 +11412,11 @@
         "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11288,11 +11427,11 @@
         "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11303,11 +11442,11 @@
         "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 1,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11318,11 +11457,11 @@
         "actual": "",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 1,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11330,14 +11469,14 @@
         "pipeline": "stroke",
         "expected": "𬺰𬺱𬺲𬺳",
         "before": "𬺰𬺱𬺲𬺳",
-        "actual": "𬺰𬺱𬺲𬺳",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 2,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11345,14 +11484,14 @@
         "pipeline": "fill",
         "expected": "𬺰𬺱𬺲𬺳",
         "before": "𬺰𬺱𬺲𬺳",
-        "actual": "𬺰𬺱𬺲𬺳",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 2,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11363,11 +11502,11 @@
         "actual": "𮯱𮯲𮯳",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11378,11 +11517,11 @@
         "actual": "𮯰𮯱𮯲𮯳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11393,11 +11532,11 @@
         "actual": "丽丸乁",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part1",
@@ -11408,41 +11547,41 @@
         "actual": "丽丸乁",
         "complete": false,
         "baseline_complete": false,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
         "case": "english52",
         "pipeline": "stroke",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz",
+        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
-        "baseline_complete": false,
+        "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
         "case": "english52",
         "pipeline": "fill",
         "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
-        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjklmnopqrstuvwxyz",
+        "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "complete": true,
-        "baseline_complete": false,
+        "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11453,11 +11592,11 @@
         "actual": "𠀁𠀆𠀐",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11468,11 +11607,11 @@
         "actual": "𠀁𠀆𠀐",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11483,11 +11622,11 @@
         "actual": "𰀀𰀁𰀂𰀃",
         "complete": true,
         "baseline_complete": true,
-        "row_recheck_matches": 0,
+        "ambiguous_overlap_rejections": 1,
+        "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11498,11 +11637,11 @@
         "actual": "𰀀𰀁𰀂𰀃",
         "complete": true,
         "baseline_complete": true,
-        "row_recheck_matches": 0,
+        "ambiguous_overlap_rejections": 1,
+        "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11510,14 +11649,14 @@
         "pipeline": "stroke",
         "expected": "𱍐𱍑𱍒𱍓",
         "before": "𱍐𱍑𱍒𱍓",
-        "actual": "𱍐𱍑𱍒𱍓",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 2,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11525,14 +11664,14 @@
         "pipeline": "fill",
         "expected": "𱍐𱍑𱍒𱍓",
         "before": "𱍐𱍑𱍒𱍓",
-        "actual": "𱍐𱍑𱍒𱍓",
-        "complete": true,
+        "actual": "",
+        "complete": false,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 2,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11543,11 +11682,11 @@
         "actual": "𲎰𲎱𲎲𲎳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 1,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-gothic-part2",
@@ -11558,11 +11697,11 @@
         "actual": "𲎰𲎱𲎲𲎳",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 1,
         "row_recheck_matches": 1,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -11573,11 +11712,11 @@
         "actual": "㐀㐁㐂㐃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-sans-sc-regular",
@@ -11588,11 +11727,11 @@
         "actual": "㐀㐁㐂㐃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -11603,11 +11742,11 @@
         "actual": "㐀㐁㐂㐃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "cjk-serif-sc-regular",
@@ -11618,11 +11757,11 @@
         "actual": "㐀㐁㐂㐃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane0",
@@ -11633,11 +11772,11 @@
         "actual": "㐀㐁㐂㐃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       },
       {
         "font": "han-mincho-plane0",
@@ -11648,16 +11787,16 @@
         "actual": "㐀㐁㐂㐃",
         "complete": true,
         "baseline_complete": true,
+        "ambiguous_overlap_rejections": 0,
         "row_recheck_matches": 0,
         "audit_errors": 0,
         "audit_fixes": 0,
-        "original_entity_tags_unchanged": true,
-        "previously_published_characters_preserved": true
+        "original_entity_tags_unchanged": true
       }
     ],
     "saved_output_audit": {
       "cases": 84,
-      "published_glyphs_checked": 1275,
+      "published_glyphs_checked": 1244,
       "max_glyph_bbox_error_mm": 0.0008663238273314278,
       "bbox_tolerance_mm": 0.05,
       "method": "All-ten-catalog DXF recovery: each published glyph label/source handles and bbox checked against original font cmap/BoundsPen excluding move-only contours without any segments at the PDF generation position; original DXF entity tags compared to rc23 in all cases after removing only recovery layer/XDATA. No source fonts used by runtime matching.",
@@ -12206,8 +12345,8 @@
           "font": "han-gothic-part1",
           "case": "extension-20000",
           "pipeline": "stroke",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12216,8 +12355,8 @@
           "font": "han-gothic-part1",
           "case": "extension-20000",
           "pipeline": "fill",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12226,8 +12365,8 @@
           "font": "han-gothic-part1",
           "case": "extension-2a700",
           "pipeline": "stroke",
-          "published_glyphs_checked": 3,
-          "max_glyph_bbox_error_mm": 6.459554047211213e-07,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12236,8 +12375,8 @@
           "font": "han-gothic-part1",
           "case": "extension-2a700",
           "pipeline": "fill",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 8.612738717772572e-07,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12286,8 +12425,8 @@
           "font": "han-gothic-part1",
           "case": "extension-2ceb0",
           "pipeline": "stroke",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 0.00012228294655258765,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12296,8 +12435,8 @@
           "font": "han-gothic-part1",
           "case": "extension-2ceb0",
           "pipeline": "fill",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 2.4043895582082087e-05,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12406,8 +12545,8 @@
           "font": "han-gothic-part2",
           "case": "extension-31350",
           "pipeline": "stroke",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 1.2919108094422427e-06,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12416,8 +12555,8 @@
           "font": "han-gothic-part2",
           "case": "extension-31350",
           "pipeline": "fill",
-          "published_glyphs_checked": 4,
-          "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+          "published_glyphs_checked": 0,
+          "max_glyph_bbox_error_mm": 0.0,
           "original_entity_tags_equal_rc23": true,
           "audit_errors": 0,
           "audit_fixes": 0
@@ -12507,8 +12646,8 @@
     "english52_complete_cases": 20
   },
   "row_recheck_evidence": {
-    "version": "2.0.0rc24",
-    "parents_checked": 8,
+    "version": "2.0.0rc26",
+    "parents_checked": 10,
     "method": "Independently enumerate every proper source-atom window inside each restored parent. Recompute original exact mask/topology variants against all ten unchanged catalogs, and compare the complete set of candidate font/label pairs to recorded conflicts. Verify globally unique parent and four distinct Latin or three distinct Han anchor labels, actual source handles/bounds, containment, fragment-height ratios and continuous source sequence. Does not call the new recheck/overlap resolver. Original font cmap/BoundsPen audit separately checks output labels and positions.",
     "rows": [
       {
@@ -12572,6 +12711,26 @@
         "source_sequence_continuous": true
       },
       {
+        "case": "han-gothic-part2-extension-30000-stroke",
+        "parent_char": "𰀃",
+        "script": "han",
+        "competing_windows": 1,
+        "anchors": 3,
+        "all_window_predictions_recomputed": true,
+        "all_source_handles_bounds_and_containment_verified": true,
+        "source_sequence_continuous": true
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-fill",
+        "parent_char": "𰀃",
+        "script": "han",
+        "competing_windows": 1,
+        "anchors": 3,
+        "all_window_predictions_recomputed": true,
+        "all_source_handles_bounds_and_containment_verified": true,
+        "source_sequence_continuous": true
+      },
+      {
         "case": "han-gothic-part2-extension-323b0-stroke",
         "parent_char": "𲎳",
         "script": "han",
@@ -12590,6 +12749,951 @@
         "all_window_predictions_recomputed": true,
         "all_source_handles_bounds_and_containment_verified": true,
         "source_sequence_continuous": true
+      }
+    ]
+  },
+  "ambiguous_window_audit": {
+    "version": "2.0.0rc26",
+    "cases": 84,
+    "all_raw_matches_and_conflict_predictions_equal_rc25": true,
+    "all_initial_matches_equal_independent_naive_overlap_filter": true,
+    "conflicting_windows_checked": 24,
+    "overlapping_matches_rejected": 20,
+    "affected_output_cases": 8,
+    "withheld_characters": 31,
+    "method": "Compare raw unique matches and ambiguous predictions to frozen rc25, then independently apply an all-pairs half-open overlap predicate, without using the new prefix-max/bisect logic. Recompute every ambiguous window mask/digest/topology prediction and bounds from saved DXF atoms against all ten catalogs. Every output decrease is traced to loss of font-lock anchors.",
+    "rows": [
+      {
+        "case": "cjk-sans-sc-regular-english52-stroke",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-english52-fill",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-common-han-stroke",
+        "raw_unique_matches": 9,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-common-han-fill",
+        "raw_unique_matches": 7,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-20000-stroke",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 0,
+        "after_locked_fonts": 0,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-20000-fill",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 0,
+        "after_locked_fonts": 0,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2b740-stroke",
+        "raw_unique_matches": 6,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2b740-fill",
+        "raw_unique_matches": 6,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2f800-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2f800-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-english52-stroke",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-english52-fill",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-common-han-stroke",
+        "raw_unique_matches": 9,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-common-han-fill",
+        "raw_unique_matches": 7,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2b740-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2b740-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2f800-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2f800-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "latin-sans-regular-english52-stroke",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "latin-sans-regular-english52-fill",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "latin-serif-regular-english52-stroke",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "latin-serif-regular-english52-fill",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "latin-mono-regular-english52-stroke",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "latin-mono-regular-english52-fill",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane0-english52-stroke",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 3,
+        "after_locked_fonts": 3,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane0-english52-fill",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 3,
+        "after_locked_fonts": 3,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane0-common-han-stroke",
+        "raw_unique_matches": 11,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane0-common-han-fill",
+        "raw_unique_matches": 9,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-english52-stroke",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 3,
+        "after_locked_fonts": 3,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-english52-fill",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 3,
+        "after_locked_fonts": 3,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-20000-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-20000-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2a700-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2a700-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b740-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b740-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b820-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b820-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ceb0-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ceb0-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ebf0-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ebf0-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2f800-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2f800-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-english52-stroke",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 3,
+        "after_locked_fonts": 3,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-english52-fill",
+        "raw_unique_matches": 52,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 3,
+        "after_locked_fonts": 3,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-30000-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-30000-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-31350-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-31350-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-323b0-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-323b0-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-english52-stroke",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 2,
+        "after_locked_fonts": 2,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-english52-fill",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 2,
+        "after_locked_fonts": 2,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-20000-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 1,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part1-extension-20000-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 1,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part1-extension-2a700-stroke",
+        "raw_unique_matches": 7,
+        "ambiguous_windows": 2,
+        "naive_overlap_rejections": 2,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 3,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part1-extension-2a700-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 2,
+        "naive_overlap_rejections": 2,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part1-extension-2b740-stroke",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 0,
+        "after_locked_fonts": 0,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b740-fill",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 0,
+        "after_locked_fonts": 0,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b820-stroke",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 1,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 0,
+        "after_locked_fonts": 0,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b820-fill",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 1,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 0,
+        "after_locked_fonts": 0,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2ceb0-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 2,
+        "naive_overlap_rejections": 2,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part1-extension-2ceb0-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 2,
+        "naive_overlap_rejections": 2,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part1-extension-2ebf0-stroke",
+        "raw_unique_matches": 5,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2ebf0-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2f800-stroke",
+        "raw_unique_matches": 6,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2f800-fill",
+        "raw_unique_matches": 6,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-english52-stroke",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 2,
+        "after_locked_fonts": 2,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-english52-fill",
+        "raw_unique_matches": 53,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 2,
+        "after_locked_fonts": 2,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-20000-stroke",
+        "raw_unique_matches": 3,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-20000-fill",
+        "raw_unique_matches": 3,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 1,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 1,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-31350-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 2,
+        "naive_overlap_rejections": 2,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part2-extension-31350-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 2,
+        "naive_overlap_rejections": 2,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 0,
+        "withheld_characters": 4,
+        "reason": "Ambiguous windows remove initial anchors; remaining distinct adjacent characters cannot lock the font. Whole run remains geometry."
+      },
+      {
+        "case": "han-gothic-part2-extension-323b0-stroke",
+        "raw_unique_matches": 7,
+        "ambiguous_windows": 3,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-323b0-fill",
+        "raw_unique_matches": 7,
+        "ambiguous_windows": 3,
+        "naive_overlap_rejections": 1,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-3400-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-3400-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-3400-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-3400-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane0-extension-3400-stroke",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
+      },
+      {
+        "case": "han-mincho-plane0-extension-3400-fill",
+        "raw_unique_matches": 4,
+        "ambiguous_windows": 0,
+        "naive_overlap_rejections": 0,
+        "all_initial_matches_equal_naive_filter": true,
+        "all_conflict_predictions_and_bounds_recomputed": true,
+        "before_locked_fonts": 1,
+        "after_locked_fonts": 1,
+        "withheld_characters": 0
       }
     ]
   }

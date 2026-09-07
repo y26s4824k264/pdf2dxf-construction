@@ -102,3 +102,13 @@ rc23 rechecks a globally unique complete Han candidate only after the all-catalo
 `font_row_recheck_evidence` 新增 `script`、`fragment_height_reference` 和 `fragment_height_reference_value`，标明汉字以最小锚点高度为基准，英文以完整父字高度为基准。原有复核计数、32 条详细证据上限及截断统计兼容。仅发布完整父字，不挑选内部标点的标签。
 
 Latin recovery requires an existing font lock, a globally unique whole-letter label, four distinct unambiguous same-row Latin anchors (counted case-insensitively), successful local scanning and strict containment of every competing punctuation window below the parent height. Letters, digits, Han, symbols, crossing/full-height contours and whole-label conflicts stay unresolved. The existing Han rule is unchanged. Evidence now names its script and height reference; counts and the 32-record detail cap remain compatible.
+
+## rc26：歧义窗口参与重叠判断 / Ambiguous-window overlap
+
+同一原轮廓窗口可匹配多个字符时，即使不生成唯一候选，该窗口仍参与重叠判断。内部窗口、跨字边界窗口、覆盖子字形的完整歧义窗口都不能因增加字库而消失。半开区间的相邻端点不视为重叠。受阻候选不能先参与字体锁定，再用自己支持自己；已有来源行复核及全部原始冲突证据仍须通过。
+
+新增 `font_ambiguous_overlap_rejections` 记录**初次扫描中**因多标签窗口而受阻的唯一候选数；`font_ambiguous_geometry_matches` 记录歧义窗口数，两者不是同一计数。已有同行锚点可能允许后续复核恢复完整父字，因此不能把初次拒绝数直接当作最终漏字数。最终输出以 `accepted` 和保存 DXF 中的 TEXT 为准。默认保留未确认原轮廓，不使用 OCR，不修改几何或缩放证据。
+
+A window matching multiple labels remains an overlap conflict even without a unique candidate. Contained, crossing and whole-parent ambiguous windows cannot disappear when another catalog is added; adjacent half-open endpoints remain separate. Rejected candidates cannot bootstrap their own font locks. Existing anchored source-row rechecks must still account for every original conflict.
+
+The additive `font_ambiguous_overlap_rejections` field counts unique candidates blocked during the initial scan; `font_ambiguous_geometry_matches` counts ambiguous windows. Later anchored rechecks may restore a whole parent, so initial rejections are not final missing-character counts. Use `accepted` and persisted DXF TEXT for output totals. Unconfirmed outlines, geometry and scale evidence remain intact; no OCR is used.

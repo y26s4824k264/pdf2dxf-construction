@@ -142,6 +142,22 @@ def test_same_span_punctuation_disagreement_does_not_choose_a_fragment_label(
     path, catalogs = fixture(tmp_path, monkeypatch, ambiguous_punctuation=True)
     report = o.recover_outline_text(path, mode="required", font_catalog_paths=catalogs)
     assert recovered(path) == "ABCDi"
-    # This parent is already accepted by the original scan because its only
-    # child window is ambiguous; the new recheck need not republish it.
-    assert report["font_row_recheck_matches"] == 0
+    # Both punctuation alternatives remain evidence. Only the anchored row
+    # recheck may accept their complete parent after the initial rejection.
+    assert report["font_ambiguous_overlap_rejections"] == 1
+    assert report["font_row_recheck_matches"] == 1
+    (proof,) = report["font_row_recheck_evidence"]
+    assert set(proof["conflicts"][0]["labels"]) == {"_", "–"}
+    assert len({anchor["char"].lower() for anchor in proof["anchors"]}) == 4
+
+
+def test_ambiguous_punctuation_cannot_bootstrap_its_own_font_lock(
+    tmp_path, monkeypatch
+):
+    path, catalogs = fixture(
+        tmp_path, monkeypatch, text="ABCi", ambiguous_punctuation=True
+    )
+    report = o.recover_outline_text(path, mode="required", font_catalog_paths=catalogs)
+    assert report["font_ambiguous_geometry_matches"] == 1
+    assert report["font_catalogs"]["locked"] == 0
+    assert recovered(path) == ""

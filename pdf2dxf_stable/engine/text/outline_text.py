@@ -15,8 +15,10 @@ import math
 import os
 import re
 import tempfile
+from bisect import bisect_left
 from collections import defaultdict
 from dataclasses import dataclass, field, replace
+from itertools import accumulate
 from pathlib import Path
 from typing import Any
 
@@ -824,6 +826,7 @@ def _scan_font_catalog_matches(
         "font_catalog_candidate_matches": 0,
         "font_exact_glyph_matches": 0,
         "font_ambiguous_geometry_matches": 0,
+        "font_ambiguous_overlap_rejections": 0,
         "font_overlapping_matches_rejected": 0,
         "font_contained_punctuation_suppressed": 0,
         "font_contained_fill_variants_suppressed": 0,
@@ -1000,7 +1003,20 @@ def _scan_font_catalog_matches(
     # Equal windows and partial overlaps remain ambiguous. A separate Han
     # pass below considers only undersized children in an anchored source row.
     # Font/run consensus is still required.
+    # Multi-label windows remain competing geometry even though they cannot
+    # create a GlyphMatch. Otherwise adding a conflicting catalog can remove
+    # a child from the overlap check and incorrectly admit its whole parent.
+    # Prefix maxima handle nested/crossing spans; half-open endpoints allow
+    # adjacent glyphs. Avoid scanning every ambiguous span for every match.
+    ambiguous_spans.sort()
+    ambiguous_starts = [start for start, _ in ambiguous_spans]
+    ambiguous_ends = list(accumulate((end for _, end in ambiguous_spans), max))
     rejected: set[int] = set()
+    for index, match in enumerate(matches):
+        preceding = bisect_left(ambiguous_starts, match.end) - 1
+        if preceding >= 0 and ambiguous_ends[preceding] > match.start:
+            rejected.add(index)
+    metrics["font_ambiguous_overlap_rejections"] = len(rejected)
     contained_punctuation: set[int] = set()
     contained_fill_variants: set[int] = set()
     ordered = sorted(enumerate(matches), key=lambda item: (item[1].start, item[1].end))
@@ -1818,6 +1834,7 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_catalog_candidate_matches": 0,
         "font_exact_glyph_matches": 0,
         "font_ambiguous_geometry_matches": 0,
+        "font_ambiguous_overlap_rejections": 0,
         "font_overlapping_matches_rejected": 0,
         "selected_glyph_matches": 0,
         "font_contained_punctuation_suppressed": 0,

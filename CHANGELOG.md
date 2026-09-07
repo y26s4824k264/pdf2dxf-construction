@@ -1,3 +1,13 @@
+# 2.0.0rc26
+
+- 修复多标签轮廓窗口未生成候选后，从重叠检查中消失的问题。歧义的内部、跨字边界和完整父字窗口均继续阻止重叠候选；仅已有锚点支持的来源行复核可恢复完整字形。
+- 新增 `font_ambiguous_overlap_rejections` 统计初次扫描中受阻的唯一候选。使用排序、前缀最大端点和二分查找，避免新增逐候选遍历全部冲突窗口。
+- 新增 19 项回归，全部能在冻结 rc25 复现错误输出或错误字体锁定；rc26 全量源码 443 项通过。覆盖同库/跨库冲突、顺序、汉字/字母/数字竞争、描边/填充、跨界、邻接、几何保留和幂等。
+- 十字库组合由 70/84 变为 63/84 完整，31 个旧输出字符因失去无冲突字体锚点而保留为轮廓；并非认定这 31 个标签全部错误。20 个完整英文字母样例全部通过，逐字体 PDF 仍为 82/84。分别独立核验 1244 / 1306 个已发布字形；十个来源行补回字形的全部冲突窗口重新计算通过。
+- 16 个正常字库加载检查验证 12 个完整输出及 4 个正确保留歧义的结果，另六个 ABCD8w 回归通过。22 份 BIM 图纸重新转换，保存 DXF 组码除 HEADER GUID 外与 rc24 相同；22 份仍为 degraded，比例门槛不变。r2 资源无需重下。
+
+rc26 keeps ambiguous geometry in overlap checks, preventing it from silently admitting a parent or child and creating its own font lock. Nineteen regressions fail on frozen rc25 and pass after the fix; the source suite reaches 443 tests. Combined-catalog completeness changes from 70/84 to 63/84, withholding 31 characters when font anchors become insufficient. This is a correctness fix, not an accuracy increase. All 20 alphabet probes pass; matching-face PDFs remain 82/84. Independent glyph, row-evidence, normal-loading and 22-BIM checks preserve source geometry and existing scale limitations. Reuse unchanged r2 assets.
+
 # 2.0.0rc25
 
 - 减少字库索引构建的临时集合、重复键展开和逐摘要 NumPy 切片；保留全部完整性、码位、别名、拓扑和歧义校验，兼容旧版字库。
