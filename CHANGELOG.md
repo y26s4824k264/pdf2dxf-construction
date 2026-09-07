@@ -1,3 +1,11 @@
+# 2.0.0rc24
+
+- 修复其他字体的内部标点轮廓阻断完整英文的问题；要求已有字体锁定、四个不同且全局无歧义的同行字母锚点，并继续检查全部竞争窗口。原有汉字规则不变，不使用 OCR。
+- 新增 17 项回归，全量源码 416 项通过。十字库 DXF 样例完整恢复 64/84→70/84，补回六个 `i`，20 个大小写 52 字母样例全部完整；逐字体 PDF 保持 82/84。1275 / 1306 个输出字形独立核验通过。
+- 八个正常加载字库的英文/扩展 J PDF 检查、六个 ABCD8w PDF 和 22 份 BIM 图纸复测完成。BIM 保存组码除两个 HEADER GUID 外与 rc23 一致，尺寸门槛结果不变。r2 资源无需重新下载。
+
+rc24 conservatively restores whole Latin glyphs blocked by foreign punctuation contours. Seventeen regressions bring source tests to 416. All-ten-catalog DXFs improve from 64/84 to 70/84 complete, including all 20 alphabet probes. Matching-face PDFs remain 82/84; geometry, scale gates, Han rules and r2 resources are preserved.
+
 # 2.0.0rc23
 
 - 多字库扫描锁定字体后，对原先已有唯一整字标签的漏识别候选进行来源行复核；要求三个不同且全局无歧义的汉字锚点，并通过原有单字体短笔画规则。所有原始冲突窗口继续核验，不因字体锁定而丢弃其他字体的证据。

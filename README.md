@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc23`（预发布）。
+版本：`2.0.0rc24`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
 
@@ -24,7 +24,7 @@ python3.12 -m venv .venv
 
 无系统字体的服务器若需要 `--emit-r12`，安装 `'.[render]'`，提供 MTEXT 拆分所需的字体度量。此时使用 Matplotlib 自带字体并报告 `R12_FONT_METRICS_FALLBACK`，中文字体外观仍需复核；通用 DXF 保留原生 MTEXT。项目不内置系统字体文件。
 
-rc23 修复多字库短横冲突引起的漏识别：字体先经多字库扫描确认，再以同一来源文字行的三个不同汉字锚点复核完整字形。十个字库同时加载的 84 个 DXF 样例完整恢复由 62 增至 64；逐字体指定对应字库的 84 个 PDF 仍有 82 个完整恢复。未知和冲突轮廓继续保留，已有 `r2` 字库无需重下。详见 [验证记录](docs/VALIDATION.md)。
+rc24 修复多字库内部标点冲突导致小写 `i` 漏识别的问题：已有字体锁定加同一连续来源行的四个不同字母锚点，复核所有竞争轮廓。十字库组合的 84 个 DXF 样例完整恢复由 64 增至 70，其中十种字体的 20 个大小写 52 字母描边/填充样例全部完整恢复；逐字体 84 个 PDF 保持 82 个完整恢复。未知和冲突轮廓继续保留，已有 `r2` 字库无需重下。详见 [验证记录](docs/VALIDATION.md)。
 
 ## 可选开源字库
 

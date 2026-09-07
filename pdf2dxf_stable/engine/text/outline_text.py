@@ -1395,13 +1395,13 @@ def _recheck_locked_font_rows(
     context: _FontScanContext | None,
     occupied_indices: set[int],
 ) -> tuple[list[GlyphMatch], dict[str, Any]]:
-    """Recheck a missing exact Han parent without discarding other fonts' evidence.
+    """Recheck an exact glyph without discarding other fonts' evidence.
 
-    The selected font must already be locked by the all-font scan. Its local
-    scan must resolve the parent's Han fragments, and the same source row must
-    supply three distinct, globally unambiguous anchors. All original competing
-    windows are then checked: only contained, undersized Han/punctuation/stroke
-    fragments are eligible, and Han labels must agree with this font.
+    The selected font must already be locked by the all-font scan. A local Han
+    row needs three distinct globally unambiguous anchors plus the existing
+    single-font Han-fragment decision. A Latin row needs four distinct letters
+    and permits only strictly shorter internal punctuation. All original
+    competing windows remain checked, including other fonts' predictions.
     """
     metrics: dict[str, Any] = {
         "font_row_recheck_scans": 0,
@@ -1419,7 +1419,8 @@ def _recheck_locked_font_rows(
     missing = {
         key(m): m
         for m in context.matches
-        if is_han_character(m.char) and key(m) not in existing
+        if (is_han_character(m.char) or _is_english_letter(m.char))
+        and key(m) not in existing
     }
     restored: dict[tuple[int, int, str], GlyphMatch] = {}
     for lock in locks:
@@ -1432,9 +1433,12 @@ def _recheck_locked_font_rows(
         )
         metrics["font_row_recheck_scans"] += 1
         for run in _group_runs(local):
-            if not 4 <= len(run) <= 96 or not all(
-                is_han_character(m.char) for m in run
-            ):
+            han_row = all(is_han_character(m.char) for m in run)
+            latin_row = all(_is_english_letter(m.char) for m in run)
+            required_anchors = (
+                MIN_FONT_LOCK_DISTINCT_HAN if han_row else MIN_FONT_LOCK_DISTINCT_LATIN
+            )
+            if not (han_row or latin_row) or not required_anchors + 1 <= len(run) <= 96:
                 continue
             if any(
                 a.atoms[-1].source_ref[:2] != b.atoms[0].source_ref[:2]
@@ -1453,16 +1457,25 @@ def _recheck_locked_font_rows(
                     m.start < c.end and c.start < m.end for c in context.conflicts
                 )
             ]
-            if len({m.char for m in anchors}) < MIN_FONT_LOCK_DISTINCT_HAN:
+            if (
+                len({m.char.lower() if latin_row else m.char for m in anchors})
+                < required_anchors
+            ):
                 continue
             minimum_height = min(m.height for m in anchors)
             for parent in run:
                 if (
                     key(parent) not in missing
                     or key(parent) in restored
-                    or (parent.start, parent.end) not in local_context.han_parent_spans
+                    or (
+                        han_row
+                        and (parent.start, parent.end)
+                        not in local_context.han_parent_spans
+                    )
                 ):
                     continue
+                reference_height = minimum_height if han_row else parent.height
+                maximum_ratio = MIN_HAN_RUN_SIZE_RATIO if han_row else 1.0
                 competitors: list[GlyphMatch | _FontConflict] = [
                     m
                     for m in context.matches
@@ -1481,8 +1494,7 @@ def _recheck_locked_font_rows(
                     or any(
                         not parent.start <= c.start < c.end <= parent.end
                         or (c.start, c.end) == (parent.start, parent.end)
-                        or c.high[1] - c.low[1]
-                        >= MIN_HAN_RUN_SIZE_RATIO * minimum_height
+                        or c.high[1] - c.low[1] >= maximum_ratio * reference_height
                         or not all(
                             parent.low[axis] <= c.low[axis]
                             and c.high[axis] <= parent.high[axis]
@@ -1495,6 +1507,14 @@ def _recheck_locked_font_rows(
                 windows = [_font_window_evidence(c, atoms) for c in competitors]
                 valid = True
                 for window in windows:
+                    if latin_row:
+                        if not all(
+                            unicodedata.category(ch).startswith("P")
+                            for ch in window["labels"]
+                        ):
+                            valid = False
+                            break
+                        continue
                     han = {ch for ch in window["labels"] if is_han_character(ch)}
                     if (
                         len(han) > 1
@@ -1523,12 +1543,14 @@ def _recheck_locked_font_rows(
                     continue
                 proof_anchors: dict[str, GlyphMatch] = {}
                 for anchor in sorted(anchors, key=lambda m: (m.height, m.start)):
-                    proof_anchors.setdefault(anchor.char, anchor)
-                    if len(proof_anchors) == MIN_FONT_LOCK_DISTINCT_HAN:
+                    label = anchor.char.lower() if latin_row else anchor.char
+                    proof_anchors.setdefault(label, anchor)
+                    if len(proof_anchors) == required_anchors:
                         break
                 metrics["font_row_recheck_evidence"].append(
                     {
                         "stage": "locked_font_row_recheck",
+                        "script": "han" if han_row else "latin",
                         "catalog_id": font,
                         "parent": _font_fragment_evidence(parent),
                         "anchors": [
@@ -1536,7 +1558,11 @@ def _recheck_locked_font_rows(
                         ],
                         "conflicts": windows,
                         "minimum_anchor_height": minimum_height,
-                        "required_fragment_height_ratio_below": MIN_HAN_RUN_SIZE_RATIO,
+                        "fragment_height_reference": "minimum_anchor_height"
+                        if han_row
+                        else "parent_height",
+                        "fragment_height_reference_value": reference_height,
+                        "required_fragment_height_ratio_below": maximum_ratio,
                     }
                 )
     metrics["font_row_recheck_matches"] = len(restored)

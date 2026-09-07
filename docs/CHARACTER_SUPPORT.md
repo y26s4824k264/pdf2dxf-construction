@@ -94,3 +94,11 @@ When an exact whole Han glyph contains a competing short Han contour, rc22 requi
 `font_row_recheck_scans` 记录额外单字体扫描，`font_row_recheck_matches` 记录补回候选，`font_row_recheck_evidence` 保存最多 32 条父字、三个锚点与所有竞争窗口的源句柄、标签、指纹和尺寸证据，超过部分由 `font_row_recheck_evidence_truncated` 计数。原有歧义/重叠计数描述初次全字库扫描，最终候选数包含复核结果；发布字符仍以 accepted 与保存 DXF 为准。单字库调用不走新增复核。
 
 rc23 rechecks a globally unique complete Han candidate only after the all-catalog scan has locked its font. The existing single-font Han-fragment rule must succeed, and the same continuous source row must provide three distinct Han anchors without all-catalog label ambiguity. A font lock elsewhere on the page is insufficient. Every original competing window remains checked for strict containment and height below 0.72 times the smallest anchor. Labels are restricted to Han, punctuation and U+31C0–U+31EF strokes; any Han label must be unique and exactly supported by the selected font. Competing letters/digits, other complete labels, foreign-only Han labels, full-size/crossing contours and possible independent small-text rows remain unresolved. No fragment label is chosen for output; only the confirmed whole glyph is published. Additive report fields record extra scans, restored candidates and up to 32 detailed decisions, with a separate truncation count. Single-catalog recognition is unchanged.
+
+## rc24：英文来源行复核 / Latin source-row recheck
+
+已有字体锁定、完整字母在全体字库中标签唯一，且同一连续来源行有四个不同（不区分大小写计数）、全局无歧义的字母锚点时，才可复核遗漏候选。单字体扫描须接受完整候选；所有原始竞争窗口必须是严格内部的标点，且低于完整字母高度。竞争字母、数字、汉字、符号、跨界/等高轮廓和完整同形异字继续拒绝。汉字原有三锚点及 0.72 字高规则不变，不使用 OCR。
+
+`font_row_recheck_evidence` 新增 `script`、`fragment_height_reference` 和 `fragment_height_reference_value`，标明汉字以最小锚点高度为基准，英文以完整父字高度为基准。原有复核计数、32 条详细证据上限及截断统计兼容。仅发布完整父字，不挑选内部标点的标签。
+
+Latin recovery requires an existing font lock, a globally unique whole-letter label, four distinct unambiguous same-row Latin anchors (counted case-insensitively), successful local scanning and strict containment of every competing punctuation window below the parent height. Letters, digits, Han, symbols, crossing/full-height contours and whole-label conflicts stay unresolved. The existing Han rule is unchanged. Evidence now names its script and height reference; counts and the 32-record detail cap remain compatible.
