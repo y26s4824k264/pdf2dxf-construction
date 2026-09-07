@@ -1,0 +1,60 @@
+{
+  "schema": "pdf2dxf.real_corpus_validation.v1",
+  "version": "2.0.0rc16",
+  "batch": {
+    "count": 22,
+    "ok": 0,
+    "degraded": 22,
+    "failed": 0,
+    "elapsed_seconds": 179.96356797218323
+  },
+  "cli_exit_code": 5,
+  "scale_status_counts": {
+    "calibrated": 9,
+    "declared_approximate": 6,
+    "paper": 6,
+    "unknown": 1
+  },
+  "totals": {
+    "text_entities": 238,
+    "text_characters": 1035,
+    "builtin_exact": 1042,
+    "font_candidates": 41,
+    "font_published": 0,
+    "font_locked": 0,
+    "geometry_valid": 13,
+    "audit_errors": 0,
+    "audit_fixes": 0
+  },
+  "all_saved_hashes_match": true,
+  "all_saved_text_handles_match": true,
+  "all_saved_validations_match": true,
+  "all_input_validation_evidence_verified": true,
+  "same_semantic_totals_as_rc15": true,
+  "source_tests": {
+    "macos_py310": 222,
+    "macos_py312": 222,
+    "linux_py312": 222
+  },
+  "installed_package_tests": {
+    "macos_py312": 222,
+    "linux_py312": 222
+  },
+  "windows_runtime_tests": "pending",
+  "windows_x64_py310_runtime_and_render_wheels": "downloaded",
+  "dependency_audit": {
+    "date": "2026-09-07",
+    "resolved_third_party_packages": 51,
+    "direct_minimum_versions": 11,
+    "known_vulnerabilities": 0,
+    "skipped": 0
+  },
+  "pip_check": "passed",
+  "distribution_metadata_check": "passed",
+  "sdist_to_wheel_build": "passed",
+  "github_ci_run": false,
+  "license_status": "AGPL-3.0-only",
+  "publication_authorization": "maintainer_declared_2026-09-07",
+  "local_baseline_only": true,
+  "github_ci_url": "https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml"
+}

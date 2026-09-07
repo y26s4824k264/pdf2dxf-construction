@@ -1,0 +1,11 @@
+include README.md README.en.md LICENSE NOTICE CHANGELOG.md CONTRIBUTING.md SECURITY.md THIRD_PARTY_NOTICES.md
+include SOURCE_ORIGIN.json .gitignore
+recursive-include docs *.md *.json
+recursive-include tests *.py *.json
+recursive-include tools *.py
+recursive-include .github *.yml *.md
+prune verification
+prune tmp
+prune .venv
+exclude PROVENANCE.json
+global-exclude *.pyc .DS_Store

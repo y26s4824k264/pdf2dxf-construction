@@ -1,0 +1,915 @@
+{
+  "source_pdf": "sha256:2f4596527f87851597c53cb858a7a47825d1dd0fb918b892af31fdc6ffcf8e8d",
+  "source_pdf_sha256": "2f4596527f87851597c53cb858a7a47825d1dd0fb918b892af31fdc6ffcf8e8d",
+  "source_paper_dxf_sha256": "b6b544289ea14128371c8ca7bf122f4341d2aab89601686a3efc43c5da44a034",
+  "total_id": "dim-41",
+  "anchors": [
+    {
+      "id": "dim-21",
+      "text": "2150",
+      "label_mm": 2150.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        168.50780232747394
+      ],
+      "p1": [
+        745.5323574490017,
+        189.9920206705729
+      ],
+      "paper_length_mm": 21.484218343098973,
+      "observed_scale": 100.07345697501765,
+      "text_handles": [
+        "1678",
+        "1679",
+        "167A",
+        "167B"
+      ],
+      "dimension_line_handle": "1671",
+      "extension_handles": [
+        "1655",
+        "167C"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        175.74680921766492,
+        744.2835103352863,
+        182.75301378038193
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.002977145148356055,
+      "status": "accepted",
+      "converted_length_mm": 2148.956741556675,
+      "error_mm": -1.0432584433251577,
+      "relative_error": 0.0004852364852675152,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9A67",
+      "output_dimension_handle": "9A68"
+    },
+    {
+      "id": "dim-23",
+      "text": "3500",
+      "label_mm": 3500.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        189.9920206705729
+      ],
+      "p1": [
+        745.5323574490017,
+        224.9804965549045
+      ],
+      "paper_length_mm": 34.98847588433159,
+      "observed_scale": 100.03293688958189,
+      "text_handles": [
+        "1685",
+        "1686",
+        "1687",
+        "1688"
+      ],
+      "dimension_line_handle": "167E",
+      "extension_handles": [
+        "167C",
+        "1689"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        203.79264255099824,
+        744.2835103352863,
+        211.20097588433157
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0041787790697674415,
+      "status": "accepted",
+      "duplicate_of": "dim-24",
+      "converted_length_mm": 3499.718720396415,
+      "error_mm": -0.28127960358506243,
+      "relative_error": 8.036560102430355e-05,
+      "role": "check_only",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9A87",
+      "output_dimension_handle": "9A88"
+    },
+    {
+      "id": "dim-25",
+      "text": "10000",
+      "label_mm": 10000.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        224.9804965549045
+      ],
+      "p1": [
+        745.5323574490017,
+        324.9718092176649
+      ],
+      "paper_length_mm": 99.99131266276038,
+      "observed_scale": 100.00868809200347,
+      "text_handles": [
+        "1692",
+        "1693",
+        "1694",
+        "1695",
+        "1696"
+      ],
+      "dimension_line_handle": "168B",
+      "extension_handles": [
+        "1689",
+        "1697"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        270.4676425509982,
+        744.2835103352863,
+        279.48466322157117
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0041787790697674415,
+      "status": "accepted",
+      "duplicate_of": "dim-26",
+      "converted_length_mm": 10001.620818230127,
+      "error_mm": 1.6208182301270426,
+      "relative_error": 0.00016208182301270427,
+      "role": "check_only",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9AA7",
+      "output_dimension_handle": "9AA8"
+    },
+    {
+      "id": "dim-27",
+      "text": "10000",
+      "label_mm": 10000.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        324.9718092176649
+      ],
+      "p1": [
+        745.5323574490017,
+        424.9420206705729
+      ],
+      "paper_length_mm": 99.97021145290802,
+      "observed_scale": 100.02979742331146,
+      "text_handles": [
+        "16A0",
+        "16A1",
+        "16A2",
+        "16A3",
+        "16A4"
+      ],
+      "dimension_line_handle": "1699",
+      "extension_handles": [
+        "1697",
+        "1698"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        370.4590413411458,
+        744.2835103352863,
+        379.45487467447913
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0009084302325581395,
+      "status": "accepted",
+      "duplicate_of": "dim-28",
+      "converted_length_mm": 9999.510171873668,
+      "error_mm": -0.4898281263322133,
+      "relative_error": 4.898281263322133e-05,
+      "role": "check_only",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9AC7",
+      "output_dimension_handle": "9AC8"
+    },
+    {
+      "id": "dim-31",
+      "text": "10000",
+      "label_mm": 10000.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        424.9420206705729
+      ],
+      "p1": [
+        745.5323574490017,
+        524.9121459960937
+      ],
+      "paper_length_mm": 99.97012532552083,
+      "observed_scale": 100.02988360210803,
+      "text_handles": [
+        "16AE",
+        "16AF",
+        "16B0",
+        "16B1",
+        "16B2"
+      ],
+      "dimension_line_handle": "16A7",
+      "extension_handles": [
+        "1698",
+        "16A6"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        470.4291666666666,
+        744.2835103352863,
+        479.42499999999995
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0041787790697674415,
+      "status": "accepted",
+      "duplicate_of": "dim-32",
+      "converted_length_mm": 9999.501556990575,
+      "error_mm": -0.49844300942459085,
+      "relative_error": 4.984430094245908e-05,
+      "role": "check_only",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9B07",
+      "output_dimension_handle": "9B08"
+    },
+    {
+      "id": "dim-33",
+      "text": "3500",
+      "label_mm": 3500.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        524.9121459960937
+      ],
+      "p1": [
+        745.5323574490017,
+        559.9006649441188
+      ],
+      "paper_length_mm": 34.9885189480251,
+      "observed_scale": 100.03281376954524,
+      "text_handles": [
+        "16BC",
+        "16BD",
+        "16BE",
+        "16BF"
+      ],
+      "dimension_line_handle": "16B5",
+      "extension_handles": [
+        "16A6",
+        "2756"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        538.7128109402126,
+        744.2835103352863,
+        546.0999999999999
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0023619186046511626,
+      "status": "accepted",
+      "converted_length_mm": 3499.723027837952,
+      "error_mm": -0.2769721620479686,
+      "relative_error": 7.913490344227674e-05,
+      "role": "holdout",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9B27",
+      "output_dimension_handle": "9B28"
+    },
+    {
+      "id": "dim-35",
+      "text": "2150",
+      "label_mm": 2150.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        559.9006649441188
+      ],
+      "p1": [
+        745.5323574490017,
+        581.4059844970702
+      ],
+      "paper_length_mm": 21.50531955295139,
+      "observed_scale": 99.97526401345354,
+      "text_handles": [
+        "16C9",
+        "16CA",
+        "16CB",
+        "16CC"
+      ],
+      "dimension_line_handle": "16C2",
+      "extension_handles": [
+        "2756",
+        "16CD"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        567.1608161078559,
+        744.2835103352863,
+        574.1458333333333
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0015144273443581096,
+      "status": "accepted",
+      "converted_length_mm": 2151.06738791314,
+      "error_mm": 1.06738791314001,
+      "relative_error": 0.0004964594944837255,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9B47",
+      "output_dimension_handle": "9B48"
+    },
+    {
+      "id": "dim-37",
+      "text": "900",
+      "label_mm": 900.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        581.4059844970702
+      ],
+      "p1": [
+        745.5323574490017,
+        590.4018178304036
+      ],
+      "paper_length_mm": 8.995833333333394,
+      "observed_scale": 100.04631773969363,
+      "text_handles": [
+        "16D6",
+        "16D7",
+        "16D8"
+      ],
+      "dimension_line_handle": "16CF",
+      "extension_handles": [
+        "16CD",
+        "16D9"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        583.2051425509982,
+        744.2835103352863,
+        588.6026597764757
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.008092948717948719,
+      "status": "accepted",
+      "converted_length_mm": 899.8073087353745,
+      "error_mm": -0.19269126462552322,
+      "relative_error": 0.00021410140513947025,
+      "role": "check_only",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9B67",
+      "output_dimension_handle": "9B68"
+    },
+    {
+      "id": "dim-39",
+      "text": "8200",
+      "label_mm": 8200.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        590.4018178304036
+      ],
+      "p1": [
+        745.5323574490017,
+        672.3803195529513
+      ],
+      "paper_length_mm": 81.97850172254766,
+      "observed_scale": 100.02622428685645,
+      "text_handles": [
+        "16E2",
+        "16E3",
+        "16E4",
+        "16E5"
+      ],
+      "dimension_line_handle": "16DB",
+      "extension_handles": [
+        "16D9",
+        "16E6"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        627.6974741617838,
+        744.2835103352863,
+        635.0846632215711
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.002226620484908461,
+      "status": "accepted",
+      "converted_length_mm": 8199.891246961375,
+      "error_mm": -0.10875303862485453,
+      "relative_error": 1.3262565685957869e-05,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9B87",
+      "output_dimension_handle": "9B88"
+    },
+    {
+      "id": "dim-41",
+      "text": "94175",
+      "label_mm": 94175.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        753.5333333333333,
+        168.50780232747394
+      ],
+      "p1": [
+        753.5333333333333,
+        1110.0223402235242
+      ],
+      "paper_length_mm": 941.5145378960503,
+      "observed_scale": 100.02500886544735,
+      "text_handles": [
+        "165E",
+        "165F",
+        "1660",
+        "1661",
+        "1662"
+      ],
+      "dimension_line_handle": "1657",
+      "extension_handles": [
+        "1655",
+        "27CF"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        749.3,
+        634.7671546088324,
+        752.2632988823784,
+        643.7629879421658
+      ],
+      "text_height": 2.963298882378467,
+      "text_angle": 90,
+      "template_distance": 0.003052325581395349,
+      "status": "accepted",
+      "converted_length_mm": 94174.89531962601,
+      "error_mm": -0.10468037398823071,
+      "relative_error": 1.1115516218553832e-06,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9BA7",
+      "output_dimension_handle": "9BA8"
+    },
+    {
+      "id": "dim-43",
+      "text": "8200",
+      "label_mm": 8200.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        672.3803195529513
+      ],
+      "p1": [
+        745.5323574490017,
+        754.3587782118055
+      ],
+      "paper_length_mm": 81.97845865885427,
+      "observed_scale": 100.02627683113118,
+      "text_handles": [
+        "16EF",
+        "16F0",
+        "16F1",
+        "16F2"
+      ],
+      "dimension_line_handle": "16E8",
+      "extension_handles": [
+        "16E6",
+        "16F3"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        709.6759758843315,
+        744.2835103352863,
+        717.0631649441189
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.002102919346857991,
+      "status": "accepted",
+      "converted_length_mm": 8199.886939519849,
+      "error_mm": -0.11306048015103443,
+      "relative_error": 1.3787863433052978e-05,
+      "role": "holdout",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9BC7",
+      "output_dimension_handle": "9BC8"
+    },
+    {
+      "id": "dim-45",
+      "text": "8200",
+      "label_mm": 8200.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        754.3587782118055
+      ],
+      "p1": [
+        745.5323574490017,
+        836.3373229980468
+      ],
+      "paper_length_mm": 81.97854478624129,
+      "observed_scale": 100.02617174263663,
+      "text_handles": [
+        "16FC",
+        "16FD",
+        "16FE",
+        "16FF"
+      ],
+      "dimension_line_handle": "16F5",
+      "extension_handles": [
+        "16F3",
+        "16F4"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        791.6545206705729,
+        744.2835103352863,
+        799.0416666666666
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.002102919346857991,
+      "status": "accepted",
+      "converted_length_mm": 8199.895554402923,
+      "error_mm": -0.10444559707684675,
+      "relative_error": 1.2737267936200823e-05,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9BE7",
+      "output_dimension_handle": "9BE8"
+    },
+    {
+      "id": "dim-47",
+      "text": "8200",
+      "label_mm": 8200.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        836.3373229980468
+      ],
+      "p1": [
+        745.5323574490017,
+        918.315781656901
+      ],
+      "paper_length_mm": 81.97845865885415,
+      "observed_scale": 100.02627683113133,
+      "text_handles": [
+        "1709",
+        "170A",
+        "170B",
+        "170C"
+      ],
+      "dimension_line_handle": "1702",
+      "extension_handles": [
+        "16F4",
+        "27B2"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        873.632979329427,
+        744.2835103352863,
+        881.0201253255208
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0013528998150993516,
+      "status": "accepted",
+      "converted_length_mm": 8199.886939519838,
+      "error_mm": -0.11306048016194836,
+      "relative_error": 1.3787863434383946e-05,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9C07",
+      "output_dimension_handle": "9C08"
+    },
+    {
+      "id": "dim-49",
+      "text": "3000",
+      "label_mm": 3000.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        918.315781656901
+      ],
+      "p1": [
+        745.5323574490017,
+        948.3089552137586
+      ],
+      "paper_length_mm": 29.99317355685764,
+      "observed_scale": 100.02275998946699,
+      "text_handles": [
+        "1716",
+        "1717",
+        "1718",
+        "1719"
+      ],
+      "dimension_line_handle": "170F",
+      "extension_handles": [
+        "27B2",
+        "170E"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        929.6187954372829,
+        744.2835103352863,
+        937.0059414333766
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0023619186046511626,
+      "status": "accepted",
+      "converted_length_mm": 3000.064116197746,
+      "error_mm": 0.06411619774598876,
+      "relative_error": 2.1372065915329586e-05,
+      "role": "holdout",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9C27",
+      "output_dimension_handle": "9C28"
+    },
+    {
+      "id": "dim-51",
+      "text": "5200",
+      "label_mm": 5200.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        948.3089552137586
+      ],
+      "p1": [
+        745.5323574490017,
+        1000.2943264431423
+      ],
+      "paper_length_mm": 51.985371229383645,
+      "observed_scale": 100.02814016764795,
+      "text_handles": [
+        "1723",
+        "1724",
+        "1725",
+        "1726"
+      ],
+      "dimension_line_handle": "171C",
+      "extension_handles": [
+        "170E",
+        "27C1"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        970.5975172254773,
+        744.2835103352863,
+        978.0058505588107
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0023619186046511626,
+      "status": "accepted",
+      "converted_length_mm": 5199.831438205178,
+      "error_mm": -0.16856179482238076,
+      "relative_error": 3.241572977353476e-05,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9C47",
+      "output_dimension_handle": "9C48"
+    },
+    {
+      "id": "dim-52",
+      "text": "4100",
+      "label_mm": 4100.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        1000.2943264431423
+      ],
+      "p1": [
+        745.5323574490017,
+        1041.2941494411891
+      ],
+      "paper_length_mm": 40.99982299804685,
+      "observed_scale": 100.00043171394461,
+      "text_handles": [
+        "1730",
+        "1731",
+        "1732",
+        "1733"
+      ],
+      "dimension_line_handle": "1729",
+      "extension_handles": [
+        "27C1",
+        "1734"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        1017.2911356608072,
+        744.2835103352863,
+        1024.2973402235243
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.011324570273003034,
+      "status": "accepted",
+      "converted_length_mm": 4101.003100379694,
+      "error_mm": 1.003100379693933,
+      "relative_error": 0.0002446586291936422,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9C57",
+      "output_dimension_handle": "9C58"
+    },
+    {
+      "id": "dim-53",
+      "text": "1700",
+      "label_mm": 1700.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        1041.2941494411891
+      ],
+      "p1": [
+        745.5323574490017,
+        1058.2909586588542
+      ],
+      "paper_length_mm": 16.99680921766503,
+      "observed_scale": 100.01877283138327,
+      "text_handles": [
+        "173D",
+        "173E",
+        "173F",
+        "1740"
+      ],
+      "dimension_line_handle": "1736",
+      "extension_handles": [
+        "1734",
+        "1741"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        1046.2894517686632,
+        744.2835103352863,
+        1053.29565633138
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.0041787790697674415,
+      "status": "accepted",
+      "converted_length_mm": 1700.1041029256887,
+      "error_mm": 0.10410292568872137,
+      "relative_error": 6.123701511101258e-05,
+      "role": "holdout",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9C67",
+      "output_dimension_handle": "9C68"
+    },
+    {
+      "id": "dim-55",
+      "text": "5175",
+      "label_mm": 5175.0,
+      "label_unit_source": "architectural_mm_convention",
+      "axis": "y",
+      "p0": [
+        745.5323574490017,
+        1058.2909586588542
+      ],
+      "p1": [
+        745.5323574490017,
+        1110.0223402235242
+      ],
+      "paper_length_mm": 51.73138156467007,
+      "observed_scale": 100.03599060138507,
+      "text_handles": [
+        "174A",
+        "174B",
+        "174C",
+        "174D"
+      ],
+      "dimension_line_handle": "1743",
+      "extension_handles": [
+        "1741",
+        "27CF"
+      ],
+      "marker_handles": [
+        null,
+        null
+      ],
+      "text_method": "verified_vector_template",
+      "text_bbox": [
+        741.2990241156683,
+        1080.664183892144,
+        744.2835103352863,
+        1087.6491149902342
+      ],
+      "text_height": 2.98448621961802,
+      "text_angle": 90,
+      "template_distance": 0.002977145148356055,
+      "status": "accepted",
+      "converted_length_mm": 5174.426147979793,
+      "error_mm": -0.5738520202066866,
+      "relative_error": 0.00011088927926699258,
+      "role": "fit",
+      "label_status": "confirmed",
+      "recovered_text_handle": "9C87",
+      "output_dimension_handle": "9C88"
+    }
+  ]
+}

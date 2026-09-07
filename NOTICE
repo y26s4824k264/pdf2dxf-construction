@@ -1,0 +1,24 @@
+PDF2DXF Construction
+Copyright (C) 2026 PDF2DXF Construction contributors
+Maintainer: https://github.com/y26s4824k264
+Source: https://github.com/y26s4824k264/pdf2dxf-construction
+
+This project is distributed under GNU Affero General Public License version 3
+only (SPDX: AGPL-3.0-only). See LICENSE for the full terms. It is provided
+without warranty. See CHANGELOG.md for the modifications to the supplied rc4
+source archive and their release history.
+
+On 2026-09-07 the maintainer authorized public distribution of the supplied
+source, bundled derived glyph templates, and regression fixtures. This is a
+maintainer declaration, not an independent verification of title or third-party
+permissions. Existing author attributions and source hashes are retained in
+SOURCE_ORIGIN.json, the data files, and THIRD_PARTY_NOTICES.md.
+
+Third-party dependencies and external fonts keep their respective copyrights
+and licenses. This project does not relicense them or distribute external font
+programs, original customer drawings, or separately generated font catalogs.
+The project license grants only rights that the relevant contributors can grant.
+
+中文说明：本项目采用 AGPL-3.0-only，完整条款见 LICENSE。维护者已授权公开
+提供的源码、随包衍生模板和回归样本；这是维护者声明，不代表独立权属核验，
+也不重新授权第三方依赖、源字体或原始图纸。版权、来源与第三方许可继续保留。

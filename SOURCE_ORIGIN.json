@@ -1,0 +1,21 @@
+{
+  "source_archive": "PDF2DXF_Construction_v2.0.0-rc4_pure_python_complete.zip",
+  "source_archive_sha256": "b5dab88eb68d727cd80dd8f36a19b646bc797ad384b753e5c79ba31747187c72",
+  "upstream_license_file_found": false,
+  "project_license": "AGPL-3.0-only",
+  "source_and_template_redistribution_rights": "confirmed_by_owner",
+  "publication_status": "authorized_public_release",
+  "repository": "https://github.com/y26s4824k264/pdf2dxf-construction",
+  "maintainer": "y26s4824k264",
+  "authorization": {
+    "date": "2026-09-07",
+    "basis": "Maintainer explicitly authorized public distribution of the supplied package and bundled materials in the release request.",
+    "scope": [
+      "maintainer-provided source code",
+      "bundled derived glyph templates",
+      "bundled regression fixtures"
+    ],
+    "independent_legal_verification": false,
+    "third_party_rights": "Third-party dependencies and external fonts retain their own licenses; this declaration does not grant rights controlled by their owners."
+  }
+}

@@ -1,0 +1,335 @@
+{
+  "schema": "pdf2dxf.source_snapshot.v1",
+  "publication_status": "authorized_public_release",
+  "license_status": "AGPL-3.0-only",
+  "files": {
+    ".github/workflows/ci.yml": {
+      "sha256": "a4a71a65a9a7fadce7bac941318dd3e4dfa18ad7ebcf6f1da19c922071a6e8ba",
+      "bytes": 1808
+    },
+    ".gitignore": {
+      "sha256": "2dc28ab42cad28305e4ad814c641309321c04241ec4cdc6f9caa2993758d7156",
+      "bytes": 294
+    },
+    "CHANGELOG.md": {
+      "sha256": "c0949fe761a8062bb83a3e18c2b5c1e393ef85d128b262644b2a4ee8ddfd69f6",
+      "bytes": 15917
+    },
+    "CONTRIBUTING.md": {
+      "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
+      "bytes": 1712
+    },
+    "LICENSE": {
+      "sha256": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+      "bytes": 34523
+    },
+    "MANIFEST.in": {
+      "sha256": "74743ea97e10ed01bd84ee83ee593a00d754bb424574d89e9bc83bb4ff274b0a",
+      "bytes": 381
+    },
+    "NOTICE": {
+      "sha256": "39ade1c61fc3e1ea6468ceb388773af6ae7ff5323848cce2c4efc81c94c08b6a",
+      "bytes": 1460
+    },
+    "README.en.md": {
+      "sha256": "6ade396d5157a25e4d0ab0da3650059a70536276f10f24f5ea21849e5ca22453",
+      "bytes": 17095
+    },
+    "README.md": {
+      "sha256": "284c7603c59a677c3d038afec85dea6307c71cd9b34c9c156211f0d6cff45ba4",
+      "bytes": 19118
+    },
+    "SECURITY.md": {
+      "sha256": "f7ed27e453fa7f2132340d5e46d14d17d7ea4393461ac2d19ff94d51519b911d",
+      "bytes": 1411
+    },
+    "SOURCE_ORIGIN.json": {
+      "sha256": "d985fc726e6c7e931ffed30618b5f3bd29c9f1def9125c758093b3515b87d798",
+      "bytes": 1024
+    },
+    "THIRD_PARTY_NOTICES.md": {
+      "sha256": "188adfa46dacba73c5cf687866ac0ff0e4e8ac09f0acc39a1693f9a349724e2f",
+      "bytes": 4745
+    },
+    "docs/PROJECT_BRIEF.md": {
+      "sha256": "09ad911dbcf609277975f09ee5495f1ecb181cd79f493f7c472f869b7ccca88c",
+      "bytes": 7202
+    },
+    "docs/RELEASE_CHECKLIST.md": {
+      "sha256": "042459714fe15e55a672a34ae21299785fc723bd7385635be762a341aa8e50d6",
+      "bytes": 3425
+    },
+    "docs/TEMPLATE_PROVENANCE.md": {
+      "sha256": "bc2c5f998a67f6e43ac59f557014cd0dd111c0e5811bff36fb42ec489007f05e",
+      "bytes": 1557
+    },
+    "docs/VALIDATION.md": {
+      "sha256": "4124aec0a5cc753ace1c7a3a1a07d433e222b68e3d3db467e83447aad158ca18",
+      "bytes": 4033
+    },
+    "docs/validation.json": {
+      "sha256": "d76f4d4c8c6ddc9d4a78f4973547c06c8880b89e2b0233386d27644eea995166",
+      "bytes": 1615
+    },
+    "pdf2dxf_stable/__init__.py": {
+      "sha256": "42f1b74c2ce5094479051608c6be2b38b9907e509e27992213c5e7ec9101c5ca",
+      "bytes": 226
+    },
+    "pdf2dxf_stable/backend_worker.py": {
+      "sha256": "37fd435e5dd4629c20a905dffba39f78d0bf6f7c2e27b68431b9b5b95f71c118",
+      "bytes": 3156
+    },
+    "pdf2dxf_stable/batch.py": {
+      "sha256": "e42f4da0565e0100caf8bd2abaad19fdc8a033844a433e5e9ae0de0d35d21126",
+      "bytes": 5634
+    },
+    "pdf2dxf_stable/capabilities.py": {
+      "sha256": "581a124639f103261ec2123032947ed00480b2f7aa131ec8759dd02242c48eb2",
+      "bytes": 593
+    },
+    "pdf2dxf_stable/cli.py": {
+      "sha256": "aabb377d7eb0727b45987b2958a159b9e4b90921dcefaf4c162faaff6e8a9514",
+      "bytes": 11751
+    },
+    "pdf2dxf_stable/core.py": {
+      "sha256": "46e02f3ed86e1abb415324c3f54559165e8fc2f70c35d457df0aeb6840ae959f",
+      "bytes": 12305
+    },
+    "pdf2dxf_stable/determinism.py": {
+      "sha256": "4764a60b5ea056d1eee78aa211919226fccb9508e88699b8310fd62ba840b544",
+      "bytes": 3278
+    },
+    "pdf2dxf_stable/dimension_instances.py": {
+      "sha256": "399b6ba36eff4373489c8dad415b7717c65c0d91ef8b2b565c7859bb0a4038a2",
+      "bytes": 5200
+    },
+    "pdf2dxf_stable/drawings.py": {
+      "sha256": "4bf4fc74b454c415215f690b5416a4ff3f693cd133eaf4e90018e86e7a82631e",
+      "bytes": 3287
+    },
+    "pdf2dxf_stable/engine/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "pdf2dxf_stable/engine/calibration/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "pdf2dxf_stable/engine/calibration/chains.py": {
+      "sha256": "05d0600344c79792cb3f94cf86cacbf4a1b6b47d8d70e56d5595b1b94210c6b1",
+      "bytes": 4782
+    },
+    "pdf2dxf_stable/engine/calibration/evidence.py": {
+      "sha256": "59d505ca4f2d67a5d4889e385b8d48f5021c7d06c8c835619b05ea6a19329618",
+      "bytes": 24341
+    },
+    "pdf2dxf_stable/engine/calibration/source_entities.py": {
+      "sha256": "cfd2a11b043be68c7dd03b7a271f179ef3cba2430ed10fb5468529f1beb9ca76",
+      "bytes": 5421
+    },
+    "pdf2dxf_stable/engine/drawing_profile.py": {
+      "sha256": "f49dde2ddd36b828d081b71324a0e5b2584b64065fe9b6e8071a6cafc7454fb3",
+      "bytes": 11159
+    },
+    "pdf2dxf_stable/engine/geometry/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "pdf2dxf_stable/engine/geometry/base.py": {
+      "sha256": "ece482ff6103456a03613c8886eca1ae6185499e5412f4b798d4000f027ab00a",
+      "bytes": 73109
+    },
+    "pdf2dxf_stable/engine/geometry/construction.py": {
+      "sha256": "aecb057f343147d40e9475e28bfe551b1943fb683a0fdf897d9a4cf7e5666b35",
+      "bytes": 17377
+    },
+    "pdf2dxf_stable/engine/geometry/media.py": {
+      "sha256": "b0bb3b14032c3778d62cd4734b42f38177eb53dbc4b344c5e88c135d79bc7c29",
+      "bytes": 11693
+    },
+    "pdf2dxf_stable/engine/geometry/native_text.py": {
+      "sha256": "4155aab7e69d89de6eb31be6cb98b8cb13ab1cef01b5d2c077726776777a310a",
+      "bytes": 19430
+    },
+    "pdf2dxf_stable/engine/pdf.py": {
+      "sha256": "c26e5c06fb6f414e33c026d64d3e25bd9e867828550ac67d7b91da9cf3f59d28",
+      "bytes": 4621
+    },
+    "pdf2dxf_stable/engine/pipeline.py": {
+      "sha256": "fb35c652d869b1b1ce9185d7db8098f6a4aa8e6cebc9540e70d6b662d0aacc40",
+      "bytes": 6878
+    },
+    "pdf2dxf_stable/engine/text/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "pdf2dxf_stable/engine/text/assets/chinese_glyph_templates.json": {
+      "sha256": "6389be7bd02576bcf624a8d3bd77fbbe3b071b29ef945c7c8d0de1c2c108bda9",
+      "bytes": 266340
+    },
+    "pdf2dxf_stable/engine/text/assets/engineering_glyphs.json": {
+      "sha256": "2539806ddb7b1f70292acffa4288b0ce89f39514292d85dbc7cf271516919335",
+      "bytes": 29617
+    },
+    "pdf2dxf_stable/engine/text/dxf_text.py": {
+      "sha256": "8215d4e3cb42163793403811e46245c04cb9ea850e6069e7a6d098b92e59bf7a",
+      "bytes": 16163
+    },
+    "pdf2dxf_stable/engine/text/font_catalog.py": {
+      "sha256": "a1da6112b14948f33a7dca2395224d708ca3eacaae652e16203ce7520f2fa2ec",
+      "bytes": 38106
+    },
+    "pdf2dxf_stable/engine/text/outline_text.py": {
+      "sha256": "2000fc2fbeab213b431ef99a6528d0f52d62f28c436339316f7c11f409af8e2d",
+      "bytes": 52258
+    },
+    "pdf2dxf_stable/engine/worker.py": {
+      "sha256": "fd8a1a9540bac1bf6a29552931bb4dddbec3345687858040bdae7071fb33d559",
+      "bytes": 3384
+    },
+    "pdf2dxf_stable/locking.py": {
+      "sha256": "f52f2ab8961af1204dbcda06068623efeb72bd54a9bd1a6aef0ab3492ff99325",
+      "bytes": 1695
+    },
+    "pdf2dxf_stable/options.py": {
+      "sha256": "68f89fea9cf8445489f9bcbb319139cec7c440725a9b070bac1a8aea480e505d",
+      "bytes": 1854
+    },
+    "pdf2dxf_stable/page_worker.py": {
+      "sha256": "df820c4bf6ae899202e42ea0a0ca34018b119b94c9b7e784c622474674fe1cb0",
+      "bytes": 4374
+    },
+    "pdf2dxf_stable/paths.py": {
+      "sha256": "37a845b00e21a7e80adfc2db879466064e684e921621bf09987a99d8d995b8b9",
+      "bytes": 1165
+    },
+    "pdf2dxf_stable/preflight.py": {
+      "sha256": "6e6ccf86c06f634aba3c0cdfcf95854cdaca8b4d57b55e2941222b3a266f18de",
+      "bytes": 1418
+    },
+    "pdf2dxf_stable/profiles.py": {
+      "sha256": "12073bcdebeaca994c18d9153a21b64cf3e5df08d586597b49205e996a92f1e8",
+      "bytes": 14373
+    },
+    "pdf2dxf_stable/r12_fonts.py": {
+      "sha256": "b89e5d443b4082b2a9a7d7220dea7c90c93882737b47750c56a0b5b2e32b60be",
+      "bytes": 1300
+    },
+    "pdf2dxf_stable/repair.py": {
+      "sha256": "4af82cd53fc980e3aa2e2ad9686831bb0fd613c28b1308dcd4f84cf8772b264a",
+      "bytes": 3951
+    },
+    "pdf2dxf_stable/request.py": {
+      "sha256": "f56ae9b5a4f556c8668fab88f31679c9ce9d2b08acd64b23d7c4b8a939447c47",
+      "bytes": 3903
+    },
+    "pdf2dxf_stable/resources.py": {
+      "sha256": "64b33d60f0b022d943895e9c07eb53b9bbb495913a1c3050ef9f2f7a9cb03bf2",
+      "bytes": 2273
+    },
+    "pdf2dxf_stable/saved_validation.py": {
+      "sha256": "d2ea79127cb678ec07d9e40f696b58c499a581610429146ec79d13774ce7c869",
+      "bytes": 3180
+    },
+    "pdf2dxf_stable/supervision.py": {
+      "sha256": "4d6901ecf54fdcf14d7e93120b97941d792f16ea531b079f084de63bd1548259",
+      "bytes": 4019
+    },
+    "pdf2dxf_stable/validation.py": {
+      "sha256": "96e628d69944c7ec5ed87461f192e24d5fd72151b84c5336a5c800a78d645137",
+      "bytes": 20570
+    },
+    "pdf2dxf_stable/version.py": {
+      "sha256": "b1442e4f035bed6311e009d689bf5bc87765bf67fab79ad675aa512a4bc17cf3",
+      "bytes": 26
+    },
+    "pyproject.toml": {
+      "sha256": "92d2e2c5a3f8d686daa2915e0768c759bcaab919f91cd2c77cc51440651f153a",
+      "bytes": 166
+    },
+    "setup.py": {
+      "sha256": "75831ec0133e0a356ce297c7e5039632f5d5fe2ca112fc4f368d341d999f78ce",
+      "bytes": 2215
+    },
+    "tests/calibration/fixtures/crossing_dimension_label.json": {
+      "sha256": "bfd8c3bb3d91bd4231bf3fcb5ad1f3d4656313df2c488e295820ec834d9ca91d",
+      "bytes": 7858
+    },
+    "tests/calibration/fixtures/local_dimension_chain.json": {
+      "sha256": "2a56aecd750c6bab7736bd5186c9bea681d35b3f307ff1670f5858add0381fe4",
+      "bytes": 23285
+    },
+    "tests/calibration/test_block_validation.py": {
+      "sha256": "3f428709abace79308c401a21d222410d510e34bd381a92e4bd31c93d273b955",
+      "bytes": 5496
+    },
+    "tests/calibration/test_dimension_evidence.py": {
+      "sha256": "05ea9d11af61e863b77f1e4e1be8122bb5d7e3f0edca225369ad493ffb50aa3c",
+      "bytes": 20318
+    },
+    "tests/calibration/test_validation_integrity.py": {
+      "sha256": "15946379d8b72da9e4b4edb61f8b14dd22432dfd3fcb5f85de6224d228d72b45",
+      "bytes": 3712
+    },
+    "tests/geometry/test_base_geometry.py": {
+      "sha256": "581e58e7b59a4ec06e7411994ecb388ae1fab5277ad3467921bce4fd5f98d57b",
+      "bytes": 296
+    },
+    "tests/stable/test_block_text_dedup.py": {
+      "sha256": "c0398cbcaf20ee0e316f5e30cb48092adc0aebb44d508e650a47bc9981889c03",
+      "bytes": 1558
+    },
+    "tests/stable/test_cancellation.py": {
+      "sha256": "5c62a7a38d060f9124bf2c2b45e2e6a97e7c2cebbdb20cda2c83d9c93b3ceb3e",
+      "bytes": 4613
+    },
+    "tests/stable/test_contracts.py": {
+      "sha256": "806518268dbdc9ac0307d3996039e1d26349e303615e29f4515c177b4aade2b7",
+      "bytes": 26367
+    },
+    "tests/stable/test_font_catalog.py": {
+      "sha256": "466d506ef31b8341807498234e2935f8e1d02bc8e1f058728b696f6750fc5418",
+      "bytes": 18938
+    },
+    "tests/stable/test_io_safety.py": {
+      "sha256": "033881a6aed50222144d57921ca7fb63b94ee1895488940ee8361380eea1cd67",
+      "bytes": 5049
+    },
+    "tests/stable/test_outline_text.py": {
+      "sha256": "a3aca9c9191836e61e4eab10a8bc83a65aa3a536e8f997349b1484edb08b8ffc",
+      "bytes": 13314
+    },
+    "tests/stable/test_preflight.py": {
+      "sha256": "f75d3c3a105cbdf0102a95d992bb4dd8d1be94c2878bfb2b6870d662419b4f6e",
+      "bytes": 3191
+    },
+    "tests/stable/test_r12_geometry.py": {
+      "sha256": "f8e5d49103115c6349e9d087d4027c2cd2782d6be0f0fcb9f0b6b3ab5aa355af",
+      "bytes": 3023
+    },
+    "tests/stable/test_r12_text_placement.py": {
+      "sha256": "a1f5568d46afab7b75916a4988dde80763c56e66c3620e631f77d10d9f9eedb1",
+      "bytes": 3914
+    },
+    "tests/stable/test_release_snapshot.py": {
+      "sha256": "2725bfdd77cb46ca75381a4670f3f69a7f1336487fb25fd2b292585f785620df",
+      "bytes": 5998
+    },
+    "tests/stable/test_saved_validation.py": {
+      "sha256": "9be39232b65c4673cf74be7164798f8c36a7913059f1637fcf2f011b896bb711",
+      "bytes": 3554
+    },
+    "tools/check_distribution.py": {
+      "sha256": "8668f2397d25b05fdb34bf34245cb36fc73bf60b90d4f98b3181ce05d89c9490",
+      "bytes": 5060
+    },
+    "tools/prepare_public_release.py": {
+      "sha256": "501419dcf808e54fed44c00651d1e367329083154821deeeca5b78ba9bd61f33",
+      "bytes": 4265
+    },
+    "tools/test_installed_wheel.py": {
+      "sha256": "a5ca176bed359ef9a59195c497236d4368ad506b746130834518cfeeca33afab",
+      "bytes": 1265
+    }
+  }
+}

@@ -1,0 +1,51 @@
+name: Package checks
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-latest, python: '3.10'}
+          - {os: ubuntu-latest, python: '3.13'}
+          - {os: macos-latest, python: '3.12'}
+          - {os: windows-latest, python: '3.12'}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install '.[test]'
+      - run: python -m pytest -q
+      - run: python -m build
+      - name: Validate distribution metadata
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess, sys
+          subprocess.run([sys.executable, '-m', 'twine', 'check', *map(str, Path('dist').glob('*'))], check=True)
+      - name: Install the built wheel
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess, sys
+          wheel, = Path('dist').glob('*.whl')
+          subprocess.run([sys.executable, '-m', 'pip', 'install', '--force-reinstall', '--no-deps', str(wheel)], check=True)
+      - name: Check distribution contents
+        shell: python
+        run: |
+          from pathlib import Path
+          import subprocess, sys
+          subprocess.run([sys.executable, 'tools/check_distribution.py', '--public', *map(str, Path('dist').glob('*'))], check=True)
+      - run: python -m pip check
+      - run: python tools/test_installed_wheel.py
