@@ -43,6 +43,7 @@ MASK_SIZE = 56
 MIN_GLYPH_ASPECT = 0.05
 MAX_GLYPH_ASPECT = 20.0
 MAX_SOURCE_SEQUENCE_GAP = 4
+MIN_HAN_RUN_SIZE_RATIO = 0.72
 MIN_FONT_LOCK_DISTINCT_HAN = 3
 MIN_FONT_LOCK_DISTINCT_LATIN = 4
 MAX_OUTLINE_POINTS_PER_ATOM = 4096
@@ -797,7 +798,7 @@ def _scan_font_catalog_matches(
     atoms: list[OutlineAtom],
     locks: list[FontCatalogLock],
     occupied_indices: set[int],
-) -> tuple[list[GlyphMatch], dict[str, int]]:
+) -> tuple[list[GlyphMatch], dict[str, Any]]:
     metrics = {
         "font_structural_candidate_windows": 0,
         "font_fingerprints_computed": 0,
@@ -807,6 +808,10 @@ def _scan_font_catalog_matches(
         "font_overlapping_matches_rejected": 0,
         "font_contained_punctuation_suppressed": 0,
         "font_contained_fill_variants_suppressed": 0,
+        "font_han_fragment_resolved_candidates": 0,
+        "font_contained_han_fragments_suppressed": 0,
+        "font_han_fragment_evidence": [],
+        "font_han_fragment_evidence_truncated": 0,
         "font_numeric_variant_masks": 0,
     }
     if not locks:
@@ -826,6 +831,7 @@ def _scan_font_catalog_matches(
     max_length = max(lengths)
     lock_by_id = {lock.catalog.catalog_id: lock for lock in locks}
     matches: list[GlyphMatch] = []
+    ambiguous_spans: list[tuple[int, int]] = []
     for start, first in enumerate(atoms):
         if start in occupied_indices:
             continue
@@ -894,6 +900,7 @@ def _scan_font_catalog_matches(
             if not predictions:
                 continue
             if len(characters) != 1:
+                ambiguous_spans.append((start, end + 1))
                 metrics["font_ambiguous_geometry_matches"] += 1
                 continue
             char = characters.pop()
@@ -949,8 +956,9 @@ def _scan_font_catalog_matches(
     # dash or another punctuation glyph (including vertical compatibility
     # forms). Such a strict subset is part of the complete glyph, not competing
     # text. The same-label raw/fill subset below keeps the complete raw glyph.
-    # Competing labels, equal windows and partial overlaps remain
-    # ambiguous and are all rejected. Font/run consensus is still required.
+    # Equal windows and partial overlaps remain ambiguous. A separate Han
+    # pass below considers only undersized children in an anchored source row.
+    # Font/run consensus is still required.
     rejected: set[int] = set()
     contained_punctuation: set[int] = set()
     contained_fill_variants: set[int] = set()
@@ -1011,13 +1019,196 @@ def _scan_font_catalog_matches(
                 rejected.add(index)
                 rejected.add(other_index)
         active.append((index, match))
-    excluded = rejected | contained_punctuation | contained_fill_variants
+    promoted, han_fragments, evidence = _resolve_contained_han_fragments(
+        matches,
+        rejected,
+        contained_punctuation | contained_fill_variants,
+        ambiguous_spans,
+    )
+    rejected.difference_update(promoted | han_fragments)
+    metrics["font_han_fragment_resolved_candidates"] = len(promoted)
+    metrics["font_contained_han_fragments_suppressed"] = len(han_fragments)
+    metrics["font_han_fragment_evidence"] = evidence[:32]
+    metrics["font_han_fragment_evidence_truncated"] = len(promoted) - len(evidence)
+    excluded = (
+        rejected | contained_punctuation | contained_fill_variants | han_fragments
+    )
     accepted = [match for index, match in enumerate(matches) if index not in excluded]
     metrics["font_catalog_candidate_matches"] = len(accepted)
     metrics["font_overlapping_matches_rejected"] = len(rejected)
     metrics["font_contained_punctuation_suppressed"] = len(contained_punctuation)
     metrics["font_contained_fill_variants_suppressed"] = len(contained_fill_variants)
     return accepted, metrics
+
+
+def _resolve_contained_han_fragments(
+    matches: list[GlyphMatch],
+    rejected: set[int],
+    ignored: set[int],
+    ambiguous_spans: list[tuple[int, int]],
+) -> tuple[set[int], set[int], list[dict[str, Any]]]:
+    """Resolve only undersized Han fragments in a complete, anchored source row.
+
+    The whole glyph must exactly cover its overlap component. Two uncontested
+    Han anchors and the parent must provide three distinct labels in one font.
+    A fragment at the anchors' scale, a separate small-text run, or any other
+    complete interpretation keeps the component ambiguous.
+    """
+    ordered = sorted(
+        ((index, match) for index, match in enumerate(matches) if index not in ignored),
+        key=lambda item: (item[1].start, item[1].end),
+    )
+    components: list[list[tuple[int, GlyphMatch]]] = []
+    component: list[tuple[int, GlyphMatch]] = []
+    end = -1
+    for item in ordered:
+        if component and item[1].start >= end:
+            components.append(component)
+            component = []
+            end = -1
+        component.append(item)
+        end = max(end, item[1].end)
+    if component:
+        components.append(component)
+
+    roots: list[tuple[int, GlyphMatch]] = []
+    proposals: dict[int, tuple[list[tuple[int, GlyphMatch]], set[str]]] = {}
+    for component in components:
+        if len(component) == 1:
+            index, match = component[0]
+            if index not in rejected and not any(
+                match.start < high and low < match.end for low, high in ambiguous_spans
+            ):
+                roots.append((index, match))
+            continue
+        # Bounded evidence review; dense/complex components remain ambiguous.
+        if len(component) > 32:
+            continue
+        index, parent = max(component, key=lambda item: item[1].end - item[1].start)
+        if not is_han_character(parent.char):
+            continue
+        children = [(i, match) for i, match in component if i != index]
+        if any(
+            not is_han_character(child.char)
+            or not parent.start <= child.start < child.end <= parent.end
+            or (parent.start, parent.end) == (child.start, child.end)
+            or not all(
+                parent.low[axis] <= child.low[axis]
+                and child.high[axis] <= parent.high[axis]
+                for axis in (0, 1)
+            )
+            for _, child in children
+        ) or any(
+            parent.start < high and low < parent.end for low, high in ambiguous_spans
+        ):
+            continue
+        shared = set(parent.font_catalog_ids)
+        for _, child in children:
+            shared.intersection_update(child.font_catalog_ids)
+        if not shared:
+            continue
+        # A real line of small characters is an alternative interpretation.
+        if any(
+            _publishable_text("".join(match.char for match in run), font_locked=True)[0]
+            for run in _group_runs([child for _, child in children])
+        ):
+            continue
+        roots.append((index, parent))
+        proposals[index] = children, shared
+
+    if not proposals:
+        return set(), set(), []
+
+    promoted: set[int] = set()
+    suppressed: set[int] = set()
+    evidence: list[dict[str, Any]] = []
+    for font in sorted({font for _, match in roots for font in match.font_catalog_ids}):
+        runs: list[list[tuple[int, GlyphMatch]]] = []
+        run: list[tuple[int, GlyphMatch]] = []
+        for index, match in roots:
+            if not is_han_character(match.char) or font not in match.font_catalog_ids:
+                if run:
+                    runs.append(run)
+                    run = []
+                continue
+            if run:
+                left = run[-1][1]
+                a, b = left.atoms[-1].source_ref, match.atoms[0].source_ref
+                if (
+                    not _run_neighbors(left, match)
+                    or a[:2] != b[:2]
+                    or not 0 <= b[2] - a[2] <= MAX_SOURCE_SEQUENCE_GAP
+                ):
+                    runs.append(run)
+                    run = []
+            run.append((index, match))
+        if run:
+            runs.append(run)
+        for run in runs:
+            if not 3 <= len(run) <= 96:
+                continue
+            anchors = [match for index, match in run if index not in proposals]
+            if len(anchors) < 2:
+                continue
+            minimum_height = min(match.height for match in anchors)
+            for index, parent in run:
+                if index not in proposals or index in promoted:
+                    continue
+                children, shared = proposals[index]
+                if (
+                    font not in shared
+                    or len({parent.char, *(a.char for a in anchors)}) < 3
+                ):
+                    continue
+                if any(
+                    child.height >= MIN_HAN_RUN_SIZE_RATIO * minimum_height
+                    for _, child in children
+                ):
+                    continue
+                promoted.add(index)
+                suppressed.update(i for i, _ in children)
+                if len(evidence) >= 32:
+                    continue
+                # Include the smallest anchor plus enough distinct labels to
+                # reproduce the decision, using at most three anchor records.
+                proof_anchors: list[GlyphMatch] = []
+                labels = {parent.char}
+                for anchor in sorted(anchors, key=lambda a: (a.height, a.start)):
+                    if not proof_anchors or anchor.char not in labels:
+                        proof_anchors.append(anchor)
+                        labels.add(anchor.char)
+                    if len(labels) >= 3:
+                        break
+                evidence.append(
+                    {
+                        "stage": "font_candidate_scan",
+                        "catalog_id": font,
+                        "parent": _font_fragment_evidence(parent),
+                        "fragments": [
+                            _font_fragment_evidence(child) for _, child in children
+                        ],
+                        "anchors": [
+                            _font_fragment_evidence(anchor) for anchor in proof_anchors
+                        ],
+                        "minimum_anchor_height": minimum_height,
+                        "maximum_fragment_height_ratio": max(
+                            child.height for _, child in children
+                        )
+                        / minimum_height,
+                        "required_height_ratio_below": MIN_HAN_RUN_SIZE_RATIO,
+                    }
+                )
+    return promoted, suppressed, evidence
+
+
+def _font_fragment_evidence(match: GlyphMatch) -> dict[str, Any]:
+    return {
+        "char": match.char,
+        "span": [match.start, match.end],
+        "bbox": [*match.low, *match.high],
+        "source_handles": [atom.entity.dxf.handle for atom in match.atoms],
+        "fingerprints_by_catalog": [list(item) for item in match.font_match_evidence],
+    }
 
 
 def _complete_font_catalog_locks(
@@ -1198,7 +1389,7 @@ def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
         set(left.font_catalog_ids) & set(right.font_catalog_ids)
     ) and (_is_english_letter(left.char) or _is_english_letter(right.char))
     size_ok = relative_size >= (
-        0.03 if punctuation else 0.45 if same_font_latin else 0.72
+        0.03 if punctuation else 0.45 if same_font_latin else MIN_HAN_RUN_SIZE_RATIO
     )
     return (
         right.low[0] >= left.low[0] - 0.10 * height
@@ -1358,6 +1549,10 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "selected_glyph_matches": 0,
         "font_contained_punctuation_suppressed": 0,
         "font_contained_fill_variants_suppressed": 0,
+        "font_han_fragment_resolved_candidates": 0,
+        "font_contained_han_fragments_suppressed": 0,
+        "font_han_fragment_evidence": [],
+        "font_han_fragment_evidence_truncated": 0,
         "font_numeric_variant_masks": 0,
         "font_numeric_stabilized_matches": 0,
         "overlapping_glyph_matches_rejected": 0,

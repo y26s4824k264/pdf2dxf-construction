@@ -1,3 +1,13 @@
+# 2.0.0rc22
+
+- 修复完整汉字内部短笔画与“一”等字形竞争造成的漏识别：要求精确整字、严格包含、同字体连续文字行、两个无歧义锚点、至少三个不同汉字及尺寸证据。等大候选、同形异字、独立小字行、跨字体与不连续来源继续保留歧义；不使用 OCR。
+- 报告保存父字、笔画、锚点的源句柄、字形指纹与尺寸比例，最多 32 条详细证据并单列截断计数。候选数量与实际发布 TEXT 分开统计。
+- 新增 17 项回归；全量源码 382 项通过。逐字体指定对应字库的 84 个真实字体样例完整恢复由 68 增至 82，1306 个发布字形逐字核对来源和原字体边界，原 DXF 图元保持一致。剩余 2 个 Jigmo 样例继续保留歧义，六个额外 8/w 回归通过。
+- 22 份 BIM 实图全部复测；所有保存 DXF 组码与 rc21 一致，仅两个 HEADER GUID 变化。文字、比例与质量门槛结果不变。
+- 继续使用字节完全相同的 r2 资源。中英说明与公开验证数据同步更新。
+
+rc22 uses exact glyph, same-font row and scale evidence to distinguish tiny internal Han strokes from whole glyphs. Ambiguous alternatives remain geometry. Seventeen new tests cover positive stroke/fill cases, negative evidence boundaries, geometry preservation, idempotence and bounded reports. Real-font probes improve from 68/84 to 82/84 complete; saved BIM geometry and quality states are unchanged. Existing r2 catalogs are reused byte-for-byte.
+
 # 2.0.0rc21
 
 - v2 字库保留全部旧描边模板，追加严格闭合共线退化轮廓的有效填充表示；修复 Jigmo `w`，同时保住数字 `8` 的原始描边匹配。旧字库保持可读。

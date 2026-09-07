@@ -1,12 +1,12 @@
 {
   "schema": "pdf2dxf.real_corpus_validation.v1",
-  "version": "2.0.0rc21",
+  "version": "2.0.0rc22",
   "batch": {
     "count": 22,
     "ok": 0,
     "degraded": 22,
     "failed": 0,
-    "elapsed_seconds": 307.77082800865173
+    "elapsed_seconds": 316.2002341747284
   },
   "cli_exit_code": 5,
   "scale_status_counts": {
@@ -30,7 +30,7 @@
   "all_saved_text_handles_match": true,
   "all_saved_validations_match": true,
   "all_input_validation_evidence_verified": true,
-  "real_corpus_stage": "rc21_runtime_with_rebuilt_core_open_font_bundle",
+  "real_corpus_stage": "rc22_runtime_with_unchanged_downloaded_r2_core_bundle",
   "github_ci_workflow": "https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml",
   "github_ci_evidence": "Use the run for the release target commit; each job verifies source and installed wheel.",
   "license_status": "AGPL-3.0-only",
@@ -38,7 +38,7 @@
   "local_source_tests": {
     "os": "macOS ARM64",
     "python": "3.12.13",
-    "passed": 365
+    "passed": 382
   },
   "fill_repair": {
     "files": 22,
@@ -78,6 +78,15 @@
   "rc21_saved_dxf_comparison": {
     "files": 22,
     "source": "final_rc21_runtime_with_open_font_core_bundle",
+    "text_bbox_handles_unchanged": true,
+    "identical_dxf_files": 0,
+    "all_22_dxf_pairs_identical_except_header_guids": true,
+    "historical_version": "2.0.0rc21"
+  },
+  "same_published_text_and_quality_totals_as_rc21": true,
+  "rc22_saved_dxf_comparison": {
+    "files": 22,
+    "source": "final_rc22_runtime_with_open_font_core_bundle",
     "text_bbox_handles_unchanged": true,
     "identical_dxf_files": 0,
     "all_22_dxf_pairs_identical_except_header_guids": true

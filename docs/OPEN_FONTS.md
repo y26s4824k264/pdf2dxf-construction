@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc21 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc21) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc22 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc22) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ result = Converter().convert('input.pdf', 'output/drawing.dxf', request)
 
 Jigmo 三个字库并集覆盖 Unicode 17 基本区、扩展 A–J、兼容区及其补充区全部 **102,998 个已分配汉字码点**，逐项与官方 UnicodeData.txt 对齐。各字体的可绘制码点、汉字区段、52 个英文字母、同形歧义和缺字均有统计，见 [机器可读验证](OPEN_FONT_VALIDATION.json)。字库中忽略的 U+3000 是没有轮廓的全角空格，不属于缺失汉字。
 
-覆盖指字库中有相应轮廓模板，不等于任意字体识别率。真实字体的描边与填充 PDF 测试包含完整恢复、部分恢复和未确认场景，逐项公开预期和实际 TEXT。十个字库的大小写 52 字母描边/填充样例均完整恢复；16 个汉字样例仍有同形/分段歧义造成的未确认字符。结果不作为代表性准确率基准。
+覆盖指字库中有相应轮廓模板，不等于任意字体识别率。真实字体的描边与填充 PDF 测试包含完整恢复、部分恢复和未确认场景，逐项公开预期和实际 TEXT。逐个指定对应字库时，十个字库的大小写 52 字母描边/填充样例均完整恢复；rc22 下剩余 2 个 Jigmo 汉字样例仍有整字大小的轮廓竞争造成的未确认字符。结果不作为代表性准确率基准。
 
 - 每个字重、斜体和地区字形可能不同，本版不声称覆盖这些字体的所有变体。
 - `.p2dfont` 当前只使用单码点 cmap；IVS/IVD 多码点异体序列不在支持范围内。
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc21 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc21), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc22 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc22), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -89,3 +89,15 @@ Source Han and Plangothic retain OFL 1.1; Jigmo font data retains CC0 1.0; DejaV
 `r2` 是相同已锁定源字体的重建资源，许可不变。v2 字库按每码点“原始描边在前、可选填充在后”保存，最多两种表示；只移除构建时严格闭合且全部共线的零面积轮廓来生成填充模板。原始描边模板、DXF 坐标和绘制内容保持原样。`mapped_codepoints` 统计唯一码点，`templates` 统计表示总数，`fill_variants` 单独统计新增表示。新资源需要 rc21+；旧 v1 字库仍可读取，但不会自动获得新表示，仅升级 Python 包不足以补齐这些样例。
 
 The `r2` assets rebuild the same pinned sources under their original licenses. Schema v2 stores the raw stroke representation first and an optional filled representation second, with at most two rows per codepoint. Only exactly closed collinear source contours are omitted from the fill alternate; raw templates and saved DXF geometry remain. Inspection separates unique mapped codepoints, total template representations and additional fill variants. These resources require rc21+; legacy v1 catalogs remain readable, but upgrading Python alone does not rebuild their templates.
+
+## rc22 继续使用 r2 / Reuse r2
+
+rc22 的改动在 DXF 候选识别，两个 r2 ZIP 与 rc21 发行资源的 SHA256 完全相同。已有 r2 字库可以直接使用，无需下载或重建。v2 字库加载仍要求 rc21+；要使用本轮汉字短笔画判断，升级到 rc22。
+
+rc22 changes DXF candidate resolution. Both r2 ZIPs retain exactly the rc21 SHA256 digests. Existing r2 downloads work without rebuilding. Schema v2 still requires rc21+; the new Han fragment resolution requires rc22.
+
+## 字库选择影响识别 / Catalog selection affects recognition
+
+84 个真实字体样例逐个指定生成该样例的字体字库，不是同时加载十个字库。隔离安装包另测遍黑体扩展 J 的 `U+323B0–U+323B3`：同时加载 core + extended 时，描边/填充都只恢复前三字，末字因跨字体轮廓冲突保留几何；从相同下载资源中单独指定 `han-gothic-part2.p2dfont` 时，两例均完整恢复。增加字体数量不保证恢复更多文字；应优先提供与图纸字体相符的字库，避免不必要的竞争候选。
+
+The 84 probes each use the catalog for the font that generated that PDF, rather than all ten catalogs together. Separate installed-wheel checks use Plangothic Extension J `U+323B0–U+323B3`: loading core + extended recovers only the first three characters in both stroke and fill, preserving the last glyph because other fonts introduce conflicting contour labels. Selecting `han-gothic-part2.p2dfont` from the same download restores all four in both cases. More catalogs do not guarantee more recovered text; supply the font faces relevant to the drawing. See [validation data](OPEN_FONT_VALIDATION.json).

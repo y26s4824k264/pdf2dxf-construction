@@ -1,6 +1,6 @@
 {
   "schema": "pdf2dxf.open_font_validation.v1",
-  "version": "2.0.0rc21",
+  "version": "2.0.0rc22",
   "source_lock_sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
   "unicode_reference": {
     "url": "https://www.unicode.org/Public/17.0.0/ucd/UnicodeData.txt",
@@ -1516,8 +1516,8 @@
   "real_font_smoke": {
     "method": "52 ASCII letters, a common Han phrase where mapped, and first 3-4 mapped codepoints among first 50 per Extension A and supplementary Han block; 20pt stroked polygon and filled Bezier PDF -> persisted DXF -> TEXT; source font copy removed before conversion",
     "cases": 84,
-    "complete_text_cases": 68,
-    "partial_or_unconfirmed_cases": 16,
+    "complete_text_cases": 82,
+    "partial_or_unconfirmed_cases": 2,
     "conversion_failures": 0,
     "published_text_outside_expected_subsequence": 0,
     "not_a_representative_accuracy_benchmark": true,
@@ -2283,12 +2283,12 @@
         "case": "extension-20000",
         "pipeline": "stroke",
         "expected": "𠀀𠀁𠀂𠀃",
-        "actual": "",
-        "exact": false,
+        "actual": "𠀀𠀁𠀂𠀃",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2297,12 +2297,12 @@
         "case": "extension-20000",
         "pipeline": "fill",
         "expected": "𠀀𠀁𠀂𠀃",
-        "actual": "",
-        "exact": false,
+        "actual": "𠀀𠀁𠀂𠀃",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2311,12 +2311,12 @@
         "case": "extension-2a700",
         "pipeline": "stroke",
         "expected": "𪜀𪜁𪜂𪜃",
-        "actual": "",
-        "exact": false,
+        "actual": "𪜀𪜁𪜂𪜃",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2325,12 +2325,12 @@
         "case": "extension-2a700",
         "pipeline": "fill",
         "expected": "𪜀𪜁𪜂𪜃",
-        "actual": "",
-        "exact": false,
+        "actual": "𪜀𪜁𪜂𪜃",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2367,12 +2367,12 @@
         "case": "extension-2b820",
         "pipeline": "stroke",
         "expected": "𫠠𫠡𫠢𫠣",
-        "actual": "",
-        "exact": false,
+        "actual": "𫠠𫠡𫠢𫠣",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2381,12 +2381,12 @@
         "case": "extension-2b820",
         "pipeline": "fill",
         "expected": "𫠠𫠡𫠢𫠣",
-        "actual": "",
-        "exact": false,
+        "actual": "𫠠𫠡𫠢𫠣",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2395,12 +2395,12 @@
         "case": "extension-2ceb0",
         "pipeline": "stroke",
         "expected": "𬺰𬺱𬺲𬺳",
-        "actual": "",
-        "exact": false,
+        "actual": "𬺰𬺱𬺲𬺳",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2409,12 +2409,12 @@
         "case": "extension-2ceb0",
         "pipeline": "fill",
         "expected": "𬺰𬺱𬺲𬺳",
-        "actual": "",
-        "exact": false,
+        "actual": "𬺰𬺱𬺲𬺳",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2535,12 +2535,12 @@
         "case": "extension-30000",
         "pipeline": "stroke",
         "expected": "𰀀𰀁𰀂𰀃",
-        "actual": "𰀀𰀁𰀂",
-        "exact": false,
+        "actual": "𰀀𰀁𰀂𰀃",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
         "locked": 1,
-        "matches": 3,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2549,12 +2549,12 @@
         "case": "extension-30000",
         "pipeline": "fill",
         "expected": "𰀀𰀁𰀂𰀃",
-        "actual": "𰀀𰀁𰀂",
-        "exact": false,
+        "actual": "𰀀𰀁𰀂𰀃",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
         "locked": 1,
-        "matches": 3,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2563,12 +2563,12 @@
         "case": "extension-31350",
         "pipeline": "stroke",
         "expected": "𱍐𱍑𱍒𱍓",
-        "actual": "",
-        "exact": false,
+        "actual": "𱍐𱍑𱍒𱍓",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2577,12 +2577,12 @@
         "case": "extension-31350",
         "pipeline": "fill",
         "expected": "𱍐𱍑𱍒𱍓",
-        "actual": "",
-        "exact": false,
+        "actual": "𱍐𱍑𱍒𱍓",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
-        "locked": 0,
-        "matches": 0,
+        "locked": 1,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2591,12 +2591,12 @@
         "case": "extension-323b0",
         "pipeline": "stroke",
         "expected": "𲎰𲎱𲎲𲎳",
-        "actual": "𲎰𲎱𲎲",
-        "exact": false,
+        "actual": "𲎰𲎱𲎲𲎳",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
         "locked": 1,
-        "matches": 3,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2605,12 +2605,12 @@
         "case": "extension-323b0",
         "pipeline": "fill",
         "expected": "𲎰𲎱𲎲𲎳",
-        "actual": "𲎰𲎱𲎲",
-        "exact": false,
+        "actual": "𲎰𲎱𲎲𲎳",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
         "locked": 1,
-        "matches": 3,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2700,61 +2700,117 @@
       }
     ],
     "baseline_comparison": {
-      "version": "2.0.0rc20",
-      "complete_text_cases": 62,
-      "additional_published_characters": 6,
+      "version": "2.0.0rc21",
+      "complete_text_cases": 68,
+      "additional_published_characters": 44,
       "previously_published_characters_preserved": true,
       "changes": [
         {
-          "font": "han-mincho-plane0",
-          "case": "english52",
+          "font": "han-gothic-part1",
+          "case": "extension-20000",
           "pipeline": "stroke",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "",
+          "after": "𠀀𠀁𠀂𠀃"
         },
         {
-          "font": "han-mincho-plane0",
-          "case": "english52",
+          "font": "han-gothic-part1",
+          "case": "extension-20000",
           "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "",
+          "after": "𠀀𠀁𠀂𠀃"
         },
         {
-          "font": "han-mincho-plane2",
-          "case": "english52",
+          "font": "han-gothic-part1",
+          "case": "extension-2a700",
           "pipeline": "stroke",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "",
+          "after": "𪜀𪜁𪜂𪜃"
         },
         {
-          "font": "han-mincho-plane2",
-          "case": "english52",
+          "font": "han-gothic-part1",
+          "case": "extension-2a700",
           "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "",
+          "after": "𪜀𪜁𪜂𪜃"
         },
         {
-          "font": "han-mincho-plane3",
-          "case": "english52",
+          "font": "han-gothic-part1",
+          "case": "extension-2b820",
           "pipeline": "stroke",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "",
+          "after": "𫠠𫠡𫠢𫠣"
         },
         {
-          "font": "han-mincho-plane3",
-          "case": "english52",
+          "font": "han-gothic-part1",
+          "case": "extension-2b820",
           "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "",
+          "after": "𫠠𫠡𫠢𫠣"
+        },
+        {
+          "font": "han-gothic-part1",
+          "case": "extension-2ceb0",
+          "pipeline": "stroke",
+          "before": "",
+          "after": "𬺰𬺱𬺲𬺳"
+        },
+        {
+          "font": "han-gothic-part1",
+          "case": "extension-2ceb0",
+          "pipeline": "fill",
+          "before": "",
+          "after": "𬺰𬺱𬺲𬺳"
+        },
+        {
+          "font": "han-gothic-part2",
+          "case": "extension-30000",
+          "pipeline": "stroke",
+          "before": "𰀀𰀁𰀂",
+          "after": "𰀀𰀁𰀂𰀃"
+        },
+        {
+          "font": "han-gothic-part2",
+          "case": "extension-30000",
+          "pipeline": "fill",
+          "before": "𰀀𰀁𰀂",
+          "after": "𰀀𰀁𰀂𰀃"
+        },
+        {
+          "font": "han-gothic-part2",
+          "case": "extension-31350",
+          "pipeline": "stroke",
+          "before": "",
+          "after": "𱍐𱍑𱍒𱍓"
+        },
+        {
+          "font": "han-gothic-part2",
+          "case": "extension-31350",
+          "pipeline": "fill",
+          "before": "",
+          "after": "𱍐𱍑𱍒𱍓"
+        },
+        {
+          "font": "han-gothic-part2",
+          "case": "extension-323b0",
+          "pipeline": "stroke",
+          "before": "𲎰𲎱𲎲",
+          "after": "𲎰𲎱𲎲𲎳"
+        },
+        {
+          "font": "han-gothic-part2",
+          "case": "extension-323b0",
+          "pipeline": "fill",
+          "before": "𲎰𲎱𲎲",
+          "after": "𲎰𲎱𲎲𲎳"
         }
       ]
     },
     "saved_output_audit": {
       "cases": 84,
-      "published_glyphs_checked": 1262,
+      "published_glyphs_checked": 1306,
       "max_glyph_bbox_error_mm": 0.0008663238273314278,
       "bbox_tolerance_mm": 0.05,
-      "method": "Each published glyph label/source handles and bbox checked against original font cmap/BoundsPen excluding move-only contours without any segments at the PDF generation position; original DXF entity tags compared to rc20 in all cases after removing only recovery layer/XDATA. No source fonts used by runtime matching.",
+      "method": "Each published glyph label/source handles and bbox checked against original font cmap/BoundsPen excluding move-only contours without any segments at the PDF generation position; original DXF entity tags compared to rc21 in all cases after removing only recovery layer/XDATA. No source fonts used by runtime matching.",
       "rows": [
         {
           "font": "cjk-sans-sc-regular",
@@ -2762,7 +2818,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 1.0335286418694523e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2772,7 +2828,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.0670572922654173e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2782,7 +2838,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 9.398194299770068e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2792,7 +2848,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 9.398194299770068e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2802,7 +2858,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.291910805889529e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2812,7 +2868,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.291910805889529e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2822,7 +2878,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2832,7 +2888,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2842,7 +2898,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2852,7 +2908,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2862,7 +2918,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 1.0335286475537941e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2872,7 +2928,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 1.9809299033113348e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2882,7 +2938,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 1.291910805889529e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2892,7 +2948,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2902,7 +2958,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 0.0001382782578076558,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2912,7 +2968,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 0.0008663238273314278,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2922,7 +2978,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2932,7 +2988,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2942,7 +2998,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2952,7 +3008,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0002476162380560254,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2962,7 +3018,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.6914808586298022e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2972,7 +3028,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.00027453104654284743,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2982,7 +3038,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2992,7 +3048,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.00020724402533645048,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3002,7 +3058,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3012,7 +3068,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 6.997850206502676e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3022,7 +3078,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 5,
           "max_glyph_bbox_error_mm": 2.6914808444189475e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3032,7 +3088,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 5,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3042,7 +3098,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3052,7 +3108,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 6.997850206502676e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3062,7 +3118,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3072,7 +3128,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3082,7 +3138,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.0186106350905675e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3092,7 +3148,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3102,7 +3158,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3112,7 +3168,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3122,7 +3178,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3132,7 +3188,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3142,7 +3198,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480847971661e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3152,7 +3208,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3162,7 +3218,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480847971661e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3172,7 +3228,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3182,7 +3238,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3192,7 +3248,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3202,7 +3258,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3212,7 +3268,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 6.997850206502676e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3222,7 +3278,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3232,7 +3288,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3242,7 +3298,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.6914808444189475e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3252,7 +3308,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3262,7 +3318,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3272,7 +3328,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3282,7 +3338,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0001579743750284024,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3292,7 +3348,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0004153556574415518,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3300,9 +3356,9 @@
           "font": "han-gothic-part1",
           "case": "extension-20000",
           "pipeline": "stroke",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3310,9 +3366,9 @@
           "font": "han-gothic-part1",
           "case": "extension-20000",
           "pipeline": "fill",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3320,9 +3376,9 @@
           "font": "han-gothic-part1",
           "case": "extension-2a700",
           "pipeline": "stroke",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 8.612738717772572e-07,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3330,9 +3386,9 @@
           "font": "han-gothic-part1",
           "case": "extension-2a700",
           "pipeline": "fill",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 8.612738717772572e-07,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3342,7 +3398,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3352,7 +3408,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3360,9 +3416,9 @@
           "font": "han-gothic-part1",
           "case": "extension-2b820",
           "pipeline": "stroke",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 4.306369341122718e-07,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3370,9 +3426,9 @@
           "font": "han-gothic-part1",
           "case": "extension-2b820",
           "pipeline": "fill",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 9.689331044171468e-07,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3380,9 +3436,9 @@
           "font": "han-gothic-part1",
           "case": "extension-2ceb0",
           "pipeline": "stroke",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 0.00012228294655258765,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3390,9 +3446,9 @@
           "font": "han-gothic-part1",
           "case": "extension-2ceb0",
           "pipeline": "fill",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 2.4043895582082087e-05,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3402,7 +3458,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 5.1629548430298655e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3412,7 +3468,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 0.00022792154400974596,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3422,7 +3478,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3432,7 +3488,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3442,7 +3498,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0001579743750284024,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3452,7 +3508,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0004153556574415518,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3462,7 +3518,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3472,7 +3528,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.5072292747220217e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3480,9 +3536,9 @@
           "font": "han-gothic-part2",
           "case": "extension-30000",
           "pipeline": "stroke",
-          "published_glyphs_checked": 3,
-          "max_glyph_bbox_error_mm": 6.459554047211213e-07,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 7.536146391373677e-07,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3490,9 +3546,9 @@
           "font": "han-gothic-part2",
           "case": "extension-30000",
           "pipeline": "fill",
-          "published_glyphs_checked": 3,
-          "max_glyph_bbox_error_mm": 7.53614635584654e-07,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 7.536146391373677e-07,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3500,9 +3556,9 @@
           "font": "han-gothic-part2",
           "case": "extension-31350",
           "pipeline": "stroke",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 1.2919108094422427e-06,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3510,9 +3566,9 @@
           "font": "han-gothic-part2",
           "case": "extension-31350",
           "pipeline": "fill",
-          "published_glyphs_checked": 0,
-          "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc20": true,
+          "published_glyphs_checked": 4,
+          "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3520,9 +3576,9 @@
           "font": "han-gothic-part2",
           "case": "extension-323b0",
           "pipeline": "stroke",
-          "published_glyphs_checked": 3,
+          "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738753299709e-07,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3530,9 +3586,9 @@
           "font": "han-gothic-part2",
           "case": "extension-323b0",
           "pipeline": "fill",
-          "published_glyphs_checked": 3,
+          "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738753299709e-07,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3542,7 +3598,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3552,7 +3608,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3562,7 +3618,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3572,7 +3628,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3582,7 +3638,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404293149011e-06,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3592,14 +3648,31 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715285673e-05,
-          "original_entity_tags_equal_rc20": true,
+          "original_entity_tags_equal_rc21": true,
           "audit_errors": 0,
           "audit_fixes": 0
         }
       ]
     },
     "remaining_limits": {
-      "competing_han_contours_cases": 16
+      "competing_han_contours_cases": 2,
+      "reason": "Jigmo common Han stroke/fill: 廴 is near parent height and 囗 has identical parent bounds; remain ambiguous.",
+      "cases": [
+        {
+          "font": "han-mincho-plane0",
+          "case": "common-han",
+          "pipeline": "stroke",
+          "expected": "建筑结构平面图",
+          "actual": "筑结构平面"
+        },
+        {
+          "font": "han-mincho-plane0",
+          "case": "common-han",
+          "pipeline": "fill",
+          "expected": "建筑结构平面图",
+          "actual": "筑结构平面"
+        }
+      ]
     },
     "numeric_stabilization": {
       "raster_decimals": [
@@ -3630,7 +3703,8 @@
       "unchanged_original_entity_tag_cases": 83,
       "geometry_changed_cases": 1,
       "historical_version": "2.0.0rc20"
-    }
+    },
+    "catalog_selection": "Each PDF uses the single font-face catalog matching its generating font; not all ten catalogs together."
   },
   "font_representations": {
     "schema": "pdf2dxf.font_representation_audit.v1",
@@ -10118,66 +10192,257 @@
           }
         ]
       }
-    ]
+    ],
+    "historical_version": "2.0.0rc21"
   },
   "additional_digit_probes": {
     "cases": 6,
     "all_passed": true,
-    "runtime": "same rc21 runtime; compare legacy and rebuilt full catalogs",
+    "runtime": "rc22 with unchanged r2 catalogs; original rc21 PDFs reused",
     "rows": [
       {
         "font": "han-mincho-plane0",
-        "pipeline": "stroke",
+        "pipeline": "fill",
         "expected": "ABCD8w",
-        "old_catalog_text": "ABCD8",
-        "new_catalog_text": "ABCD8w",
-        "original_dxf_entity_tags_identical": true,
-        "source_font_copy_removed_before_conversion": true
+        "actual": "ABCD8w",
+        "original_dxf_entity_tags_identical_rc21": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
       },
       {
         "font": "han-mincho-plane0",
-        "pipeline": "fill",
-        "expected": "ABCD8w",
-        "old_catalog_text": "ABCD",
-        "new_catalog_text": "ABCD8w",
-        "original_dxf_entity_tags_identical": true,
-        "source_font_copy_removed_before_conversion": true
-      },
-      {
-        "font": "han-mincho-plane2",
         "pipeline": "stroke",
         "expected": "ABCD8w",
-        "old_catalog_text": "ABCD8",
-        "new_catalog_text": "ABCD8w",
-        "original_dxf_entity_tags_identical": true,
-        "source_font_copy_removed_before_conversion": true
+        "actual": "ABCD8w",
+        "original_dxf_entity_tags_identical_rc21": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
       },
       {
         "font": "han-mincho-plane2",
         "pipeline": "fill",
         "expected": "ABCD8w",
-        "old_catalog_text": "ABCD",
-        "new_catalog_text": "ABCD8w",
-        "original_dxf_entity_tags_identical": true,
-        "source_font_copy_removed_before_conversion": true
+        "actual": "ABCD8w",
+        "original_dxf_entity_tags_identical_rc21": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
       },
       {
-        "font": "han-mincho-plane3",
+        "font": "han-mincho-plane2",
         "pipeline": "stroke",
         "expected": "ABCD8w",
-        "old_catalog_text": "ABCD8",
-        "new_catalog_text": "ABCD8w",
-        "original_dxf_entity_tags_identical": true,
-        "source_font_copy_removed_before_conversion": true
+        "actual": "ABCD8w",
+        "original_dxf_entity_tags_identical_rc21": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
       },
       {
         "font": "han-mincho-plane3",
         "pipeline": "fill",
         "expected": "ABCD8w",
-        "old_catalog_text": "ABCD",
-        "new_catalog_text": "ABCD8w",
-        "original_dxf_entity_tags_identical": true,
-        "source_font_copy_removed_before_conversion": true
+        "actual": "ABCD8w",
+        "original_dxf_entity_tags_identical_rc21": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "font": "han-mincho-plane3",
+        "pipeline": "stroke",
+        "expected": "ABCD8w",
+        "actual": "ABCD8w",
+        "original_dxf_entity_tags_identical_rc21": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      }
+    ]
+  },
+  "han_fragment_resolution": {
+    "version": "2.0.0rc22",
+    "cases_with_fragment_decisions": 14,
+    "resolved_parent_glyphs": 18,
+    "suppressed_fragments": 20,
+    "maximum_fragment_height_ratio": 0.095730894558899,
+    "all_previous_published_characters_preserved": true,
+    "method": "Read persisted candidate evidence without calling overlap resolver; verify actual DXF handles/bounds, strict containment, independent anchor labels, height ratios, and exact masks/topology against unchanged r2 catalogs. Published parent bounds/labels are separately checked against original font cmap/BoundsPen.",
+    "reused_resources": [
+      {
+        "file": "PDF2DXF-fonts-core-2026.09.07-r2.zip",
+        "sha256": "f42f8b9c88b23a87e639215c7df42959cd28ce9c4cd54c11c4f9fd0935a6e796",
+        "unchanged_from_rc21": true
+      },
+      {
+        "file": "PDF2DXF-fonts-extended-2026.09.07-r2.zip",
+        "sha256": "98fec05808de79105461ee248f72d67108b13894de6225c35dc4e723b7b93670",
+        "unchanged_from_rc21": true
+      }
+    ],
+    "rows": [
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.09157508560361793
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.09157508560361793
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2a700",
+        "pipeline": "stroke",
+        "parent_glyphs": 2,
+        "contained_fragments": 2,
+        "maximum_fragment_height_ratio": 0.0837157508478079
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2a700",
+        "pipeline": "fill",
+        "parent_glyphs": 2,
+        "contained_fragments": 2,
+        "maximum_fragment_height_ratio": 0.0837157508478079
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2b820",
+        "pipeline": "stroke",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.08277401867025369
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2b820",
+        "pipeline": "fill",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.08277401867025369
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2ceb0",
+        "pipeline": "stroke",
+        "parent_glyphs": 2,
+        "contained_fragments": 2,
+        "maximum_fragment_height_ratio": 0.08565077612542588
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2ceb0",
+        "pipeline": "fill",
+        "parent_glyphs": 2,
+        "contained_fragments": 2,
+        "maximum_fragment_height_ratio": 0.08565077612542588
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-30000",
+        "pipeline": "stroke",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.095730894558899
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-30000",
+        "pipeline": "fill",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.095730894558899
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "stroke",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.08767769245180378
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "fill",
+        "parent_glyphs": 1,
+        "contained_fragments": 1,
+        "maximum_fragment_height_ratio": 0.08767769245180378
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-323b0",
+        "pipeline": "stroke",
+        "parent_glyphs": 1,
+        "contained_fragments": 2,
+        "maximum_fragment_height_ratio": 0.07434062684531414
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-323b0",
+        "pipeline": "fill",
+        "parent_glyphs": 1,
+        "contained_fragments": 2,
+        "maximum_fragment_height_ratio": 0.07434039814644124
+      }
+    ]
+  },
+  "installed_catalog_selection": {
+    "version": "2.0.0rc22",
+    "runtime": "isolated installed wheel (-I); catalogs from downloaded r2 bundles",
+    "cases": 4,
+    "complete_text_cases": 2,
+    "partial_text_cases": 2,
+    "conversion_failures": 0,
+    "all_observed_results_and_ambiguity_gates_verified": true,
+    "rows": [
+      {
+        "selection": "all-ten",
+        "catalogs": 10,
+        "pipeline": "stroke",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲",
+        "complete": false,
+        "ambiguous_windows": 3,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "selection": "all-ten",
+        "catalogs": 10,
+        "pipeline": "fill",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲",
+        "complete": false,
+        "ambiguous_windows": 3,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "selection": "matching-face",
+        "catalogs": 1,
+        "pipeline": "stroke",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "ambiguous_windows": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "selection": "matching-face",
+        "catalogs": 1,
+        "pipeline": "fill",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "ambiguous_windows": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
       }
     ]
   }

@@ -76,3 +76,11 @@ Jigmo 的 `w` 含不足 0.007 mm 的退化闭合线段：描边候选过滤和�
 两套模板匹配到同一字符的严格包含区间时，只有额外源路径全部为闭合共线零面积轮廓，才保留完整描边区间；不同标签、交叉重叠与非零面积差异继续拒绝。该规则不删除或重写 DXF 路径。字体锁定和连续成行检查仍然必需。报告 `font_contained_fill_variants_suppressed` 记录这种重复备选。v2 字库需要 rc21+，旧 v1 字库继续可读。
 
 Jigmo w has a tiny degenerate contour that may be absent from stroke candidates or filled output, while larger zero-area contours in 8 can remain in stroke DXF. rc21 retains every raw template and adds an exact filled alternate, avoiding regressions from replacing raw topology. Unsupported/unstable alternates are skipped without losing the original glyph. A strictly contained same-label match is suppressed only when both forms match exactly and the extra source paths are closed collinear contours; the complete raw match retains them. Different labels, crossing overlaps and nonzero-area differences remain ambiguous. Font/run gates still apply, DXF paths are unchanged, and the report counts suppressed duplicate fill variants. New v2 catalogs require rc21+; old v1 catalogs remain readable.
+
+## rc22 短笔画与整字的尺寸证据 / Han fragment evidence
+
+完整汉字已经精确匹配，但内部短笔画也匹配到“一”等汉字时，rc22 允许在以下证据同时存在时保留整字候选：整字严格包含所有冲突子轮廓；父字与子轮廓具有相同字库；同一连续来源文字行中至少两个无歧义汉字锚点，与父字合计至少三个不同标签；每个子轮廓高度小于最小锚点的 0.72 倍，无法满足已有同尺度汉字成行门槛。子轮廓能独立构成小字行时仍拒绝；等大、交叉、跨字体、同形异字和不足锚点的冲突继续保留歧义。正常字体锁定与成行发布检查仍须通过。
+
+这不会删除或修改 DXF 路径，也不按词义猜字。`font_han_fragment_resolved_candidates` 和 `font_contained_han_fragments_suppressed` 统计候选处理；`font_han_fragment_evidence` 保存父字、子轮廓与锚点的源句柄、指纹和尺寸比例，最多 32 条，超过部分由 `font_han_fragment_evidence_truncated` 计数。实际输出仍以 `accepted` 和保存 DXF 的 TEXT 为准。无需重建 r2 字库。
+
+When an exact whole Han glyph contains a competing short Han contour, rc22 requires strict containment, a common catalog, a continuous source row, two uncontested anchors and three distinct labels including the parent. Every child must be shorter than 0.72 times the smallest anchor, below the existing same-scale Han row threshold. Independent small-text runs, equal-size/crossing interpretations, cross-font conflicts and ambiguous labels remain unresolved. Font locks and publication gates still apply. Reports retain bounded source-handle, fingerprint and scale evidence at candidate-scan stage; published TEXT is counted separately. DXF geometry and r2 catalogs are unchanged.

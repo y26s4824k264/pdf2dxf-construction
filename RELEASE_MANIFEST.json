@@ -12,8 +12,8 @@
       "bytes": 294
     },
     "CHANGELOG.md": {
-      "sha256": "e055b63be2dcd12ab9246ccfd79ad390d1c3eb4852daea534aa29aa56de8b5d4",
-      "bytes": 21151
+      "sha256": "3c97b6b10ffc9ad1a39fe89e543d04031786f6336d96b095b61d535a64a5c1ae",
+      "bytes": 22678
     },
     "CONTRIBUTING.md": {
       "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
@@ -32,12 +32,12 @@
       "bytes": 1460
     },
     "README.en.md": {
-      "sha256": "026a6401d6d9dda7a691ba251b2225b39a57b1d8aecaea54a14d4ca9d869003d",
-      "bytes": 18485
+      "sha256": "bf9e63b0404887190b2c657686fc1e05b9c872f26fbeeec1d7bd7230130e11a3",
+      "bytes": 18526
     },
     "README.md": {
-      "sha256": "6623a04a05b162f10521f5f7a0b00ff8f1932b5a51e81a1b77231cecc8bbba0a",
-      "bytes": 20659
+      "sha256": "91bbbd2c8f7d9645ac8304b2f5b4aed6d2d41fd0da4e8271091121594b069e80",
+      "bytes": 20703
     },
     "SECURITY.md": {
       "sha256": "f7ed27e453fa7f2132340d5e46d14d17d7ea4393461ac2d19ff94d51519b911d",
@@ -52,24 +52,24 @@
       "bytes": 5603
     },
     "docs/CHARACTER_SUPPORT.md": {
-      "sha256": "42206ab647fb4808387abbac9b012256a899c33035a1d40e3836c9e26f0f8bc1",
-      "bytes": 11988
+      "sha256": "d055b875a1750e57340f094dc92c9043854a8b111d94a3a8b2b0cafda721ca38",
+      "bytes": 13808
     },
     "docs/OPEN_FONTS.lock.json": {
       "sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
       "bytes": 12941
     },
     "docs/OPEN_FONTS.md": {
-      "sha256": "821353d60931cc316ec8729970a5bf7981c4451deef9276044da14b25cf24e91",
-      "bytes": 8895
+      "sha256": "b19e043d7bc24dd2f7ae1f10b1fd621c8ba437ab6fa9f918325dc381a7cb2850",
+      "bytes": 10646
     },
     "docs/OPEN_FONT_VALIDATION.json": {
-      "sha256": "799159e686ef612d815db87187219d701bb40615fedfb4063732e774e68087a0",
-      "bytes": 285730
+      "sha256": "00c5a500ca9d3cfa21d18416c5803f5d2d030b91dfa1193f5191cb306da1fa58",
+      "bytes": 293512
     },
     "docs/PROJECT_BRIEF.md": {
-      "sha256": "fa03ac351e5af07af5d758c2888fb3f191d0efb6d5280abd74a54398e386bf9c",
-      "bytes": 8405
+      "sha256": "cb60c63f6609a8369df46e69f565f0439934a9f4e37517ec6d9145be97b9aec0",
+      "bytes": 8772
     },
     "docs/RELEASE_CHECKLIST.md": {
       "sha256": "042459714fe15e55a672a34ae21299785fc723bd7385635be762a341aa8e50d6",
@@ -80,12 +80,12 @@
       "bytes": 1701
     },
     "docs/VALIDATION.md": {
-      "sha256": "d76f89072a0573efeb8bfb41105383fe29052dfb6ea7bf4309de06781c0fd265",
-      "bytes": 7973
+      "sha256": "83f22310702d15f01b0a0c3bace2e13bca8d9bb67631d3ecc9cba973f979b99a",
+      "bytes": 9588
     },
     "docs/validation.json": {
-      "sha256": "d54fe09e0190409663872d23fce894257b27a431b9a33523c8ddaf06cd94b6d3",
-      "bytes": 3563
+      "sha256": "a82ce30426e36d3b471268f0ab1ea5568137dcecdfc2a1ccb1eda2272d5a4a8b",
+      "bytes": 3913
     },
     "pdf2dxf_stable/__init__.py": {
       "sha256": "42f1b74c2ce5094479051608c6be2b38b9907e509e27992213c5e7ec9101c5ca",
@@ -200,8 +200,8 @@
       "bytes": 46013
     },
     "pdf2dxf_stable/engine/text/outline_text.py": {
-      "sha256": "f9d21998694911ff39094e460ed428442ebb9b3e400a83de0e5c8cd1025ddbf8",
-      "bytes": 63476
+      "sha256": "fcf7016530a00d4aaa65b686cf61eeebc5aaca77090cbbc17ee0f4857c02d76a",
+      "bytes": 71707
     },
     "pdf2dxf_stable/engine/worker.py": {
       "sha256": "33d857afd5e28ac2a92f31d10bc967a7c154daaa72e1cbfe92a48e860e06f617",
@@ -260,7 +260,7 @@
       "bytes": 20570
     },
     "pdf2dxf_stable/version.py": {
-      "sha256": "4170a950b00d4308cdffc4a22fb6a06c9463f027bd561086bf09c63c893f6d11",
+      "sha256": "587f6ea8e6deeb5094bae4d1bd077308ddf1a07d6916069dcc53081c58829fdc",
       "bytes": 26
     },
     "pyproject.toml": {
@@ -326,6 +326,10 @@
     "tests/stable/test_font_numeric_precision.py": {
       "sha256": "1e5b9a796570b86a049d34de0e045a615011e851538d3d53b5aa9bb325c92683",
       "bytes": 6512
+    },
+    "tests/stable/test_han_fragment_consensus.py": {
+      "sha256": "55d20806a7c70a0ace579c3be0303ac231b7022bf8e6bf0fefb1a3d3f8c41e3b",
+      "bytes": 7849
     },
     "tests/stable/test_io_safety.py": {
       "sha256": "033881a6aed50222144d57921ca7fb63b94ee1895488940ee8361380eea1cd67",
