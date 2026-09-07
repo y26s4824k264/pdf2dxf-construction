@@ -1,8 +1,19 @@
 # rc16 验证记录
 
-版本：`2.0.0rc16`，日期：2026-09-07。以下区分实际执行、依赖解析和待运行的 CI。
+版本：`2.0.0rc16`，日期：2026-09-07。以下区分 GitHub CI、发布前本地基线与实图验证。
 
 ## 自动回归与安装
+
+公开提交 `5cb48da775a7907ca2e5910d5edb246a9d2afb77` 的 [GitHub CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/runs/34086271467) 已完成：
+
+| GitHub runner / Python | 源码测试 | 隔离安装包测试 |
+| --- | --- | --- |
+| ubuntu-latest / 3.10 | 226 通过 | 226 通过 |
+| ubuntu-latest / 3.13 | 226 通过 | 226 通过 |
+| macos-latest / 3.12 | 226 通过 | 226 通过 |
+| windows-latest / 3.12 | 226 通过 | 226 通过 |
+
+四个作业均完成源码包到 wheel 构建、`twine check`、`pip check`、`check_distribution.py --public` 和隔离源码的安装包回归。首次 CI 暴露了 Windows 旧编码输出流导致中文恢复任务失败的问题；修复 worker JSON 日志和内部 UTF-8 读取后，新增中文路径及 cp1252 端到端回归并通过四平台矩阵。GitHub 发布阶段共新增 4 项回归，发布前本地基线如下，不将它与最终 226 项混为同一轮执行。
 
 | 环境 | 源码测试 | 安装包测试 |
 | --- | --- | --- |
@@ -15,7 +26,7 @@
 
 新增回归覆盖预检资源失败及报告、伪装 PDF、密码错误、修复工具失败、进程树取消、批处理退出、输出锁超时与取消、字体 CLI 错误、无字体 R12 TEXT 位置，以及分发包内容和许可状态检查。原有几何、中文轮廓字库、比例、图片迁移和块变换测试继续运行。
 
-最终源码包在独立构建环境中重建 wheel；wheel 与源码包的 `twine check` 和分发内容检查通过。不包含内部验证目录、原图、截图、系统字体、外部字库或本机用户名路径。GitHub 首次发布额外加入 2 项许可归档回归；最新公开提交的跨平台执行结果见 [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)。本表记录的是发布前本地基线，不冒充 GitHub CI 结果。
+源码包在独立构建环境中重建 wheel；wheel 与源码包的 `twine check` 和分发内容检查通过。不包含内部验证目录、原图、截图、系统字体、外部字库或本机用户名路径。后续文档提交的执行状态见 [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)，发行页记录最终目标提交。
 
 ## 依赖审计
 
@@ -25,7 +36,7 @@
 
 ## 实图范围
 
-重新转换内部样本 22 份 PDF、22 页，启用内置中文字库、外部宋体样例 `.p2dfont`、`outline_chinese=required`、`scale_mode=declared`。完整 PDF、字体、截图与内部路径报告不随包分发。
+rc16 发布前基线重新转换内部样本 22 份 PDF、22 页，启用内置中文字库、外部宋体样例 `.p2dfont`、`outline_chinese=required`、`scale_mode=declared`。之后的许可和 Windows 编码修补使用自动回归验证，没有重跑这 22 份实图。完整 PDF、字体、截图与内部路径报告不随包分发。
 
 22/22 生成 DXF，0 个转换失败；22 个结果仍为 `degraded`，批处理默认退出码 5。重开 DXF 审计错误/修复均为 0，全部输出 SHA256、恢复文本句柄和内容一致；独立重算保存后的尺寸验证，与转换报告相符。22 份报告新增的输入预检、源 SHA256 与页码证据也逐份核对。
 
@@ -36,3 +47,9 @@
 ## 公开发布说明
 
 维护者已授权 AGPL-3.0-only 公开发布，来源声明保存在 SOURCE_ORIGIN.json；第三方权利与许可继续保留。分发包须通过 `check_distribution.py --public`，包括实际随包的 LICENSE / NOTICE / 第三方说明。GitHub CI 应按目标提交核对；已生成 DXF 仍不等于所有工程质量门槛通过。
+
+## English summary
+
+The linked public CI run passed 226 source tests and 226 isolated installed-wheel tests on each of Ubuntu/Python 3.10, Ubuntu/3.13, macOS/3.12 and Windows/3.12. All four jobs also passed source-to-wheel builds, metadata, dependency and public-distribution checks. Windows legacy-encoding failures found in the first run were fixed and covered by Chinese-path and cp1252 regressions.
+
+The earlier rc16 real-drawing baseline produced 22 DXFs from 22 PDFs, with 238 recovered TEXT entities / 1035 characters. All 22 retain degraded status; 13 pass the geometry gate. Nine calibrated drawings still exceed the 0.2% dimension-error threshold. This corpus was not rerun after the publication and encoding patches; those changes were verified by the automated tests above. Private source drawings and external fonts are not distributed. Neither test counts nor successful conversion imply universal font coverage, engineering acceptance or public adoption.

@@ -12,8 +12,8 @@
       "bytes": 294
     },
     "CHANGELOG.md": {
-      "sha256": "2786c210b7bbfb3838863d9c1327de32b44089685a51a3f448329f49b6c56457",
-      "bytes": 16201
+      "sha256": "f6c4f2dab2d3a9a5d5b71ecdc16ddc50c2c02e61eb89eb471e800a2e1e1e993a",
+      "bytes": 16246
     },
     "CONTRIBUTING.md": {
       "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
@@ -64,12 +64,12 @@
       "bytes": 1557
     },
     "docs/VALIDATION.md": {
-      "sha256": "4124aec0a5cc753ace1c7a3a1a07d433e222b68e3d3db467e83447aad158ca18",
-      "bytes": 4033
+      "sha256": "3f7a57e35f9ed1ea8bce44565a32b0ea9e95a5b08c44653e66e4195684fe608e",
+      "bytes": 5958
     },
     "docs/validation.json": {
-      "sha256": "d76f4d4c8c6ddc9d4a78f4973547c06c8880b89e2b0233386d27644eea995166",
-      "bytes": 1615
+      "sha256": "75921ea11fd787d93fa1294f58f203d21cda2f3e82a0bc42064e334569bf5fb1",
+      "bytes": 2657
     },
     "pdf2dxf_stable/__init__.py": {
       "sha256": "42f1b74c2ce5094479051608c6be2b38b9907e509e27992213c5e7ec9101c5ca",

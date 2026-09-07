@@ -1,7 +1,7 @@
 # 2.0.0rc16
 
 - GitHub 首次公开发行：维护者授权采用 AGPL-3.0-only，补齐 LICENSE / NOTICE、包许可元数据、来源声明、中英双语 README 与项目链接。
-- 发布包检查要求归档中实际包含许可及第三方声明，导出快照保留维护者声明的发布状态；新增 2 项发布回归；连同 Windows 编码回归，本地合计 226 项通过。
+- 发布包检查要求归档中实际包含许可及第三方声明，导出快照保留维护者声明的发布状态；新增 2 项发布回归，连同 Windows 编码回归共 226 项。
 - 修复 Windows 非 UTF-8 日志导致已恢复中文的任务失败：内部 JSON 统一按 UTF-8 读取，worker 日志使用无损 JSON 转义，CLI 在旧编码输出流中回退到可解码的 JSON；增加中文路径和 cp1252 端到端回归。
 - 输入预检、修复、页码读取和文件哈希移入受监督子进程，补齐原来发生在资源监控之前的解析路径；报告新增 input_validation 及资源证据。
 - 非 PDF 和加密 PDF 给出明确错误；qpdf / mutool 超时或启动失败可继续后续修复，最后的 PyMuPDF 重写避免整份 PDF 的额外内存副本。
@@ -9,7 +9,7 @@
 - 修复无系统字体的 Linux 环境 R12 MTEXT 无法拆分的问题；可选 Matplotlib 提供度量，处理 ezdxf 失效默认字体缓存，并以 R12_FONT_METRICS_FALLBACK 明确外观近似。通用 DXF 和中文识别规则不变。
 - 提高 Pillow / FontTools 安全版本下限，精确指定 OpenCV 最低已发行 wheel 版本；对最低直接依赖和实际解析环境执行已知漏洞检查。
 - 发布检查新增 wheel / sdist 内容校验和独立许可状态检查；CI 固定 Action 提交，验证安装包不读取工作区源码。
-- 回归增至 222 项；macOS Python 3.10/3.12、Linux Python 3.12 已执行。Windows 依赖 wheel 下载通过，运行验收仍待目标平台 CI。
+- GitHub CI 已在 Ubuntu Python 3.10/3.13、macOS Python 3.12、Windows Python 3.12 上分别通过 226 项源码与 226 项隔离安装包回归；发布前本地 222 项基线独立记录在 docs/VALIDATION.md。
 - 重新验证 22 份内部 PDF 的转换、保存后 DXF、中文文本、比例与输入预检证据；保留未通过的质量状态，不放宽工程门槛。
 
 # 2.0.0rc15
