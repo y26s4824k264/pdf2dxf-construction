@@ -1,0 +1,352 @@
+{
+  "schema": "pdf2dxf.open_font_sources.v1",
+  "version": "2026.09.07",
+  "charset": "chinese",
+  "downloads": {
+    "SourceHanSansSC-Regular.otf": {
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-sans/a4f7cf94edfb9d7ffbdfc4841de276358bd7e0f2/OTF/SimplifiedChinese/SourceHanSansSC-Regular.otf",
+      "sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256",
+      "bytes": 16529832
+    },
+    "SourceHanSansSC-LICENSE.txt": {
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-sans/a4f7cf94edfb9d7ffbdfc4841de276358bd7e0f2/LICENSE.txt",
+      "sha256": "fcac737e761ec63dbfbdce11030a1780161920d80315edba9c8beff1c2bac5a2",
+      "bytes": 4463
+    },
+    "SourceHanSerifSC-Regular.otf": {
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-serif/7889f11bf31170b5d092a083b357c8c8130f89e0/OTF/SimplifiedChinese/SourceHanSerifSC-Regular.otf",
+      "sha256": "78aa7a328fd974df2d688c8a9fd74a33d8334dfa84ab24d9d11efb2ffc464117",
+      "bytes": 24543332
+    },
+    "SourceHanSerifSC-LICENSE.txt": {
+      "url": "https://raw.githubusercontent.com/adobe-fonts/source-han-serif/7889f11bf31170b5d092a083b357c8c8130f89e0/LICENSE.txt",
+      "sha256": "9ff5bb567e1b92c801fc1069e5fbf992ff8efccacb9db94e5959a5b3ba9bb903",
+      "bytes": 4463
+    },
+    "Jigmo-20250912.zip": {
+      "url": "https://raw.githubusercontent.com/kamichikoichi/jigmo/a6893b2278e39747fc3476465f7fcacf0126bca8/docs/Jigmo-20250912.zip",
+      "sha256": "5744c7386d129475d87607ca66d043c8793c65448adeaedc921b6931890e5d0b",
+      "bytes": 35559738
+    },
+    "PlangothicP1-Regular.ttf": {
+      "url": "https://api.github.com/repos/Fitzgerald-Porthmouth-Koenigsegg/Plangothic_Project/releases/assets/466990846",
+      "sha256": "550b5d0775b15405946b18f4843df439a51e69508d7e6778d94c1f7a53dc5ad6",
+      "bytes": 20410664,
+      "upstream_url": "https://github.com/Fitzgerald-Porthmouth-Koenigsegg/Plangothic_Project/releases/download/V2.9.5795/PlangothicP1-Regular.ttf"
+    },
+    "PlangothicP2-Regular.ttf": {
+      "url": "https://api.github.com/repos/Fitzgerald-Porthmouth-Koenigsegg/Plangothic_Project/releases/assets/466990848",
+      "sha256": "681933370adfe0fc7253f77735275a82fea09fe4f8adba907bdeb46c110daf8f",
+      "bytes": 12459248,
+      "upstream_url": "https://github.com/Fitzgerald-Porthmouth-Koenigsegg/Plangothic_Project/releases/download/V2.9.5795/PlangothicP2-Regular.ttf"
+    },
+    "Plangothic-LICENSE-OFL.txt": {
+      "url": "https://raw.githubusercontent.com/Fitzgerald-Porthmouth-Koenigsegg/Plangothic_Project/51485203670f18b6f5fa40913ffcde55027ddcb1/LICENSE-OFL.txt",
+      "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602",
+      "bytes": 4302
+    },
+    "dejavu-fonts-ttf-2.37.zip": {
+      "url": "https://api.github.com/repos/dejavu-fonts/dejavu-fonts/releases/assets/2070168",
+      "sha256": "7576310b219e04159d35ff61dd4a4ec4cdba4f35c00e002a136f00e96a908b0a",
+      "bytes": 5522795
+    }
+  },
+  "fonts": [
+    {
+      "id": "cjk-sans-sc-regular",
+      "group": "core",
+      "family": "Source Han Sans SC",
+      "version": "2.005",
+      "license": "OFL-1.1",
+      "source": {
+        "download": "SourceHanSansSC-Regular.otf",
+        "sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256",
+        "bytes": 16529832
+      },
+      "notices": [
+        {
+          "download": "SourceHanSansSC-LICENSE.txt",
+          "sha256": "fcac737e761ec63dbfbdce11030a1780161920d80315edba9c8beff1c2bac5a2",
+          "bytes": 4463,
+          "path": "licenses/cjk-sans-sc-regular/OFL.txt"
+        }
+      ]
+    },
+    {
+      "id": "cjk-serif-sc-regular",
+      "group": "core",
+      "family": "Source Han Serif SC",
+      "version": "2.003",
+      "license": "OFL-1.1",
+      "source": {
+        "download": "SourceHanSerifSC-Regular.otf",
+        "sha256": "78aa7a328fd974df2d688c8a9fd74a33d8334dfa84ab24d9d11efb2ffc464117",
+        "bytes": 24543332
+      },
+      "notices": [
+        {
+          "download": "SourceHanSerifSC-LICENSE.txt",
+          "sha256": "9ff5bb567e1b92c801fc1069e5fbf992ff8efccacb9db94e5959a5b3ba9bb903",
+          "bytes": 4463,
+          "path": "licenses/cjk-serif-sc-regular/OFL.txt"
+        }
+      ]
+    },
+    {
+      "id": "latin-sans-regular",
+      "group": "core",
+      "family": "DejaVu Sans",
+      "version": "2.37",
+      "license": "LicenseRef-DejaVu",
+      "source": {
+        "download": "dejavu-fonts-ttf-2.37.zip",
+        "sha256": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954",
+        "bytes": 757076,
+        "member": "dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf"
+      },
+      "notices": [
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "7a083b136e64d064794c3419751e5c7dd10d2f64c108fe5ba161eae5e5958a93",
+          "bytes": 8816,
+          "member": "dejavu-fonts-ttf-2.37/LICENSE",
+          "path": "licenses/latin/LICENSE.txt"
+        },
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "915a742f0b242ea43fcbef934b6d24353b51351470f71d8a8d00c751892fad50",
+          "bytes": 842,
+          "member": "dejavu-fonts-ttf-2.37/AUTHORS",
+          "path": "licenses/latin/AUTHORS.txt"
+        },
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "482f2a8029414dcd5a54065d7c110b517fc9d056cc296bbab36245755927a54a",
+          "bytes": 2556,
+          "member": "dejavu-fonts-ttf-2.37/README.md",
+          "path": "licenses/latin/README.md.txt"
+        }
+      ]
+    },
+    {
+      "id": "latin-serif-regular",
+      "group": "core",
+      "family": "DejaVu Serif",
+      "version": "2.37",
+      "license": "LicenseRef-DejaVu",
+      "source": {
+        "download": "dejavu-fonts-ttf-2.37.zip",
+        "sha256": "42d1edeb7952f31b1f96d767ed7030b08a39e0c372b0071641518864e2bffb51",
+        "bytes": 380132,
+        "member": "dejavu-fonts-ttf-2.37/ttf/DejaVuSerif.ttf"
+      },
+      "notices": [
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "7a083b136e64d064794c3419751e5c7dd10d2f64c108fe5ba161eae5e5958a93",
+          "bytes": 8816,
+          "member": "dejavu-fonts-ttf-2.37/LICENSE",
+          "path": "licenses/latin/LICENSE.txt"
+        },
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "915a742f0b242ea43fcbef934b6d24353b51351470f71d8a8d00c751892fad50",
+          "bytes": 842,
+          "member": "dejavu-fonts-ttf-2.37/AUTHORS",
+          "path": "licenses/latin/AUTHORS.txt"
+        },
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "482f2a8029414dcd5a54065d7c110b517fc9d056cc296bbab36245755927a54a",
+          "bytes": 2556,
+          "member": "dejavu-fonts-ttf-2.37/README.md",
+          "path": "licenses/latin/README.md.txt"
+        }
+      ]
+    },
+    {
+      "id": "latin-mono-regular",
+      "group": "core",
+      "family": "DejaVu Sans Mono",
+      "version": "2.37",
+      "license": "LicenseRef-DejaVu",
+      "source": {
+        "download": "dejavu-fonts-ttf-2.37.zip",
+        "sha256": "b4a6c3e4faab8773f4ff761d56451646409f29abedd68f05d38c2df667d3c582",
+        "bytes": 340712,
+        "member": "dejavu-fonts-ttf-2.37/ttf/DejaVuSansMono.ttf"
+      },
+      "notices": [
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "7a083b136e64d064794c3419751e5c7dd10d2f64c108fe5ba161eae5e5958a93",
+          "bytes": 8816,
+          "member": "dejavu-fonts-ttf-2.37/LICENSE",
+          "path": "licenses/latin/LICENSE.txt"
+        },
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "915a742f0b242ea43fcbef934b6d24353b51351470f71d8a8d00c751892fad50",
+          "bytes": 842,
+          "member": "dejavu-fonts-ttf-2.37/AUTHORS",
+          "path": "licenses/latin/AUTHORS.txt"
+        },
+        {
+          "download": "dejavu-fonts-ttf-2.37.zip",
+          "sha256": "482f2a8029414dcd5a54065d7c110b517fc9d056cc296bbab36245755927a54a",
+          "bytes": 2556,
+          "member": "dejavu-fonts-ttf-2.37/README.md",
+          "path": "licenses/latin/README.md.txt"
+        }
+      ]
+    },
+    {
+      "id": "han-mincho-plane0",
+      "group": "extended",
+      "family": "Jigmo",
+      "version": "2025-09-12",
+      "license": "CC0-1.0",
+      "source": {
+        "download": "Jigmo-20250912.zip",
+        "sha256": "c8f295b9bd8f9f117a76b3a454aaaa1bb5b4babc18e254978c6deb88464e40cf",
+        "bytes": 30048112,
+        "member": "Jigmo.ttf"
+      },
+      "notices": [
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "437ca31a127c9f1b191ff9a42bb563e5f7e414ae819006dca4635d9fb34aeb94",
+          "bytes": 7171,
+          "member": "LICENSE.txt",
+          "path": "licenses/han-mincho/LICENSE.txt"
+        },
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "9e21785d64d317da46f270c33f464be36ef20d1bfa30f07f5de27a1d1567162f",
+          "bytes": 6885,
+          "member": "README.txt",
+          "path": "licenses/han-mincho/README.txt"
+        },
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "e50087723cb3b8fbfaca220398b15014ec0073104449b97fc1f60485331921f6",
+          "bytes": 1574,
+          "member": "THANKS.txt",
+          "path": "licenses/han-mincho/THANKS.txt"
+        }
+      ]
+    },
+    {
+      "id": "han-mincho-plane2",
+      "group": "extended",
+      "family": "Jigmo2",
+      "version": "2025-09-12",
+      "license": "CC0-1.0",
+      "source": {
+        "download": "Jigmo-20250912.zip",
+        "sha256": "5da3582efe77e22073b86b3b86b556d7111148a76b957cfb53318a91da2efff0",
+        "bytes": 35661996,
+        "member": "Jigmo2.ttf"
+      },
+      "notices": [
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "437ca31a127c9f1b191ff9a42bb563e5f7e414ae819006dca4635d9fb34aeb94",
+          "bytes": 7171,
+          "member": "LICENSE.txt",
+          "path": "licenses/han-mincho/LICENSE.txt"
+        },
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "9e21785d64d317da46f270c33f464be36ef20d1bfa30f07f5de27a1d1567162f",
+          "bytes": 6885,
+          "member": "README.txt",
+          "path": "licenses/han-mincho/README.txt"
+        },
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "e50087723cb3b8fbfaca220398b15014ec0073104449b97fc1f60485331921f6",
+          "bytes": 1574,
+          "member": "THANKS.txt",
+          "path": "licenses/han-mincho/THANKS.txt"
+        }
+      ]
+    },
+    {
+      "id": "han-mincho-plane3",
+      "group": "extended",
+      "family": "Jigmo3",
+      "version": "2025-09-12",
+      "license": "CC0-1.0",
+      "source": {
+        "download": "Jigmo-20250912.zip",
+        "sha256": "815b18c1c670103723fe743090559208fdea47dc587ecb057a5a4721ee8dfeff",
+        "bytes": 7491948,
+        "member": "Jigmo3.ttf"
+      },
+      "notices": [
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "437ca31a127c9f1b191ff9a42bb563e5f7e414ae819006dca4635d9fb34aeb94",
+          "bytes": 7171,
+          "member": "LICENSE.txt",
+          "path": "licenses/han-mincho/LICENSE.txt"
+        },
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "9e21785d64d317da46f270c33f464be36ef20d1bfa30f07f5de27a1d1567162f",
+          "bytes": 6885,
+          "member": "README.txt",
+          "path": "licenses/han-mincho/README.txt"
+        },
+        {
+          "download": "Jigmo-20250912.zip",
+          "sha256": "e50087723cb3b8fbfaca220398b15014ec0073104449b97fc1f60485331921f6",
+          "bytes": 1574,
+          "member": "THANKS.txt",
+          "path": "licenses/han-mincho/THANKS.txt"
+        }
+      ]
+    },
+    {
+      "id": "han-gothic-part1",
+      "group": "extended",
+      "family": "Plangothic P1",
+      "version": "2.9.5795",
+      "license": "OFL-1.1",
+      "source": {
+        "download": "PlangothicP1-Regular.ttf",
+        "sha256": "550b5d0775b15405946b18f4843df439a51e69508d7e6778d94c1f7a53dc5ad6",
+        "bytes": 20410664
+      },
+      "notices": [
+        {
+          "download": "Plangothic-LICENSE-OFL.txt",
+          "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602",
+          "bytes": 4302,
+          "path": "licenses/han-gothic/OFL.txt"
+        }
+      ]
+    },
+    {
+      "id": "han-gothic-part2",
+      "group": "extended",
+      "family": "Plangothic P2",
+      "version": "2.9.5795",
+      "license": "OFL-1.1",
+      "source": {
+        "download": "PlangothicP2-Regular.ttf",
+        "sha256": "681933370adfe0fc7253f77735275a82fea09fe4f8adba907bdeb46c110daf8f",
+        "bytes": 12459248
+      },
+      "notices": [
+        {
+          "download": "Plangothic-LICENSE-OFL.txt",
+          "sha256": "e564f06d018e7b95bc3594c96a17f1d41865af4038c375e7aa974dd69df38602",
+          "bytes": 4302,
+          "path": "licenses/han-gothic/OFL.txt"
+        }
+      ]
+    }
+  ]
+}

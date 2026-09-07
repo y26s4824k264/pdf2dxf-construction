@@ -1,0 +1,85 @@
+# 开源字库 / Open font catalogs
+
+rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只在构建字库时读取，转换时只读取持久化 DXF 和字库文件，不联网、不使用 OCR。
+
+## 下载与使用
+
+从 [rc18 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc18) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+
+| 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
+| --- | --- | --- |
+| `PDF2DXF-fonts-core-2026.09.07.zip` | 思源黑体 SC Regular 2.005、思源宋体 SC Regular 2.003、DejaVu Sans / Serif / Sans Mono 2.37 | 约 27 MiB |
+| `PDF2DXF-fonts-extended-2026.09.07.zip` | Jigmo / Jigmo2 / Jigmo3 2025-09-12、遍黑体 P1 / P2 Regular 2.9.5795 | 约 52 MiB |
+
+```sh
+pdf2dxf font-catalog inspect-bundle \
+  catalogs/PDF2DXF-fonts-core-2026.09.07/font-bundle.json
+
+pdf2dxf convert input.pdf -o output/drawing.dxf \
+  --outline-chinese required --scale-mode declared \
+  --outline-font-bundle catalogs/PDF2DXF-fonts-core-2026.09.07/font-bundle.json
+```
+
+`convert`、`batch`、`regress` 都接受 `--outline-font-bundle`，可重复传入两个包。只需要某个字体时，继续使用 `--outline-font-catalog .../catalogs/cjk-sans-sc-regular.p2dfont`。少量、接近原图字体的字库通常更合适；多个字体可能增加歧义和内存开销。加载失败会明确报错，不忽略损坏的包继续运行。
+
+Python 接口复用同样的校验：
+
+```python
+from pdf2dxf_stable import Converter, ConversionRequest
+from pdf2dxf_stable.engine.text.font_bundle import load_font_bundle
+
+bundle = load_font_bundle('catalogs/PDF2DXF-fonts-core-2026.09.07/font-bundle.json')
+request = ConversionRequest(
+    outline_chinese='required',
+    outline_font_catalogs=bundle['catalog_paths'],
+    scale_mode='declared',
+)
+result = Converter().convert('input.pdf', 'output/drawing.dxf', request)
+```
+
+## 覆盖与识别边界
+
+Jigmo 三个字库并集覆盖 Unicode 17 基本区、扩展 A–J、兼容区及其补充区全部 **102,998 个已分配汉字码点**，逐项与官方 UnicodeData.txt 对齐。各字体的可绘制码点、汉字区段、52 个英文字母、同形歧义和缺字均有统计，见 [机器可读验证](OPEN_FONT_VALIDATION.json)。字库中忽略的 U+3000 是没有轮廓的全角空格，不属于缺失汉字。
+
+覆盖指字库中有相应轮廓模板，不等于任意字体识别率。真实字体的描边与填充 PDF 测试包含完整恢复、部分恢复和未确认场景，逐项公开预期和实际 TEXT。思源黑体与三种 DejaVu 的大小写 52 字母样例已完整恢复；思源宋体、Jigmo、遍黑体仍有曲线采样或同形/分段歧义造成的未确认字符。结果不作为代表性准确率基准。
+
+- 每个字重、斜体和地区字形可能不同，本版不声称覆盖这些字体的所有变体。
+- `.p2dfont` 当前只使用单码点 cmap；IVS/IVD 多码点异体序列不在支持范围内。
+- 扫描图、不同字体的相似字、字体缺字、几何退化与证据冲突保持原几何，不用语义猜字。
+- 汉字至少三个不同字或英文至少四种字母的一致连续精确匹配才能独立锁定字体；写 TEXT 仍须通过连续成行等检查。
+- 完整字母/汉字内部的标点轮廓片段不再导致整字被误拒绝。竞争字母、竞争汉字、相同范围或交叉重叠仍保留为歧义。
+
+## 许可、来源和重建
+
+[OPEN_FONTS.lock.json](OPEN_FONTS.lock.json) 固定每个官方下载的版本/提交、URL、大小与 SHA256；ZIP 中取出的字体和版权/许可证文本也各自固定哈希。来源字体名称仅用于署名，不作为衍生资源的新字体名称。
+
+- 思源黑体、思源宋体、遍黑体保留 SIL OFL 1.1。
+- Jigmo 字体保留 CC0 1.0；其仓库构建脚本的 MIT 不能代替字体许可证。
+- DejaVu 保留原始 Bitstream Vera / Arev 条款及完整 LICENSE、AUTHORS、README。
+- `.p2dfont` 是由字体轮廓生成的衍生资源，随包保留对应许可和版权。项目代码的 AGPL 不替代这些许可。私有系统字体、客户 PDF/DXF 不进入资源包。
+
+资源包内含 `font-bundle.json`、`SOURCE_LOCK.json`、`COVERAGE.json`、`NOTICE.md` 和原始许可证文本。校验器检查相对路径、符号链接、重复条目、文件长度与哈希、许可证引用和字库内在完整性；哈希校验用于检测损坏，下载来源仍须可信。
+
+从源码根目录运行，安装本包后即可构建；字体只写入指定缓存，不安装到操作系统：
+
+```sh
+python tools/build_open_font_bundle.py \
+  --lock docs/OPEN_FONTS.lock.json --cache tmp/open-font-downloads \
+  --group core --output tmp/PDF2DXF-fonts-core-2026.09.07
+
+python tools/build_open_font_bundle.py \
+  --lock docs/OPEN_FONTS.lock.json --cache tmp/open-font-downloads \
+  --group extended --output tmp/PDF2DXF-fonts-extended-2026.09.07
+```
+
+缓存齐全后可以加 `--offline`。构建中断后，使用新的 `--output`，通过 `--catalog-cache 旧目录/catalogs` 复用已完成且重新验证的字库。已有输出目录、损坏缓存、不同源字体或不同构建参数不会被静默覆盖。默认构建保留 17 组采样参数，并显示进度；字库文件可被 rc17+ 读取，整包 CLI 入口需要 rc18+。
+
+## English
+
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc18 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc18), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+
+Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; Source Han Sans and three DejaVu faces recover the full 52-letter test strings, while other faces still have sampling or segmentation ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
+
+Source versions, URLs, byte counts and hashes are pinned in the source lock. The build commands above download only when explicitly invoked, verify both archives and selected members, preserve original copyright/license notices and produce separately downloadable catalogs. Use `--offline` with a complete cache; interrupted builds can reuse verified catalog files via `--catalog-cache` with a new output directory. Conversion reads persisted DXF/catalogs only, with no font installation, OCR or network access.
+
+Source Han and Plangothic retain OFL 1.1; Jigmo font data retains CC0 1.0; DejaVu retains its Bitstream Vera/Arev terms. These derived resources keep the source licenses. The code's AGPL does not replace them. Resource IDs are project-local, and original font names serve attribution only. Neither the wheel nor the source distribution includes font binaries, customer drawings or these optional ZIPs.

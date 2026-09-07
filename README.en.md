@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc17` (prerelease).
+Version: `2.0.0rc18` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -43,6 +43,12 @@ result = Converter().convert(
 )
 print(result.status, result.report_path)
 ```
+
+## Optional open font catalogs
+
+rc18 adds ten downloadable catalogs from Source Han Sans/Serif, DejaVu, Jigmo and Plangothic. Jigmo’s catalog union covers all 102,998 assigned Han codepoints in Unicode 17’s unified, A–J and compatibility ranges, checked against the official character table. Coverage does not establish recognition for arbitrary fonts, weights or outline sampling.
+
+See [open font resources](docs/OPEN_FONTS.md) for downloads, licenses, `--outline-font-bundle` usage and reproducible builds, and [real-font results](docs/OPEN_FONT_VALIDATION.json) for complete, partial and unconfirmed cases. Resource ZIPs are separate from the Python distributions; conversion stays offline.
 
 ## Outlined Chinese text without OCR
 
@@ -162,7 +168,7 @@ python tools/check_distribution.py --public dist/*
 
 After installing the built wheel, run `python tools/test_installed_wheel.py` to verify imports and tests from an isolated directory using `site-packages`. CI covers Linux, macOS and Windows. Current evidence and the exact executed environments are recorded in [docs/VALIDATION.md](docs/VALIDATION.md) and [docs/validation.json](docs/validation.json).
 
-The rc17 drawing run covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The external Songti sample produced 44 isolated candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
+The rc18 drawing run with the core open-font bundle covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The core catalogs produced 262 candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
 
 A historical rc11 run covered 4290 unique PDFs / 12577 pages for basic conversion. It is not a current full-corpus text-recognition or engineering-quality result. Private PDFs, screenshots, fonts and path-bearing internal reports are not distributed. Unknown fonts, complex clipping, scans and multiple-scale sheets remain limitations. Producing a DXF does not mean every quality gate passed.
 

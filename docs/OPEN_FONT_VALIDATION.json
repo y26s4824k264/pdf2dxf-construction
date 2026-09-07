@@ -1,0 +1,2589 @@
+{
+  "schema": "pdf2dxf.open_font_validation.v1",
+  "version": "2.0.0rc18",
+  "source_lock_sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
+  "unicode_reference": {
+    "url": "https://www.unicode.org/Public/17.0.0/ucd/UnicodeData.txt",
+    "sha256": "2e1efc1dcb59c575eedf5ccae60f95229f706ee6d031835247d843c11d96470c",
+    "bytes": 2198209
+  },
+  "unicode_coverage": {
+    "unicode_version": "17.0.0",
+    "assigned_han_in_supported_ranges": 102998,
+    "jigmo_union": 102998,
+    "assigned_covered": 102998,
+    "missing_assigned": [],
+    "rows": [
+      {
+        "font": "han-mincho-plane0",
+        "mapped_han": 28057,
+        "unassigned": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "mapped_han": 61514,
+        "unassigned": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "mapped_han": 13430,
+        "unassigned": []
+      }
+    ]
+  },
+  "bundles": [
+    {
+      "group": "core",
+      "artifact": "PDF2DXF-fonts-core-2026.09.07.zip",
+      "sha256": "de4c6190cf07aa816d3126472be1585f54a7eb154d33c3bc4308fccde3ebb9ba",
+      "bytes": 28025710,
+      "schema": "pdf2dxf.font_bundle.v1",
+      "catalogs": [
+        {
+          "id": "cjk-sans-sc-regular",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "b9ade682ea4af22a9c865a6e256097d3f1f581845306458ae4cda33f0fe85706",
+          "size_bytes": 13329347,
+          "catalog_id": "563477cac02cbd50975927e3",
+          "font": {
+            "copyright": "© 2014-2025 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Source Han Sans SC",
+            "full_name": "Source Han Sans SC",
+            "license": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.",
+            "license_url": "http://scripts.sil.org/OFL",
+            "postscript_name": "SourceHanSansSC-Regular",
+            "sha256": "f1d8611151880c6c336aabeac4640ef434fa13cbfbf1ffe82d0a71b2a5637256",
+            "source_file": "SourceHanSansSC-Regular.otf",
+            "subfamily": "Regular",
+            "units_per_em": 1000,
+            "version": "Version 2.005;addfeatures 5.0.0b21"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "73130d9cd6543c663c91aada451e17bb794b6eb2427e2a9ea0375da34ee9aba8",
+          "templates": 31621,
+          "han_characters": 30319,
+          "characters": 31621,
+          "recognition_characters": 30783,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 6592
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 20992
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 366
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 2109
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 48
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 34
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 113
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 6
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 55
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 4
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 838,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 1378,
+          "fully_ambiguous_characters": 222,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "cjk-serif-sc-regular",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "5cd37ef9a0cfc8b051fb517a141da67e4a6517c26fd73ec4282816b352920f7a",
+          "size_bytes": 14551601,
+          "catalog_id": "523f8184c041407ffca6f9f5",
+          "font": {
+            "copyright": "© 2017-2024 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Source Han Serif SC",
+            "full_name": "Source Han Serif SC",
+            "license": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.",
+            "license_url": "http://scripts.sil.org/OFL",
+            "postscript_name": "SourceHanSerifSC-Regular",
+            "sha256": "78aa7a328fd974df2d688c8a9fd74a33d8334dfa84ab24d9d11efb2ffc464117",
+            "source_file": "SourceHanSerifSC-Regular.otf",
+            "subfamily": "Regular",
+            "units_per_em": 1000,
+            "version": "Version 2.003;hotconv 1.1.1;makeotfexe 2.6.0"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "6394a64bda3abd13d611a3095adc39017df53d45e96be497bf65e7bacd9687fd",
+          "templates": 31547,
+          "han_characters": 30256,
+          "characters": 31547,
+          "recognition_characters": 30709,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 6592
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 20992
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 366
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 2057
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 46
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 33
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 108
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 4
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 55
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 3
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 838,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 1398,
+          "fully_ambiguous_characters": 206,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "latin-sans-regular",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "6e0cbb1c18817bed06e5e92f82786567da5f37439e3dd0f8983f71c149944cf3",
+          "size_bytes": 24553,
+          "catalog_id": "35176544640821ba8f197af7",
+          "font": {
+            "copyright": "Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved.\nCopyright (c) 2006 by Tavmjong Bah. All Rights Reserved.\nDejaVu changes are in public domain",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "DejaVu Sans",
+            "full_name": "DejaVu Sans",
+            "license": "Fonts are (c) Bitstream (see below). DejaVu changes are in public domain. Glyphs imported from Arev fonts are (c) Tavmjung Bah (see below)\n\nBitstream Vera Fonts Copyright\n------------------------------\n\nCopyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is\na trademark of Bitstream, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof the fonts accompanying this license (\"Fonts\") and associated\ndocumentation files (the \"Font Software\"), to reproduce and distribute the\nFont Software, including without limitation the rights to use, copy, merge,\npublish, distribute, and/or sell copies of the Font Software, and to permit\npersons to whom the Font Software is furnished to do so, subject to the\nfollowing conditions:\n\nThe above copyright and trademark notices and this permission notice shall\nbe included in all copies of one or more of the Font Software typefaces.\n\nThe Font Software may be modified, altered, or added to, and in particular\nthe designs of glyphs or characters in the Fonts may be modified and\nadditional glyphs or characters may be added to the Fonts, only if the fonts\nare renamed to names not containing either the words \"Bitstream\" or the word\n\"Vera\".\n\nThis License becomes null and void to the extent applicable to Fonts or Font\nSoftware that has been modified and is distributed under the \"Bitstream\nVera\" names.\n\nThe Font Software may be sold as part of a larger software package but no\ncopy of one or more of the Font Software typefaces may be sold by itself.\n\nTHE FONT SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS\nOR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT,\nTRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL BITSTREAM OR THE GNOME\nFOUNDATION BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING\nANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES,\nWHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF\nTHE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE\nFONT SOFTWARE.\n\nExcept as contained in this notice, the names of Gnome, the Gnome\nFoundation, and Bitstream Inc., shall not be used in advertising or\notherwise to promote the sale, use or other dealings in this Font Software\nwithout prior written authorization from the Gnome Foundation or Bitstream\nInc., respectively. For further information, contact: fonts at gnome dot\norg. \n\nArev Fonts Copyright\n------------------------------\n\nCopyright (c) 2006 by Tavmjong Bah. All Rights Reserved.\n\nPermission is hereby granted, free of charge, to any person obtaining\na copy of the fonts accompanying this license (\"Fonts\") and\nassociated documentation files (the \"Font Software\"), to reproduce\nand distribute the modifications to the Bitstream Vera Font Software,\nincluding without limitation the rights to use, copy, merge, publish,\ndistribute, and/or sell copies of the Font Software, and to permit\npersons to whom the Font Software is furnished to do so, subject to\nthe following conditions:\n\nThe above copyright and trademark notices and this permission notice\nshall be included in all copies of one or more of the Font Software\ntypefaces.\n\nThe Font Software may be modified, altered, or added to, and in\nparticular the designs of glyphs or characters in the Fonts may be\nmodified and additional glyphs or characters may be added to the\nFonts, only if the fonts are renamed to names not containing either\nthe words \"Tavmjong Bah\" or the word \"Arev\".\n\nThis License becomes null and void to the extent applicable to Fonts\nor Font Software that has been modified and is distributed under the \n\"Tavmjong Bah Arev\" names.\n\nThe Font Software may be sold as part of a larger software package but\nno copy of one or more of the Font Software typefaces may be sold by\nitself.\n\nTHE FONT SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\nEXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF\nMERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT\nOF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL\nTAVMJONG BAH BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,\nINCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL\nDAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING\nFROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM\nOTHER DEALINGS IN THE FONT SOFTWARE.\n\nExcept as contained in this notice, the name of Tavmjong Bah shall not\nbe used in advertising or otherwise to promote the sale, use or other\ndealings in this Font Software without prior written authorization\nfrom Tavmjong Bah. For further information, contact: tavmjong @ free\n. fr.",
+            "license_url": "http://dejavu.sourceforge.net/wiki/index.php/License",
+            "postscript_name": "DejaVuSans",
+            "sha256": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954",
+            "source_file": "DejaVuSans.ttf",
+            "subfamily": "Book",
+            "units_per_em": 2048,
+            "version": "Version 2.37"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "5836ced8a72d6715f26c989d0b32c08fc883e2f4d94a005175a69e355734809f",
+          "templates": 94,
+          "han_characters": 0,
+          "characters": 94,
+          "recognition_characters": 94,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 0,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 1,
+          "fully_ambiguous_characters": 2,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "latin-serif-regular",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "41a4e2f8fce8b23365ecabc6749981203d243fb9afeb0bc8915756f26c10b20a",
+          "size_bytes": 26282,
+          "catalog_id": "e729b6812b933a8bb5d93921",
+          "font": {
+            "copyright": "Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved.\nDejaVu changes are in public domain",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "DejaVu Serif",
+            "full_name": "DejaVu Serif",
+            "license": "Fonts are (c) Bitstream (see below). DejaVu changes are in public domain.\n\nBitstream Vera Fonts Copyright\n------------------------------\n\nCopyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is a trademark of Bitstream, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of the fonts accompanying this license (\"Fonts\") and associated documentation files (the \"Font Software\"), to reproduce and distribute the Font Software, including without limitation the rights to use, copy, merge, publish, distribute, and/or sell copies of the Font Software, and to permit persons to whom the Font Software is furnished to do so, subject to the following conditions:\n\nThe above copyright and trademark notices and this permission notice shall be included in all copies of one or more of the Font Software typefaces.\n\nThe Font Software may be modified, altered, or added to, and in particular the designs of glyphs or characters in the Fonts may be modified and additional glyphs or  or characters may be added to the Fonts, only if the fonts are renamed to names not containing either the words \"Bitstream\" or the word \"Vera\".\n\nThis License becomes null and void to the extent applicable to Fonts or Font Software that has been modified and is distributed under the \"Bitstream Vera\" names.\n\nThe Font Software may be sold as part of a larger software package but no copy of one or more of the Font Software typefaces may be sold by itself.\n\nTHE FONT SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL BITSTREAM OR THE GNOME FOUNDATION BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.\n\nExcept as contained in this notice, the names of Gnome, the Gnome Foundation, and Bitstream Inc., shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Font Software without prior written authorization from the Gnome Foundation or Bitstream Inc., respectively. For further information, contact: fonts at gnome dot org.",
+            "license_url": "http://dejavu.sourceforge.net/wiki/index.php/License",
+            "postscript_name": "DejaVuSerif",
+            "sha256": "42d1edeb7952f31b1f96d767ed7030b08a39e0c372b0071641518864e2bffb51",
+            "source_file": "DejaVuSerif.ttf",
+            "subfamily": "Book",
+            "units_per_em": 2048,
+            "version": "Version 2.37"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "fd8f323ce0bab8c22805730cff7af242084d55318979c1132b403ff3130c4f90",
+          "templates": 94,
+          "han_characters": 0,
+          "characters": 94,
+          "recognition_characters": 94,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 0,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 0,
+          "fully_ambiguous_characters": 0,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "latin-mono-regular",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "38b2bd0b07b30d5ed14530dddbe3c30e928f8260e699e8e185a80f688c9782f3",
+          "size_bytes": 24017,
+          "catalog_id": "38470b30eb90f8c4d958bf81",
+          "font": {
+            "copyright": "Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved.\nDejaVu changes are in public domain",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "DejaVu Sans Mono",
+            "full_name": "DejaVu Sans Mono",
+            "license": "Fonts are (c) Bitstream (see below). DejaVu changes are in public domain.\n\nBitstream Vera Fonts Copyright\n------------------------------\n\nCopyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is a trademark of Bitstream, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of the fonts accompanying this license (\"Fonts\") and associated documentation files (the \"Font Software\"), to reproduce and distribute the Font Software, including without limitation the rights to use, copy, merge, publish, distribute, and/or sell copies of the Font Software, and to permit persons to whom the Font Software is furnished to do so, subject to the following conditions:\n\nThe above copyright and trademark notices and this permission notice shall be included in all copies of one or more of the Font Software typefaces.\n\nThe Font Software may be modified, altered, or added to, and in particular the designs of glyphs or characters in the Fonts may be modified and additional glyphs or  or characters may be added to the Fonts, only if the fonts are renamed to names not containing either the words \"Bitstream\" or the word \"Vera\".\n\nThis License becomes null and void to the extent applicable to Fonts or Font Software that has been modified and is distributed under the \"Bitstream Vera\" names.\n\nThe Font Software may be sold as part of a larger software package but no copy of one or more of the Font Software typefaces may be sold by itself.\n\nTHE FONT SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL BITSTREAM OR THE GNOME FOUNDATION BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.\n\nExcept as contained in this notice, the names of Gnome, the Gnome Foundation, and Bitstream Inc., shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Font Software without prior written authorization from the Gnome Foundation or Bitstream Inc., respectively. For further information, contact: fonts at gnome dot org.",
+            "license_url": "http://dejavu.sourceforge.net/wiki/index.php/License",
+            "postscript_name": "DejaVuSansMono",
+            "sha256": "b4a6c3e4faab8773f4ff761d56451646409f29abedd68f05d38c2df667d3c582",
+            "source_file": "DejaVuSansMono.ttf",
+            "subfamily": "Book",
+            "units_per_em": 2048,
+            "version": "Version 2.37"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "a5f4cb8495a917ee5a5a60c1f621e870fae59178e8385b66b6fd6932ae63fd02",
+          "templates": 94,
+          "han_characters": 0,
+          "characters": 94,
+          "recognition_characters": 94,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 0,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 0,
+          "fully_ambiguous_characters": 0,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        }
+      ],
+      "mapped_codepoint_union": 31621,
+      "han_codepoint_union": 30319,
+      "han_ranges": [
+        {
+          "start": "U+3400",
+          "end": "U+4DBF",
+          "mapped": 6592
+        },
+        {
+          "start": "U+4E00",
+          "end": "U+9FFF",
+          "mapped": 20992
+        },
+        {
+          "start": "U+F900",
+          "end": "U+FAFF",
+          "mapped": 366
+        },
+        {
+          "start": "U+20000",
+          "end": "U+2A6DF",
+          "mapped": 2109
+        },
+        {
+          "start": "U+2A700",
+          "end": "U+2B73F",
+          "mapped": 48
+        },
+        {
+          "start": "U+2B740",
+          "end": "U+2B81F",
+          "mapped": 34
+        },
+        {
+          "start": "U+2B820",
+          "end": "U+2CEAF",
+          "mapped": 113
+        },
+        {
+          "start": "U+2CEB0",
+          "end": "U+2EBEF",
+          "mapped": 6
+        },
+        {
+          "start": "U+2EBF0",
+          "end": "U+2EE5F",
+          "mapped": 0
+        },
+        {
+          "start": "U+2F800",
+          "end": "U+2FA1F",
+          "mapped": 55
+        },
+        {
+          "start": "U+30000",
+          "end": "U+3134F",
+          "mapped": 4
+        },
+        {
+          "start": "U+31350",
+          "end": "U+323AF",
+          "mapped": 0
+        },
+        {
+          "start": "U+323B0",
+          "end": "U+3347F",
+          "mapped": 0
+        }
+      ],
+      "coverage_is_recognition_accuracy": false,
+      "variation_sequences_supported": false
+    },
+    {
+      "group": "extended",
+      "artifact": "PDF2DXF-fonts-extended-2026.09.07.zip",
+      "sha256": "4305aedddc9dcb9da0ebf91e15c533286f0f13af86e00d3ebce06c9721a72ea4",
+      "bytes": 54520886,
+      "schema": "pdf2dxf.font_bundle.v1",
+      "catalogs": [
+        {
+          "id": "han-mincho-plane0",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "70bf2ac82587c874e1a6180296c971cd662abe7160b86b491b2fad3f5a026df2",
+          "size_bytes": 5690854,
+          "catalog_id": "1b75032a1a1092fa1280900e",
+          "font": {
+            "copyright": "Koichi Kamichi",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Jigmo",
+            "full_name": "Jigmo Regular",
+            "license": "",
+            "license_url": "",
+            "postscript_name": "Jigmo",
+            "sha256": "c8f295b9bd8f9f117a76b3a454aaaa1bb5b4babc18e254978c6deb88464e40cf",
+            "source_file": "Jigmo.ttf",
+            "subfamily": "Regular",
+            "units_per_em": 1024,
+            "version": "2025-09-12"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "c59d904db662e5464d0189515bce54f73e3375f62b5f98bf24e9b58d67638e4b",
+          "templates": 29009,
+          "han_characters": 28057,
+          "characters": 29009,
+          "recognition_characters": 28279,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 6592
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 20992
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 472
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 1
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 730,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 69,
+          "fully_ambiguous_characters": 150,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "han-mincho-plane2",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "a12fa8dcf99d5c0c40691253eda602af4ac6eefac8f0bb267eded88c1a4aaf71",
+          "size_bytes": 12646416,
+          "catalog_id": "6f3db9e87463cc01c0def33a",
+          "font": {
+            "copyright": "Koichi Kamichi",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Jigmo2",
+            "full_name": "Jigmo2 Regular",
+            "license": "",
+            "license_url": "",
+            "postscript_name": "Jigmo2",
+            "sha256": "5da3582efe77e22073b86b3b86b556d7111148a76b957cfb53318a91da2efff0",
+            "source_file": "Jigmo2.ttf",
+            "subfamily": "Regular",
+            "units_per_em": 1024,
+            "version": "2025-09-12"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "33c3893680c8a3facf97b0ec65d1e131cda583a2cda0f56a122da5e9855f171e",
+          "templates": 61608,
+          "han_characters": 61514,
+          "characters": 61608,
+          "recognition_characters": 61493,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 1
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 42720
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 4160
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 222
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 5774
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 7473
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 622
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 542
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 0
+            }
+          ],
+          "normalized_alias_mappings": 115,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 27,
+          "fully_ambiguous_characters": 54,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "han-mincho-plane3",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "22bb7ddd15dddebb3771c5711e0da4d95d5820833d8a1ff79e2bcd6fd48c924b",
+          "size_bytes": 2830759,
+          "catalog_id": "a993d51348163ee3241bb477",
+          "font": {
+            "copyright": "Koichi Kamichi",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Jigmo3",
+            "full_name": "Jigmo3 Regular",
+            "license": "",
+            "license_url": "",
+            "postscript_name": "Jigmo3",
+            "sha256": "815b18c1c670103723fe743090559208fdea47dc587ecb057a5a4721ee8dfeff",
+            "source_file": "Jigmo3.ttf",
+            "subfamily": "Regular",
+            "units_per_em": 1024,
+            "version": "2025-09-12"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "00b85f62c02635823aca12a6509bd729131fa5a9313c838513e5e4877f98d00d",
+          "templates": 13524,
+          "han_characters": 13430,
+          "characters": 13524,
+          "recognition_characters": 13524,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 1
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 4939
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 4192
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 4298
+            }
+          ],
+          "normalized_alias_mappings": 0,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 0,
+          "fully_ambiguous_characters": 0,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "han-gothic-part1",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "f2e86b77972b884568c2a533dd922c57bc9d30923c83df23140594fa1950c78f",
+          "size_bytes": 27181227,
+          "catalog_id": "3add1480fa214e5baaef64a1",
+          "font": {
+            "copyright": "Copyright (c) 2024 by Fitzgerald P. Köeingsegg. All rights reserved.",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Plangothic P1",
+            "full_name": "Plangothic P1",
+            "license": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.",
+            "license_url": "http://scripts.sil.org/OFL",
+            "postscript_name": "PlangothicP1",
+            "sha256": "550b5d0775b15405946b18f4843df439a51e69508d7e6778d94c1f7a53dc5ad6",
+            "source_file": "PlangothicP1-Regular.ttf",
+            "subfamily": "Regular",
+            "units_per_em": 1000,
+            "version": "Version 6.400;July 4, 2026;FontCreator 14.0.0.2901 64-bit"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "9e8b2baf77c48f9f7bd8b5c0927dd74abe4d72055b4f55fe83abc75a24598a76",
+          "templates": 63577,
+          "han_characters": 63142,
+          "characters": 63577,
+          "recognition_characters": 62772,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 69
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 1083
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 472
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 42720
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 4160
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 223
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 5774
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 7473
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 622
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 542
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 3
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 1
+            }
+          ],
+          "normalized_alias_mappings": 805,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 2054,
+          "fully_ambiguous_characters": 307,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        },
+        {
+          "id": "han-gothic-part2",
+          "schema": "pdf2dxf.font_glyph_catalog.v1",
+          "sha256": "c8ec3c2bf1c8d8c026aa7f23150c07b35814dc39ba64f8d904234929aafb8822",
+          "size_bytes": 6113539,
+          "catalog_id": "c2b7b20e0f74754bd289fddf",
+          "font": {
+            "copyright": "Copyright (c) 2024 by Fitzgerald P. Köeingsegg. All rights reserved.",
+            "face_count": 1,
+            "face_index": 0,
+            "family": "Plangothic P2",
+            "full_name": "Plangothic P2",
+            "license": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.",
+            "license_url": "http://scripts.sil.org/OFL",
+            "postscript_name": "PlangothicP2",
+            "sha256": "681933370adfe0fc7253f77735275a82fea09fe4f8adba907bdeb46c110daf8f",
+            "source_file": "PlangothicP2-Regular.ttf",
+            "subfamily": "Regular",
+            "units_per_em": 1000,
+            "version": "Version 3.179;July 5, 2026;FontCreator 14.0.0.2901 64-bit"
+          },
+          "charset": "chinese",
+          "unicode_cjk_version": "17.0",
+          "template_set_sha256": "ed4f426b5f51bb08ef58eaeb29f6d783f3c3e8fe7667c8c7360309c2383e9b35",
+          "templates": 14328,
+          "han_characters": 13783,
+          "characters": 14328,
+          "recognition_characters": 14160,
+          "english_letters": {
+            "uppercase": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "lowercase": "abcdefghijklmnopqrstuvwxyz",
+            "missing": "",
+            "mapped_count": 52
+          },
+          "han_range_coverage": [
+            {
+              "first": "U+3400",
+              "last": "U+4DBF",
+              "mapped_count": 4
+            },
+            {
+              "first": "U+4E00",
+              "last": "U+9FFF",
+              "mapped_count": 294
+            },
+            {
+              "first": "U+F900",
+              "last": "U+FAFF",
+              "mapped_count": 11
+            },
+            {
+              "first": "U+20000",
+              "last": "U+2A6DF",
+              "mapped_count": 30
+            },
+            {
+              "first": "U+2A700",
+              "last": "U+2B73F",
+              "mapped_count": 2
+            },
+            {
+              "first": "U+2B740",
+              "last": "U+2B81F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2B820",
+              "last": "U+2CEAF",
+              "mapped_count": 5
+            },
+            {
+              "first": "U+2CEB0",
+              "last": "U+2EBEF",
+              "mapped_count": 3
+            },
+            {
+              "first": "U+2EBF0",
+              "last": "U+2EE5F",
+              "mapped_count": 0
+            },
+            {
+              "first": "U+2F800",
+              "last": "U+2FA1F",
+              "mapped_count": 5
+            },
+            {
+              "first": "U+30000",
+              "last": "U+3134F",
+              "mapped_count": 4939
+            },
+            {
+              "first": "U+31350",
+              "last": "U+323AF",
+              "mapped_count": 4192
+            },
+            {
+              "first": "U+323B0",
+              "last": "U+3347F",
+              "mapped_count": 4298
+            }
+          ],
+          "normalized_alias_mappings": 168,
+          "tolerance_divisors": [
+            32.0,
+            64.0,
+            66.66666666666667,
+            75.0,
+            83.33333333333334,
+            100.0,
+            116.66666666666667,
+            128.0,
+            133.33333333333334,
+            150.0,
+            166.66666666666669,
+            200.0,
+            233.33333333333334,
+            256.0,
+            266.6666666666667,
+            300.0,
+            1024.0
+          ],
+          "raster_round_decimals": 4,
+          "ambiguous_geometry_keys": 1222,
+          "fully_ambiguous_characters": 182,
+          "runtime_input": "persisted_dxf_only",
+          "runtime_font_access": false,
+          "runtime_pdf_access": false,
+          "ocr_enabled": false
+        }
+      ],
+      "mapped_codepoint_union": 103978,
+      "han_codepoint_union": 102999,
+      "han_ranges": [
+        {
+          "start": "U+3400",
+          "end": "U+4DBF",
+          "mapped": 6592
+        },
+        {
+          "start": "U+4E00",
+          "end": "U+9FFF",
+          "mapped": 20992
+        },
+        {
+          "start": "U+F900",
+          "end": "U+FAFF",
+          "mapped": 472
+        },
+        {
+          "start": "U+20000",
+          "end": "U+2A6DF",
+          "mapped": 42720
+        },
+        {
+          "start": "U+2A700",
+          "end": "U+2B73F",
+          "mapped": 4160
+        },
+        {
+          "start": "U+2B740",
+          "end": "U+2B81F",
+          "mapped": 223
+        },
+        {
+          "start": "U+2B820",
+          "end": "U+2CEAF",
+          "mapped": 5774
+        },
+        {
+          "start": "U+2CEB0",
+          "end": "U+2EBEF",
+          "mapped": 7473
+        },
+        {
+          "start": "U+2EBF0",
+          "end": "U+2EE5F",
+          "mapped": 622
+        },
+        {
+          "start": "U+2F800",
+          "end": "U+2FA1F",
+          "mapped": 542
+        },
+        {
+          "start": "U+30000",
+          "end": "U+3134F",
+          "mapped": 4939
+        },
+        {
+          "start": "U+31350",
+          "end": "U+323AF",
+          "mapped": 4192
+        },
+        {
+          "start": "U+323B0",
+          "end": "U+3347F",
+          "mapped": 4298
+        }
+      ],
+      "coverage_is_recognition_accuracy": false,
+      "variation_sequences_supported": false
+    }
+  ],
+  "real_font_smoke": {
+    "method": "52 ASCII letters, a common Han phrase where mapped, and first 3-4 mapped codepoints among first 50 per Extension A and supplementary Han block; 20pt stroked polygon and filled Bezier PDF -> persisted DXF -> TEXT; source font copy removed before conversion",
+    "cases": 84,
+    "complete_text_cases": 57,
+    "partial_or_unconfirmed_cases": 27,
+    "conversion_failures": 0,
+    "published_text_outside_expected_subsequence": 0,
+    "not_a_representative_accuracy_benchmark": true,
+    "rows": [
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "common-han",
+        "pipeline": "stroke",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 7,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "common-han",
+        "pipeline": "fill",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 7,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "expected": "𠀋𠀡𠀤",
+        "actual": "𠀋𠀡𠀤",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "expected": "𠀋𠀡𠀤",
+        "actual": "𠀋𠀡𠀤",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-2b740",
+        "pipeline": "stroke",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-2b740",
+        "pipeline": "fill",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-2f800",
+        "pipeline": "stroke",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-2f800",
+        "pipeline": "fill",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefhijklmnopqrtuvwxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 50,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnoqrstuvwxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 51,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "common-han",
+        "pipeline": "stroke",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 7,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "common-han",
+        "pipeline": "fill",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 7,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "extension-2b740",
+        "pipeline": "stroke",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "extension-2b740",
+        "pipeline": "fill",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "extension-2f800",
+        "pipeline": "stroke",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "extension-2f800",
+        "pipeline": "fill",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "latin-sans-regular",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "latin-sans-regular",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "latin-serif-regular",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "latin-serif-regular",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "latin-mono-regular",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "latin-mono-regular",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane0",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 51,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane0",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 50,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane0",
+        "case": "common-han",
+        "pipeline": "stroke",
+        "expected": "建筑结构平面图",
+        "actual": "筑结构平面",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 5,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane0",
+        "case": "common-han",
+        "pipeline": "fill",
+        "expected": "建筑结构平面图",
+        "actual": "筑结构平面",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 5,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 51,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 50,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2a700",
+        "pipeline": "stroke",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2a700",
+        "pipeline": "fill",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2b740",
+        "pipeline": "stroke",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2b740",
+        "pipeline": "fill",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2b820",
+        "pipeline": "stroke",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2b820",
+        "pipeline": "fill",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2ceb0",
+        "pipeline": "stroke",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2ceb0",
+        "pipeline": "fill",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2ebf0",
+        "pipeline": "stroke",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2ebf0",
+        "pipeline": "fill",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2f800",
+        "pipeline": "stroke",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane2",
+        "case": "extension-2f800",
+        "pipeline": "fill",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 51,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 50,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "extension-30000",
+        "pipeline": "stroke",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "extension-30000",
+        "pipeline": "fill",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "extension-31350",
+        "pipeline": "stroke",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "extension-31350",
+        "pipeline": "fill",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "extension-323b0",
+        "pipeline": "stroke",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane3",
+        "case": "extension-323b0",
+        "pipeline": "fill",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrtuvwxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 51,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2a700",
+        "pipeline": "stroke",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2a700",
+        "pipeline": "fill",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2b740",
+        "pipeline": "stroke",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2b740",
+        "pipeline": "fill",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2b820",
+        "pipeline": "stroke",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2b820",
+        "pipeline": "fill",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2ceb0",
+        "pipeline": "stroke",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2ceb0",
+        "pipeline": "fill",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2ebf0",
+        "pipeline": "stroke",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2ebf0",
+        "pipeline": "fill",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2f800",
+        "pipeline": "stroke",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part1",
+        "case": "extension-2f800",
+        "pipeline": "fill",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "english52",
+        "pipeline": "stroke",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrtuvwxyz",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 51,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "english52",
+        "pipeline": "fill",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 52,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-20000",
+        "pipeline": "stroke",
+        "expected": "𠀁𠀆𠀐",
+        "actual": "𠀁𠀆𠀐",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-20000",
+        "pipeline": "fill",
+        "expected": "𠀁𠀆𠀐",
+        "actual": "𠀁𠀆𠀐",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-30000",
+        "pipeline": "stroke",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-30000",
+        "pipeline": "fill",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "stroke",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-31350",
+        "pipeline": "fill",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 0,
+        "matches": 0,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-323b0",
+        "pipeline": "stroke",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "han-gothic-part2",
+        "case": "extension-323b0",
+        "pipeline": "fill",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲",
+        "exact": false,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 3,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-3400",
+        "pipeline": "stroke",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-sans-sc-regular",
+        "case": "extension-3400",
+        "pipeline": "fill",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "extension-3400",
+        "pipeline": "stroke",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "cjk-serif-sc-regular",
+        "case": "extension-3400",
+        "pipeline": "fill",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane0",
+        "case": "extension-3400",
+        "pipeline": "stroke",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      },
+      {
+        "font": "han-mincho-plane0",
+        "case": "extension-3400",
+        "pipeline": "fill",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "exact": true,
+        "status": "degraded",
+        "source_font_removed_before_conversion": true,
+        "locked": 1,
+        "matches": 4,
+        "errors": []
+      }
+    ]
+  }
+}

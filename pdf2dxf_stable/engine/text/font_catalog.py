@@ -20,7 +20,7 @@ import zipfile
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable
 
 import numpy as np
 from fontTools.pens.basePen import BasePen
@@ -243,6 +243,10 @@ def _font_metadata(font: Any, path: Path, face_index: int, face_count: int) -> d
         "subfamily": _font_name(font, 2),
         "full_name": _font_name(font, 4),
         "postscript_name": _font_name(font, 6),
+        "version": _font_name(font, 5),
+        "copyright": _font_name(font, 0),
+        "license": _font_name(font, 13),
+        "license_url": _font_name(font, 14),
         "units_per_em": units_per_em,
     }
 
@@ -527,6 +531,7 @@ def build_font_catalog(
     charset: str = "chinese",
     codepoints: Iterable[int] | None = None,
     tolerance_divisors: Iterable[float] = DEFAULT_TOLERANCE_DIVISORS,
+    progress: Callable[[int, int], None] | None = None,
 ) -> dict[str, Any]:
     """Persist every drawable requested Unicode mapping from one font face."""
     from fontTools.pens.recordingPen import DecomposingRecordingPen
@@ -588,9 +593,11 @@ def build_font_catalog(
             raise FontCatalogError("font catalog exceeds the template safety limit")
         glyph_set = font.getGlyphSet()
         cache: dict[str, tuple[Any, ...] | None] = {}
+        skip_reasons: dict[str, str] = {}
+        skipped_mappings: list[dict[str, Any]] = []
         rows: list[tuple[int, int, int, float, bytes, tuple[bytes, ...]]] = []
         skipped = 0
-        for codepoint in requested:
+        for index, codepoint in enumerate(requested):
             glyph_name = cmap[codepoint]
             cached = cache.get(glyph_name)
             if glyph_name not in cache:
@@ -638,11 +645,17 @@ def build_font_catalog(
                         canonical_mask,
                         digests,
                     )
-                except Exception:  # noqa: BLE001
+                except Exception as exc:  # noqa: BLE001 - individual glyph boundary
                     cached = None
+                    skip_reasons[glyph_name] = f"{type(exc).__name__}: {exc}"[:240]
                 cache[glyph_name] = cached
             if cached is None:
                 skipped += 1
+                skipped_mappings.append(
+                    {"codepoint": codepoint, "reason": skip_reasons[glyph_name]}
+                )
+                if progress is not None:
+                    progress(index + 1, len(requested))
                 continue
             entity_count, closed_count, aspect, canonical_mask, digests = cached
             rows.append(
@@ -655,6 +668,8 @@ def build_font_catalog(
                     tuple(digests),
                 )
             )
+            if progress is not None:
+                progress(index + 1, len(requested))
     finally:
         font.close()
 
@@ -740,6 +755,8 @@ def build_font_catalog(
         "path": str(destination),
         "size_bytes": destination.stat().st_size,
         "sha256": _sha256_path(destination),
+        # Build diagnostics stay outside the bounded runtime manifest.
+        "skipped_mappings": skipped_mappings,
     }
 
 
@@ -1041,7 +1058,11 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
 
 
 def inspect_font_catalog(path: str | Path) -> dict[str, Any]:
-    catalog = load_font_catalog(path)
+    return describe_font_catalog(load_font_catalog(path))
+
+
+def describe_font_catalog(catalog: FontGlyphCatalog) -> dict[str, Any]:
+    """Describe a verified catalog without constructing a second lookup index."""
     return {
         "schema": FONT_CATALOG_SCHEMA,
         "path": str(catalog.path),

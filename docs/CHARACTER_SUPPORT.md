@@ -44,3 +44,11 @@ Filled PDF glyphs are matched only after their closed polygon boundaries are per
 Only mapped two-dimensional outlines are supported. Unknown fonts, scans, rotated text and independent DXF without converter source mappings can remain geometry. Horizontal runs are limited to 96 characters; spaces are not inferred from gaps. External fonts/catalogs are not bundled. Native PDF text does not require outline font locking. Real-font alphabet tests and synthetic Unicode-range tests establish their stated paths, not universal accuracy for every font or ideograph.
 
 Unicode ranges: [Unicode 17.0 Blocks](https://www.unicode.org/Public/17.0.0/ucd/Blocks.txt). Test fonts are supplied by the test dependency Matplotlib and retain their upstream notices; they are not copied into this repository or its distributions.
+
+## rc18 开源资源与完整轮廓 / Open resources and complete glyphs
+
+新增 10 个独立字库、官方来源锁定清单与整包校验入口，见 [开源字库](OPEN_FONTS.md)。Jigmo 三个字库合并覆盖 Unicode 17 支持区段全部 102,998 个已分配汉字码点；多码点异体序列不在本版范围内。真实字体仍存在曲线采样与同形歧义造成的未确认字，逐项证据见 [验证数据](OPEN_FONT_VALIDATION.json)。
+
+rc18 只将同一源轮廓区间中、完整精确字母/汉字内部严格包含的标点候选作为字内片段排除，避免一个竖画与竖排破折号相同就拒绝整个字形。候选须共享匹配字体，仍需连续成行和字体锁定。竞争字母、竞争汉字、相同区间和交叉重叠不适用此规则，继续保留歧义。
+
+Ten optional catalogs and pinned sources are documented in [open resources](OPEN_FONTS.md). The complete-glyph rule suppresses only strictly contained punctuation fragments sharing a matching font with an exact Latin/Han glyph. It does not choose between competing letters or Han characters, equal spans or crossing overlaps. Font-lock and run checks remain mandatory. Unicode coverage is distinct from actual recognition; IVS sequences are not supported.

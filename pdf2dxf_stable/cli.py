@@ -59,6 +59,12 @@ def _add_batch_conversion_options(parser):
     )
     parser.add_argument("--no-path-text", action="store_true")
     parser.add_argument(
+        "--outline-font-bundle",
+        action="append",
+        default=[],
+        help="verified font-bundle.json; repeat for multiple optional resource packs",
+    )
+    parser.add_argument(
         "--path-text-policy", choices=("keep", "off_layer", "drop"), default="off_layer"
     )
     parser.add_argument("--no-strict-validation", action="store_true")
@@ -114,6 +120,12 @@ def main(argv=None):
         help="persisted .p2dfont catalog; repeat for multiple font faces",
     )
     c.add_argument("--no-strict-validation", action="store_true")
+    c.add_argument(
+        "--outline-font-bundle",
+        action="append",
+        default=[],
+        help="verified font-bundle.json; repeat for multiple optional resource packs",
+    )
     v = sub.add_parser("validate")
     v.add_argument("dxf")
     v.add_argument(
@@ -168,6 +180,9 @@ def main(argv=None):
     font_inspect = font_commands.add_parser("inspect")
     font_inspect.add_argument("catalog")
     font_inspect.add_argument("--json")
+    bundle_inspect = font_commands.add_parser("inspect-bundle")
+    bundle_inspect.add_argument("bundle")
+    bundle_inspect.add_argument("--json")
     a = p.parse_args(argv)
     from .engine.text.font_catalog import FontCatalogError
     from fontTools.ttLib import TTLibError
@@ -182,11 +197,37 @@ def main(argv=None):
 
 
 def _execute(a):
+    bundle_inputs = []
+    bundle_paths = getattr(a, "outline_font_bundle", [])
+    if getattr(a, "font_catalog_command", None) == "inspect-bundle":
+        bundle_paths = [a.bundle]
+    if bundle_paths:
+        from .engine.text.font_bundle import load_font_bundle
+
+        catalogs = []
+        for bundle_path in bundle_paths:
+            bundle = load_font_bundle(bundle_path)
+            bundle_inputs.extend(bundle["protected_paths"])
+            catalogs.extend(bundle["catalog_paths"])
+        if hasattr(a, "outline_font_catalog"):
+            a.outline_font_catalog.extend(catalogs)
+        if a.command == "convert":
+            target = Path(a.output)
+            for destination in (
+                target,
+                target.with_suffix(".report.json"),
+                target.with_suffix(target.suffix + ".lock"),
+            ):
+                protect_inputs(destination, bundle_inputs)
+        elif a.command in {"batch", "regress"}:
+            for name in ("batch_summary.json", "regression_summary.json"):
+                protect_inputs(Path(a.output) / name, bundle_inputs)
     if getattr(a, "json", None):
         protected = [
             getattr(a, key, None) for key in ("input", "source", "dxf", "report")
         ]
         protected.extend(getattr(a, "outline_font_catalog", ()))
+        protected.extend(bundle_inputs)
         if a.command == "convert":
             protected.append(a.output)
         elif a.command == "font-catalog":
@@ -210,6 +251,10 @@ def _execute(a):
                 face_index=a.face_index,
                 charset=a.charset,
             )
+        elif a.font_catalog_command == "inspect-bundle":
+            from .engine.text.font_bundle import inspect_font_bundle
+
+            o = inspect_font_bundle(a.bundle)
         else:
             o = inspect_font_catalog(a.catalog)
         code = 0

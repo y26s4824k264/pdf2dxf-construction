@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import unicodedata
 import math
 import os
 import re
@@ -628,9 +629,7 @@ def _font_fingerprint_paths(
     # ulps or PDF numeric serialization.  Font catalogs quantize the 56-pixel
     # raster coordinate at 1e-4 pixel solely to stabilize that boundary; the
     # built-in audited catalog keeps its v1 digest.
-    return fingerprint_paths(
-        paths, raster_round_decimals=FONT_CATALOG_RASTER_DECIMALS
-    )
+    return fingerprint_paths(paths, raster_round_decimals=FONT_CATALOG_RASTER_DECIMALS)
 
 
 def _load_font_catalogs(
@@ -775,12 +774,11 @@ def _scan_font_catalog_matches(
         "font_exact_glyph_matches": 0,
         "font_ambiguous_geometry_matches": 0,
         "font_overlapping_matches_rejected": 0,
+        "font_contained_punctuation_suppressed": 0,
     }
     if not locks:
         return [], metrics
-    lengths = frozenset(
-        length for lock in locks for length in lock.catalog.lengths
-    )
+    lengths = frozenset(length for lock in locks for length in lock.catalog.lengths)
     structures: dict[tuple[int, int], tuple[float, float]] = {}
     for lock in locks:
         for key, bounds in lock.catalog.structures.items():
@@ -841,11 +839,7 @@ def _scan_font_catalog_matches(
             aspect_ratio = float(extent[0] / max(extent[1], 1e-9))
             if not MIN_GLYPH_ASPECT <= aspect_ratio <= MAX_GLYPH_ASPECT:
                 continue
-            if not (
-                aspect_bounds[0] * 0.90
-                <= aspect_ratio
-                <= aspect_bounds[1] * 1.10
-            ):
+            if not (aspect_bounds[0] * 0.90 <= aspect_ratio <= aspect_bounds[1] * 1.10):
                 continue
             signature = _font_fingerprint_paths(paths)
             metrics["font_fingerprints_computed"] += 1
@@ -876,8 +870,7 @@ def _scan_font_catalog_matches(
             support_locations = max(
                 1,
                 min(
-                    lock_by_id[value].exact_anchor_occurrences
-                    for value in catalog_ids
+                    lock_by_id[value].exact_anchor_occurrences for value in catalog_ids
                 ),
             )
             template = GlyphTemplate(
@@ -905,22 +898,53 @@ def _scan_font_catalog_matches(
                 )
             )
 
-    # Full Unicode catalogs can contain alternative segmentations whose masks
-    # are individually valid.  Reject every overlapping alternative instead of
-    # choosing one by score or character frequency.
+    # A complete exact letter/Han glyph may contain a contour identical to a
+    # dash or another punctuation glyph (including vertical compatibility
+    # forms). Such a strict subset is part of the complete glyph, not competing
+    # text. Competing letters/Han, equal windows and partial overlaps remain
+    # ambiguous and are all rejected. Font/run consensus is still required.
     rejected: set[int] = set()
+    contained_punctuation: set[int] = set()
     ordered = sorted(enumerate(matches), key=lambda item: (item[1].start, item[1].end))
     active: list[tuple[int, GlyphMatch]] = []
     for index, match in ordered:
         active = [item for item in active if item[1].end > match.start]
         for other_index, other in active:
             if other.end > match.start and match.end > other.start:
+                subset = None
+                for child_index, child, parent in (
+                    (index, match, other),
+                    (other_index, other, match),
+                ):
+                    if (
+                        unicodedata.category(child.char).startswith("P")
+                        and (
+                            _is_english_letter(parent.char)
+                            or is_han_character(parent.char)
+                        )
+                        and parent.start <= child.start
+                        and child.end <= parent.end
+                        and (parent.start, parent.end) != (child.start, child.end)
+                        and set(child.font_catalog_ids) & set(parent.font_catalog_ids)
+                        and all(
+                            parent.low[axis] <= child.low[axis]
+                            and child.high[axis] <= parent.high[axis]
+                            for axis in (0, 1)
+                        )
+                    ):
+                        subset = child_index
+                        break
+                if subset is not None:
+                    contained_punctuation.add(subset)
+                    continue
                 rejected.add(index)
                 rejected.add(other_index)
         active.append((index, match))
-    accepted = [match for index, match in enumerate(matches) if index not in rejected]
+    excluded = rejected | contained_punctuation
+    accepted = [match for index, match in enumerate(matches) if index not in excluded]
     metrics["font_catalog_candidate_matches"] = len(accepted)
     metrics["font_overlapping_matches_rejected"] = len(rejected)
+    metrics["font_contained_punctuation_suppressed"] = len(contained_punctuation)
     return accepted, metrics
 
 
@@ -982,9 +1006,7 @@ def _complete_font_catalog_locks(
             },
             key=ord,
         )
-        evidence_occurrences = max(
-            int(run["glyphs"]) for run in qualifying_runs
-        )
+        evidence_occurrences = max(int(run["glyphs"]) for run in qualifying_runs)
         method = (
             "font_cmap_run_consensus"
             if any(run["consensus_script"] == "han" for run in qualifying_runs)
@@ -1142,9 +1164,7 @@ def _run_geometry(
 def _recovery_key(
     low: np.ndarray, high: np.ndarray
 ) -> tuple[float, float, float, float]:
-    return tuple(
-        round(float(value), RECOVERY_KEY_PRECISION) for value in (*low, *high)
-    )
+    return tuple(round(float(value), RECOVERY_KEY_PRECISION) for value in (*low, *high))
 
 
 def _existing_recovery_keys(
@@ -1251,6 +1271,7 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_ambiguous_geometry_matches": 0,
         "font_overlapping_matches_rejected": 0,
         "selected_glyph_matches": 0,
+        "font_contained_punctuation_suppressed": 0,
         "overlapping_glyph_matches_rejected": 0,
         "unpublished_glyph_matches": 0,
         "rejected_runs": [],
@@ -1321,16 +1342,12 @@ def recover_outline_text(
     anchor_locks, matching_anchors = _lock_font_catalogs(
         font_catalogs, selected, font_catalog_entries
     )
-    anchor_lock_by_id = {
-        lock.catalog.catalog_id: lock for lock in anchor_locks
-    }
+    anchor_lock_by_id = {lock.catalog.catalog_id: lock for lock in anchor_locks}
     scan_context = [
         anchor_lock_by_id.get(catalog.catalog_id)
         or FontCatalogLock(
             catalog=catalog,
-            exact_anchor_occurrences=len(
-                matching_anchors.get(catalog.catalog_id, ())
-            ),
+            exact_anchor_occurrences=len(matching_anchors.get(catalog.catalog_id, ())),
             exact_anchor_characters=tuple(
                 sorted(
                     {
@@ -1415,11 +1432,7 @@ def recover_outline_text(
     for run in accepted_runs:
         text_value, low, high, height = _run_geometry(run)
         run_font_catalog_ids = sorted(
-            {
-                catalog_id
-                for match in run
-                for catalog_id in match.font_catalog_ids
-            }
+            {catalog_id for match in run for catalog_id in match.font_catalog_ids}
         )
         match_method = (
             "locked_font_catalog_exact_mask_and_topology"

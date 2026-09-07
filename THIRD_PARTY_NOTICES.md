@@ -24,7 +24,7 @@ rc16 将 Pillow 最低版本提高到 12.3、FontTools 提高到 4.60.2，避免
 - `chinese_glyph_templates.json` 含 101 个经过标签复核的几何模板。标签、来源 SHA256 和重复一致性证据随数据保留；原图及截图不随发布目录分发。维护者的发布授权包含这些随包衍生模板；来源证据不等同于独立权属核验。
 - 两个 `tests/calibration/fixtures/*.json` 为从历史图纸问题提取的数值/局部轮廓回归数据；已移除本机路径，来源哈希保留，包含在维护者本次授权公开的回归样本范围内。
 - `test_font_catalog.py` 在测试时生成简化的程序化字形，不依赖或分发系统中文字体。
-- 外部 TTF/OTF/TTC/OTC 字体和 `.p2dfont` 不包含在本发布目录。由用户提供的字体生成字库不意味着可以公开再分发字库；需遵守对应字体授权。
+- 外部 TTF/OTF/TTC/OTC 字体和 `.p2dfont` 不包含在 Python 主包和源码发布目录。由用户提供的字体生成字库不意味着可以公开再分发字库；需遵守对应字体授权。
 
 参见 [模板来源](docs/TEMPLATE_PROVENANCE.md) 和 [发布检查](docs/RELEASE_CHECKLIST.md)。
 
@@ -35,3 +35,9 @@ This project uses AGPL-3.0-only. The maintainer authorized publication of the su
 PyMuPDF 1.26.4 / MuPDF retain their AGPL/commercial licensing. This release uses the AGPL route and grants no Artifex commercial license. Other Python dependencies retain their respective licenses and notices; their programs are downloaded separately by the installer, not bundled in this project's wheel. Optional Matplotlib supplies its own fonts and notices for R12 text metrics.
 
 The engineering template file records superos.shx provenance; the Chinese dictionary records source hashes and reviewed labels. The two calibration fixtures contain reduced numerical/outline regression data. The release includes the maintainer-authorized derived data, not the original SHX font program or customer PDFs. Test FontBuilder glyphs are generated programmatically. External OpenType fonts and generated .p2dfont catalogs are excluded; users must follow the licenses of the fonts they supply.
+
+## rc18 可选开源字库 / Optional open font resources
+
+独立资源包从官方固定版本的思源黑体、思源宋体、DejaVu、Jigmo、遍黑体构建。源下载和选定归档成员的 SHA256、版本与 URL 见 [OPEN_FONTS.lock.json](docs/OPEN_FONTS.lock.json)。每个资源包保存对应原始许可证、版权声明和来源清单；主包的 AGPL 不替代这些字体及衍生资源的许可。
+
+Source Han Sans/Serif and Plangothic resources retain OFL 1.1; Jigmo font data retains CC0 1.0; DejaVu retains its Bitstream Vera/Arev terms and original notices. The separately downloadable catalogs carry the source licenses. They are not relicensed under this package's AGPL. Font names identify upstream sources, while derived catalogs use project-local resource IDs. See [resource documentation](docs/OPEN_FONTS.md).

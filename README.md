@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc17`（预发布）。
+版本：`2.0.0rc18`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
 
@@ -24,7 +24,13 @@ python3.12 -m venv .venv
 
 无系统字体的服务器若需要 `--emit-r12`，安装 `'.[render]'`，提供 MTEXT 拆分所需的字体度量。此时使用 Matplotlib 自带字体并报告 `R12_FONT_METRICS_FALLBACK`，中文字体外观仍需复核；通用 DXF 保留原生 MTEXT。项目不内置系统字体文件。
 
-### 从 OpenType 字体构建完整映射字库
+## 可选开源字库
+
+rc18 新增思源黑体/宋体、DejaVu、Jigmo 和遍黑体共 10 个可下载字库。Jigmo 字库并集与 Unicode 17 官方表对齐，覆盖基本区、扩展 A–J 和兼容区全部 102,998 个已分配汉字码点。字体、字重和轮廓采样仍影响实际识别；覆盖不等于任意字体识别成功。
+
+下载、许可证、`--outline-font-bundle` 用法和可复现构建见 [开源字库说明](docs/OPEN_FONTS.md)，完整/部分/未确认样例见 [真实字体验证](docs/OPEN_FONT_VALIDATION.json)。资源包独立于 Python 主包，转换时不联网。
+
+## 从 OpenType 字体构建完整映射字库
 
 支持从 TTF、OTF、TTC、OTC 的任意 face 生成持久化字库。集合字体先列出 face，再选择索引：
 
@@ -177,7 +183,7 @@ pdf2dxf_stable/
 
 ## 许可证与参与
 
-本包的维护者已于 2026-09-07 授权公开发布其提供的源码、随包衍生字形数据和回归样本，该声明记录在 [SOURCE_ORIGIN.json](SOURCE_ORIGIN.json)。来源声明不是独立的第三方权利核验；原作者和依赖的版权声明继续保留。项目不分发原始客户图纸、系统字体或外部 `.p2dfont`。
+本包的维护者已于 2026-09-07 授权公开发布其提供的源码、随包衍生字形数据和回归样本，该声明记录在 [SOURCE_ORIGIN.json](SOURCE_ORIGIN.json)。来源声明不是独立的第三方权利核验；原作者和依赖的版权声明继续保留。Python 主包不分发原始客户图纸、系统字体或外部 `.p2dfont`；本项目提供的可选开源字库以独立资源包保留各自许可。
 
 AGPL 不是无条件授权。分发受其覆盖的软件或提供修改版网络服务时，须履行适用的许可证保留、修改声明和相应源码提供等义务；完整条款以 [LICENSE](LICENSE) 为准。[PyMuPDF 的 AGPL / 商业许可说明](https://pymupdf.readthedocs.io/en/latest/about.html#license-and-copyright)继续适用。转换不会使你获得输入图纸或字体的新权利。
 

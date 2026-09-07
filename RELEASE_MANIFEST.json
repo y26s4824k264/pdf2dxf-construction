@@ -12,8 +12,8 @@
       "bytes": 294
     },
     "CHANGELOG.md": {
-      "sha256": "23f9d2cea2ca56126ac8e8393a7a220fb95c553c6c39c6811795554e316c5960",
-      "bytes": 17548
+      "sha256": "ddb83acad78b2bbb3da2e6dfbcf27dbb688bdde650436ef56984b0fa896aa50a",
+      "bytes": 18599
     },
     "CONTRIBUTING.md": {
       "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
@@ -32,12 +32,12 @@
       "bytes": 1460
     },
     "README.en.md": {
-      "sha256": "0d3d6342267e5041a12eea686d122b5dbb0d6ac291d21707fa410a639bcc64df",
-      "bytes": 17426
+      "sha256": "56f6b697e3d1b943fab0c0a943c041797d86a0a8f226cf15576d15b38be2a777",
+      "bytes": 18141
     },
     "README.md": {
-      "sha256": "08746b18cee1f817b23a6789087b23faf2c6111a71a2a84e32c39c9aaf24990d",
-      "bytes": 19585
+      "sha256": "cc2870dc7fc8d3db21a4b173d1d8d8353a80ce4f6d476a23a0f548eddbc7ffea",
+      "bytes": 20273
     },
     "SECURITY.md": {
       "sha256": "f7ed27e453fa7f2132340d5e46d14d17d7ea4393461ac2d19ff94d51519b911d",
@@ -48,16 +48,28 @@
       "bytes": 1024
     },
     "THIRD_PARTY_NOTICES.md": {
-      "sha256": "188adfa46dacba73c5cf687866ac0ff0e4e8ac09f0acc39a1693f9a349724e2f",
-      "bytes": 4745
+      "sha256": "d4a80b0f6df9d83914aef0782c5626347fe8191493dfe0ae6d47f8eea0227edd",
+      "bytes": 5603
     },
     "docs/CHARACTER_SUPPORT.md": {
-      "sha256": "ea708619e70c6aa9a1a557f551642ecde08d4cd07a5c3580f95b9d2de238745f",
-      "bytes": 6178
+      "sha256": "5eca4ee9d216fd8fb74d84591635fd17cc855179eff955d5eb366d81f69d5311",
+      "bytes": 7452
+    },
+    "docs/OPEN_FONTS.lock.json": {
+      "sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
+      "bytes": 12941
+    },
+    "docs/OPEN_FONTS.md": {
+      "sha256": "fec348c264395ab24cd4092cb67a48fbcd62056e950b11ea7d9e69b61ec58843",
+      "bytes": 7671
+    },
+    "docs/OPEN_FONT_VALIDATION.json": {
+      "sha256": "cec048b16d75b084168e8b2c75f03987509df6ebc3d70a7d6380d1848ac3b1e2",
+      "bytes": 87878
     },
     "docs/PROJECT_BRIEF.md": {
-      "sha256": "1c4720935432d267c34f2050e17a09766ab22f8b737eedbe404cd3961735f3c9",
-      "bytes": 7213
+      "sha256": "dc52da5ffad475d74fa7866b73e9d68ce45849d263c90ed146bbf5993b0e023a",
+      "bytes": 7913
     },
     "docs/RELEASE_CHECKLIST.md": {
       "sha256": "042459714fe15e55a672a34ae21299785fc723bd7385635be762a341aa8e50d6",
@@ -68,12 +80,12 @@
       "bytes": 1701
     },
     "docs/VALIDATION.md": {
-      "sha256": "3ca0d78f9f687d3150a12f815db2455ade294d54c6290438daf30792af05002c",
-      "bytes": 4537
+      "sha256": "d2d963d7890a5d7a36eac0b1fe23053e9f44d3db9b04fd9b5ca0eadfceee8833",
+      "bytes": 6008
     },
     "docs/validation.json": {
-      "sha256": "d5360f6c48d2973ab401ee0537bffcf717c8ae8bb7564f24b4c42b6917a222fd",
-      "bytes": 1377
+      "sha256": "6ec3b1f6aff788ca05be1cf27a731e7d5cc37941f970c39770538631b2a642e3",
+      "bytes": 1357
     },
     "pdf2dxf_stable/__init__.py": {
       "sha256": "42f1b74c2ce5094479051608c6be2b38b9907e509e27992213c5e7ec9101c5ca",
@@ -92,8 +104,8 @@
       "bytes": 593
     },
     "pdf2dxf_stable/cli.py": {
-      "sha256": "9d42ad0966a8388ea45ae45972ee078df7def4a47449d047c3fe9b90b257506b",
-      "bytes": 12029
+      "sha256": "a1aeadc39a6c0cfcb0aba16100ad61229cfd4938e6da2699a046d24fb0f6117d",
+      "bytes": 13877
     },
     "pdf2dxf_stable/core.py": {
       "sha256": "a835d9c09c70321871070398f6dbc7f2fe5beca9abfe69fdc92f69184ed2f8e3",
@@ -179,13 +191,17 @@
       "sha256": "b5d89def26060309aa27a8aea97a7b83b33644e09adf831e4e42a1e9cd30b787",
       "bytes": 16179
     },
+    "pdf2dxf_stable/engine/text/font_bundle.py": {
+      "sha256": "2a1f275278535235d1e7762164a9f2413051286cc403675a16aff3f4ebc45167",
+      "bytes": 6971
+    },
     "pdf2dxf_stable/engine/text/font_catalog.py": {
-      "sha256": "f0d4d2931dc3f4ba56ca913a6c39308fb5bf7b93c6db8a0b0cd92e371ecbb480",
-      "bytes": 40727
+      "sha256": "68a8346150384b7e807ef6ca42bf4e9b6aa75d52dfdc42de6aa3ffcd187251e4",
+      "bytes": 41811
     },
     "pdf2dxf_stable/engine/text/outline_text.py": {
-      "sha256": "34902e3aac3b8c9bf0eaf68cbc3bc9c5206e7fa0e87bbba2087fd214b3742821",
-      "bytes": 57233
+      "sha256": "1dbfa5dc37839faed5b528aabec24f42ce3efcb902948a5540aee07db5812901",
+      "bytes": 58659
     },
     "pdf2dxf_stable/engine/worker.py": {
       "sha256": "33d857afd5e28ac2a92f31d10bc967a7c154daaa72e1cbfe92a48e860e06f617",
@@ -244,7 +260,7 @@
       "bytes": 20570
     },
     "pdf2dxf_stable/version.py": {
-      "sha256": "dec77cc95cfc0083b2d626547b23cb184784012ef1990f35b34aae3fff791cc6",
+      "sha256": "6636afd1247a7b1311856840ea5c8577e4a4b1b97f8d863357e0407b1f84917d",
       "bytes": 26
     },
     "pyproject.toml": {
@@ -291,6 +307,10 @@
       "sha256": "806518268dbdc9ac0307d3996039e1d26349e303615e29f4515c177b4aade2b7",
       "bytes": 26367
     },
+    "tests/stable/test_font_bundle.py": {
+      "sha256": "1b73ed9acf13025c82c1452b4fc32572a262fbb9ea8f8d8269398ff7736cd0ce",
+      "bytes": 12303
+    },
     "tests/stable/test_font_catalog.py": {
       "sha256": "ae4e0bd90e2a27da8abd22347e7bb8c232093adbb402aad01e953804610f810a",
       "bytes": 19200
@@ -326,6 +346,10 @@
     "tests/stable/test_saved_validation.py": {
       "sha256": "9be39232b65c4673cf74be7164798f8c36a7913059f1637fcf2f011b896bb711",
       "bytes": 3554
+    },
+    "tools/build_open_font_bundle.py": {
+      "sha256": "bc48a6aad0e7733c79e201b190c0196dcca573b601b58e009c8e3c0a63c8bb0f",
+      "bytes": 13941
     },
     "tools/check_distribution.py": {
       "sha256": "8668f2397d25b05fdb34bf34245cb36fc73bf60b90d4f98b3181ce05d89c9490",
