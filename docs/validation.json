@@ -1,12 +1,12 @@
 {
   "schema": "pdf2dxf.real_corpus_validation.v1",
-  "version": "2.0.0rc18",
+  "version": "2.0.0rc19",
   "batch": {
     "count": 22,
     "ok": 0,
     "degraded": 22,
     "failed": 0,
-    "elapsed_seconds": 255.23723125457764
+    "elapsed_seconds": 295.76894521713257
   },
   "cli_exit_code": 5,
   "scale_status_counts": {
@@ -30,9 +30,7 @@
   "all_saved_text_handles_match": true,
   "all_saved_validations_match": true,
   "all_input_validation_evidence_verified": true,
-  "same_published_text_and_quality_totals_as_rc17": true,
-  "real_corpus_stage": "final_rc18_runtime_with_core_open_font_bundle",
-  "all_dxf_group_pairs_match_rc17_except_header_guids": true,
+  "real_corpus_stage": "rc19_runtime_with_core_open_font_bundle",
   "github_ci_workflow": "https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml",
   "github_ci_evidence": "Use the run for the release target commit; each job verifies source and installed wheel.",
   "license_status": "AGPL-3.0-only",
@@ -40,6 +38,8 @@
   "local_source_tests": {
     "os": "macOS ARM64",
     "python": "3.12.13",
-    "passed": 312
-  }
+    "passed": 320
+  },
+  "same_published_text_and_quality_totals_as_rc18": true,
+  "all_dxf_group_pairs_match_rc18_except_header_guids": true
 }

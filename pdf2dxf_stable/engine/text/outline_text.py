@@ -127,6 +127,8 @@ class GlyphMatch:
     atoms: tuple[OutlineAtom, ...]
     template: GlyphTemplate
     font_catalog_ids: tuple[str, ...] = ()
+    font_raster_round_decimals: int | None = None
+    font_match_evidence: tuple[tuple[str, str, int], ...] = ()
 
     @property
     def height(self) -> float:
@@ -632,6 +634,28 @@ def _font_fingerprint_paths(
     return fingerprint_paths(paths, raster_round_decimals=FONT_CATALOG_RASTER_DECIMALS)
 
 
+def _font_fingerprint_variants(
+    paths: list[np.ndarray], signature: GeometrySignature
+) -> list[tuple[GeometrySignature, int]]:
+    """Resolve only subpixel numeric serialization at integer rounding ties.
+
+    PDF coordinate serialization can move normalized vertices by a few 1e-4
+    pixels. Rounding to 3/4/5 decimals bounds the affected vertices to within
+    0.0005 of a half-pixel boundary. Every resulting mask must still match a
+    persisted catalog digest and topology exactly; callers must reject label
+    conflicts across *all* variants, including the original four-decimal mask.
+    This changes neither saved geometry nor the built-in audited fingerprint.
+    """
+    variants = [(signature, FONT_CATALOG_RASTER_DECIMALS)]
+    seen = {signature.mask_hex}
+    for decimals in (3, 5):
+        candidate = fingerprint_paths(paths, raster_round_decimals=decimals)
+        if candidate is not None and candidate.mask_hex not in seen:
+            seen.add(candidate.mask_hex)
+            variants.append((candidate, decimals))
+    return variants
+
+
 def _load_font_catalogs(
     paths: tuple[str | Path, ...], mode: str
 ) -> tuple[list[FontGlyphCatalog], list[dict[str, Any]]]:
@@ -775,6 +799,7 @@ def _scan_font_catalog_matches(
         "font_ambiguous_geometry_matches": 0,
         "font_overlapping_matches_rejected": 0,
         "font_contained_punctuation_suppressed": 0,
+        "font_numeric_variant_masks": 0,
     }
     if not locks:
         return [], metrics
@@ -845,28 +870,31 @@ def _scan_font_catalog_matches(
             metrics["font_fingerprints_computed"] += 1
             if signature is None:
                 continue
-            key = _font_signature_key(signature)
-            predictions: list[tuple[str, str]] = []
-            ambiguous = False
-            for lock in locks:
-                values = lock.catalog.matching_characters(key, signature.aspect_ratio)
-                if not values:
-                    continue
-                if len(values) != 1:
-                    ambiguous = True
-                    continue
-                predictions.append((lock.catalog.catalog_id, values[0]))
-            if ambiguous:
-                metrics["font_ambiguous_geometry_matches"] += 1
-                continue
-            characters = {value for _, value in predictions}
+            variants = _font_fingerprint_variants(paths, signature)
+            metrics["font_numeric_variant_masks"] += len(variants) - 1
+            predictions: list[tuple[str, str, GeometrySignature, int]] = []
+            for variant, decimals in variants:
+                key = _font_signature_key(variant)
+                for lock in locks:
+                    for value in lock.catalog.matching_characters(
+                        key, variant.aspect_ratio
+                    ):
+                        predictions.append(
+                            (lock.catalog.catalog_id, value, variant, decimals)
+                        )
+            characters = {value for _, value, _, _ in predictions}
             if not predictions:
                 continue
             if len(characters) != 1:
                 metrics["font_ambiguous_geometry_matches"] += 1
                 continue
             char = characters.pop()
-            catalog_ids = tuple(sorted({value for value, _ in predictions}))
+            catalog_ids = tuple(sorted({value for value, _, _, _ in predictions}))
+            evidence_by_catalog: dict[str, tuple[GeometrySignature, int]] = {}
+            for catalog_id, _, variant, decimals in predictions:
+                evidence_by_catalog.setdefault(catalog_id, (variant, decimals))
+            signature, raster_decimals = evidence_by_catalog[catalog_ids[0]]
+            key = _font_signature_key(signature)
             support_locations = max(
                 1,
                 min(
@@ -895,6 +923,17 @@ def _scan_font_catalog_matches(
                     atoms=tuple(atoms[start : end + 1]),
                     template=template,
                     font_catalog_ids=catalog_ids,
+                    font_raster_round_decimals=raster_decimals,
+                    font_match_evidence=tuple(
+                        (
+                            catalog_id,
+                            _font_signature_key(evidence_by_catalog[catalog_id][0])[
+                                2
+                            ].hex(),
+                            evidence_by_catalog[catalog_id][1],
+                        )
+                        for catalog_id in catalog_ids
+                    ),
                 )
             )
 
@@ -1061,11 +1100,24 @@ def _finalize_font_matches(
             support_locations=support_locations,
             admission=admission,
         )
+        evidence = tuple(
+            item for item in match.font_match_evidence if item[0] in catalog_ids
+        )
+        raster_decimals = match.font_raster_round_decimals
+        if evidence:
+            catalog_id, fingerprint, raster_decimals = evidence[0]
+            template = replace(
+                template,
+                id=f"font-{catalog_id}-u{ord(match.char):04x}",
+                fingerprint=fingerprint,
+            )
         finalized.append(
             replace(
                 match,
                 template=template,
                 font_catalog_ids=tuple(sorted(catalog_ids)),
+                font_raster_round_decimals=raster_decimals,
+                font_match_evidence=evidence,
             )
         )
     return finalized
@@ -1272,6 +1324,8 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_overlapping_matches_rejected": 0,
         "selected_glyph_matches": 0,
         "font_contained_punctuation_suppressed": 0,
+        "font_numeric_variant_masks": 0,
+        "font_numeric_stabilized_matches": 0,
         "overlapping_glyph_matches_rejected": 0,
         "unpublished_glyph_matches": 0,
         "rejected_runs": [],
@@ -1378,6 +1432,10 @@ def recover_outline_text(
     report["font_catalogs"]["locked"] = len(locks)
     font_matches = _finalize_font_matches(font_candidates, locks)
     report["font_exact_glyph_matches"] = len(font_matches)
+    report["font_numeric_stabilized_matches"] = sum(
+        match.font_raster_round_decimals in (3, 5)
+        for match in font_matches
+    )
     selected = sorted([*selected, *font_matches], key=lambda match: match.start)
     report["selected_glyph_matches"] = len(selected)
     report["overlapping_glyph_matches_rejected"] = overlap_rejected
@@ -1490,6 +1548,9 @@ def recover_outline_text(
                 "template_ids": [match.template.id for match in run],
                 "template_fingerprints": [match.template.fingerprint for match in run],
                 "font_catalog_ids": run_font_catalog_ids,
+                "font_raster_round_decimals": [
+                    match.font_raster_round_decimals for match in run
+                ],
                 "admission_methods": sorted(
                     {match.template.admission for match in run}
                 ),

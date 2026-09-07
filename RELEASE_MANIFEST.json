@@ -12,8 +12,8 @@
       "bytes": 294
     },
     "CHANGELOG.md": {
-      "sha256": "ddb83acad78b2bbb3da2e6dfbcf27dbb688bdde650436ef56984b0fa896aa50a",
-      "bytes": 18599
+      "sha256": "13158810bcf7252036cd4e7329a87774868bd9111a9a3ed78ee4a93ba5fe1740",
+      "bytes": 19441
     },
     "CONTRIBUTING.md": {
       "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
@@ -32,12 +32,12 @@
       "bytes": 1460
     },
     "README.en.md": {
-      "sha256": "56f6b697e3d1b943fab0c0a943c041797d86a0a8f226cf15576d15b38be2a777",
-      "bytes": 18141
+      "sha256": "8c2d1c2489123e402f900d7562a39e459ddd47633f113932142cfa075d68f208",
+      "bytes": 18433
     },
     "README.md": {
-      "sha256": "cc2870dc7fc8d3db21a4b173d1d8d8353a80ce4f6d476a23a0f548eddbc7ffea",
-      "bytes": 20273
+      "sha256": "1d5c822dcec27094937da21422cf1daa5d88bb5b2cfa4d1fe8c4d55bf0b9f12b",
+      "bytes": 20530
     },
     "SECURITY.md": {
       "sha256": "f7ed27e453fa7f2132340d5e46d14d17d7ea4393461ac2d19ff94d51519b911d",
@@ -52,8 +52,8 @@
       "bytes": 5603
     },
     "docs/CHARACTER_SUPPORT.md": {
-      "sha256": "5eca4ee9d216fd8fb74d84591635fd17cc855179eff955d5eb366d81f69d5311",
-      "bytes": 7452
+      "sha256": "86ea751ce70a851370b9483bf44a2c6566167825546cbaf6fd054d5369780587",
+      "bytes": 9001
     },
     "docs/OPEN_FONTS.lock.json": {
       "sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
@@ -64,11 +64,11 @@
       "bytes": 7671
     },
     "docs/OPEN_FONT_VALIDATION.json": {
-      "sha256": "cec048b16d75b084168e8b2c75f03987509df6ebc3d70a7d6380d1848ac3b1e2",
-      "bytes": 87878
+      "sha256": "b877b4b41fa0295435c5c2acf23604fcfccddc23f406ddc3db97fd7e719555ff",
+      "bytes": 121153
     },
     "docs/PROJECT_BRIEF.md": {
-      "sha256": "dc52da5ffad475d74fa7866b73e9d68ce45849d263c90ed146bbf5993b0e023a",
+      "sha256": "844c7be48ea4005adba67e2f75981e22bb10c345a67302d85431861b61a5b41a",
       "bytes": 7913
     },
     "docs/RELEASE_CHECKLIST.md": {
@@ -80,12 +80,12 @@
       "bytes": 1701
     },
     "docs/VALIDATION.md": {
-      "sha256": "d2d963d7890a5d7a36eac0b1fe23053e9f44d3db9b04fd9b5ca0eadfceee8833",
-      "bytes": 6008
+      "sha256": "292f0079d7df4d2105dda4c533913f4471cbf2f900fd937b68b63ce1d31ac2fd",
+      "bytes": 7869
     },
     "docs/validation.json": {
-      "sha256": "6ec3b1f6aff788ca05be1cf27a731e7d5cc37941f970c39770538631b2a642e3",
-      "bytes": 1357
+      "sha256": "433252678e9f0b4145e544d668734b0d02d58ee8b5b8f1366786994b86315cb6",
+      "bytes": 1351
     },
     "pdf2dxf_stable/__init__.py": {
       "sha256": "42f1b74c2ce5094479051608c6be2b38b9907e509e27992213c5e7ec9101c5ca",
@@ -200,8 +200,8 @@
       "bytes": 41811
     },
     "pdf2dxf_stable/engine/text/outline_text.py": {
-      "sha256": "1dbfa5dc37839faed5b528aabec24f42ce3efcb902948a5540aee07db5812901",
-      "bytes": 58659
+      "sha256": "11e392c2ffd5c0c58f7c834841e2e9cfdc424e36475cfa353ab6465c6552efd4",
+      "bytes": 61690
     },
     "pdf2dxf_stable/engine/worker.py": {
       "sha256": "33d857afd5e28ac2a92f31d10bc967a7c154daaa72e1cbfe92a48e860e06f617",
@@ -260,7 +260,7 @@
       "bytes": 20570
     },
     "pdf2dxf_stable/version.py": {
-      "sha256": "6636afd1247a7b1311856840ea5c8577e4a4b1b97f8d863357e0407b1f84917d",
+      "sha256": "6b7eb1188998811b409175eebc726a97f8a98b976b9bad68a629470b500d8926",
       "bytes": 26
     },
     "pyproject.toml": {
@@ -314,6 +314,10 @@
     "tests/stable/test_font_catalog.py": {
       "sha256": "ae4e0bd90e2a27da8abd22347e7bb8c232093adbb402aad01e953804610f810a",
       "bytes": 19200
+    },
+    "tests/stable/test_font_numeric_precision.py": {
+      "sha256": "1e5b9a796570b86a049d34de0e045a615011e851538d3d53b5aa9bb325c92683",
+      "bytes": 6512
     },
     "tests/stable/test_io_safety.py": {
       "sha256": "033881a6aed50222144d57921ca7fb63b94ee1895488940ee8361380eea1cd67",

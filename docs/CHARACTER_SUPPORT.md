@@ -52,3 +52,11 @@ Unicode ranges: [Unicode 17.0 Blocks](https://www.unicode.org/Public/17.0.0/ucd/
 rc18 只将同一源轮廓区间中、完整精确字母/汉字内部严格包含的标点候选作为字内片段排除，避免一个竖画与竖排破折号相同就拒绝整个字形。候选须共享匹配字体，仍需连续成行和字体锁定。竞争字母、竞争汉字、相同区间和交叉重叠不适用此规则，继续保留歧义。
 
 Ten optional catalogs and pinned sources are documented in [open resources](OPEN_FONTS.md). The complete-glyph rule suppresses only strictly contained punctuation fragments sharing a matching font with an exact Latin/Han glyph. It does not choose between competing letters or Han characters, equal spans or crossing overlaps. Font-lock and run checks remain mandatory. Unicode coverage is distinct from actual recognition; IVS sequences are not supported.
+
+## rc19 数值取整边界 / Numeric rounding boundaries
+
+字体匹配保留 4 位归一化栅格精度，并核对 3 位、5 位取整形成的有限掩码变体。差异仅发生在距离半像素取整边界不超过 0.0005 像素的顶点；每个候选仍须与持久化字库中的完整拓扑和掩码摘要精确相同。所有变体、所有字库的候选标签一起检查，只要出现不同文字就拒绝，不按分数或字频猜测。源 DXF 坐标不变，旧字库无需重建。
+
+报告中的 `font_numeric_variant_masks` 记录额外的不同掩码数，`font_numeric_stabilized_matches` 记录字体锁定后依赖 3/5 位变体的匹配数（不等于最终写入字符数）。每条 accepted 记录的 `font_raster_round_decimals` 与 `template_fingerprints` 按字符对应，可核对使用的取整精度和字库摘要。内置人工审核模板仍使用原指纹。
+
+Font matching retains the four-decimal normalized raster and checks bounded three/five-decimal variants. Only vertices within 0.0005 pixels of a half-pixel boundary can change raster positions. Every candidate still needs an exact persisted mask digest, topology and aspect match. Conflicting labels across any variant or catalog are rejected, including conflicts with a primary match. Saved geometry is unchanged and existing catalogs need no rebuild. Reports expose additional masks, stabilized matches after font locking, and per-character rounding precision/digests. These are bounded serialization alternatives, not fuzzy image matching or OCR.

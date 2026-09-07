@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc18`（预发布）。
+版本：`2.0.0rc19`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
 
@@ -146,6 +146,8 @@ pdf2dxf regress input_directory -o regression_directory --workers 1 \
 ```
 
 批处理目录名使用文件名与源文件绝对路径哈希，同名文件不会覆盖。JSON/YAML 清单可使用路径列表或 `documents` / `files` / `corpus` 列表；相对路径基于清单目录。重复的规范路径只处理一次；空输入、非法清单和非 PDF 路径明确拒绝。`workers` 是批处理并发文档数，单文档页按序运行，资源限制按每个活动文档计。大型轮廓图纸建议从 `--workers 1` 开始。回归两次重新计算 DXF，不使用旧版本跨任务输出缓存。自动回归还要求质量通过，未确认工程比例的文件会列为未通过，即使字节一致。
+
+rc19 修复 PDF 数值取整边界导致的部分英文字母缺失。84 个真实字体样例中，完整恢复由 57 个提高到 61 个，另 23 个仍部分恢复或未确认；逐字位置、源轮廓及限制见 [验证记录](docs/VALIDATION.md)。
 
 ## 验证
 
