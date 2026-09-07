@@ -27,6 +27,7 @@ from ezdxf.enums import TextEntityAlignment
 
 from .font_catalog import (
     FONT_CATALOG_RASTER_DECIMALS,
+    MAX_CONTOURS,
     FontGlyphCatalog,
     font_mask_digest,
     is_han_character,
@@ -41,6 +42,7 @@ MIN_GLYPH_ASPECT = 0.05
 MAX_GLYPH_ASPECT = 20.0
 MAX_SOURCE_SEQUENCE_GAP = 4
 MIN_FONT_LOCK_DISTINCT_HAN = 3
+MIN_FONT_LOCK_DISTINCT_LATIN = 4
 MAX_OUTLINE_POINTS_PER_ATOM = 4096
 RECOVERY_KEY_PRECISION = 6
 TEXT_LAYER = "PDF_TEXT_RECOVERED_NOOCR"
@@ -50,7 +52,10 @@ TEXT_STYLE = "PDF2DXF_CJK_VECTOR"
 TEXT_FONT = "simsun.ttc"
 SOURCE_APPIDS = ("PDF2DXF15", "PDF2DXF14")
 SCALE_TEXT = re.compile(r"^1:(?:0*[1-9]\d*)(?:\.\d+)?$")
-HAN = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+
+
+def _is_english_letter(char: str) -> bool:
+    return len(char) == 1 and ("A" <= char <= "Z" or "a" <= char <= "z")
 
 
 class GlyphCatalogUnavailable(RuntimeError):
@@ -367,7 +372,7 @@ def load_catalog(path: str | Path = CATALOG) -> GlyphCatalog:
     )
 
 
-def _entity_paths(entity: Any) -> tuple[np.ndarray, ...]:
+def _entity_paths(entity: Any, *, include_fill: bool = False) -> tuple[np.ndarray, ...]:
     if entity.dxftype() == "LINE":
         return (
             np.asarray(
@@ -380,6 +385,36 @@ def _entity_paths(entity: Any) -> tuple[np.ndarray, ...]:
         if entity.closed and len(points):
             points = np.vstack((points, points[0]))
         return (points,) if len(points) >= 2 else ()
+    if include_fill and entity.dxftype() == "HATCH" and entity.dxf.solid_fill:
+        if (
+            tuple(entity.dxf.extrusion) != (0.0, 0.0, 1.0)
+            or tuple(entity.dxf.elevation) != (0.0, 0.0, 0.0)
+            or not 0 < len(entity.paths) <= MAX_CONTOURS
+        ):
+            return ()
+        paths = []
+        point_count = 0
+        for boundary in entity.paths:
+            # Read persisted, closed polygon boundaries only; do not alter the
+            # hatch or guess unsupported curved/nonplanar boundary geometry.
+            if (
+                not hasattr(boundary, "vertices")
+                or not boundary.is_closed
+                or boundary.has_bulge()
+            ):
+                return ()
+            point_count += len(boundary.vertices) + 1
+            if point_count > MAX_OUTLINE_POINTS_PER_ATOM:
+                return ()
+            points = np.asarray(
+                [point[:2] for point in boundary.vertices], dtype=np.float64
+            )
+            if len(points) < 3:
+                return ()
+            if not np.array_equal(points[0], points[-1]):
+                points = np.vstack((points, points[0]))
+            paths.append(points)
+        return tuple(paths)
     return ()
 
 
@@ -398,7 +433,7 @@ def _source_ref(entity: Any, page_index: int) -> tuple[str, int, int] | None:
 
 
 def _collect_atoms(
-    doc: Any, page_index: int
+    doc: Any, page_index: int, *, include_fills: bool = False
 ) -> tuple[list[OutlineAtom], dict[tuple[str, int, int], list[Any]], dict[str, int]]:
     atoms: list[OutlineAtom] = []
     source_entities: dict[tuple[str, int, int], list[Any]] = defaultdict(list)
@@ -407,7 +442,23 @@ def _collect_atoms(
         "candidate_outline_entities": 0,
         "unsupported_outline_entities": 0,
         "existing_recovered_text_entities": 0,
+        "candidate_fill_entities": 0,
     }
+    stroke_sources = set()
+    if include_fills:
+        for entity in doc.modelspace():
+            if entity.dxftype() in {
+                "LINE",
+                "LWPOLYLINE",
+                "POLYLINE",
+                "SPLINE",
+                "ARC",
+                "CIRCLE",
+                "ELLIPSE",
+            }:
+                source_ref = _source_ref(entity, page_index)
+                if source_ref is not None:
+                    stroke_sources.add(source_ref)
     for modelspace_index, entity in enumerate(doc.modelspace()):
         layer = str(entity.dxf.get("layer", ""))
         if (
@@ -422,7 +473,10 @@ def _collect_atoms(
             source_entities[source_ref].append(entity)
         if layer in {"PDF_PAGE", TEXT_LAYER, BACKUP_LAYER, "PDF_DIMENSION_EVIDENCE"}:
             continue
-        paths = _entity_paths(entity)
+        is_fill = entity.dxftype() == "HATCH"
+        if is_fill and source_ref in stroke_sources:
+            continue
+        paths = _entity_paths(entity, include_fill=include_fills)
         if not paths:
             continue
         if source_ref is None:
@@ -460,6 +514,13 @@ def _collect_atoms(
             )
         )
         stats["candidate_outline_entities"] += 1
+        stats["candidate_fill_entities"] += int(is_fill)
+    # Fill operations may occur between separate stroke operations without
+    # sharing their seqno. Keep each representation's source order intact so
+    # new fill candidates cannot split previously verified stroke glyphs/runs.
+    atoms.sort(key=lambda atom: atom.entity.dxftype() == "HATCH")
+    for index, atom in enumerate(atoms):
+        atom.sequence_index = index
     return atoms, source_entities, stats
 
 
@@ -474,6 +535,8 @@ def _scan_matches(
     }
     max_length = max(catalog.lengths)
     for start, first in enumerate(atoms):
+        if first.entity.dxftype() == "HATCH":
+            continue  # Reviewed built-in templates describe stroke contours.
         paths: list[np.ndarray] = []
         point_counts: list[int] = []
         closed_count = 0
@@ -481,6 +544,8 @@ def _scan_matches(
         previous_source_sequence = first.source_ref[2]
         for end in range(start, min(len(atoms), start + max_length)):
             atom = atoms[end]
+            if atom.entity.dxftype() == "HATCH":
+                break
             if end > start and (
                 atom.layer != first.layer
                 or atom.source_ref[:2] != first.source_ref[:2]
@@ -495,7 +560,9 @@ def _scan_matches(
             closed_count += atom.closed_count
             low = np.minimum(low, atom.low)
             high = np.maximum(high, atom.high)
-            entity_count = end - start + 1
+            entity_count = len(paths)
+            if entity_count > max_length:
+                break
             if entity_count not in catalog.lengths:
                 continue
             structural_key = (
@@ -673,12 +740,13 @@ def _lock_font_catalogs(
                 "exact_anchor_occurrences": exact_occurrences,
                 "exact_anchor_characters": sorted(exact_characters, key=ord),
                 "minimum_distinct_han_anchors": MIN_FONT_LOCK_DISTINCT_HAN,
+                "minimum_distinct_latin_letters": MIN_FONT_LOCK_DISTINCT_LATIN,
                 "locked": is_locked,
                 "lock_method": "audited_han_anchors" if is_locked else None,
                 "lock_reason": (
                     "distinct_audited_han_exact_masks"
                     if is_locked
-                    else "insufficient_distinct_audited_han_exact_masks"
+                    else "insufficient_audited_anchors_or_adjacent_cmap_consensus"
                 ),
             }
         )
@@ -739,6 +807,10 @@ def _scan_font_catalog_matches(
             if end in occupied_indices:
                 break
             atom = atoms[end]
+            if (atom.entity.dxftype() == "HATCH") != (
+                first.entity.dxftype() == "HATCH"
+            ):
+                break
             if end > start and (
                 atom.layer != first.layer
                 or atom.source_ref[:2] != first.source_ref[:2]
@@ -753,7 +825,9 @@ def _scan_font_catalog_matches(
             closed_count += atom.closed_count
             low = np.minimum(low, atom.low)
             high = np.maximum(high, atom.high)
-            entity_count = end - start + 1
+            entity_count = len(paths)
+            if entity_count > max_length:
+                break
             if entity_count not in lengths:
                 continue
             structure = (entity_count, closed_count)
@@ -781,7 +855,7 @@ def _scan_font_catalog_matches(
             predictions: list[tuple[str, str]] = []
             ambiguous = False
             for lock in locks:
-                values = lock.catalog.lookup.get(key)
+                values = lock.catalog.matching_characters(key, signature.aspect_ratio)
                 if not values:
                     continue
                 if len(values) != 1:
@@ -878,7 +952,12 @@ def _complete_font_catalog_locks(
         for run in _group_runs(sorted(catalog_matches, key=lambda match: match.start)):
             han = [match.char for match in run if is_han_character(match.char)]
             distinct_han = sorted(set(han), key=ord)
-            if len(distinct_han) < MIN_FONT_LOCK_DISTINCT_HAN:
+            latin = [match.char for match in run if _is_english_letter(match.char)]
+            han_consensus = len(distinct_han) >= MIN_FONT_LOCK_DISTINCT_HAN
+            latin_consensus = (
+                len({ch.lower() for ch in latin}) >= MIN_FONT_LOCK_DISTINCT_LATIN
+            )
+            if not han_consensus and not latin_consensus:
                 continue
             text = "".join(match.char for match in run)
             qualifying_runs.append(
@@ -886,6 +965,8 @@ def _complete_font_catalog_locks(
                     "text": text[:96],
                     "glyphs": len(run),
                     "distinct_han_characters": distinct_han[:32],
+                    "distinct_latin_characters": sorted(set(latin)),
+                    "consensus_script": "han" if han_consensus else "latin",
                 }
             )
         if not qualifying_runs:
@@ -894,18 +975,26 @@ def _complete_font_catalog_locks(
             {
                 char
                 for run in qualifying_runs
-                for char in run["distinct_han_characters"]
+                for char in (
+                    *run["distinct_han_characters"],
+                    *run["distinct_latin_characters"],
+                )
             },
             key=ord,
         )
         evidence_occurrences = max(
             int(run["glyphs"]) for run in qualifying_runs
         )
+        method = (
+            "font_cmap_run_consensus"
+            if any(run["consensus_script"] == "han" for run in qualifying_runs)
+            else "font_cmap_latin_run_consensus"
+        )
         locks[catalog.catalog_id] = FontCatalogLock(
             catalog=catalog,
             exact_anchor_occurrences=evidence_occurrences,
             exact_anchor_characters=tuple(evidence_characters),
-            method="font_cmap_run_consensus",
+            method=method,
             evidence_texts=tuple(run["text"] for run in qualifying_runs[:5]),
         )
         entry = entry_by_id[catalog.catalog_id]
@@ -913,8 +1002,12 @@ def _complete_font_catalog_locks(
             {
                 "status": "locked",
                 "locked": True,
-                "lock_method": "font_cmap_run_consensus",
-                "lock_reason": "distinct_adjacent_han_exact_font_cmap_masks",
+                "lock_method": method,
+                "lock_reason": (
+                    "distinct_adjacent_han_exact_font_cmap_masks"
+                    if method == "font_cmap_run_consensus"
+                    else "distinct_adjacent_latin_exact_font_cmap_masks"
+                ),
                 "self_lock_evidence": qualifying_runs[:5],
             }
         )
@@ -935,7 +1028,7 @@ def _finalize_font_matches(
         methods = {lock_by_id[value].method for value in catalog_ids}
         admission = (
             "font_cmap_run_consensus_exact"
-            if "font_cmap_run_consensus" in methods
+            if methods & {"font_cmap_run_consensus", "font_cmap_latin_run_consensus"}
             else "audited_anchor_locked_font_catalog_exact"
         )
         support_locations = min(
@@ -982,6 +1075,10 @@ def _select_non_overlapping(matches: list[GlyphMatch]) -> tuple[list[GlyphMatch]
 def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
     if right.start != left.end or right.atoms[0].layer != left.atoms[0].layer:
         return False
+    if (left.atoms[0].entity.dxftype() == "HATCH") != (
+        right.atoms[0].entity.dxftype() == "HATCH"
+    ):
+        return False
     left_height, right_height = left.height, right.height
     height = max(left_height, right_height, 0.01)
     center_delta = abs((right.low[1] + right.high[1] - left.low[1] - left.high[1]) / 2)
@@ -990,7 +1087,12 @@ def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
         left_height, right_height, 1e-9
     )
     punctuation = left.char in ":-" or right.char in ":-"
-    size_ok = relative_size >= (0.03 if punctuation else 0.72)
+    same_font_latin = bool(
+        set(left.font_catalog_ids) & set(right.font_catalog_ids)
+    ) and (_is_english_letter(left.char) or _is_english_letter(right.char))
+    size_ok = relative_size >= (
+        0.03 if punctuation else 0.45 if same_font_latin else 0.72
+    )
     return (
         right.low[0] >= left.low[0] - 0.10 * height
         and center_delta <= 0.35 * height
@@ -1014,13 +1116,16 @@ def _group_runs(matches: list[GlyphMatch]) -> list[list[GlyphMatch]]:
     return groups
 
 
-def _publishable_text(text: str) -> tuple[bool, str]:
+def _publishable_text(text: str, *, font_locked: bool = False) -> tuple[bool, str]:
     if not text or len(text) > 96:
         return False, "unsupported_text_length"
     if SCALE_TEXT.fullmatch(text):
         return True, "reviewed_scale_token"
-    if len(HAN.findall(text)) >= 2:
+    han_count = sum(is_han_character(char) or char == "〇" for char in text)
+    if han_count >= 2:
         return True, "multiple_han_glyphs"
+    if font_locked and han_count + sum(_is_english_letter(char) for char in text) >= 2:
+        return True, "locked_font_letter_run"
     return False, "insufficient_text_run_consensus"
 
 
@@ -1078,7 +1183,7 @@ def _related_fill_entities(
     run: list[GlyphMatch], source_entities: dict[tuple[str, int, int], list[Any]]
 ) -> list[Any]:
     related: list[Any] = []
-    seen: set[str] = set()
+    seen = {str(atom.entity.dxf.handle) for match in run for atom in match.atoms}
     for match in run:
         height = max(match.height, 0.01)
         pad = max(0.02, 0.15 * height)
@@ -1129,10 +1234,12 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
             "loaded": 0,
             "locked": 0,
             "minimum_distinct_han_anchors": MIN_FONT_LOCK_DISTINCT_HAN,
+            "minimum_distinct_latin_letters": MIN_FONT_LOCK_DISTINCT_LATIN,
             "entries": [],
         },
         "source_mapped_entities": 0,
         "candidate_outline_entities": 0,
+        "candidate_fill_entities": 0,
         "unsupported_outline_entities": 0,
         "structural_candidate_windows": 0,
         "fingerprints_computed": 0,
@@ -1204,7 +1311,9 @@ def recover_outline_text(
     )
 
     doc = ezdxf.readfile(dxf_path)
-    atoms, source_entities, atom_stats = _collect_atoms(doc, page_index)
+    atoms, source_entities, atom_stats = _collect_atoms(
+        doc, page_index, include_fills=bool(font_catalogs)
+    )
     report.update(atom_stats)
     matches, scan_metrics = _scan_matches(atoms, catalog)
     report.update(scan_metrics)
@@ -1259,7 +1368,12 @@ def recover_outline_text(
     accepted_runs: list[list[GlyphMatch]] = []
     for run in runs:
         text = "".join(match.char for match in run)
-        publishable, reason = _publishable_text(text)
+        latin_matches = [match for match in run if _is_english_letter(match.char)]
+        publishable, reason = _publishable_text(
+            text,
+            font_locked=bool(latin_matches)
+            and all(match.font_catalog_ids for match in latin_matches),
+        )
         if publishable:
             accepted_runs.append(run)
         elif len(report["rejected_runs"]) < 100:

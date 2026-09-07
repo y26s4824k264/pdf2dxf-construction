@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc16` (prerelease).
+Version: `2.0.0rc17` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -65,7 +65,7 @@ pdf2dxf font-catalog build /path/to/font.ttc \
 pdf2dxf font-catalog inspect catalogs/font-face-3.p2dfont
 ```
 
-The default `chinese` range follows Unicode 17.0: unified ideographs and extensions A–J, compatibility ideographs, radicals, strokes, Bopomofo, CJK punctuation/symbols and common construction-drawing ASCII. Only characters actually mapped to drawable outlines in the selected font are stored. `--charset all` includes all drawable Unicode mappings in that font.
+The default `chinese` range follows Unicode 17.0: unified ideographs and extensions A–J, compatibility ideographs, radicals, strokes, Bopomofo, CJK punctuation/symbols and printable ASCII, including A–Z and a–z. `--charset english` selects printable ASCII; `--charset all` includes all drawable Unicode mappings in that font. Only characters actually mapped to drawable outlines are stored. `font-catalog inspect` reports all 52 English letters, missing letters and mapped Han counts by range. See [character support](docs/CHARACTER_SUPPORT.md).
 
 ```sh
 pdf2dxf convert input.pdf -o output/drawing.dxf \
@@ -75,7 +75,7 @@ pdf2dxf convert input.pdf -o output/drawing.dxf \
   --scale-mode declared
 ```
 
-A catalog must first be locked by at least three distinct adjacent Chinese glyphs with exact matches, or by three distinct reviewed Chinese anchors. Only then can it contribute other characters. Matching requires exact normalized 56×56 masks, entity counts and closed topology. It does not use nearest-neighbor guesses. Conflicting catalogs, unresolved identical shapes and insufficient anchors do not publish text. Single-character NFKC compatibility aliases are normalized; other ambiguous character identities are retained as ambiguity.
+A catalog must first be locked by exact matches for three distinct adjacent Han characters, four distinct adjacent English letters (counted case-insensitively), or three distinct reviewed Han anchors. English-only runs need no Han anchors; recovered text preserves case. Matching requires exact normalized 56×56 masks, contour counts and closed topology, followed by per-template aspect-ratio checks. A locked English/mixed run needs at least two letters/Han characters to publish. Conflicting catalogs, unresolved identical shapes, overlapping segmentations, isolated characters and insufficient evidence remain geometry. Single-character NFKC compatibility aliases are normalized.
 
 Catalogs contain Unicode mappings, topology, masks, curve-discretization fingerprints and the source font SHA256, not the font program. After building a catalog, conversion no longer needs to open the font file. **No catalog guarantees recognition of arbitrary unknown fonts.** Font coverage, actual geometry and successful font locking all matter. A generated catalog is not automatically licensed for redistribution.
 
@@ -162,7 +162,7 @@ python tools/check_distribution.py --public dist/*
 
 After installing the built wheel, run `python tools/test_installed_wheel.py` to verify imports and tests from an isolated directory using `site-packages`. CI covers Linux, macOS and Windows. Current evidence and the exact executed environments are recorded in [docs/VALIDATION.md](docs/VALIDATION.md) and [docs/validation.json](docs/validation.json).
 
-The rc16 drawing run covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The external Songti sample produced 41 isolated candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
+The rc17 drawing run covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The external Songti sample produced 44 isolated candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
 
 A historical rc11 run covered 4290 unique PDFs / 12577 pages for basic conversion. It is not a current full-corpus text-recognition or engineering-quality result. Private PDFs, screenshots, fonts and path-bearing internal reports are not distributed. Unknown fonts, complex clipping, scans and multiple-scale sheets remain limitations. Producing a DXF does not mean every quality gate passed.
 

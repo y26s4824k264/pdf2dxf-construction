@@ -4,15 +4,15 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc16`（预发布）。
+版本：`2.0.0rc17`（预发布）。
 
-面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓中文恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
+面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
 
 项目采用 [AGPL-3.0-only](LICENSE)，支持遵守许可证条件的使用、修改、商业使用和再分发。公开仓库与安装包见 [GitHub](https://github.com/y26s4824k264/pdf2dxf-construction) / [Releases](https://github.com/y26s4824k264/pdf2dxf-construction/releases)。第三方依赖与外部字体保留其原有许可，详见 [NOTICE](NOTICE) 和 [第三方说明](THIRD_PARTY_NOTICES.md)。
 
 ## 安装与使用
 
-要求 Python 3.10+；本轮验证 macOS ARM64 / Python 3.10、3.12 与 Linux ARM64 / Python 3.12。最新跨平台执行结果见上方 CI 与[验证记录](docs/VALIDATION.md)。建议使用独立虚拟环境，以下为 macOS/Linux 命令；Windows 对应可执行文件位于 `.venv\Scripts\`：
+要求 Python 3.10+；本轮本地验证 macOS ARM64 / Python 3.12。最新跨平台执行结果见上方 CI 与[验证记录](docs/VALIDATION.md)。建议使用独立虚拟环境，以下为 macOS/Linux 命令；Windows 对应可执行文件位于 `.venv\Scripts\`：
 
 ```sh
 git clone https://github.com/y26s4824k264/pdf2dxf-construction.git
@@ -35,7 +35,9 @@ python3.12 -m venv .venv
 .venv/bin/pdf2dxf font-catalog inspect catalogs/font-face-3.p2dfont
 ```
 
-默认 `chinese` 范围按 Unicode 17.0 覆盖统一汉字及扩展 A–J、兼容汉字、部首、笔画、注音符号、CJK 标点/符号和施工图常用 ASCII；只保存该字体实际映射且具有二维轮廓的字符。`--charset all` 保存字体中全部有轮廓的 Unicode 映射。兼容码位按单字符 NFKC 归一为标准文本；不能归一的同形异字保持歧义，不发布。
+默认 `chinese` 范围按 Unicode 17.0 覆盖统一汉字及扩展 A–J、兼容汉字、部首、笔画、注音符号、CJK 标点/符号和可打印 ASCII（含 A–Z、a–z）。`--charset english` 单独构建可打印 ASCII 字库；`--charset all` 保存字体中全部有轮廓的 Unicode 映射。只收入该字体实际映射且具有二维轮廓的字符。兼容码位按单字符 NFKC 归一为标准文本；不能归一的同形异字保持歧义，不发布。
+
+`font-catalog inspect` 会列出 52 个英文字母的覆盖和缺字，并按汉字区段报告数量。识别条件与范围见[字符支持说明](docs/CHARACTER_SUPPORT.md)。
 
 转换时可重复传入多个不同字体或 face 的字库：
 
@@ -47,7 +49,7 @@ python3.12 -m venv .venv
   --scale-mode declared
 ```
 
-字库先用至少 3 个相邻且互不相同的汉字精确命中锁定字体，也可由 3 个内置人工审核汉字锚点锁定。锁定后才允许该字库的其他字符写入 `TEXT`。匹配只接受平移、等比缩放归一后的 56×56 掩码、实体数和闭合拓扑完全一致；不做近邻猜字。跨字库冲突、字体内部同形异字、重叠切分、少于 3 个不同汉字、孤立单字和未知轮廓全部保留为几何。
+字库先用至少 3 个相邻且互不相同的汉字、4 个相邻且不同的英文字母（不同字母按不区分大小写计数），或 3 个内置人工审核汉字锚点精确匹配锁定字体。纯英文无需汉字锚点；输出保留大小写。锁定后才允许对应字库的连续文字写入 `TEXT`。匹配要求归一后的 56×56 掩码、轮廓数和闭合拓扑完全一致，并逐个候选复核宽高比；不做近邻猜字。跨字库冲突、无法区分的同形异字、重叠切分、证据不足、孤立单字和未知轮廓保留为几何。
 
 `.p2dfont` 只含 Unicode 码位、拓扑、归一化掩码、几组曲线离散指纹和来源字体 SHA256，不嵌入字体程序。生成后可移走字体文件，转换仍可运行。每个字体文件只覆盖它自身具有的字形；要覆盖多种图纸字体，应分别构建并重复传入对应字库。
 
@@ -58,7 +60,7 @@ python3.12 -m venv .venv
   --outline-chinese required --scale-mode declared
 ```
 
-流程先生成并保存纸面 DXF，再读取其中带 PDF 来源 XDATA 的 `LINE` / `LWPOLYLINE`。每个字形按平移与统一缩放归一化，同时核对栅格掩码、实体数量、闭合拓扑、点数和源绘制顺序；只有人工复核标签且完整字形在至少两个源 PDF 中一致的模板才能进入字典。运行时只做 DXF 模板精确匹配，连续结果至少含两个汉字或构成完整 `1:n` 才写入 `TEXT`。
+流程先生成并保存纸面 DXF，再读取其中带 PDF 来源 XDATA 的 `LINE` / `LWPOLYLINE`；加载外部字库时也读取纯填充 `HATCH` 的闭合折线边界。每个字形按平移与统一缩放归一化，同时核对栅格掩码、轮廓数量、闭合拓扑、点数和源绘制顺序。内置字典要求人工复核标签和多份源 PDF 的一致性；外部字库要求 cmap 来源与上述字体锁定证据。连续结果至少含两个汉字、构成完整 `1:n`，或在字体锁定后至少含两个中英文字母/汉字，才写入 `TEXT`。
 
 `--outline-chinese auto` 在字典缺失或损坏时保留原轮廓并写警告；`required` 会明确失败。已确认文字写入 `PDF_TEXT_RECOVERED_NOOCR` 并带 `PDF2DXF_GLYPH` XDATA；对应原轮廓和填充默认移入关闭的 `PDF_OUTLINE_BACKUP`，仍可追溯。单字、未知、歧义或不连续候选继续保持原几何。重复运行不会重复插入文字；`keep` 模式下即使用户修改了已恢复文本，也按恢复位置保留该修改。
 

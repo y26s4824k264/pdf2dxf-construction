@@ -12,6 +12,7 @@ import io
 import json
 import math
 import os
+import string
 import struct
 import tempfile
 import unicodedata
@@ -34,9 +35,23 @@ MASK_SIZE = 56
 MASK_BYTES = math.ceil(MASK_SIZE * MASK_SIZE / 8)
 FONT_CATALOG_RASTER_DECIMALS = 4
 MAX_TEMPLATES = 200_000
-MAX_VARIANTS = 16
+MAX_VARIANTS = 32
 MAX_CONTOURS = 128
-DEFAULT_TOLERANCE_DIVISORS = (32, 64, 128, 256, 1024)
+# Preserve the legacy variants and include converter sampling at common PDF
+# font sizes. A 20 pt em / 0.12 pt curve tolerance is 166.666..., not 166:
+# rounding that ratio can change the number of samples in individual curves.
+DEFAULT_TOLERANCE_DIVISORS = tuple(
+    sorted(
+        {
+            32,
+            64,
+            128,
+            256,
+            1024,
+            *(size / 0.12 for size in (8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36)),
+        }
+    )
+)
 
 # Unicode Han ranges through Extension J, plus Chinese punctuation, radicals,
 # strokes, Bopomofo, CJK symbols and printable ASCII used on drawings.
@@ -67,6 +82,7 @@ CHINESE_RANGES = (
     (0x31350, 0x323AF),
     (0x323B0, 0x3347F),
 )
+CHARSET_RANGES = {"chinese": CHINESE_RANGES, "english": ((0x0021, 0x007E),)}
 HAN_RANGES = (
     (0x3400, 0x4DBF),
     (0x4E00, 0x9FFF),
@@ -123,9 +139,10 @@ class FontGlyphCatalog:
     unicode_cjk_version: str
     template_set_sha256: str
     raster_round_decimals: int
-    tolerance_divisors: tuple[int, ...]
+    tolerance_divisors: tuple[float, ...]
     templates: tuple[FontGlyphTemplate, ...]
     by_char: dict[str, FontGlyphTemplate]
+    templates_by_label: dict[str, tuple[FontGlyphTemplate, ...]]
     lookup: dict[tuple[int, int, bytes], tuple[str, ...]]
     structures: dict[tuple[int, int], tuple[float, float]]
     lengths: frozenset[int]
@@ -134,6 +151,22 @@ class FontGlyphCatalog:
     normalized_alias_mappings: int
     ambiguous_keys: int
     fully_ambiguous_characters: int
+
+    def matching_characters(
+        self, key: tuple[int, int, bytes], aspect_ratio: float
+    ) -> tuple[str, ...]:
+        # Thin outlines can rasterize identically despite different proportions
+        # (e.g. lowercase l and |). Check each actual cmap template, including
+        # NFKC aliases, rather than a combined aspect envelope across the font.
+        return tuple(
+            char
+            for char in self.lookup.get(key, ())
+            if any(
+                0.90 <= aspect_ratio / template.aspect_ratio <= 1.10
+                and key in template.match_keys
+                for template in self.templates_by_label[char]
+            )
+        )
 
 
 def _in_ranges(codepoint: int, ranges: tuple[tuple[int, int], ...]) -> bool:
@@ -493,14 +526,14 @@ def build_font_catalog(
     face_index: int = 0,
     charset: str = "chinese",
     codepoints: Iterable[int] | None = None,
-    tolerance_divisors: Iterable[int] = DEFAULT_TOLERANCE_DIVISORS,
+    tolerance_divisors: Iterable[float] = DEFAULT_TOLERANCE_DIVISORS,
 ) -> dict[str, Any]:
     """Persist every drawable requested Unicode mapping from one font face."""
     from fontTools.pens.recordingPen import DecomposingRecordingPen
     from fontTools.ttLib import TTFont
 
-    if charset not in {"chinese", "all"}:
-        raise ValueError("charset must be chinese or all")
+    if charset not in {*CHARSET_RANGES, "all"}:
+        raise ValueError("charset must be chinese, english or all")
     source = Path(font_path).expanduser().resolve()
     destination = Path(output).expanduser().resolve()
     if not source.is_file():
@@ -513,10 +546,11 @@ def build_font_catalog(
         raise FontCatalogError(
             f"font face index {face_index} is outside 0..{face_count - 1}"
         )
-    divisors = tuple(sorted({int(value) for value in tolerance_divisors}))
+    divisors = tuple(sorted({float(value) for value in tolerance_divisors}))
     if (
         not divisors
         or len(divisors) > MAX_VARIANTS
+        or not all(math.isfinite(value) for value in divisors)
         or divisors[0] < 8
         or divisors[-1] > 8192
     ):
@@ -537,7 +571,7 @@ def build_font_catalog(
             requested = [
                 int(value)
                 for value in cmap
-                if charset == "all" or _in_ranges(int(value), CHINESE_RANGES)
+                if charset == "all" or _in_ranges(int(value), CHARSET_RANGES[charset])
             ]
             catalog_charset = charset
         else:
@@ -674,8 +708,8 @@ def build_font_catalog(
         "builder_input": "ttf_otf_ttc_otc_outline_font",
         "unicode_cjk_version": UNICODE_CJK_VERSION,
         "charset": catalog_charset,
-        "unicode_ranges": [list(value) for value in CHINESE_RANGES]
-        if catalog_charset == "chinese"
+        "unicode_ranges": [list(value) for value in CHARSET_RANGES[catalog_charset]]
+        if catalog_charset in CHARSET_RANGES
         else None,
         "mask_size": MASK_SIZE,
         "raster_round_decimals": FONT_CATALOG_RASTER_DECIMALS,
@@ -798,20 +832,25 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         count = int(manifest.get("template_count", 0))
         raw_divisors = manifest.get("tolerance_divisors")
         if not isinstance(raw_divisors, list) or any(
-            type(value) is not int or not 8 <= value <= 8192 for value in raw_divisors
+            type(value) not in (int, float)
+            or not math.isfinite(value)
+            or not 8 <= value <= 8192
+            for value in raw_divisors
         ):
             raise FontCatalogError("font catalog tolerance divisors are invalid")
         divisors = tuple(raw_divisors)
         charset = manifest.get("charset")
         expected_ranges = (
-            [list(value) for value in CHINESE_RANGES] if charset == "chinese" else None
+            [list(value) for value in CHARSET_RANGES[charset]]
+            if charset in CHARSET_RANGES
+            else None
         )
         if (
             not 0 < count <= MAX_TEMPLATES
             or not divisors
             or len(divisors) > MAX_VARIANTS
             or tuple(sorted(set(divisors))) != divisors
-            or charset not in {"chinese", "all", "explicit"}
+            or charset not in {*CHARSET_RANGES, "all", "explicit"}
             or manifest.get("unicode_ranges") != expected_ranges
         ):
             raise FontCatalogError("font catalog dimensions are invalid")
@@ -964,8 +1003,12 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
     ):
         raise FontCatalogError("font catalog coverage counts are invalid")
     by_char: dict[str, FontGlyphTemplate] = {}
+    templates_by_label: dict[str, list[FontGlyphTemplate]] = defaultdict(list)
     for template in templates:
         by_char.setdefault(template.char, template)
+        templates_by_label[_canonical_catalog_character(template.codepoint)].append(
+            template
+        )
     for template in templates:
         canonical_char = _canonical_catalog_character(template.codepoint)
         if canonical_char not in by_char or template.char == canonical_char:
@@ -981,6 +1024,9 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         tolerance_divisors=divisors,
         templates=tuple(templates),
         by_char=by_char,
+        templates_by_label={
+            key: tuple(values) for key, values in templates_by_label.items()
+        },
         lookup=lookup,
         structures={
             key: (min(values), max(values)) for key, values in structures_lists.items()
@@ -1010,6 +1056,28 @@ def inspect_font_catalog(path: str | Path) -> dict[str, Any]:
         "han_characters": sum(is_han_character(value) for value in catalog.characters),
         "characters": len(catalog.characters),
         "recognition_characters": len(catalog.recognition_characters),
+        "english_letters": {
+            "uppercase": "".join(
+                ch for ch in string.ascii_uppercase if ch in catalog.characters
+            ),
+            "lowercase": "".join(
+                ch for ch in string.ascii_lowercase if ch in catalog.characters
+            ),
+            "missing": "".join(
+                ch for ch in string.ascii_letters if ch not in catalog.characters
+            ),
+            "mapped_count": len(set(string.ascii_letters) & catalog.characters),
+        },
+        "han_range_coverage": [
+            {
+                "first": f"U+{start:04X}",
+                "last": f"U+{end:04X}",
+                "mapped_count": sum(
+                    start <= ord(ch) <= end for ch in catalog.characters
+                ),
+            }
+            for start, end in HAN_RANGES
+        ],
         "normalized_alias_mappings": catalog.normalized_alias_mappings,
         "tolerance_divisors": list(catalog.tolerance_divisors),
         "raster_round_decimals": catalog.raster_round_decimals,

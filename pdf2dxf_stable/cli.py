@@ -161,7 +161,9 @@ def main(argv=None):
     font_build.add_argument("font")
     font_build.add_argument("-o", "--output", required=True)
     font_build.add_argument("--face-index", type=int, default=0)
-    font_build.add_argument("--charset", choices=("chinese", "all"), default="chinese")
+    font_build.add_argument(
+        "--charset", choices=("chinese", "english", "all"), default="chinese"
+    )
     font_build.add_argument("--json")
     font_inspect = font_commands.add_parser("inspect")
     font_inspect.add_argument("catalog")

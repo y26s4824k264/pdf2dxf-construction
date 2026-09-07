@@ -1,12 +1,12 @@
 {
   "schema": "pdf2dxf.real_corpus_validation.v1",
-  "version": "2.0.0rc16",
+  "version": "2.0.0rc17",
   "batch": {
     "count": 22,
     "ok": 0,
     "degraded": 22,
     "failed": 0,
-    "elapsed_seconds": 179.96356797218323
+    "elapsed_seconds": 196.27024102210999
   },
   "cli_exit_code": 5,
   "scale_status_counts": {
@@ -19,7 +19,7 @@
     "text_entities": 238,
     "text_characters": 1035,
     "builtin_exact": 1042,
-    "font_candidates": 41,
+    "font_candidates": 44,
     "font_published": 0,
     "font_locked": 0,
     "geometry_valid": 13,
@@ -30,68 +30,16 @@
   "all_saved_text_handles_match": true,
   "all_saved_validations_match": true,
   "all_input_validation_evidence_verified": true,
-  "same_semantic_totals_as_rc15": true,
-  "windows_runtime_tests": "passed_in_github_ci_python_3.12",
-  "dependency_audit": {
-    "date": "2026-09-07",
-    "resolved_third_party_packages": 51,
-    "direct_minimum_versions": 11,
-    "known_vulnerabilities": 0,
-    "skipped": 0
+  "same_published_text_and_quality_totals_as_rc16": true,
+  "local_source_tests": {
+    "os": "macOS ARM64",
+    "python": "3.12.13",
+    "passed": 281
   },
-  "pip_check": "passed",
-  "distribution_metadata_check": "passed",
-  "sdist_to_wheel_build": "passed",
-  "github_ci_run": true,
+  "real_corpus_stage": "final_rc17_runtime_with_fill_order_regression_fix",
+  "all_dxf_group_pairs_match_rc16_except_header_guids": true,
+  "github_ci_workflow": "https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml",
+  "github_ci_evidence": "Use the run for the release target commit; each matrix job verifies source and installed wheel.",
   "license_status": "AGPL-3.0-only",
-  "publication_authorization": "maintainer_declared_2026-09-07",
-  "github_ci_url": "https://github.com/y26s4824k264/pdf2dxf-construction/actions/runs/34086271467",
-  "local_baseline": {
-    "source_tests": {
-      "macos_py310": 222,
-      "macos_py312": 222,
-      "linux_py312": 222
-    },
-    "installed_package_tests": {
-      "macos_py312": 222,
-      "linux_py312": 222
-    },
-    "windows_x64_py310_runtime_and_render_wheels": "downloaded"
-  },
-  "real_corpus_stage": "before_publication_and_windows_encoding_patches",
-  "github_ci": {
-    "head_sha": "5cb48da775a7907ca2e5910d5edb246a9d2afb77",
-    "conclusion": "success",
-    "date": "2026-09-07",
-    "platforms": [
-      {
-        "runner": "ubuntu-latest",
-        "python": "3.10",
-        "source_tests_passed": 226,
-        "installed_wheel_tests_passed": 226
-      },
-      {
-        "runner": "ubuntu-latest",
-        "python": "3.13",
-        "source_tests_passed": 226,
-        "installed_wheel_tests_passed": 226
-      },
-      {
-        "runner": "macos-latest",
-        "python": "3.12",
-        "source_tests_passed": 226,
-        "installed_wheel_tests_passed": 226
-      },
-      {
-        "runner": "windows-latest",
-        "python": "3.12",
-        "source_tests_passed": 226,
-        "installed_wheel_tests_passed": 226
-      }
-    ],
-    "public_distribution_check": "passed",
-    "sdist_to_wheel_build": "passed",
-    "twine_check": "passed",
-    "pip_check": "passed"
-  }
+  "publication_authorization": "maintainer_declared_2026-09-07"
 }
