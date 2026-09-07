@@ -300,7 +300,12 @@ def _execute(a):
     if a.json and not own_report:
         protect_inputs(a.json, result_paths(o))
     text = json.dumps(o, ensure_ascii=False, indent=2)
-    print(text)
+    try:
+        print(text)
+    except UnicodeEncodeError:
+        # Preserve every character when stdout is redirected to a legacy
+        # encoding. JSON readers decode the escapes back to the same Unicode.
+        print(json.dumps(o, ensure_ascii=True, indent=2))
     if getattr(a, "json", None):
         dest = Path(a.json).expanduser().resolve()
         # Converter already wrote this report without its own hash. Rewriting

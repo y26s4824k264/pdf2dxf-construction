@@ -198,7 +198,7 @@ class Converter:
                     or not result_file.is_file()
                 ):
                     detail = (
-                        json.loads(result_file.read_text())
+                        json.loads(result_file.read_text(encoding="utf-8"))
                         if result_file.is_file()
                         else {}
                     )
@@ -217,7 +217,7 @@ class Converter:
                         }
                     )
                 else:
-                    row = json.loads(result_file.read_text())
+                    row = json.loads(result_file.read_text(encoding="utf-8"))
                     row["resources"] = asdict(outcome)
                     # Resources precede DXFs so a published IMAGEDEF always resolves.
                     for image in sorted((page_dir / "images").glob("*")):

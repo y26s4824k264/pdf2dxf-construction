@@ -28,7 +28,9 @@ def main(argv=None):
     from .request import ConversionRequest
 
     request = (
-        ConversionRequest.model_validate_json(Path(a.request_json).read_text())
+        ConversionRequest.model_validate_json(
+            Path(a.request_json).read_text(encoding="utf-8")
+        )
         if a.request_json
         else ConversionRequest(recover_pure_path_text=a.recover_path_text)
     )

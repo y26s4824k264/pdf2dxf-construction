@@ -67,7 +67,7 @@ def mask_paths(paths):
 
 @lru_cache(maxsize=1)
 def load_catalog():
-    data = json.loads(CATALOG.read_text())
+    data = json.loads(CATALOG.read_text(encoding="utf-8"))
     if data.get("schema") != "pdf2dxf.glyph_catalog.v1":
         raise ValueError("Unsupported glyph catalog")
     rows = []

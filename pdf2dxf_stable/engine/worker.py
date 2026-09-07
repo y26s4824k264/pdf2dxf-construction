@@ -103,7 +103,9 @@ def main(argv: list[str] | None = None) -> int:
             original_policy=args.original_policy,
             font_catalog_paths=args.font_catalog,
         )
-    print(json.dumps(payload, ensure_ascii=False), flush=True)
+    # Logs can be redirected to a legacy Windows code page. The UTF-8 JSON
+    # artifact above retains readable Unicode; escaped log JSON is lossless.
+    print(json.dumps(payload, ensure_ascii=True), flush=True)
     return 0
 
 

@@ -18,7 +18,9 @@ def main():
     parser.add_argument("--page", required=True, type=int)
     args = parser.parse_args()
     target, result_file = Path(args.output), Path(args.result)
-    request = ConversionRequest.model_validate_json(Path(args.request).read_text())
+    request = ConversionRequest.model_validate_json(
+        Path(args.request).read_text(encoding="utf-8")
+    )
     try:
         raw = target.parent / "backend.dxf"
         backend_json = target.parent / "backend.json"
@@ -39,7 +41,7 @@ def main():
         if request.recover_pure_path_text:
             command.append("--recover-path-text")
         code = backend_main(command)
-        payload = json.loads(backend_json.read_text())
+        payload = json.loads(backend_json.read_text(encoding="utf-8"))
         if code != 0 or not payload["ok"] or not raw.is_file():
             raise RuntimeError(
                 "PAGE_BACKEND_FAILED: " + payload.get("error", "no DXF produced")

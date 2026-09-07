@@ -90,3 +90,33 @@ def test_successful_conversion_records_preflight_evidence(tmp_path):
     assert report["input_validation"]["repair"]["repaired"] is False
     assert report["input_validation"]["selected_pages"] == [0]
     assert report["input_validation"]["resources"]["returncode"] == 0
+
+
+def test_cli_json_preserves_chinese_with_redirected_legacy_encoding(tmp_path):
+    import os
+    import sys
+
+    source = tmp_path / "中文图纸.pdf"
+    destination = tmp_path / "检查结果.json"
+    with fitz.open() as doc:
+        doc.new_page()
+        doc.save(source)
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pdf2dxf_stable.cli",
+            "inspect",
+            str(source),
+            "--json",
+            str(destination),
+        ],
+        env=dict(os.environ, PYTHONIOENCODING="cp1252"),
+        capture_output=True,
+        timeout=30,
+    )
+    assert result.returncode == 0, result.stderr.decode(
+        "ascii", errors="backslashreplace"
+    )
+    assert json.loads(result.stdout)["path"] == str(source)
+    assert json.loads(destination.read_text(encoding="utf-8"))["path"] == str(source)

@@ -420,7 +420,14 @@ def test_arbitrary_font_self_locks_from_three_unique_adjacent_han(tmp_path):
     assert report["accepted"][0]["text"] == "中文国图"
 
 
-def test_arbitrary_font_recovers_complete_run_through_pdf_to_dxf(tmp_path):
+@pytest.mark.parametrize("stdio_encoding", [None, "cp1252"])
+def test_arbitrary_font_recovers_complete_run_through_pdf_to_dxf(
+    tmp_path, monkeypatch, stdio_encoding
+):
+    if stdio_encoding:
+        monkeypatch.setenv("PYTHONIOENCODING", stdio_encoding)
+    tmp_path = tmp_path / "中文图纸"
+    tmp_path.mkdir()
     font = _write_font(tmp_path / "pdf-font.ttf")
     font_catalog = tmp_path / "pdf-font.p2dfont"
     build_font_catalog(font, font_catalog)
@@ -442,7 +449,7 @@ def test_arbitrary_font_recovers_complete_run_through_pdf_to_dxf(tmp_path):
         ),
     )
 
-    assert result.status == "degraded"
+    assert result.status == "degraded", result.to_dict()
     outline_report = result.pages[0]["backend"]["result"]["outline_chinese"]
     assert outline_report["font_catalogs"]["locked"] == 1
     assert outline_report["font_exact_glyph_matches"] == 4
