@@ -341,3 +341,25 @@ def test_complete_glyph_owns_contained_punctuation_but_not_competing_letters(
     else:
         assert "中" not in actual, report
         assert report["font_overlapping_matches_rejected"] >= 2
+
+
+def test_legacy_catalog_cache_cannot_silently_skip_new_outline_policy(
+    tmp_path, sources, bundle
+):
+    from pdf2dxf_stable.engine.text.font_catalog import load_font_catalog
+
+    lock, cache, _ = sources
+    old_cache = tmp_path / "legacy-cache"
+    old_cache.mkdir()
+    path = old_cache / "test-font.p2dfont"
+    source = bundle.parent / "catalogs" / path.name
+    from test_font_catalog import _rewrite_legacy_catalog
+
+    _rewrite_legacy_catalog(source, path)
+    before = path.read_bytes()
+    assert load_font_catalog(path).outline_policy == "raw_contours_v1"
+    with pytest.raises(ValueError, match="build contract"):
+        exporter("build_open_font_bundle").build_bundle(
+            lock, cache, tmp_path / "new", "core", offline=True, catalog_cache=old_cache
+        )
+    assert path.read_bytes() == before

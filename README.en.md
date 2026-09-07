@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc20` (prerelease).
+Version: `2.0.0rc21` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -43,6 +43,8 @@ result = Converter().convert(
 )
 print(result.status, result.report_path)
 ```
+
+rc21 preserves every legacy stroke template and adds exact filled-glyph representations for degenerate contours. New `r2` resources require rc21+; legacy catalogs remain readable. Of 84 real-font probes, 68 recover completely and 16 retain ambiguity. Six additional Jigmo `8`/`w` stroke/fill probes pass. See [validation](docs/VALIDATION.md).
 
 ## Optional open font catalogs
 
@@ -156,8 +158,6 @@ Output subdirectories combine the filename and a hash of its absolute source pat
 
 `workers` controls concurrent documents; pages within each document run sequentially. Limits apply to each active document. Start with one worker for large outlined drawings. Regression converts each file twice and requires both byte equality and passing quality gates; determinism alone is not engineering acceptance.
 
-rc20 preserves fills previously lost when repairing certain self-touching PDF contours. Complete recovery improves from 61 to 62 of 84 real-font probes; 22 remain partial or unconfirmed. The 22 BIM drawings also regain missing fills. Source, persisted-geometry and scale checks are disclosed in [validation](docs/VALIDATION.md).
-
 ## Tests and known limits
 
 ```sh
@@ -170,7 +170,7 @@ python tools/check_distribution.py --public dist/*
 
 After installing the built wheel, run `python tools/test_installed_wheel.py` to verify imports and tests from an isolated directory using `site-packages`. CI covers Linux, macOS and Windows. Current evidence and the exact executed environments are recorded in [docs/VALIDATION.md](docs/VALIDATION.md) and [docs/validation.json](docs/validation.json).
 
-The rc20 drawing run with the core open-font bundle covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The core catalogs produced 262 candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
+The rc21 drawing run with the core open-font bundle covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The core catalogs produced 262 candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
 
 A historical rc11 run covered 4290 unique PDFs / 12577 pages for basic conversion. It is not a current full-corpus text-recognition or engineering-quality result. Private PDFs, screenshots, fonts and path-bearing internal reports are not distributed. Unknown fonts, complex clipping, scans and multiple-scale sheets remain limitations. Producing a DXF does not mean every quality gate passed.
 

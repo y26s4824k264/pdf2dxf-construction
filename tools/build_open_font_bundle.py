@@ -32,6 +32,7 @@ from pdf2dxf_stable.engine.text.font_catalog import (
     CHINESE_RANGES,
     DEFAULT_TOLERANCE_DIVISORS,
     FONT_CATALOG_RASTER_DECIMALS,
+    FONT_OUTLINE_POLICY,
     UNICODE_CJK_VERSION,
     FontCatalogError,
     build_font_catalog,
@@ -219,6 +220,7 @@ def build_bundle(lock_path, cache, output, group, *, catalog_cache=None, offline
                 or catalog.charset != "chinese"
                 or catalog.tolerance_divisors != DEFAULT_TOLERANCE_DIVISORS
                 or catalog.raster_round_decimals != FONT_CATALOG_RASTER_DECIMALS
+                or catalog.outline_policy != FONT_OUTLINE_POLICY
                 or catalog.unicode_cjk_version != UNICODE_CJK_VERSION
             ):
                 raise ValueError(

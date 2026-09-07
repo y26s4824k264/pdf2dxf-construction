@@ -30,6 +30,7 @@ from .font_catalog import (
     FONT_CATALOG_RASTER_DECIMALS,
     MAX_CONTOURS,
     FontGlyphCatalog,
+    _has_font_fill,
     font_mask_digest,
     is_han_character,
     load_font_catalog,
@@ -703,6 +704,7 @@ def _load_font_catalogs(
                 "charset": catalog.charset,
                 "unicode_cjk_version": catalog.unicode_cjk_version,
                 "template_set_sha256": catalog.template_set_sha256,
+                "outline_policy": catalog.outline_policy,
                 "templates": len(catalog.templates),
                 "characters": len(catalog.characters),
                 "recognition_characters": len(catalog.recognition_characters),
@@ -749,7 +751,12 @@ def _lock_font_catalogs(
             if template is None:
                 continue
             comparable += 1
-            if _font_signature_key(signature) in template.match_keys:
+            label = unicodedata.normalize("NFKC", match.char)
+            if len(label) != 1:
+                label = match.char
+            if label in catalog.matching_characters(
+                _font_signature_key(signature), signature.aspect_ratio
+            ):
                 exact_occurrences += 1
                 exact_characters.add(match.char)
                 matching_anchors[catalog.catalog_id].append(
@@ -799,6 +806,7 @@ def _scan_font_catalog_matches(
         "font_ambiguous_geometry_matches": 0,
         "font_overlapping_matches_rejected": 0,
         "font_contained_punctuation_suppressed": 0,
+        "font_contained_fill_variants_suppressed": 0,
         "font_numeric_variant_masks": 0,
     }
     if not locks:
@@ -940,10 +948,12 @@ def _scan_font_catalog_matches(
     # A complete exact letter/Han glyph may contain a contour identical to a
     # dash or another punctuation glyph (including vertical compatibility
     # forms). Such a strict subset is part of the complete glyph, not competing
-    # text. Competing letters/Han, equal windows and partial overlaps remain
+    # text. The same-label raw/fill subset below keeps the complete raw glyph.
+    # Competing labels, equal windows and partial overlaps remain
     # ambiguous and are all rejected. Font/run consensus is still required.
     rejected: set[int] = set()
     contained_punctuation: set[int] = set()
+    contained_fill_variants: set[int] = set()
     ordered = sorted(enumerate(matches), key=lambda item: (item[1].start, item[1].end))
     active: list[tuple[int, GlyphMatch]] = []
     for index, match in ordered:
@@ -951,10 +961,29 @@ def _scan_font_catalog_matches(
         for other_index, other in active:
             if other.end > match.start and match.end > other.start:
                 subset = None
+                fill_subset = None
                 for child_index, child, parent in (
                     (index, match, other),
                     (other_index, other, match),
                 ):
+                    # Both windows already match exact catalog representations.
+                    # Retain the complete raw glyph when its same-label subset
+                    # omits only closed collinear paths. Do not filter DXF paths.
+                    if (
+                        child.char == parent.char
+                        and parent.start <= child.start
+                        and child.end <= parent.end
+                        and (parent.start, parent.end) != (child.start, child.end)
+                        and set(child.font_catalog_ids) & set(parent.font_catalog_ids)
+                        and all(
+                            not _has_font_fill(path)
+                            for offset, atom in enumerate(parent.atoms, parent.start)
+                            if not child.start <= offset < child.end
+                            for path in atom.paths
+                        )
+                    ):
+                        fill_subset = child_index
+                        break
                     if (
                         unicodedata.category(child.char).startswith("P")
                         and (
@@ -973,17 +1002,21 @@ def _scan_font_catalog_matches(
                     ):
                         subset = child_index
                         break
+                if fill_subset is not None:
+                    contained_fill_variants.add(fill_subset)
+                    continue
                 if subset is not None:
                     contained_punctuation.add(subset)
                     continue
                 rejected.add(index)
                 rejected.add(other_index)
         active.append((index, match))
-    excluded = rejected | contained_punctuation
+    excluded = rejected | contained_punctuation | contained_fill_variants
     accepted = [match for index, match in enumerate(matches) if index not in excluded]
     metrics["font_catalog_candidate_matches"] = len(accepted)
     metrics["font_overlapping_matches_rejected"] = len(rejected)
     metrics["font_contained_punctuation_suppressed"] = len(contained_punctuation)
+    metrics["font_contained_fill_variants_suppressed"] = len(contained_fill_variants)
     return accepted, metrics
 
 
@@ -1324,6 +1357,7 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_overlapping_matches_rejected": 0,
         "selected_glyph_matches": 0,
         "font_contained_punctuation_suppressed": 0,
+        "font_contained_fill_variants_suppressed": 0,
         "font_numeric_variant_masks": 0,
         "font_numeric_stabilized_matches": 0,
         "overlapping_glyph_matches_rejected": 0,
@@ -1433,8 +1467,7 @@ def recover_outline_text(
     font_matches = _finalize_font_matches(font_candidates, locks)
     report["font_exact_glyph_matches"] = len(font_matches)
     report["font_numeric_stabilized_matches"] = sum(
-        match.font_raster_round_decimals in (3, 5)
-        for match in font_matches
+        match.font_raster_round_decimals in (3, 5) for match in font_matches
     )
     selected = sorted([*selected, *font_matches], key=lambda match: match.start)
     report["selected_glyph_matches"] = len(selected)

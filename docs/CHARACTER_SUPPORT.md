@@ -68,3 +68,11 @@ Some self-touching or retraced PDF contours repair into a GeometryCollection con
 报告中的 `font_numeric_variant_masks` 记录额外的不同掩码数，`font_numeric_stabilized_matches` 记录字体锁定后依赖 3/5 位变体的匹配数（不等于最终写入字符数）。每条 accepted 记录的 `font_raster_round_decimals` 与 `template_fingerprints` 按字符对应，可核对使用的取整精度和字库摘要。内置人工审核模板仍使用原指纹。
 
 Font matching retains the four-decimal normalized raster and checks bounded three/five-decimal variants. Only vertices within 0.0005 pixels of a half-pixel boundary can change raster positions. Every candidate still needs an exact persisted mask digest, topology and aspect match. Conflicting labels across any variant or catalog are rejected, including conflicts with a primary match. Saved geometry is unchanged and existing catalogs need no rebuild. Reports expose additional masks, stabilized matches after font locking, and per-character rounding precision/digests. These are bounded serialization alternatives, not fuzzy image matching or OCR.
+
+## rc21 描边与填充双表示 / Exact stroke and fill representations
+
+Jigmo 的 `w` 含不足 0.007 mm 的退化闭合线段：描边候选过滤和纯填充输出均可能不包含它。相反，数字 `8` 的较大零面积线段可保留在描边 DXF 中。rc21 同时保存原始描边与有效填充两套精确模板，避免为补齐 `w` 而破坏 `8`。全部旧描边模板逐条保持一致；填充备选若不支持或采样拓扑不稳定，仅跳过备选并记录原因，不丢失原字符。
+
+两套模板匹配到同一字符的严格包含区间时，只有额外源路径全部为闭合共线零面积轮廓，才保留完整描边区间；不同标签、交叉重叠与非零面积差异继续拒绝。该规则不删除或重写 DXF 路径。字体锁定和连续成行检查仍然必需。报告 `font_contained_fill_variants_suppressed` 记录这种重复备选。v2 字库需要 rc21+，旧 v1 字库继续可读。
+
+Jigmo w has a tiny degenerate contour that may be absent from stroke candidates or filled output, while larger zero-area contours in 8 can remain in stroke DXF. rc21 retains every raw template and adds an exact filled alternate, avoiding regressions from replacing raw topology. Unsupported/unstable alternates are skipped without losing the original glyph. A strictly contained same-label match is suppressed only when both forms match exactly and the extra source paths are closed collinear contours; the complete raw match retains them. Different labels, crossing overlaps and nonzero-area differences remain ambiguous. Font/run gates still apply, DXF paths are unchanged, and the report counts suppressed duplicate fill variants. New v2 catalogs require rc21+; old v1 catalogs remain readable.

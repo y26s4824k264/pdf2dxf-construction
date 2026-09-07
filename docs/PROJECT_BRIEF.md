@@ -17,7 +17,9 @@ PDF2DXF Construction 提供一个可独立安装的 Python 包和 CLI，负责 P
 - 把工程比例、纸面比例和人工确认分开，报告独立尺寸复核结果，减少静默猜测。
 - 使用开源 Python 工具链，发布源码包与 wheel，提供中英说明，降低复现和贡献的准备成本。
 
-rc18 还提供 10 个独立开源字库及固定来源的重建工具；Jigmo 模板并集覆盖 Unicode 17 支持区段全部 102,998 个已分配汉字码点。真实字体有 84 个公开结果的样例，其中 62 个完整恢复、22 个部分恢复或未确认；覆盖与识别结果分开报告，见 [字库说明](OPEN_FONTS.md)。
+rc18 还提供 10 个独立开源字库及固定来源的重建工具；Jigmo 模板并集覆盖 Unicode 17 支持区段全部 102,998 个已分配汉字码点。真实字体有 84 个公开结果的样例，其中 68 个完整恢复、16 个部分恢复或未确认；覆盖与识别结果分开报告，见 [字库说明](OPEN_FONTS.md)。
+
+rc21 额外核验全部旧描边模板保持一致，并为严格退化的轮廓增加填充表示；数字 `8` 与字母 `w` 的六个实字体描边/填充回归均通过。
 
 项目采用 AGPL-3.0-only，第三方依赖与字体保留自身许可。维护者的来源授权声明见 [SOURCE_ORIGIN.json](../SOURCE_ORIGIN.json)。
 
@@ -26,7 +28,7 @@ rc18 还提供 10 个独立开源字库及固定来源的重建工具；Jigmo �
 | 证据 | 范围与限制 | 入口 |
 | --- | --- | --- |
 | 自动回归 | 图元、轮廓文本、字库、尺寸比例、R12、资源取消和发布包检查；执行结果以对应 CI 提交为准 | [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)、[tests](../tests) |
-| rc20 实图回归 | 22 PDF / 22 页均产出 DXF；238 条恢复 TEXT、1035 个字符；22 份仍存在质量降级 | [验证记录](VALIDATION.md)、[摘要](validation.json) |
+| rc21 实图回归 | 22 PDF / 22 页均产出 DXF；238 条恢复 TEXT、1035 个字符；22 份仍存在质量降级 | [验证记录](VALIDATION.md)、[摘要](validation.json) |
 | 保存后复核 | 修复填充经独立绕数及已保存 HATCH 核对；检查输出 SHA256、实际 TEXT 句柄内容、尺寸和源预检证据；不等于所有图元视觉保真 | [验证记录](VALIDATION.md) |
 | 维护记录 | 修复和整理历史写入 CHANGELOG；GitHub 从独立快照首次公开，不伪造历史提交 | [CHANGELOG](../CHANGELOG.md)、[来源](../SOURCE_ORIGIN.json) |
 
@@ -52,13 +54,13 @@ Construction drawings often arrive as PDFs, while downstream CAD/BIM tools need 
 
 PDF2DXF Construction is an independently installable Python package and CLI for PDF-to-DXF conversion, verified outline-to-TEXT recovery and evidence-based scale reports. Its output contract is a real DXF plus JSON evidence. Unknown outlines and unconfirmed scales remain explicit. Frame splitting, component modeling and quantity takeoff stay in downstream DXF algorithms.
 
-The project exposes geometric Chinese/English glyph matching, repeated-template consistency and font-locking rules for inspection and regression testing. It distinguishes paper, declared, calibrated and user-confirmed scales. Source/wheel distributions and bilingual documentation aim to make this conversion boundary reusable by other CAD/BIM tools. rc18 adds ten separately licensed open-font catalogs and pinned, reproducible builds. Jigmo covers all 102,998 assigned Han codepoints in supported Unicode 17 ranges; 84 real-font probes disclose 62 complete and 22 partial/unconfirmed cases. Template coverage is reported separately from recognition outcomes. See [open-font resources](OPEN_FONTS.md). The code license is AGPL-3.0-only; third-party licenses still apply.
+The project exposes geometric Chinese/English glyph matching, repeated-template consistency and font-locking rules for inspection and regression testing. It distinguishes paper, declared, calibrated and user-confirmed scales. Source/wheel distributions and bilingual documentation aim to make this conversion boundary reusable by other CAD/BIM tools. rc18 adds ten separately licensed open-font catalogs and pinned, reproducible builds. Jigmo covers all 102,998 assigned Han codepoints in supported Unicode 17 ranges; 84 real-font probes disclose 68 complete and 16 partial/unconfirmed cases. Template coverage is reported separately from recognition outcomes. See [open-font resources](OPEN_FONTS.md). rc21 verifies preservation of every legacy raw template and adds exact filled representations; six additional real-font 8/w probes pass. The code license is AGPL-3.0-only; third-party licenses still apply.
 
 ### Evidence and present maturity
 
 The public [test suite](../tests) covers geometry, outlined text, catalogs, dimensions, R12, resource cancellation and packaging. [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml) identifies the exact tested commits and platforms.
 
-The rc20 real-drawing run covers 22 PDFs / 22 pages. All produced DXFs; 238 TEXT entities containing 1035 characters were recovered. All 22 retained degraded quality status. Repaired fills were checked against independent source winding and persisted HATCH regions, including engineering scaling. Saved-output hashes, actual text handles, dimension validation and preflight evidence were checked. See [validation](VALIDATION.md) and its [JSON summary](validation.json). These results are not a claim of universal font coverage or complete visual/engineering acceptance.
+The rc21 real-drawing run covers 22 PDFs / 22 pages. All produced DXFs; 238 TEXT entities containing 1035 characters were recovered. All 22 retained degraded quality status. Repaired fills were checked against independent source winding and persisted HATCH regions, including engineering scaling. Saved-output hashes, actual text handles, dimension validation and preflight evidence were checked. See [validation](VALIDATION.md) and its [JSON summary](validation.json). These results are not a claim of universal font coverage or complete visual/engineering acceptance.
 
 This is a newly public project without established public-adoption evidence. Internal test counts are not downloads, users or industry adoption. Earlier maintenance work is summarized in [CHANGELOG](../CHANGELOG.md); the standalone GitHub history begins with the public snapshot rather than invented backdated commits.
 

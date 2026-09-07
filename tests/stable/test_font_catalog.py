@@ -107,6 +107,37 @@ def _write_font(path: Path, *, alias_for_tu: bool = False) -> Path:
     return path
 
 
+def _rewrite_legacy_catalog(source: Path, destination: Path) -> None:
+    """Encode the previous public v1 wire contract from a raw-only fixture."""
+    from pdf2dxf_stable.engine.text.font_catalog import (
+        CHINESE_RANGES,
+        UNICODE_CJK_VERSION,
+    )
+
+    with zipfile.ZipFile(source) as archive:
+        payloads = {name: archive.read(name) for name in archive.namelist()}
+    manifest = json.loads(payloads["manifest.json"])
+    assert manifest.pop("fill_variant_count") == 0
+    manifest.pop("mapped_codepoint_count")
+    manifest.pop("representation_order")
+    manifest.pop("outline_policy")
+    manifest["schema"] = "pdf2dxf.font_glyph_catalog.v1"
+    manifest["catalog_version"] = "1"
+    identity = (
+        manifest["font"]["sha256"]
+        + f":{manifest['font']['face_index']}:"
+        + manifest["template_set_sha256"]
+        + ":pdf2dxf.font_glyph_catalog.v1:NFKC_single_codepoint:"
+        + UNICODE_CJK_VERSION
+        + json.dumps(CHINESE_RANGES, separators=(",", ":"))
+    )
+    manifest["catalog_id"] = hashlib.sha256(identity.encode("ascii")).hexdigest()[:24]
+    payloads["manifest.json"] = json.dumps(manifest).encode()
+    with zipfile.ZipFile(destination, "w") as archive:
+        for name, data in payloads.items():
+            archive.writestr(name, data)
+
+
 def _write_audited_catalog(path: Path, glyphs: dict[str, tuple[np.ndarray, ...]]):
     templates = []
     for char in "中文国":

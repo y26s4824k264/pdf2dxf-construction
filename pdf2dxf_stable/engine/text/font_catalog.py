@@ -19,6 +19,7 @@ import unicodedata
 import zipfile
 from collections import defaultdict
 from dataclasses import dataclass
+from itertools import groupby
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
@@ -27,13 +28,16 @@ from fontTools.pens.basePen import BasePen
 
 from ...paths import protect_inputs
 
-FONT_CATALOG_SCHEMA = "pdf2dxf.font_glyph_catalog.v1"
-FONT_CATALOG_VERSION = "1"
+FONT_CATALOG_SCHEMA = "pdf2dxf.font_glyph_catalog.v2"
+FONT_CATALOG_VERSION = "2"
+LEGACY_FONT_CATALOG_SCHEMA = "pdf2dxf.font_glyph_catalog.v1"
 FONT_CATALOG_SUFFIX = ".p2dfont"
 UNICODE_CJK_VERSION = "17.0"
 MASK_SIZE = 56
 MASK_BYTES = math.ceil(MASK_SIZE * MASK_SIZE / 8)
 FONT_CATALOG_RASTER_DECIMALS = 4
+FONT_OUTLINE_POLICY = "raw_and_noncollinear_fill_v1"
+LEGACY_FONT_OUTLINE_POLICY = "raw_contours_v1"
 MAX_TEMPLATES = 200_000
 MAX_VARIANTS = 32
 MAX_CONTOURS = 128
@@ -133,12 +137,14 @@ class FontGlyphTemplate:
 @dataclass(slots=True)
 class FontGlyphCatalog:
     path: Path
+    schema: str
     catalog_id: str
     font: dict[str, Any]
     charset: str
     unicode_cjk_version: str
     template_set_sha256: str
     raster_round_decimals: int
+    outline_policy: str
     tolerance_divisors: tuple[float, ...]
     templates: tuple[FontGlyphTemplate, ...]
     by_char: dict[str, FontGlyphTemplate]
@@ -410,6 +416,48 @@ def _glyph_paths(recording: Any, glyph_set: Any, tolerance: float) -> list[np.nd
     return pen.paths
 
 
+def _has_font_fill(path: np.ndarray) -> bool:
+    """Exclude only exactly collinear closed contours, which have no font ink.
+
+    Do not use signed area: a self-intersecting contour can have cancelling
+    signed areas and still contain filled regions. No size tolerance is used,
+    so thin real contours remain part of the template's topology.
+    """
+    if len(path) < 3 or not np.array_equal(path[0], path[-1]):
+        return True
+    offsets = path[1:-1] - path[0]
+    direction = offsets[np.argmax(np.sum(offsets * offsets, axis=1))]
+    return bool(np.any(offsets[:, 0] * direction[1] != offsets[:, 1] * direction[0]))
+
+
+def _glyph_variant_row(signatures: list[Any]) -> tuple[Any, ...]:
+    if not signatures or any(signature is None for signature in signatures):
+        raise ValueError("glyph has no two-dimensional outline")
+    canonical = signatures[-1]
+    if (
+        canonical.entity_count > MAX_CONTOURS
+        or canonical.closed_count != canonical.entity_count
+        or any(
+            item.entity_count != canonical.entity_count
+            or item.closed_count != canonical.closed_count
+            for item in signatures
+        )
+    ):
+        raise ValueError("glyph topology is unsupported")
+    return (
+        canonical.entity_count,
+        canonical.closed_count,
+        canonical.aspect_ratio,
+        bytes.fromhex(canonical.mask_hex),
+        tuple(
+            font_mask_digest(
+                bytes.fromhex(item.mask_hex), item.entity_count, item.closed_count
+            )
+            for item in signatures
+        ),
+    )
+
+
 def extract_font_glyph_paths(
     font_path: str | Path,
     char: str,
@@ -474,13 +522,17 @@ def _dataset_digest(arrays: dict[str, np.ndarray]) -> str:
 
 
 def _catalog_identifier(
-    font_sha256: str, face_index: int, template_set_sha256: str
+    font_sha256: str,
+    face_index: int,
+    template_set_sha256: str,
+    *,
+    schema: str = FONT_CATALOG_SCHEMA,
 ) -> str:
     payload = (
         font_sha256
         + f":{face_index}:"
         + template_set_sha256
-        + f":{FONT_CATALOG_SCHEMA}:NFKC_single_codepoint:"
+        + f":{schema}:NFKC_single_codepoint:"
         + UNICODE_CJK_VERSION
         + json.dumps(CHINESE_RANGES, separators=(",", ":"))
     )
@@ -592,8 +644,10 @@ def build_font_catalog(
         if len(requested) > MAX_TEMPLATES:
             raise FontCatalogError("font catalog exceeds the template safety limit")
         glyph_set = font.getGlyphSet()
-        cache: dict[str, tuple[Any, ...] | None] = {}
+        cache: dict[str, list[tuple[Any, ...]] | None] = {}
         skip_reasons: dict[str, str] = {}
+        fill_skip_reasons: dict[str, str] = {}
+        skipped_fill_variants: list[dict[str, Any]] = []
         skipped_mappings: list[dict[str, Any]] = []
         rows: list[tuple[int, int, int, float, bytes, tuple[bytes, ...]]] = []
         skipped = 0
@@ -605,6 +659,8 @@ def build_font_catalog(
                     recording = DecomposingRecordingPen(glyph_set)
                     glyph_set[glyph_name].draw(recording)
                     signatures = []
+                    fill_signatures = []
+                    has_empty_contours = False
                     from .outline_text import fingerprint_paths
 
                     for divisor in divisors:
@@ -615,36 +671,31 @@ def build_font_catalog(
                             paths,
                             raster_round_decimals=FONT_CATALOG_RASTER_DECIMALS,
                         )
-                        if signature is None:
-                            raise ValueError("glyph has no two-dimensional outline")
                         signatures.append(signature)
-                    canonical = signatures[-1]
-                    if (
-                        canonical.entity_count > MAX_CONTOURS
-                        or canonical.closed_count != canonical.entity_count
-                        or any(
-                            item.entity_count != canonical.entity_count
-                            or item.closed_count != canonical.closed_count
-                            for item in signatures
+                        filled_paths = [path for path in paths if _has_font_fill(path)]
+                        has_empty_contours |= len(filled_paths) != len(paths)
+                        fill_signatures.append(
+                            fingerprint_paths(
+                                filled_paths,
+                                raster_round_decimals=FONT_CATALOG_RASTER_DECIMALS,
+                            )
+                            if len(filled_paths) != len(paths)
+                            else signature
                         )
-                    ):
-                        raise ValueError("glyph topology is unsupported")
-                    canonical_mask = bytes.fromhex(canonical.mask_hex)
-                    digests = tuple(
-                        font_mask_digest(
-                            bytes.fromhex(item.mask_hex),
-                            item.entity_count,
-                            item.closed_count,
-                        )
-                        for item in signatures
-                    )
-                    cached = (
-                        canonical.entity_count,
-                        canonical.closed_count,
-                        canonical.aspect_ratio,
-                        canonical_mask,
-                        digests,
-                    )
+                    # The primary representation remains the original stroke
+                    # topology. An additional fill representation must not replace it.
+                    cached = [_glyph_variant_row(signatures)]
+                    if has_empty_contours:
+                        try:
+                            alternate = _glyph_variant_row(fill_signatures)
+                            if alternate[0] < cached[0][0]:
+                                cached.append(alternate)
+                            else:
+                                raise ValueError(
+                                    "fill topology did not remove a contour"
+                                )
+                        except ValueError as exc:
+                            fill_skip_reasons[glyph_name] = str(exc)
                 except Exception as exc:  # noqa: BLE001 - individual glyph boundary
                     cached = None
                     skip_reasons[glyph_name] = f"{type(exc).__name__}: {exc}"[:240]
@@ -657,17 +708,11 @@ def build_font_catalog(
                 if progress is not None:
                     progress(index + 1, len(requested))
                 continue
-            entity_count, closed_count, aspect, canonical_mask, digests = cached
-            rows.append(
-                (
-                    codepoint,
-                    int(entity_count),
-                    int(closed_count),
-                    float(aspect),
-                    bytes(canonical_mask),
-                    tuple(digests),
+            rows.extend((codepoint, *variant) for variant in cached)
+            if glyph_name in fill_skip_reasons:
+                skipped_fill_variants.append(
+                    {"codepoint": codepoint, "reason": fill_skip_reasons[glyph_name]}
                 )
-            )
             if progress is not None:
                 progress(index + 1, len(requested))
     finally:
@@ -676,6 +721,7 @@ def build_font_catalog(
     if not rows:
         raise FontCatalogError("font has no drawable characters in the requested set")
     count = len(rows)
+    mapped_count = len({row[0] for row in rows})
     codepoint_array = np.asarray([row[0] for row in rows], dtype="<u4")
     entity_array = np.asarray([row[1] for row in rows], dtype="<u2")
     closed_array = np.asarray([row[2] for row in rows], dtype="<u2")
@@ -707,8 +753,12 @@ def build_font_catalog(
             )
     ambiguous_keys = sum(len(values) > 1 for values in collision_map.values())
     fully_ambiguous_characters = sum(
-        all(len(collision_map[(row[1], row[2], digest)]) > 1 for digest in set(row[5]))
-        for row in rows
+        all(
+            len(collision_map[(row[1], row[2], digest)]) > 1
+            for row in variants
+            for digest in set(row[5])
+        )
+        for _, variants in groupby(rows, key=lambda row: row[0])
     )
     array_payloads = {name: _npy_bytes(value) for name, value in arrays.items()}
     manifest = {
@@ -728,14 +778,18 @@ def build_font_catalog(
         else None,
         "mask_size": MASK_SIZE,
         "raster_round_decimals": FONT_CATALOG_RASTER_DECIMALS,
+        "outline_policy": FONT_OUTLINE_POLICY,
         "tolerance_divisors": list(divisors),
         "font": metadata,
         "requested_mapped_codepoints": len(requested),
         "template_count": count,
+        "mapped_codepoint_count": mapped_count,
+        "fill_variant_count": count - mapped_count,
+        "representation_order": "raw_then_fill",
         "recognition_character_count": len(canonical_characters),
-        "normalized_alias_mappings": count - len(canonical_characters),
+        "normalized_alias_mappings": mapped_count - len(canonical_characters),
         "han_template_count": sum(
-            _in_ranges(int(value), HAN_RANGES) for value in codepoint_array
+            _in_ranges(int(value), HAN_RANGES) for value in set(codepoint_array)
         ),
         "skipped_non_outline_mappings": skipped,
         "ambiguous_geometry_keys": ambiguous_keys,
@@ -757,6 +811,7 @@ def build_font_catalog(
         "sha256": _sha256_path(destination),
         # Build diagnostics stay outside the bounded runtime manifest.
         "skipped_mappings": skipped_mappings,
+        "skipped_fill_variants": skipped_fill_variants,
     }
 
 
@@ -833,19 +888,31 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         ):
             raise FontCatalogError("font catalog counts must be nonnegative integers")
         if (
-            manifest.get("schema") != FONT_CATALOG_SCHEMA
-            or manifest.get("catalog_version") != FONT_CATALOG_VERSION
+            (manifest.get("schema"), manifest.get("catalog_version"))
+            not in (
+                (FONT_CATALOG_SCHEMA, FONT_CATALOG_VERSION),
+                (LEGACY_FONT_CATALOG_SCHEMA, "1"),
+            )
             or manifest.get("runtime_input") != "persisted_dxf_only"
             or manifest.get("runtime_font_access") is not False
             or manifest.get("runtime_pdf_access") is not False
             or manifest.get("runtime_ocr") is not False
             or manifest.get("unicode_label_normalization") != "NFKC_single_codepoint"
             or manifest.get("unicode_cjk_version") != UNICODE_CJK_VERSION
+            or (
+                manifest.get("outline_policy") != FONT_OUTLINE_POLICY
+                or manifest.get("representation_order") != "raw_then_fill"
+            )
+            and manifest.get("schema") == FONT_CATALOG_SCHEMA
+            or manifest.get("outline_policy", LEGACY_FONT_OUTLINE_POLICY)
+            != LEGACY_FONT_OUTLINE_POLICY
+            and manifest.get("schema") == LEGACY_FONT_CATALOG_SCHEMA
             or int(manifest.get("mask_size", 0)) != MASK_SIZE
             or int(manifest.get("raster_round_decimals", -1))
             != FONT_CATALOG_RASTER_DECIMALS
         ):
             raise FontCatalogError("font catalog has an unsupported runtime contract")
+        is_v2 = manifest["schema"] == FONT_CATALOG_SCHEMA
         count = int(manifest.get("template_count", 0))
         raw_divisors = manifest.get("tolerance_divisors")
         if not isinstance(raw_divisors, list) or any(
@@ -863,7 +930,7 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
             else None
         )
         if (
-            not 0 < count <= MAX_TEMPLATES
+            not 0 < count <= MAX_TEMPLATES * (2 if is_v2 else 1)
             or not divisors
             or len(divisors) > MAX_VARIANTS
             or tuple(sorted(set(divisors))) != divisors
@@ -922,8 +989,23 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
     aspects = arrays["aspect_ratios.npy"]
     masks = arrays["canonical_masks.npy"]
     digests = arrays["variant_digests.npy"]
-    if count > 1 and not bool(np.all(codepoints[1:] > codepoints[:-1])):
-        raise FontCatalogError("font catalog codepoints are not strictly ordered")
+    unique_codepoints, repetitions = np.unique(codepoints, return_counts=True)
+    duplicates = np.flatnonzero(codepoints[1:] == codepoints[:-1])
+    if (
+        not bool(np.all(codepoints[1:] >= codepoints[:-1]))
+        or len(unique_codepoints) > MAX_TEMPLATES
+        or bool(np.any(repetitions > (2 if is_v2 else 1)))
+        or is_v2
+        and (
+            bool(np.any(entities[duplicates + 1] >= entities[duplicates]))
+            or bool(np.any(closed != entities))
+            or type(manifest.get("mapped_codepoint_count")) is not int
+            or manifest["mapped_codepoint_count"] != len(unique_codepoints)
+            or type(manifest.get("fill_variant_count")) is not int
+            or manifest["fill_variant_count"] != len(duplicates)
+        )
+    ):
+        raise FontCatalogError("font catalog glyph representations are invalid")
     if (
         bool(np.any(codepoints > 0x10FFFF))
         or bool(np.any((codepoints >= 0xD800) & (codepoints <= 0xDFFF)))
@@ -973,8 +1055,10 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
     if ambiguous_keys != int(manifest.get("ambiguous_geometry_keys", -1)):
         raise FontCatalogError("font catalog ambiguity count mismatch")
     fully_ambiguous_characters = sum(
-        all(len(lookup[key]) > 1 for key in template.match_keys)
-        for template in templates
+        all(
+            len(lookup[key]) > 1 for template in variants for key in template.match_keys
+        )
+        for _, variants in groupby(templates, key=lambda template: template.codepoint)
     )
     if fully_ambiguous_characters != int(
         manifest.get("fully_ambiguous_characters", -1)
@@ -983,7 +1067,7 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
     recognition_characters = frozenset(
         _canonical_catalog_character(template.codepoint) for template in templates
     )
-    normalized_alias_mappings = len(templates) - len(recognition_characters)
+    normalized_alias_mappings = len(unique_codepoints) - len(recognition_characters)
     if len(recognition_characters) != int(
         manifest.get("recognition_character_count", -1)
     ) or normalized_alias_mappings != int(
@@ -1006,16 +1090,19 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
     ):
         raise FontCatalogError("font catalog provenance is invalid")
     if catalog_id != _catalog_identifier(
-        font["sha256"], font["face_index"], str(manifest["template_set_sha256"])
+        font["sha256"],
+        font["face_index"],
+        str(manifest["template_set_sha256"]),
+        schema=manifest["schema"],
     ):
         raise FontCatalogError("font catalog identity mismatch")
     requested_count = manifest.get("requested_mapped_codepoints")
     skipped_count = manifest.get("skipped_non_outline_mappings")
-    han_count = sum(_in_ranges(int(value), HAN_RANGES) for value in codepoints)
+    han_count = sum(_in_ranges(int(value), HAN_RANGES) for value in unique_codepoints)
     if (
         not isinstance(requested_count, int)
         or not isinstance(skipped_count, int)
-        or requested_count != count + skipped_count
+        or requested_count != len(unique_codepoints) + skipped_count
         or han_count != int(manifest.get("han_template_count", -1))
     ):
         raise FontCatalogError("font catalog coverage counts are invalid")
@@ -1028,16 +1115,21 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         )
     for template in templates:
         canonical_char = _canonical_catalog_character(template.codepoint)
-        if canonical_char not in by_char or template.char == canonical_char:
+        if canonical_char not in by_char or (
+            template.char == canonical_char
+            and by_char[canonical_char].char != canonical_char
+        ):
             by_char[canonical_char] = template
     return FontGlyphCatalog(
         path=source,
+        schema=manifest["schema"],
         catalog_id=catalog_id,
         font=dict(font),
         charset=str(charset),
         unicode_cjk_version=str(manifest["unicode_cjk_version"]),
         template_set_sha256=str(manifest["template_set_sha256"]),
         raster_round_decimals=FONT_CATALOG_RASTER_DECIMALS,
+        outline_policy=manifest.get("outline_policy", LEGACY_FONT_OUTLINE_POLICY),
         tolerance_divisors=divisors,
         templates=tuple(templates),
         by_char=by_char,
@@ -1064,7 +1156,7 @@ def inspect_font_catalog(path: str | Path) -> dict[str, Any]:
 def describe_font_catalog(catalog: FontGlyphCatalog) -> dict[str, Any]:
     """Describe a verified catalog without constructing a second lookup index."""
     return {
-        "schema": FONT_CATALOG_SCHEMA,
+        "schema": catalog.schema,
         "path": str(catalog.path),
         "sha256": _sha256_path(catalog.path),
         "size_bytes": catalog.path.stat().st_size,
@@ -1074,6 +1166,8 @@ def describe_font_catalog(catalog: FontGlyphCatalog) -> dict[str, Any]:
         "unicode_cjk_version": catalog.unicode_cjk_version,
         "template_set_sha256": catalog.template_set_sha256,
         "templates": len(catalog.templates),
+        "mapped_codepoints": len(catalog.characters),
+        "fill_variants": len(catalog.templates) - len(catalog.characters),
         "han_characters": sum(is_han_character(value) for value in catalog.characters),
         "characters": len(catalog.characters),
         "recognition_characters": len(catalog.recognition_characters),
@@ -1102,6 +1196,7 @@ def describe_font_catalog(catalog: FontGlyphCatalog) -> dict[str, Any]:
         "normalized_alias_mappings": catalog.normalized_alias_mappings,
         "tolerance_divisors": list(catalog.tolerance_divisors),
         "raster_round_decimals": catalog.raster_round_decimals,
+        "outline_policy": catalog.outline_policy,
         "ambiguous_geometry_keys": catalog.ambiguous_keys,
         "fully_ambiguous_characters": catalog.fully_ambiguous_characters,
         "runtime_input": "persisted_dxf_only",
