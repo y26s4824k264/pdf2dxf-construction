@@ -1,3 +1,12 @@
+# 2.0.0rc25
+
+- 减少字库索引构建的临时集合、重复键展开和逐摘要 NumPy 切片；保留全部完整性、码位、别名、拓扑和歧义校验，兼容旧版字库。
+- 十字库三轮独立进程对照：加载中位耗时 5.76→2.31 秒（约减少 60%），进程峰值内存约减少 19%。246,293 条模板与 2,288,068 个匹配键的全部字段、顺序和引用一致；不是整张 PDF 转换耗时结论。
+- 新增 8 项兼容性/二进制/同形歧义检查；全量源码 424 项通过。84 个保存 DXF 的完整识别报告与 rc24 一致，实体库标签仅写入时间变化；8 个正常加载十字库的 PDF 转换全部通过。r2 资源不变。
+- 本轮未重跑 22 份 BIM PDF、84 份对应字体 PDF 或历史全语料；它们的 rc24/rc11 结果保留原版本标记，工程比例限制未改变。
+
+rc25 reduces catalog index construction overhead while preserving all validation and recognition contracts. Ten-catalog loading falls from 5.76 to 2.31 seconds in three local fresh-process trials, with about 19% lower process peak RSS. Complete catalog fingerprints and 84 DXF recognition reports are identical to rc24. Eight new characterization tests bring the source suite to 424. Existing r2 catalogs are reused; previous BIM and matching-face PDF results remain explicitly historical.
+
 # 2.0.0rc24
 
 - 修复其他字体的内部标点轮廓阻断完整英文的问题；要求已有字体锁定、四个不同且全局无歧义的同行字母锚点，并继续检查全部竞争窗口。原有汉字规则不变，不使用 OCR。

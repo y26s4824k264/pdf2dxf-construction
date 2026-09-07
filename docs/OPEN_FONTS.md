@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc24 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc24) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc25 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc25) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc24 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc24), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc25 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc25), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -111,3 +111,9 @@ rc23 restores the fourth Extension J character in both pipelines after checking 
 rc24 在已有字体锁定和同一连续行四个不同字母锚点成立时，复核完整英文字母内部、严格更矮的标点轮廓。三种字体的描边/填充样例均补回小写 `i`。同时加载十个字库，20 个大小写 52 字母样例全部完整恢复；整体 84 个 DXF 样例为 70 个完整、14 个部分或未确认。对应字体的 84 个 PDF 仍为 82 个完整。八个正常加载字库的英文/扩展 J PDF 检查全部通过。竞争字母、数字、汉字、符号和整字标签继续保留歧义；字库字节和 SHA256 不变。
 
 rc24 checks shorter internal punctuation only after an established font lock and four distinct globally unambiguous same-row Latin anchors. Six stroke/fill cases regain `i`. All-ten-catalog recovery now completes all 20 English alphabet probes, and 70/84 DXF probes overall; 14 remain partial/unconfirmed. Matching-face PDFs remain 82/84. Eight normal-loading Latin/Extension J PDF checks pass. Competing letters, digits, Han, symbols and whole-glyph labels remain unresolved. Existing r2 bytes and hashes are unchanged.
+
+## rc25：字库加载优化 / Catalog loading
+
+同一批 r2 字库加载中位耗时从 5.76 降至 2.31 秒，进程峰值内存约减少 19%；数据完整性和歧义校验不变。详见 [实测与范围](VALIDATION.md) 和 [逐项数据](CATALOG_LOADING.json)。不需要重新下载或构建字库。
+
+The same r2 catalogs load in a median 2.31 seconds versus 5.76 seconds, with about 19% lower process peak RSS in local trials. Integrity and ambiguity checks remain intact; no catalog rebuild or download is required. See [method and scope](VALIDATION.md) and [measurements](CATALOG_LOADING.json).

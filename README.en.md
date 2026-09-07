@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc24` (prerelease).
+Version: `2.0.0rc25` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -44,7 +44,7 @@ result = Converter().convert(
 print(result.status, result.report_path)
 ```
 
-rc24 restores exact Latin glyphs such as `i` blocked by foreign-font punctuation contours, requiring an established font lock and four distinct unambiguous letters in the same continuous source row. All competing windows remain checked. All-ten-catalog DXF probes improve from 64/84 to 70/84 complete, including all 20 uppercase/lowercase 52-letter stroke/fill cases across ten faces. Matching-face PDFs remain 82/84 complete. Unknown/conflicting outlines stay as geometry; reuse existing `r2` catalogs. See [validation](docs/VALIDATION.md).
+rc25 reduces catalog-loading overhead. Three alternating fresh-process trials on one Mac measured median loading time for all ten catalogs at 5.76→2.31 seconds (about 60% less), with about 19% lower process peak memory. All 246,293 templates and 2,288,068 lookup keys, including ambiguity indexes, match rc24 exactly. Complete recognition reports for 84 saved DXFs remain identical; eight normal-loading PDF conversions pass. Reuse existing `r2` assets. These are loading-stage measurements; see [validation](docs/VALIDATION.md).
 
 ## Optional open font catalogs
 

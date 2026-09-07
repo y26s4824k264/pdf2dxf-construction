@@ -72,6 +72,6 @@ Codex has assisted the current source review, fixes, testing and release prepara
 
 Near-term priorities are reproducible cross-platform releases, clearly licensed synthetic/public fixtures, and defects that could corrupt text or scale evidence. Unknown fonts, scanned inputs and mixed-scale sheets retain explicit limitations. Requested support would fund real maintenance work; it would not be evidence of ecosystem adoption or endorsement by a funding organization.
 
-rc24 使用已有字体锁定与同一连续来源行的四个无歧义字母锚点，补回被其他字体内部标点竞争阻断的完整英文。十字库 84 个 DXF 样例完整恢复 64→70，全部 20 个大小写 52 字母样例通过；与逐字体 PDF 的 82/84 分开报告。原始几何及工程质量门槛不变。测试和独立证据说明实际维护工作，不据此推断使用量或资助资格。
+rc25 的维护工作集中于大字库加载：三轮独立进程对照中，十字库加载中位耗时减少约 60%，进程峰值内存减少约 19%，全部模板与索引字段一致；84 个 DXF 的完整识别报告保持一致。方法与边界见[验证记录](VALIDATION.md)。这类可复核优化与回归是计划持续使用 Codex 的具体维护工作，不据此推断项目使用量或资助资格。
 
-rc24 uses an established font lock and four distinct same-row Latin anchors to restore whole letters blocked by foreign punctuation contours. All-ten-catalog DXF probes improve 64/84 to 70/84, including all 20 English alphabet probes. Matching-face PDFs remain 82/84. Geometry and engineering quality gates remain intact. Reproducible tests and independent evidence document maintenance work; they do not imply adoption or funding eligibility.
+rc25 focuses on catalog-loading overhead: three fresh-process trials show about 60% less loading time and 19% lower process peak RSS, with identical complete catalog fields and recognition reports for 84 DXFs. See [method and limits](VALIDATION.md). This reproducible maintenance work explains the intended use of Codex; it does not imply adoption or funding eligibility.

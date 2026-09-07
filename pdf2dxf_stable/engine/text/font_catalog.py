@@ -1018,16 +1018,16 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         raise FontCatalogError("font catalog contains invalid glyph rows")
 
     templates: list[FontGlyphTemplate] = []
-    lookup_sets: dict[tuple[int, int, bytes], set[str]] = defaultdict(set)
+    lookup: dict[tuple[int, int, bytes], tuple[str, ...]] = {}
+    ambiguous_labels: dict[tuple[int, int, bytes], set[str]] = {}
     structures_lists: dict[tuple[int, int], list[float]] = defaultdict(list)
+    digest_row = struct.Struct("16s" * len(divisors))
     for index in range(count):
         entity_count = int(entities[index])
         closed_count = int(closed[index])
         canonical_mask = bytes(masks[index])
         match_digests = tuple(
-            dict.fromkeys(
-                bytes(digests[index, variant]) for variant in range(len(divisors))
-            )
+            dict.fromkeys(digest_row.unpack(digests[index].tobytes()))
         )
         canonical_digest = font_mask_digest(canonical_mask, entity_count, closed_count)
         if canonical_digest not in match_digests:
@@ -1046,17 +1046,32 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         )
         templates.append(template)
         structures_lists[(entity_count, closed_count)].append(template.aspect_ratio)
-        for key in template.match_keys:
-            lookup_sets[key].add(canonical_char)
-    lookup = {
-        key: tuple(sorted(values, key=ord)) for key, values in lookup_sets.items()
-    }
+        # Most keys have one label. Share its immutable tuple across this glyph's
+        # variants instead of allocating a temporary set for every geometry key.
+        single_label = (canonical_char,)
+        for digest in match_digests:
+            key = (entity_count, closed_count, digest)
+            labels = lookup.get(key)
+            if labels is None:
+                lookup[key] = single_label
+            elif canonical_char != labels[0]:
+                # Accumulate collisions in a set and sort once, even when many
+                # cmap aliases share a geometry. Avoid quadratic tuple copying.
+                conflicts = ambiguous_labels.get(key)
+                if conflicts is None:
+                    ambiguous_labels[key] = {labels[0], canonical_char}
+                else:
+                    conflicts.add(canonical_char)
+    for key, labels in ambiguous_labels.items():
+        lookup[key] = tuple(sorted(labels, key=ord))
     ambiguous_keys = sum(len(values) > 1 for values in lookup.values())
     if ambiguous_keys != int(manifest.get("ambiguous_geometry_keys", -1)):
         raise FontCatalogError("font catalog ambiguity count mismatch")
     fully_ambiguous_characters = sum(
         all(
-            len(lookup[key]) > 1 for template in variants for key in template.match_keys
+            len(lookup[(template.entity_count, template.closed_count, digest)]) > 1
+            for template in variants
+            for digest in template.match_digests
         )
         for _, variants in groupby(templates, key=lambda template: template.codepoint)
     )
