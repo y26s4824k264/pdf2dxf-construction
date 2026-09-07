@@ -528,6 +528,17 @@ def rings_to_fill_geometry(
                     for g in p.geoms
                     if g.area > 1e-10
                 )
+            elif isinstance(p, GeometryCollection):
+                # A retraced spike may repair to polygons plus zero-area lines.
+                # Keep every polygon; a mixed collection is not an empty fill.
+                # Repair may reverse GEOS ring orientation, so retain the source
+                # ring's sign for the existing non-zero winding classification.
+                source_area = signed_ring_area(ring)
+                polygons.extend(
+                    (g, source_area)
+                    for g in geometry_parts(p)
+                    if isinstance(g, Polygon) and g.area > 1e-10
+                )
         except Exception:
             if stats is not None:
                 stats.malformed_paths += 1

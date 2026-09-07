@@ -53,6 +53,14 @@ rc18 只将同一源轮廓区间中、完整精确字母/汉字内部严格包�
 
 Ten optional catalogs and pinned sources are documented in [open resources](OPEN_FONTS.md). The complete-glyph rule suppresses only strictly contained punctuation fragments sharing a matching font with an exact Latin/Han glyph. It does not choose between competing letters or Han characters, equal spans or crossing overlaps. Font-lock and run checks remain mandatory. Unicode coverage is distinct from actual recognition; IVS sequences are not supported.
 
+## rc20 填充轮廓保留 / Preserve repaired fills
+
+部分自接触或带原路返回线段的 PDF 填充轮廓，在几何修复后会成为 Polygon 与零面积线段混合的 GeometryCollection。rc20 提取其中全部有效面，保留源轮廓方向和孔洞；零面积线段不产生填充，PDF 明确要求的描边仍独立输出。修复发生在 PDF→DXF 转换阶段，字形确认继续读取已保存的 DXF。
+
+该修复使 Jigmo 扩展 I 的填充样例补齐 `U+2EBF3`。外部字库、精确匹配、字体锁定和重叠歧义规则均未改变；6 个 Jigmo 英文样例中的退化 `w` 与 16 个汉字轮廓竞争样例仍部分恢复或未确认。详见 [验证记录](VALIDATION.md)。
+
+Some self-touching or retraced PDF contours repair into a GeometryCollection containing polygonal regions and zero-area lines. rc20 retains every polygonal region with source winding and holes; separately requested strokes remain. This repairs geometry during PDF→DXF conversion. Character confirmation still consumes persisted DXF and unchanged catalogs/matching gates. Jigmo's Extension I fill probe now includes `U+2EBF3`; the remaining English `w` and competing-Han cases are disclosed in [validation](VALIDATION.md).
+
 ## rc19 数值取整边界 / Numeric rounding boundaries
 
 字体匹配保留 4 位归一化栅格精度，并核对 3 位、5 位取整形成的有限掩码变体。差异仅发生在距离半像素取整边界不超过 0.0005 像素的顶点；每个候选仍须与持久化字库中的完整拓扑和掩码摘要精确相同。所有变体、所有字库的候选标签一起检查，只要出现不同文字就拒绝，不按分数或字频猜测。源 DXF 坐标不变，旧字库无需重建。

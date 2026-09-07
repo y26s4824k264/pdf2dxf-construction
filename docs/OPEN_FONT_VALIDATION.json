@@ -1,6 +1,6 @@
 {
   "schema": "pdf2dxf.open_font_validation.v1",
-  "version": "2.0.0rc19",
+  "version": "2.0.0rc20",
   "source_lock_sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
   "unicode_reference": {
     "url": "https://www.unicode.org/Public/17.0.0/ucd/UnicodeData.txt",
@@ -1486,8 +1486,8 @@
   "real_font_smoke": {
     "method": "52 ASCII letters, a common Han phrase where mapped, and first 3-4 mapped codepoints among first 50 per Extension A and supplementary Han block; 20pt stroked polygon and filled Bezier PDF -> persisted DXF -> TEXT; source font copy removed before conversion",
     "cases": 84,
-    "complete_text_cases": 61,
-    "partial_or_unconfirmed_cases": 23,
+    "complete_text_cases": 62,
+    "partial_or_unconfirmed_cases": 22,
     "conversion_failures": 0,
     "published_text_outside_expected_subsequence": 0,
     "not_a_representative_accuracy_benchmark": true,
@@ -2071,12 +2071,12 @@
         "case": "extension-2ebf0",
         "pipeline": "fill",
         "expected": "𮯰𮯱𮯲𮯳",
-        "actual": "𮯰𮯱𮯲",
-        "exact": false,
+        "actual": "𮯰𮯱𮯲𮯳",
+        "exact": true,
         "status": "degraded",
         "source_font_removed_before_conversion": true,
         "locked": 1,
-        "matches": 3,
+        "matches": 4,
         "errors": [],
         "stabilized": 0
       },
@@ -2670,68 +2670,26 @@
       }
     ],
     "baseline_comparison": {
-      "version": "2.0.0rc18",
-      "complete_text_cases": 57,
-      "additional_published_characters": 8,
+      "version": "2.0.0rc19",
+      "complete_text_cases": 61,
+      "additional_published_characters": 1,
       "previously_published_characters_preserved": true,
       "changes": [
         {
-          "font": "cjk-serif-sc-regular",
-          "case": "english52",
-          "pipeline": "stroke",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefhijklmnopqrtuvwxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        },
-        {
-          "font": "cjk-serif-sc-regular",
-          "case": "english52",
-          "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnoqrstuvwxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        },
-        {
-          "font": "han-mincho-plane0",
-          "case": "english52",
-          "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz"
-        },
-        {
           "font": "han-mincho-plane2",
-          "case": "english52",
+          "case": "extension-2ebf0",
           "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz"
-        },
-        {
-          "font": "han-mincho-plane3",
-          "case": "english52",
-          "pipeline": "fill",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqstuvxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz"
-        },
-        {
-          "font": "han-gothic-part1",
-          "case": "english52",
-          "pipeline": "stroke",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrtuvwxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-        },
-        {
-          "font": "han-gothic-part2",
-          "case": "english52",
-          "pipeline": "stroke",
-          "before": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrtuvwxyz",
-          "after": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+          "before": "𮯰𮯱𮯲",
+          "after": "𮯰𮯱𮯲𮯳"
         }
       ]
     },
     "saved_output_audit": {
       "cases": 84,
-      "published_glyphs_checked": 1255,
+      "published_glyphs_checked": 1256,
       "max_glyph_bbox_error_mm": 0.0008663238273314278,
       "bbox_tolerance_mm": 0.05,
-      "method": "Each published glyph label/source handles and bbox checked against original font cmap/BoundsPen excluding move-only contours without any segments at the PDF generation position; original DXF entity tags compared to rc18 after removing only recovery layer/XDATA. No source fonts used by runtime matching.",
+      "method": "Each published glyph label/source handles and bbox checked against original font cmap/BoundsPen excluding move-only contours without any segments at the PDF generation position; original DXF entity tags compared to rc19 except the repaired Jigmo Extension I fill case after removing only recovery layer/XDATA. No source fonts used by runtime matching.",
       "rows": [
         {
           "font": "cjk-sans-sc-regular",
@@ -2739,7 +2697,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 1.0335286418694523e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2749,7 +2707,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.0670572922654173e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2759,7 +2717,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 9.398194299770068e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2769,7 +2727,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 9.398194299770068e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2779,7 +2737,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.291910805889529e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2789,7 +2747,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.291910805889529e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2799,7 +2757,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2809,7 +2767,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2819,7 +2777,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2829,7 +2787,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2839,7 +2797,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 1.0335286475537941e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2849,7 +2807,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 1.9809299033113348e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2859,7 +2817,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 1.291910805889529e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2869,7 +2827,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 7,
           "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2879,7 +2837,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 0.0001382782578076558,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2889,7 +2847,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 0.0008663238273314278,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2899,7 +2857,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2909,7 +2867,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2919,7 +2877,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2929,7 +2887,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0002476162380560254,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2939,7 +2897,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.6914808586298022e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2949,7 +2907,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.00027453104654284743,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2959,7 +2917,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2969,7 +2927,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.00020724402533645048,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2979,7 +2937,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 51,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2989,7 +2947,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 51,
           "max_glyph_bbox_error_mm": 6.997850206502676e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -2999,7 +2957,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 5,
           "max_glyph_bbox_error_mm": 2.6914808444189475e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3009,7 +2967,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 5,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3019,7 +2977,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 51,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3029,7 +2987,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 51,
           "max_glyph_bbox_error_mm": 6.997850206502676e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3039,7 +2997,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3049,7 +3007,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3059,7 +3017,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.0186106350905675e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3069,7 +3027,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3079,7 +3037,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3089,7 +3047,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3099,7 +3057,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3109,7 +3067,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3119,7 +3077,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480847971661e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3129,7 +3087,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3139,7 +3097,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480847971661e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3147,9 +3105,9 @@
           "font": "han-mincho-plane2",
           "case": "extension-2ebf0",
           "pipeline": "fill",
-          "published_glyphs_checked": 3,
+          "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": false,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3159,7 +3117,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3169,7 +3127,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3179,7 +3137,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 51,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3189,7 +3147,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 51,
           "max_glyph_bbox_error_mm": 6.997850206502676e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3199,7 +3157,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.691480851524375e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3209,7 +3167,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3219,7 +3177,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 2.6914808444189475e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3229,7 +3187,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3239,7 +3197,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3249,7 +3207,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715640944e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3259,7 +3217,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0001579743750284024,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3269,7 +3227,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0004153556574415518,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3279,7 +3237,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3289,7 +3247,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3299,7 +3257,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3309,7 +3267,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3319,7 +3277,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3329,7 +3287,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 9.689331044171468e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3339,7 +3297,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3349,7 +3307,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3359,7 +3317,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3369,7 +3327,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3379,7 +3337,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 5.1629548430298655e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3389,7 +3347,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 0.00022792154400974596,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3399,7 +3357,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3409,7 +3367,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3419,7 +3377,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0001579743750284024,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3429,7 +3387,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 52,
           "max_glyph_bbox_error_mm": 0.0004153556574415518,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3439,7 +3397,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3449,7 +3407,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 1.5072292747220217e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3459,7 +3417,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 6.459554047211213e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3469,7 +3427,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 7.53614635584654e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3479,7 +3437,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3489,7 +3447,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 0,
           "max_glyph_bbox_error_mm": 0.0,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3499,7 +3457,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 8.612738753299709e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3509,7 +3467,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 3,
           "max_glyph_bbox_error_mm": 8.612738753299709e-07,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3519,7 +3477,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3529,7 +3487,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3539,7 +3497,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3549,7 +3507,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.07659234060975e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3559,7 +3517,7 @@
           "pipeline": "stroke",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 1.3457404293149011e-06,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         },
@@ -3569,7 +3527,7 @@
           "pipeline": "fill",
           "published_glyphs_checked": 4,
           "max_glyph_bbox_error_mm": 8.612738715285673e-05,
-          "original_entity_tags_equal_rc18": true,
+          "original_entity_tags_equal_rc19": true,
           "audit_errors": 0,
           "audit_fixes": 0
         }
@@ -3577,8 +3535,7 @@
     },
     "remaining_limits": {
       "competing_han_contours_cases": 16,
-      "jigmo_english_with_degenerate_w_contour_cases": 6,
-      "jigmo_extension_i_fill_topology_mismatch_cases": 1
+      "jigmo_english_with_degenerate_w_contour_cases": 6
     },
     "numeric_stabilization": {
       "raster_decimals": [
@@ -3589,7 +3546,26 @@
       "max_half_pixel_boundary_distance": 0.0005,
       "exact_catalog_digest_and_topology_required": true,
       "all_variant_and_catalog_label_conflicts_rejected": true,
-      "persisted_geometry_unchanged": true,
+      "font_catalogs_reused_from_rc18": true,
+      "matcher_unchanged_since_rc19": true
+    },
+    "fill_repair": {
+      "method": "Extract Polygon parts recursively from repaired GeometryCollection while retaining source ring orientation; zero-area lines have no fill and separately requested strokes remain.",
+      "jigmo_extension_i_fill_complete": true,
+      "source_codepoints": [
+        "U+2EBF0",
+        "U+2EBF1",
+        "U+2EBF2",
+        "U+2EBF3"
+      ],
+      "previous_missing_codepoint": "U+2EBF3",
+      "repaired_source_ring_areas_pt2": [
+        41.071607775229495,
+        15.27174666778592
+      ],
+      "source_pdf_poppler_vs_saved_hatch_visual_checked": true,
+      "unchanged_original_entity_tag_cases": 83,
+      "geometry_changed_cases": 1,
       "font_catalogs_reused_from_rc18": true
     }
   }

@@ -1,12 +1,12 @@
 {
   "schema": "pdf2dxf.real_corpus_validation.v1",
-  "version": "2.0.0rc19",
+  "version": "2.0.0rc20",
   "batch": {
     "count": 22,
     "ok": 0,
     "degraded": 22,
     "failed": 0,
-    "elapsed_seconds": 295.76894521713257
+    "elapsed_seconds": 302.78445386886597
   },
   "cli_exit_code": 5,
   "scale_status_counts": {
@@ -30,7 +30,7 @@
   "all_saved_text_handles_match": true,
   "all_saved_validations_match": true,
   "all_input_validation_evidence_verified": true,
-  "real_corpus_stage": "rc19_runtime_with_core_open_font_bundle",
+  "real_corpus_stage": "rc20_runtime_with_core_open_font_bundle",
   "github_ci_workflow": "https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml",
   "github_ci_evidence": "Use the run for the release target commit; each job verifies source and installed wheel.",
   "license_status": "AGPL-3.0-only",
@@ -38,8 +38,40 @@
   "local_source_tests": {
     "os": "macOS ARM64",
     "python": "3.12.13",
-    "passed": 320
+    "passed": 337
   },
-  "same_published_text_and_quality_totals_as_rc18": true,
-  "all_dxf_group_pairs_match_rc18_except_header_guids": true
+  "same_published_text_and_quality_totals_as_rc19": true,
+  "fill_repair": {
+    "files": 22,
+    "baseline": "rc19",
+    "version": "rc20",
+    "all_nonfill_entity_tags_unchanged_excluding_handles_and_recovery_links": true,
+    "all_recovered_text_and_bbox_unchanged": true,
+    "additional_hatches": 14345,
+    "affected_files": 22,
+    "includes_all_block_definitions": true,
+    "dimension_source_handles_resolve_to_identical_entity_tags": true,
+    "source_fill_oracle": {
+      "schema": "pdf2dxf.fill_source_validation.v1",
+      "baseline": "rc19",
+      "version": "2.0.0rc20",
+      "files": 22,
+      "method": "Node and polygonize original flattened PDF boundary segments; classify each face using signed ray-crossing winding (even-odd or nonzero). Compare changed fill regions by symmetric-difference area. No make_valid or orientation heuristic in oracle.",
+      "changed_fill_records": 9895,
+      "changed_clip_records": 0,
+      "all_changed_fills_match_source_winding": true
+    },
+    "persisted_fill_validation": {
+      "schema": "pdf2dxf.persisted_fill_validation.v1",
+      "version": "2.0.0rc20",
+      "files": 22,
+      "changed_fill_records_checked": 9895,
+      "max_symmetric_difference_area_mm2": 0.0,
+      "all_final_block_hatch_regions_match_scaled_paper_dxf": true,
+      "method": "Independent signed-ray winding oracle on original flattened PDF boundaries, intersected with active source clips; existing point-to-paper-mm transform applied to expected rings. Compare persisted paper-DXF HATCH areas by source seqno. All final block HATCH regions match paper-DXF scaled by the recorded calibration factor; all nonfill entity tags and INSERT transforms are separately compared to rc19."
+    },
+    "max_final_scale_area_difference_mm2": 0.0,
+    "saved_region_tolerance": "max(1e-8 mm^2, expected area * 1e-8)",
+    "source_oracle_curve_sampling_and_coordinate_transform": "Existing PDF chain parsing/flattening and page-to-paper-mm transform are reused; fill-face classification is independent."
+  }
 }
