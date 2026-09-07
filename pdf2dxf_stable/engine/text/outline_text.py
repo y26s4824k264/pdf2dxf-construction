@@ -16,7 +16,7 @@ import os
 import re
 import tempfile
 from collections import defaultdict
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -144,6 +144,23 @@ class FontCatalogLock:
     exact_anchor_characters: tuple[str, ...]
     method: str
     evidence_texts: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
+class _FontConflict:
+    start: int
+    end: int
+    low: tuple[float, float]
+    high: tuple[float, float]
+    # Catalog, label, exact fingerprint, raster precision; no label is chosen.
+    predictions: tuple[tuple[str, str, str, int], ...]
+
+
+@dataclass(slots=True)
+class _FontScanContext:
+    matches: tuple[GlyphMatch, ...] = ()
+    conflicts: list[_FontConflict] = field(default_factory=list)
+    han_parent_spans: set[tuple[int, int]] = field(default_factory=set)
 
 
 def _is_hex(value: str, size: int) -> bool:
@@ -798,6 +815,8 @@ def _scan_font_catalog_matches(
     atoms: list[OutlineAtom],
     locks: list[FontCatalogLock],
     occupied_indices: set[int],
+    *,
+    context: _FontScanContext | None = None,
 ) -> tuple[list[GlyphMatch], dict[str, Any]]:
     metrics = {
         "font_structural_candidate_windows": 0,
@@ -901,6 +920,28 @@ def _scan_font_catalog_matches(
                 continue
             if len(characters) != 1:
                 ambiguous_spans.append((start, end + 1))
+                if context is not None:
+                    context.conflicts.append(
+                        _FontConflict(
+                            start,
+                            end + 1,
+                            tuple(low),
+                            tuple(high),
+                            tuple(
+                                sorted(
+                                    {
+                                        (
+                                            cid,
+                                            label,
+                                            _font_signature_key(sig)[2].hex(),
+                                            decimals,
+                                        )
+                                        for cid, label, sig, decimals in predictions
+                                    }
+                                )
+                            ),
+                        )
+                    )
                 metrics["font_ambiguous_geometry_matches"] += 1
                 continue
             char = characters.pop()
@@ -1038,6 +1079,11 @@ def _scan_font_catalog_matches(
     metrics["font_overlapping_matches_rejected"] = len(rejected)
     metrics["font_contained_punctuation_suppressed"] = len(contained_punctuation)
     metrics["font_contained_fill_variants_suppressed"] = len(contained_fill_variants)
+    if context is not None:
+        context.matches = tuple(matches)
+        context.han_parent_spans = {
+            (matches[i].start, matches[i].end) for i in promoted
+        }
     return accepted, metrics
 
 
@@ -1299,6 +1345,207 @@ def _complete_font_catalog_locks(
     return [locks[key] for key in sorted(locks)]
 
 
+def _font_window_evidence(
+    window: GlyphMatch | _FontConflict, atoms: list[OutlineAtom]
+) -> dict[str, Any]:
+    predictions = (
+        tuple(
+            (cid, window.char, digest, decimals)
+            for cid, digest, decimals in window.font_match_evidence
+        )
+        if isinstance(window, GlyphMatch)
+        else window.predictions
+    )
+    return {
+        "span": [window.start, window.end],
+        "bbox": [*window.low, *window.high],
+        "source_handles": [
+            a.entity.dxf.handle for a in atoms[window.start : window.end]
+        ],
+        "labels": sorted({p[1] for p in predictions}),
+        "predictions": [list(p) for p in predictions],
+    }
+
+
+def _has_small_han_row(windows: list[dict[str, Any]]) -> bool:
+    """Keep even a possible independent two-Han row; source gaps do not excuse it."""
+    han = [w for w in windows if any(is_han_character(ch) for ch in w["labels"])]
+    for index, left in enumerate(han):
+        for right in han[index + 1 :]:
+            if (
+                left["span"][0] < right["span"][1]
+                and right["span"][0] < left["span"][1]
+            ):
+                continue
+            a, b = sorted((left["bbox"], right["bbox"]), key=lambda box: box[0])
+            height = max(a[3] - a[1], b[3] - b[1], 0.01)
+            if (
+                min(a[3] - a[1], b[3] - b[1]) / height >= MIN_HAN_RUN_SIZE_RATIO
+                and abs((a[1] + a[3] - b[1] - b[3]) / 2) <= 0.35 * height
+                and -0.12 * height <= b[0] - a[2] <= 0.90 * height
+            ):
+                return True
+    return False
+
+
+def _recheck_locked_font_rows(
+    atoms: list[OutlineAtom],
+    locks: list[FontCatalogLock],
+    candidates: list[GlyphMatch],
+    context: _FontScanContext | None,
+    occupied_indices: set[int],
+) -> tuple[list[GlyphMatch], dict[str, Any]]:
+    """Recheck a missing exact Han parent without discarding other fonts' evidence.
+
+    The selected font must already be locked by the all-font scan. Its local
+    scan must resolve the parent's Han fragments, and the same source row must
+    supply three distinct, globally unambiguous anchors. All original competing
+    windows are then checked: only contained, undersized Han/punctuation/stroke
+    fragments are eligible, and Han labels must agree with this font.
+    """
+    metrics: dict[str, Any] = {
+        "font_row_recheck_scans": 0,
+        "font_row_recheck_matches": 0,
+        "font_row_recheck_evidence": [],
+        "font_row_recheck_evidence_truncated": 0,
+    }
+    if context is None or not locks:
+        return [], metrics
+
+    def key(match: GlyphMatch) -> tuple[int, int, str]:
+        return match.start, match.end, match.char
+
+    existing = {key(m): m for m in candidates}
+    missing = {
+        key(m): m
+        for m in context.matches
+        if is_han_character(m.char) and key(m) not in existing
+    }
+    restored: dict[tuple[int, int, str], GlyphMatch] = {}
+    for lock in locks:
+        font = lock.catalog.catalog_id
+        if not any(font in m.font_catalog_ids for m in missing.values()):
+            continue
+        local_context = _FontScanContext()
+        local, _ = _scan_font_catalog_matches(
+            atoms, [lock], occupied_indices, context=local_context
+        )
+        metrics["font_row_recheck_scans"] += 1
+        for run in _group_runs(local):
+            if not 4 <= len(run) <= 96 or not all(
+                is_han_character(m.char) for m in run
+            ):
+                continue
+            if any(
+                a.atoms[-1].source_ref[:2] != b.atoms[0].source_ref[:2]
+                or not 0
+                <= b.atoms[0].source_ref[2] - a.atoms[-1].source_ref[2]
+                <= MAX_SOURCE_SEQUENCE_GAP
+                for a, b in zip(run, run[1:])
+            ):
+                continue
+            anchors = [
+                m
+                for m in run
+                if key(m) in existing
+                and font in existing[key(m)].font_catalog_ids
+                and not any(
+                    m.start < c.end and c.start < m.end for c in context.conflicts
+                )
+            ]
+            if len({m.char for m in anchors}) < MIN_FONT_LOCK_DISTINCT_HAN:
+                continue
+            minimum_height = min(m.height for m in anchors)
+            for parent in run:
+                if (
+                    key(parent) not in missing
+                    or key(parent) in restored
+                    or (parent.start, parent.end) not in local_context.han_parent_spans
+                ):
+                    continue
+                competitors: list[GlyphMatch | _FontConflict] = [
+                    m
+                    for m in context.matches
+                    if key(m) != key(parent)
+                    and m.start < parent.end
+                    and parent.start < m.end
+                ]
+                competitors.extend(
+                    c
+                    for c in context.conflicts
+                    if c.start < parent.end and parent.start < c.end
+                )
+                if (
+                    not competitors
+                    or len(competitors) > 32
+                    or any(
+                        not parent.start <= c.start < c.end <= parent.end
+                        or (c.start, c.end) == (parent.start, parent.end)
+                        or c.high[1] - c.low[1]
+                        >= MIN_HAN_RUN_SIZE_RATIO * minimum_height
+                        or not all(
+                            parent.low[axis] <= c.low[axis]
+                            and c.high[axis] <= parent.high[axis]
+                            for axis in (0, 1)
+                        )
+                        for c in competitors
+                    )
+                ):
+                    continue
+                windows = [_font_window_evidence(c, atoms) for c in competitors]
+                valid = True
+                for window in windows:
+                    han = {ch for ch in window["labels"] if is_han_character(ch)}
+                    if (
+                        len(han) > 1
+                        or any(
+                            not (
+                                is_han_character(ch)
+                                or unicodedata.category(ch).startswith("P")
+                                or 0x31C0 <= ord(ch) <= 0x31EF
+                            )
+                            for ch in window["labels"]
+                        )
+                        or any(
+                            not any(
+                                cid == font and label == ch
+                                for cid, label, _, _ in window["predictions"]
+                            )
+                            for ch in han
+                        )
+                    ):
+                        valid = False
+                        break
+                if not valid or _has_small_han_row(windows):
+                    continue
+                restored[key(parent)] = parent
+                if len(metrics["font_row_recheck_evidence"]) >= 32:
+                    continue
+                proof_anchors: dict[str, GlyphMatch] = {}
+                for anchor in sorted(anchors, key=lambda m: (m.height, m.start)):
+                    proof_anchors.setdefault(anchor.char, anchor)
+                    if len(proof_anchors) == MIN_FONT_LOCK_DISTINCT_HAN:
+                        break
+                metrics["font_row_recheck_evidence"].append(
+                    {
+                        "stage": "locked_font_row_recheck",
+                        "catalog_id": font,
+                        "parent": _font_fragment_evidence(parent),
+                        "anchors": [
+                            _font_fragment_evidence(a) for a in proof_anchors.values()
+                        ],
+                        "conflicts": windows,
+                        "minimum_anchor_height": minimum_height,
+                        "required_fragment_height_ratio_below": MIN_HAN_RUN_SIZE_RATIO,
+                    }
+                )
+    metrics["font_row_recheck_matches"] = len(restored)
+    metrics["font_row_recheck_evidence_truncated"] = len(restored) - len(
+        metrics["font_row_recheck_evidence"]
+    )
+    return sorted(restored.values(), key=lambda m: m.start), metrics
+
+
 def _finalize_font_matches(
     candidates: list[GlyphMatch], locks: list[FontCatalogLock]
 ) -> list[GlyphMatch]:
@@ -1553,6 +1800,10 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_contained_han_fragments_suppressed": 0,
         "font_han_fragment_evidence": [],
         "font_han_fragment_evidence_truncated": 0,
+        "font_row_recheck_scans": 0,
+        "font_row_recheck_matches": 0,
+        "font_row_recheck_evidence": [],
+        "font_row_recheck_evidence_truncated": 0,
         "font_numeric_variant_masks": 0,
         "font_numeric_stabilized_matches": 0,
         "overlapping_glyph_matches_rejected": 0,
@@ -1647,8 +1898,9 @@ def recover_outline_text(
     occupied_indices = {
         index for match in selected for index in range(match.start, match.end)
     }
+    font_scan = _FontScanContext() if len(font_catalogs) > 1 else None
     font_candidates, font_metrics = _scan_font_catalog_matches(
-        atoms, scan_context, occupied_indices
+        atoms, scan_context, occupied_indices, context=font_scan
     )
     report.update(font_metrics)
     locks = _complete_font_catalog_locks(
@@ -1659,6 +1911,13 @@ def recover_outline_text(
         font_catalog_entries,
     )
     report["font_catalogs"]["locked"] = len(locks)
+    restored, recheck_metrics = _recheck_locked_font_rows(
+        atoms, locks, font_candidates, font_scan, occupied_indices
+    )
+    font_candidates = sorted([*font_candidates, *restored], key=lambda m: m.start)
+    report.update(recheck_metrics)
+    report["font_catalog_candidate_matches"] = len(font_candidates)
+    del font_scan
     font_matches = _finalize_font_matches(font_candidates, locks)
     report["font_exact_glyph_matches"] = len(font_matches)
     report["font_numeric_stabilized_matches"] = sum(

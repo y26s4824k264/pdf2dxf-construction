@@ -84,3 +84,13 @@ Jigmo w has a tiny degenerate contour that may be absent from stroke candidates 
 这不会删除或修改 DXF 路径，也不按词义猜字。`font_han_fragment_resolved_candidates` 和 `font_contained_han_fragments_suppressed` 统计候选处理；`font_han_fragment_evidence` 保存父字、子轮廓与锚点的源句柄、指纹和尺寸比例，最多 32 条，超过部分由 `font_han_fragment_evidence_truncated` 计数。实际输出仍以 `accepted` 和保存 DXF 的 TEXT 为准。无需重建 r2 字库。
 
 When an exact whole Han glyph contains a competing short Han contour, rc22 requires strict containment, a common catalog, a continuous source row, two uncontested anchors and three distinct labels including the parent. Every child must be shorter than 0.72 times the smallest anchor, below the existing same-scale Han row threshold. Independent small-text runs, equal-size/crossing interpretations, cross-font conflicts and ambiguous labels remain unresolved. Font locks and publication gates still apply. Reports retain bounded source-handle, fingerprint and scale evidence at candidate-scan stage; published TEXT is counted separately. DXF geometry and r2 catalogs are unchanged.
+
+## rc23 多字库来源行复核 / Cross-catalog row recheck
+
+多字库扫描已经锁定某字体，但外部字体将完整汉字内部的短横标成下划线、破折号等候选时，rc23 可复核原先已有唯一整字标签的候选。必须满足原有单字体短笔画判断，且同一连续来源行中有三个不同的汉字锚点，它们在全体字库中均无标签歧义。页面其他位置的字体锁定不能代替这些行内证据。
+
+复核保留全部原始窗口：每个竞争窗口必须严格包含于整字，且高度小于最小锚点的 0.72 倍。只接受汉字、标点与 U+31C0–U+31EF 笔画标签；窗口内的汉字标签必须唯一且当前字体也精确匹配该标签。竞争字母/数字、另一个整字标签、外部字体独有汉字、等大/交叉轮廓和可能独立成行的小字均保留歧义。不选择短横的最终文字标签；只发布通过核验的完整父字。
+
+`font_row_recheck_scans` 记录额外单字体扫描，`font_row_recheck_matches` 记录补回候选，`font_row_recheck_evidence` 保存最多 32 条父字、三个锚点与所有竞争窗口的源句柄、标签、指纹和尺寸证据，超过部分由 `font_row_recheck_evidence_truncated` 计数。原有歧义/重叠计数描述初次全字库扫描，最终候选数包含复核结果；发布字符仍以 accepted 与保存 DXF 为准。单字库调用不走新增复核。
+
+rc23 rechecks a globally unique complete Han candidate only after the all-catalog scan has locked its font. The existing single-font Han-fragment rule must succeed, and the same continuous source row must provide three distinct Han anchors without all-catalog label ambiguity. A font lock elsewhere on the page is insufficient. Every original competing window remains checked for strict containment and height below 0.72 times the smallest anchor. Labels are restricted to Han, punctuation and U+31C0–U+31EF strokes; any Han label must be unique and exactly supported by the selected font. Competing letters/digits, other complete labels, foreign-only Han labels, full-size/crossing contours and possible independent small-text rows remain unresolved. No fragment label is chosen for output; only the confirmed whole glyph is published. Additive report fields record extra scans, restored candidates and up to 32 detailed decisions, with a separate truncation count. Single-catalog recognition is unchanged.

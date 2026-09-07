@@ -12,8 +12,8 @@
       "bytes": 294
     },
     "CHANGELOG.md": {
-      "sha256": "3c97b6b10ffc9ad1a39fe89e543d04031786f6336d96b095b61d535a64a5c1ae",
-      "bytes": 22678
+      "sha256": "366acb5927d3b02e1f9e0567705119ebff865fefc6f300109a7ae197d319fbeb",
+      "bytes": 24486
     },
     "CONTRIBUTING.md": {
       "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
@@ -32,12 +32,12 @@
       "bytes": 1460
     },
     "README.en.md": {
-      "sha256": "bf9e63b0404887190b2c657686fc1e05b9c872f26fbeeec1d7bd7230130e11a3",
-      "bytes": 18526
+      "sha256": "353b02e647056b9eecedb0cd8c29fc1f593c7c44258f6577596feb595792d005",
+      "bytes": 18619
     },
     "README.md": {
-      "sha256": "91bbbd2c8f7d9645ac8304b2f5b4aed6d2d41fd0da4e8271091121594b069e80",
-      "bytes": 20703
+      "sha256": "d2df429e2d63900476df345aea59e5eda4a2805e6d10a725158aec582e0ec6b4",
+      "bytes": 20698
     },
     "SECURITY.md": {
       "sha256": "f7ed27e453fa7f2132340d5e46d14d17d7ea4393461ac2d19ff94d51519b911d",
@@ -52,24 +52,24 @@
       "bytes": 5603
     },
     "docs/CHARACTER_SUPPORT.md": {
-      "sha256": "d055b875a1750e57340f094dc92c9043854a8b111d94a3a8b2b0cafda721ca38",
-      "bytes": 13808
+      "sha256": "7390ed526741e01df1c4dcbaa44a1b9756e525087e62c860aab61f9692295ab7",
+      "bytes": 16244
     },
     "docs/OPEN_FONTS.lock.json": {
       "sha256": "bef5a0e13999e980ef9f502fd7d84479cae79da2e8d08d7d97054bf7c704f6aa",
       "bytes": 12941
     },
     "docs/OPEN_FONTS.md": {
-      "sha256": "b19e043d7bc24dd2f7ae1f10b1fd621c8ba437ab6fa9f918325dc381a7cb2850",
-      "bytes": 10646
+      "sha256": "cd86534189635823410706d2139c13bf18e076273400c55c2c966d23341d67cd",
+      "bytes": 11784
     },
     "docs/OPEN_FONT_VALIDATION.json": {
-      "sha256": "00c5a500ca9d3cfa21d18416c5803f5d2d030b91dfa1193f5191cb306da1fa58",
-      "bytes": 293512
+      "sha256": "724cee34f8d6daa1f61447caad66792e9b074cf5077a380f250ab76e6a7a9c79",
+      "bytes": 365822
     },
     "docs/PROJECT_BRIEF.md": {
-      "sha256": "cb60c63f6609a8369df46e69f565f0439934a9f4e37517ec6d9145be97b9aec0",
-      "bytes": 8772
+      "sha256": "19a0cd7e90144cf3c3a111487d6c443980b34c770ac0efcb59e1b250b78fa3b5",
+      "bytes": 9501
     },
     "docs/RELEASE_CHECKLIST.md": {
       "sha256": "042459714fe15e55a672a34ae21299785fc723bd7385635be762a341aa8e50d6",
@@ -80,12 +80,12 @@
       "bytes": 1701
     },
     "docs/VALIDATION.md": {
-      "sha256": "83f22310702d15f01b0a0c3bace2e13bca8d9bb67631d3ecc9cba973f979b99a",
-      "bytes": 9588
+      "sha256": "8a5a37f7e1f1e17923aebf669da3100468d4635fa214faff42164645cff7cad1",
+      "bytes": 8845
     },
     "docs/validation.json": {
-      "sha256": "a82ce30426e36d3b471268f0ab1ea5568137dcecdfc2a1ccb1eda2272d5a4a8b",
-      "bytes": 3913
+      "sha256": "2e0df9be23f6c13410f0439cb028d15889bb5bcaffabf961676acdb9f9fc6b0c",
+      "bytes": 4258
     },
     "pdf2dxf_stable/__init__.py": {
       "sha256": "42f1b74c2ce5094479051608c6be2b38b9907e509e27992213c5e7ec9101c5ca",
@@ -200,8 +200,8 @@
       "bytes": 46013
     },
     "pdf2dxf_stable/engine/text/outline_text.py": {
-      "sha256": "fcf7016530a00d4aaa65b686cf61eeebc5aaca77090cbbc17ee0f4857c02d76a",
-      "bytes": 71707
+      "sha256": "be598f7cbd0e2240eff63b4a9f0e6a54ccee81c78aef2cc0c263d977579a7de8",
+      "bytes": 82281
     },
     "pdf2dxf_stable/engine/worker.py": {
       "sha256": "33d857afd5e28ac2a92f31d10bc967a7c154daaa72e1cbfe92a48e860e06f617",
@@ -260,7 +260,7 @@
       "bytes": 20570
     },
     "pdf2dxf_stable/version.py": {
-      "sha256": "587f6ea8e6deeb5094bae4d1bd077308ddf1a07d6916069dcc53081c58829fdc",
+      "sha256": "1368d3bba8165ef570d909ec8623d920da72f91df5b4c5f7ab666f92ba83199f",
       "bytes": 26
     },
     "pyproject.toml": {
@@ -334,6 +334,10 @@
     "tests/stable/test_io_safety.py": {
       "sha256": "033881a6aed50222144d57921ca7fb63b94ee1895488940ee8361380eea1cd67",
       "bytes": 5049
+    },
+    "tests/stable/test_multifont_row_recheck.py": {
+      "sha256": "4df5db4ff9ee9d66fa4245962b864049fd95c839053289357fac38a4aac0ed8e",
+      "bytes": 5943
     },
     "tests/stable/test_multilingual_outline.py": {
       "sha256": "bbd88d3c9cf89d8604a7bbe68344d2f23ffaf4d66fafb2bd43fccbe5bef37033",

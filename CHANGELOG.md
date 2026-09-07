@@ -1,3 +1,13 @@
+# 2.0.0rc23
+
+- 多字库扫描锁定字体后，对原先已有唯一整字标签的漏识别候选进行来源行复核；要求三个不同且全局无歧义的汉字锚点，并通过原有单字体短笔画规则。所有原始冲突窗口继续核验，不因字体锁定而丢弃其他字体的证据。
+- 仅处理整字严格包含、明显小于锚点字号的汉字/标点/中日韩笔画片段；汉字标签必须唯一且得到当前字体支持。竞争字母、数字、整字同形、等大/跨界轮廓、外部汉字标签和独立小字行仍拒绝。新增有界的来源、标签、字形指纹与比例证据报告。
+- 新增 17 项回归；本地源码 399 项通过。十字库组合的 84 个 DXF 样例完整恢复 62→64，增加两个字符；逐字体 84 个 PDF 仍为 82 个完整恢复。分别校验全部 1269 / 1306 个输出字形的原字体边界和标签。
+- 正常加载下载字库的四个 PDF→DXF→TEXT 检查均完整恢复。六个数字/字母回归通过；22 份 BIM 实图全部保存组码与 rc22 一致，仅两个 HEADER GUID 变化，文字/比例质量状态不变。
+- r2 资源不变，中英说明分别披露组合字库和对应字体字库的实际结果。仍为预发布，不声明任意字体或工程验收全部通过。
+
+rc23 restores exact Han parents obscured by cross-catalog short-stroke labels using a pre-existing font lock and three globally unambiguous same-row Han anchors. All competing windows remain part of the evidence; complete labels and unsupported alternatives are not guessed. Seventeen added tests bring the source suite to 399. All-ten-catalog DXF probes improve from 62/84 to 64/84 complete; matching-face PDF probes remain 82/84. Existing r2 assets, saved geometry and engineering-scale results are preserved.
+
 # 2.0.0rc22
 
 - 修复完整汉字内部短笔画与“一”等字形竞争造成的漏识别：要求精确整字、严格包含、同字体连续文字行、两个无歧义锚点、至少三个不同汉字及尺寸证据。等大候选、同形异字、独立小字行、跨字体与不连续来源继续保留歧义；不使用 OCR。

@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc22 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc22) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc23 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc23) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc22 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc22), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc23 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc23), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -98,6 +98,10 @@ rc22 changes DXF candidate resolution. Both r2 ZIPs retain exactly the rc21 SHA2
 
 ## 字库选择影响识别 / Catalog selection affects recognition
 
-84 个真实字体样例逐个指定生成该样例的字体字库，不是同时加载十个字库。隔离安装包另测遍黑体扩展 J 的 `U+323B0–U+323B3`：同时加载 core + extended 时，描边/填充都只恢复前三字，末字因跨字体轮廓冲突保留几何；从相同下载资源中单独指定 `han-gothic-part2.p2dfont` 时，两例均完整恢复。增加字体数量不保证恢复更多文字；应优先提供与图纸字体相符的字库，避免不必要的竞争候选。
+84 个真实字体样例逐个指定生成该样例的字体字库，不是同时加载十个字库。rc22 的隔离安装包曾另测遍黑体扩展 J 的 `U+323B0–U+323B3`：同时加载 core + extended 时，描边/填充都只恢复前三字，末字因跨字体轮廓冲突保留几何；从相同下载资源中单独指定 `han-gothic-part2.p2dfont` 时，两例均完整恢复。增加字体数量不保证恢复更多文字；应优先提供与图纸字体相符的字库，避免不必要的竞争候选。
 
-The 84 probes each use the catalog for the font that generated that PDF, rather than all ten catalogs together. Separate installed-wheel checks use Plangothic Extension J `U+323B0–U+323B3`: loading core + extended recovers only the first three characters in both stroke and fill, preserving the last glyph because other fonts introduce conflicting contour labels. Selecting `han-gothic-part2.p2dfont` from the same download restores all four in both cases. More catalogs do not guarantee more recovered text; supply the font faces relevant to the drawing. See [validation data](OPEN_FONT_VALIDATION.json).
+The 84 probes each use the catalog for the font that generated that PDF, rather than all ten catalogs together. Historical rc22 installed-wheel checks used Plangothic Extension J `U+323B0–U+323B3`: loading core + extended recovers only the first three characters in both stroke and fill, preserving the last glyph because other fonts introduce conflicting contour labels. Selecting `han-gothic-part2.p2dfont` from the same download restores all four in both cases. More catalogs do not guarantee more recovered text; supply the font faces relevant to the drawing. See [validation data](OPEN_FONT_VALIDATION.json).
+
+rc23 在上述扩展 J 例子的整字标签唯一、字体已锁定且同一行三个汉字锚点无歧义时，核验所有内部片段，描边/填充均补齐第四字。正常加载两个资源包或单独对应字库的四项完整转换检查均通过。对同一批 84 个保存 DXF 同时加载十字库，完整恢复从 rc22 的 62 个增至 64 个，仍有 20 个部分恢复或未确认；逐字体 PDF 样例仍为 82/84。字库更多不等于识别更好，建议继续按图纸实际字体选择。资源内容和 SHA256 不变。
+
+rc23 restores the fourth Extension J character in both pipelines after checking the globally unique parent, established font lock, three unambiguous same-row Han anchors and all internal fragments. Four complete conversion checks with normal resource loading pass for combined bundles or the matching face. On the same 84 persisted DXFs with all ten catalogs loaded, complete cases improve from 62 to 64, leaving 20 partial/unconfirmed; matching-face PDF probes remain 82/84. More catalogs can still reduce recognition. Resource bytes and SHA256 digests are unchanged.
