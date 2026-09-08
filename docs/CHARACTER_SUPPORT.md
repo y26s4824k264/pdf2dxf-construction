@@ -132,3 +132,9 @@ PDF 数值序列化可使同一曲线的理论采样数从 8.999983 变为 9.000
 PDF serialization can move the same curve's ideal count from 8.999983 to 9.000077, causing ceil to choose 9 versus 10 samples and different glyph masks. rc28 snaps only a **sample count** within 0.0001 of an integer; other rounding decisions, controls, coordinates, configured tolerance and sample limits remain unchanged. PDF conversion and font building share this rule. Exact masks, topology, font locks, ambiguity rejection and r2 resource bytes remain unchanged.
 
 Reconvert the original PDF to benefit; this does not infer or rewrite curves already flattened in old DXFs. The original 16 long PDFs now complete, restoring four missing B characters. This is a bounded regression result, not universal font accuracy. See [evidence](CURVE_SAMPLING_VALIDATION.json).
+
+## rc29 闭合部首消歧 / Enclosed radical disambiguation
+
+同字体别名、严格内孔包含和三个独立同行锚点可复核部分整字/部首冲突。Jigmo 对应字库的“图”补回，“建”及额外跨字体冲突仍保留。字库不变；详见 [算法](OPEN_OUTLINE_ALGORITHMS.md) 与 [实测](CONTOUR_TOPOLOGY_VALIDATION.json)。
+
+Same-font aliases, strict hole containment and three independent row anchors resolve a bounded class of glyph/radical conflicts. Jigmo 图 improves; 建 and additional multi-font conflicts remain unresolved. Resources are unchanged.

@@ -1,5 +1,9 @@
 # 第三方来源与许可 / Third-party notices
 
+rc29 的闭合部首消歧复用已有 Shapely/GEOS；独立测试复用 FontTools PointInsidePen。上游许可与调研决策见 [开源轮廓算法](docs/OPEN_OUTLINE_ALGORITHMS.md)。本次没有复制 FontForge、skia-pathops 或汉字 IDS/笔画数据，也没有新增依赖包。
+
+rc29 reuses the existing Shapely/GEOS dependency for strict enclosure checks and FontTools PointInsidePen as an independent test oracle. The linked research record distinguishes adopted APIs from references and records upstream licenses. No FontForge, skia-pathops, IDS or stroke dataset is copied, and no dependency is added.
+
 项目采用 [AGPL-3.0-only](LICENSE)。维护者已于 2026-09-07 授权公开其提供的源码、随包衍生模板和回归样本，声明见 [SOURCE_ORIGIN.json](SOURCE_ORIGIN.json)。本文保留第三方来源与许可，不将第三方内容重新授权。
 
 ## 原始源码

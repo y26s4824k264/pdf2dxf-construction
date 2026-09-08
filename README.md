@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc28`（预发布）。
+版本：`2.0.0rc29`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
 
@@ -24,7 +24,7 @@ python3.12 -m venv .venv
 
 无系统字体的服务器若需要 `--emit-r12`，安装 `'.[render]'`，提供 MTEXT 拆分所需的字体度量。此时使用 Matplotlib 自带字体并报告 `R12_FONT_METRICS_FALLBACK`，中文字体外观仍需复核；通用 DXF 保留原生 MTEXT。项目不内置系统字体文件。
 
-rc28 修复 PDF 曲线采样数在整数边界受数值误差影响而漏识别文字的问题；转换器和字库构建器共用有界的采样规则，精确字形匹配与歧义检查不变。原 16 个长行 PDF 从 14 个完整恢复提升到 16 个，补齐四处 `B`，共恢复 2320 个字符。新增 23 项回归，源码 492 项通过；84 个对应字体 PDF、84 个短行 DXF 和 22 份 BIM 图纸均已复测。现有 r2 字库无需重下；需从原 PDF 重新转换以应用采样修复。详见[验证记录](docs/VALIDATION.md)。
+rc29 复用 Shapely/GEOS 严格包含算法，修复闭合部首与整字同时匹配导致的漏识别；需同字体部首别名、精确字形、封闭拓扑和三个独立同行汉字锚点。Jigmo 两个对应字体 PDF 补回“图”；“建”仍保留歧义。新增 36 项回归，源码 528 项通过。84 个对应字体 PDF 恢复 1308 字，16 个长行 PDF 全部完整；84 个十字库 DXF 和 22 份 BIM PDF 也已复测。r2 字库无需重下。详见[开源算法调研](docs/OPEN_OUTLINE_ALGORITHMS.md)和[验证记录](docs/VALIDATION.md)。
 
 ## 可选开源字库
 

@@ -28,6 +28,7 @@ import numpy as np
 from ezdxf import bbox as dxf_bbox
 from ezdxf.enums import TextEntityAlignment
 
+from .contour_topology import strictly_encloses_paths
 from .font_catalog import (
     FONT_CATALOG_RASTER_DECIMALS,
     MAX_CONTOURS,
@@ -1589,6 +1590,140 @@ def _recheck_locked_font_rows(
     return sorted(restored.values(), key=lambda m: m.start), metrics
 
 
+def _restore_enclosed_radicals(
+    locks: list[FontCatalogLock],
+    candidates: list[GlyphMatch],
+    context: _FontScanContext | None,
+) -> tuple[list[GlyphMatch], dict[str, Any]]:
+    """Resolve only a single enclosing radical after an independent font lock.
+
+    Both complete glyph and radical must already have unique exact matches.
+    Every overlap, including hidden multi-label windows, participates. Three
+    uncontested distinct Han anchors in the same source row are required;
+    these proposals can never create their own font lock or act as anchors.
+    """
+    metrics: dict[str, Any] = {
+        "font_enclosed_radical_matches": 0,
+        "font_enclosed_radical_evidence": [],
+        "font_enclosed_radical_evidence_truncated": 0,
+    }
+    if context is None or not locks:
+        return [], metrics
+    existing = {(m.start, m.end) for m in candidates}
+    components: list[list[GlyphMatch | _FontConflict]] = []
+    end = -1
+    for window in sorted(
+        [*context.matches, *context.conflicts], key=lambda m: (m.start, m.end)
+    ):
+        if not components or window.start >= end:
+            components.append([])
+        components[-1].append(window)
+        end = max(end, window.end)
+    uncontested = {
+        (c[0].start, c[0].end)
+        for c in components
+        if len(c) == 1 and isinstance(c[0], GlyphMatch)
+    }
+    restored: dict[tuple[int, int], GlyphMatch] = {}
+    for component in components:
+        # More than one alternative, or a hidden ambiguous window, needs a
+        # different proof. Do not absorb arbitrary small text or punctuation.
+        if len(component) != 2 or not all(isinstance(m, GlyphMatch) for m in component):
+            continue
+        parent, radical = sorted(component, key=lambda m: m.start - m.end)
+        if (
+            (parent.start, parent.end) in existing
+            or not is_han_character(parent.char)
+            or not is_han_character(radical.char)
+            or not parent.start <= radical.start < radical.end <= parent.end
+            or (parent.start, parent.end) == (radical.start, radical.end)
+        ):
+            continue
+        rings = [path for atom in radical.atoms for path in atom.paths]
+        remaining = [
+            path
+            for index, atom in enumerate(parent.atoms, parent.start)
+            if not radical.start <= index < radical.end
+            for path in atom.paths
+        ]
+        if not strictly_encloses_paths(rings, remaining):
+            continue
+        for lock in locks:
+            font = lock.catalog.catalog_id
+            if (
+                font not in parent.font_catalog_ids
+                or font not in radical.font_catalog_ids
+            ):
+                continue
+            digests = {
+                bytes.fromhex(digest)
+                for cid, digest, _ in radical.font_match_evidence
+                if cid == font
+            }
+            aliases = [
+                t
+                for t in lock.catalog.templates_by_label.get(radical.char, ())
+                if 0x2F00 <= t.codepoint <= 0x2FD5
+                and t.entity_count == t.closed_count == len(rings)
+                and 0.90 <= radical.template.aspect_ratio / t.aspect_ratio <= 1.10
+                and digests.intersection(t.match_digests)
+            ]
+            if not aliases:
+                continue
+            # Check each proposal separately, so rejected proposals cannot
+            # bridge source gaps between otherwise independent anchor rows.
+            row = next(
+                run
+                for run in _group_runs(
+                    sorted([*candidates, parent], key=lambda m: m.start)
+                )
+                if any(m is parent for m in run)
+            )
+            if (
+                not 4 <= len(row) <= MAX_RECOVERED_TEXT_GLYPHS
+                or any(
+                    not is_han_character(m.char) or font not in m.font_catalog_ids
+                    for m in row
+                )
+                or any(
+                    a.atoms[-1].source_ref[:2] != b.atoms[0].source_ref[:2]
+                    or not 0
+                    <= b.atoms[0].source_ref[2] - a.atoms[-1].source_ref[2]
+                    <= MAX_SOURCE_SEQUENCE_GAP
+                    for a, b in zip(row, row[1:])
+                )
+            ):
+                continue
+            anchors: dict[str, GlyphMatch] = {}
+            for match in row:
+                if (match.start, match.end) in uncontested & existing:
+                    anchors.setdefault(match.char, match)
+            if len(anchors) < MIN_FONT_LOCK_DISTINCT_HAN:
+                continue
+            restored[parent.start, parent.end] = parent
+            if len(metrics["font_enclosed_radical_evidence"]) < 32:
+                metrics["font_enclosed_radical_evidence"].append(
+                    {
+                        "stage": "locked_font_enclosed_radical_recheck",
+                        "catalog_id": font,
+                        "parent": _font_fragment_evidence(parent),
+                        "radical": _font_fragment_evidence(radical),
+                        "radical_codepoint": f"U+{min(t.codepoint for t in aliases):04X}",
+                        "anchors": [
+                            _font_fragment_evidence(a)
+                            for a in list(anchors.values())[:3]
+                        ],
+                        "topology": "two_nested_rings_strictly_contain_all_remaining_paths",
+                    }
+                )
+            break
+    metrics["font_enclosed_radical_matches"] = len(restored)
+    metrics["font_enclosed_radical_evidence_truncated"] = len(restored) - len(
+        metrics["font_enclosed_radical_evidence"]
+    )
+    return sorted(restored.values(), key=lambda m: m.start), metrics
+
+
 def _finalize_font_matches(
     candidates: list[GlyphMatch], locks: list[FontCatalogLock]
 ) -> list[GlyphMatch]:
@@ -1871,6 +2006,9 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_row_recheck_matches": 0,
         "font_row_recheck_evidence": [],
         "font_row_recheck_evidence_truncated": 0,
+        "font_enclosed_radical_matches": 0,
+        "font_enclosed_radical_evidence": [],
+        "font_enclosed_radical_evidence_truncated": 0,
         "font_numeric_variant_masks": 0,
         "font_numeric_stabilized_matches": 0,
         "overlapping_glyph_matches_rejected": 0,
@@ -1965,7 +2103,7 @@ def recover_outline_text(
     occupied_indices = {
         index for match in selected for index in range(match.start, match.end)
     }
-    font_scan = _FontScanContext() if len(font_catalogs) > 1 else None
+    font_scan = _FontScanContext() if font_catalogs else None
     font_candidates, font_metrics = _scan_font_catalog_matches(
         atoms, scan_context, occupied_indices, context=font_scan
     )
@@ -1979,10 +2117,16 @@ def recover_outline_text(
     )
     report["font_catalogs"]["locked"] = len(locks)
     restored, recheck_metrics = _recheck_locked_font_rows(
-        atoms, locks, font_candidates, font_scan, occupied_indices
+        atoms, locks, font_candidates,
+        font_scan if len(font_catalogs) > 1 else None, occupied_indices
     )
-    font_candidates = sorted([*font_candidates, *restored], key=lambda m: m.start)
+    enclosed, enclosure_metrics = _restore_enclosed_radicals(locks, font_candidates, font_scan)
+    font_candidates = sorted(
+        {(m.start, m.end, m.char): m for m in [*font_candidates, *restored, *enclosed]}.values(),
+        key=lambda m: m.start,
+    )
     report.update(recheck_metrics)
+    report.update(enclosure_metrics)
     report["font_catalog_candidate_matches"] = len(font_candidates)
     del font_scan
     font_matches = _finalize_font_matches(font_candidates, locks)

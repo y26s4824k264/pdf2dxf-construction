@@ -79,3 +79,7 @@ rc27 fixes matched long rows disappearing at the 96-glyph output boundary, with 
 rc28 将字体漏识别追溯到 PDF 数值取整，新增 23 项回归并逐项审计曲线误差；16 个既有长行 PDF 全部恢复，r2 字库不变。修复证据同时披露四处采样几何的微小变化及仍未通过的 BIM 工程门槛。
 
 rc28 traces glyph misses to PDF numeric sampling ties, adds 23 regressions and audits source-curve error. All 16 existing long PDFs complete with unchanged r2 catalogs. The evidence discloses four small sampling changes and remaining BIM engineering gates.
+
+rc29 复用已有 Shapely/GEOS 与 FontTools，加入闭合部首消歧和 36 项回归，公开中英算法比较、许可来源与失败边界。84 字体 PDF 增加两字，22 BIM 图纸工程质量门槛不变；不将代码测试通过等同于任意字体识别或 OpenAI 福利资格。
+
+rc29 reuses existing open-source geometry tools, adds 36 regressions and publishes bilingual algorithm/license/limitation evidence. Two glyphs are restored across 84 matching-face PDFs; engineering gates remain unchanged. Passing tests does not establish universal font accuracy or OpenAI program eligibility.
