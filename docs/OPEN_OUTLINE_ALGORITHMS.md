@@ -24,7 +24,7 @@ Jigmo 的“图”符合这条证据链；“建”的“廴”没有封闭内�
 
 [CJKVI IDS](https://github.com/cjkvi/cjkvi-ids) 可辅助研究汉字结构；`ids.txt` 涉及 CHISE 条款，其他数据注明 GPLv2，不能统一当成 MIT。[Make Me a Hanzi](https://github.com/skishore/makemeahanzi) 提供笔画/字典数据，`dictionary.txt` 与 `graphics.txt` 采用不同许可，图形源于特定 Arphic 字体。两者本轮均没有下载、复制或用于识别。部件描述可以约束候选，实际 DXF 字形仍须独立几何证据；这是本项目的工程判断。
 
-## English
+## rc29 English
 
 The new rule runs after an independent font lock. It considers exactly one complete Han glyph and one enclosing radical, both uniquely matched by the existing exact mask/topology/aspect checks. A persisted Kangxi alias in the same locked catalog must match the actual digest, contour count and aspect. Two valid, strictly nested closed rings must enclose every remaining complete path. Touching or crossing fails. Three distinct uncontested Han anchors must share the continuous source row. Proposed glyphs cannot create their own lock, serve as anchors or bridge gaps between anchor rows. Hidden ambiguous windows and additional interpretations remain unresolved.
 
@@ -47,3 +47,21 @@ All-ten-catalog probes reach **67/84 complete, 1253 characters**; all 20 full al
 继续复用 Shapely/GEOS 对完整路径做严格包含；[DE-9IM 关系模式](https://shapely.readthedocs.io/en/stable/reference/shapely.relate_pattern.html)可表达几何拓扑关系。本轮补齐的是已验证阶段之间的连接和局部搜索，已有依赖足够支持，没有增加运行时库。[FontTools interpolatable](https://fonttools.readthedocs.io/en/latest/varLib/interpolatable.html)检查字体 master 间的插值兼容问题，可用于字库质量诊断；它不会从 DXF 轮廓确定 Unicode 标签。相似度、仿射拟合或 IDS 部件描述不足以直接确认“建”，这是当前证据边界下的工程判断。
 
 Shapely/GEOS already supplies full-path topology predicates, so the staged/local search repair adds no runtime dependency. FontTools interpolatable checks compatibility between font masters and is a catalog-quality reference, not a DXF-to-Unicode recognizer. Similarity, affine fitting or IDS structure alone does not establish the missing 建 label under this project's evidence requirements.
+
+## rc31 半包围与有界证据链 / Half-enclosures and bounded proof chains
+
+Jigmo 的“建”整字及“廴”正字轮廓均已精确匹配。“廴”是一个有效闭合多边形，与其余所有轮廓多边形互不相交；两部分凸包的内部重叠且互不包含，其余部分仅越过部首边界的一侧，另外三侧严格位于边界内。满足该半包围结构后，仍须实际正字模板、Unicode 康熙部首身份、独立字体锁和三个不同的原始无冲突汉字锚点。兼容部首可以有不同描画；不能要求其摘要与正字相同。原封闭内孔规则保留原有的精确部首别名字形检查。
+
+只允许上一轮已经证实的字连接后续证据，并保留实际证明它的字体；新候选不能在同一轮互相举证，也不能替代独立锚点。每个候选最多检查 96 个相邻字形、整体最多 96 轮。测试中的 94 字候选链只确认仍能在 96 字窗口内找到原始三个锚点的前 93 字，最后一字保留为轮廓。报告记录证明轮次、连接字的字体、半包围方向、凸包交叠面积、最小间距、码点及来源句柄；详细证据仍有 32 条上限。
+
+对应字体 PDF 为 **84/84 完整、1310 字**，组合十字库为 **69/84、1255 字**。剩余 14 个组合样例无法建立独立字体锁，另 1 个仍有较大的内部标点竞争。请按图纸真实字体选字库；同时加载更多字库不保证更好效果。新增 12 个含“建”的 97/193 字长行 PDF 全部完整，1740 字独立核验。r2 文件不变；[逐项证据](HALF_ENCLOSURE_VALIDATION.json)明确限定 100% 的样例范围。
+
+The exact whole glyph and canonical 廴 outline support a half-enclosure proof: valid polygons are disjoint, their convex hull interiors overlap without containment, and remaining bounds protrude through exactly one radical side. Three distinct original uncontested Han anchors and the independently locked canonical cmap outline remain mandatory. Unicode identifies the radical; compatibility glyphs may have different drawings. The previous closed-counter alias-geometry check is preserved.
+
+Only earlier-round verified results may connect a later proof, restricted to the font that proved them; they never become anchors. Each search visits at most 96 neighboring glyphs, with at most 96 rounds. A 94-proposal chain confirms only its first 93 glyphs while all three original anchors remain within the window. Reports retain proof rounds, font-bound bridges, geometry and source handles with bounded detail.
+
+Matching-face probes reach **84/84 complete, 1310 characters**; combined catalogs reach **69/84, 1255 characters**. Fourteen combined cases lack an independent font lock; one retains a large punctuation conflict. Twelve new long 建 PDFs complete with 1740 independently checked characters. This is a bounded corpus result, not universal font accuracy. Reuse unchanged r2 resources; see [evidence](HALF_ENCLOSURE_VALIDATION.json).
+
+本轮复用 Shapely/GEOS 的 [convex_hull](https://shapely.readthedocs.io/en/stable/reference/shapely.convex_hull.html)、[overlaps](https://shapely.readthedocs.io/en/stable/reference/shapely.overlaps.html) 和 [disjoint](https://shapely.readthedocs.io/en/stable/reference/shapely.disjoint.html)，不新增依赖。凸包仅作为临时空间证据，不替换或简化原始路径。部首映射使用 Python 标准库 Unicode NFKC；[Unicode 康熙部首表](https://www.unicode.org/charts/PDF/U2F00.pdf)和[规范化标准](https://www.unicode.org/reports/tr15/)解释兼容映射及字形差异。没有复制 Unicode 字体或码表图形。
+
+Existing Shapely/GEOS predicates supply temporary spatial evidence without changing source paths. Python's Unicode NFKC supplies the radical mapping, not the glyph identity. The linked primary references document these primitives; this project's combined admission rule still requires independently verified labels and anchors. No new dependency, OCR, approximate-label inference or Unicode font data is introduced.

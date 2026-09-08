@@ -89,3 +89,9 @@ rc29 reuses existing open-source geometry tools, adds 36 regressions and publish
 新增 38 项回归，源码 566 项通过。补齐内部标点复核、已有结果的证据连接和长行局部搜索：十字库组合多恢复 8 字，新增 12 个长行 PDF 全部完整。逐字位置、来源图元、拒绝原因和原几何对照随中英说明公开；BIM 工程比例门槛保持不变。这些是可审查的技术贡献，不代表 OpenAI 项目福利已获批准。详见 [本轮验证](OUTLINE_ROW_VALIDATION.json)。
 
 Thirty-eight regressions bring source tests to 566. Punctuation rechecks, verified-stage connections and bounded row search restore eight combined-catalog characters and complete twelve new long PDFs. Published evidence covers glyph positions, provenance, rejection reasons and unchanged geometry. Engineering scale gates remain unchanged; these reviewable contributions do not establish OpenAI program approval.
+
+## rc31 可复核进展 / Reviewable progress
+
+新增 65 项回归，源码 631 项通过。半包围与有界证据链使对应字体 PDF 样例达到 84/84 完整恢复，公开声明 100% 只适用于该组样例；组合字库为 69/84，剩余原因及 BIM 工程比例限制一并披露。新增 12 个长行 PDF 的 1740 字均与原字体位置、摘要和来源图元独立对照。详见 [验证证据](HALF_ENCLOSURE_VALIDATION.json)。这些是可审查的维护成果，不代表 OpenAI 福利资格或批准。
+
+Sixty-five regressions bring source tests to 631. Half-enclosures and bounded proof chains complete 84/84 matching-face probes, with an explicit limit on the 100% claim. Combined catalogs remain 69/84 and engineering-scale limits are disclosed. All 1740 characters in twelve new long PDFs pass original-font position, digest and provenance checks. These reviewable maintenance results do not establish OpenAI eligibility or approval.

@@ -1,3 +1,9 @@
+# 2.0.0rc31
+
+rc31 补齐半包围字形的几何判断与已确认结果的逐轮连接，恢复 Jigmo 的“建”。指定对应字体字库的 84 个原 PDF 样例达到 **84/84 完整恢复**（1310 字）；这组样例的 100% 不代表任意字体均能识别。组合十字库为 **69/84**，仍保留证据不足的轮廓。新增 12 个含“建”的长行 PDF 全部完整；新增 65 项回归，源码 631 项通过。原有长行和 22 份 BIM PDF 已复测，工程比例门槛不变。r2 字库无需重下。详见[算法说明](docs/OPEN_OUTLINE_ALGORITHMS.md)和[验证记录](docs/VALIDATION.md)。
+
+rc31 verifies half-enclosed geometry and chains only previously proved results, restoring Jigmo 建. The 84 existing matching-face PDF probes reach **84/84 complete** (1310 characters); this bounded 100% result does not establish arbitrary-font recognition. All-ten-catalog probes reach **69/84**, retaining unsupported outlines. Twelve new long PDFs containing 建 all complete. Sixty-five regressions bring source tests to 631. Existing long PDFs and 22 BIM PDFs were rerun; engineering-scale gates are unchanged. Reuse r2 catalogs; see [algorithms](docs/OPEN_OUTLINE_ALGORITHMS.md) and [validation](docs/VALIDATION.md).
+
 # 2.0.0rc30
 
 rc30 补齐汉字内部标点冲突的复核，让先前已确认的字形连接后续拓扑证据，并以最多 96 字的局部邻接窗口处理长行。十字库组合完整样例从 63/84 提升到 67/84，多恢复 8 字；新增 12 个 Jigmo 长行 PDF 从全部漏“图”变为全部完整。新增 38 项回归，源码 566 项通过。84 个对应字体 PDF、原有 16 个长行 PDF 和 22 份 BIM PDF 也已复测。未确认的“建”继续保留轮廓；r2 字库无需重下。详见[算法说明](docs/OPEN_OUTLINE_ALGORITHMS.md)和[验证记录](docs/VALIDATION.md)。

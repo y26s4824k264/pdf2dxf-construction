@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc30 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc30) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc31 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc31) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc30 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc30), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc31 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc31), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -155,3 +155,17 @@ Same-font aliases, strict hole containment and three independent row anchors res
 Han glyphs uniquely matched in the locked font may be rechecked when their only competitors are small contained punctuation, supported by three independent Han anchors. Letters, digits, unsupported Han labels, crossing spans and whole-glyph aliases still fail. Earlier verified row results may connect a later enclosure proof but cannot become independent anchors. The local search visits at most 96 adjacent glyphs and stops at three distinct original uncontested anchors; proposed enclosures never connect each other. Long rows therefore need not fit inside a single 96-glyph window.
 
 All-ten-catalog probes reach **67/84 complete, 1253 characters**; all 20 full alphabet probes remain complete. Twelve new Jigmo long PDFs complete with 1740 independently checked characters. Open-radical 建 remains unresolved. Bounded rejection details cover evaluated radical proposals only. Existing r2 files remain byte-identical; see [evidence](OUTLINE_ROW_VALIDATION.json).
+
+## rc31 半包围与有界证据链 / Half-enclosures and bounded proof chains
+
+Jigmo 的“建”整字及“廴”正字轮廓均已精确匹配。“廴”是一个有效闭合多边形，与其余所有轮廓多边形互不相交；两部分凸包的内部重叠且互不包含，其余部分仅越过部首边界的一侧，另外三侧严格位于边界内。满足该半包围结构后，仍须实际正字模板、Unicode 康熙部首身份、独立字体锁和三个不同的原始无冲突汉字锚点。兼容部首可以有不同描画；不能要求其摘要与正字相同。原封闭内孔规则保留原有的精确部首别名字形检查。
+
+只允许上一轮已经证实的字连接后续证据，并保留实际证明它的字体；新候选不能在同一轮互相举证，也不能替代独立锚点。每个候选最多检查 96 个相邻字形、整体最多 96 轮。测试中的 94 字候选链只确认仍能在 96 字窗口内找到原始三个锚点的前 93 字，最后一字保留为轮廓。报告记录证明轮次、连接字的字体、半包围方向、凸包交叠面积、最小间距、码点及来源句柄；详细证据仍有 32 条上限。
+
+对应字体 PDF 为 **84/84 完整、1310 字**，组合十字库为 **69/84、1255 字**。剩余 14 个组合样例无法建立独立字体锁，另 1 个仍有较大的内部标点竞争。请按图纸真实字体选字库；同时加载更多字库不保证更好效果。新增 12 个含“建”的 97/193 字长行 PDF 全部完整，1740 字独立核验。r2 文件不变；[逐项证据](HALF_ENCLOSURE_VALIDATION.json)明确限定 100% 的样例范围。
+
+The exact whole glyph and canonical 廴 outline support a half-enclosure proof: valid polygons are disjoint, their convex hull interiors overlap without containment, and remaining bounds protrude through exactly one radical side. Three distinct original uncontested Han anchors and the independently locked canonical cmap outline remain mandatory. Unicode identifies the radical; compatibility glyphs may have different drawings. The previous closed-counter alias-geometry check is preserved.
+
+Only earlier-round verified results may connect a later proof, restricted to the font that proved them; they never become anchors. Each search visits at most 96 neighboring glyphs, with at most 96 rounds. A 94-proposal chain confirms only its first 93 glyphs while all three original anchors remain within the window. Reports retain proof rounds, font-bound bridges, geometry and source handles with bounded detail.
+
+Matching-face probes reach **84/84 complete, 1310 characters**; combined catalogs reach **69/84, 1255 characters**. Fourteen combined cases lack an independent font lock; one retains a large punctuation conflict. Twelve new long 建 PDFs complete with 1740 independently checked characters. This is a bounded corpus result, not universal font accuracy. Reuse unchanged r2 resources; see [evidence](HALF_ENCLOSURE_VALIDATION.json).

@@ -28,7 +28,7 @@ import numpy as np
 from ezdxf import bbox as dxf_bbox
 from ezdxf.enums import TextEntityAlignment
 
-from .contour_topology import strictly_encloses_paths
+from .contour_topology import half_enclosure_evidence, strictly_encloses_paths
 from .font_catalog import (
     FONT_CATALOG_RASTER_DECIMALS,
     MAX_CONTOURS,
@@ -52,6 +52,10 @@ MIN_FONT_LOCK_DISTINCT_LATIN = 4
 MAX_OUTLINE_POINTS_PER_ATOM = 4096
 RECOVERY_KEY_PRECISION = 6
 MAX_RECOVERED_TEXT_GLYPHS = 96
+KANGXI_RADICAL_CODEPOINTS = {
+    unicodedata.normalize("NFKC", chr(codepoint)): codepoint
+    for codepoint in range(0x2F00, 0x2FD6)
+}
 TEXT_LAYER = "PDF_TEXT_RECOVERED_NOOCR"
 BACKUP_LAYER = "PDF_OUTLINE_BACKUP"
 APPID = "PDF2DXF_GLYPH"
@@ -1668,7 +1672,7 @@ def _restore_enclosed_radicals(
     *,
     verified_bridges: list[GlyphMatch] | tuple[GlyphMatch, ...] = (),
 ) -> tuple[list[GlyphMatch], dict[str, Any]]:
-    """Resolve only a single enclosing radical after an independent font lock.
+    """Resolve a single enclosing or half-enclosing radical after a font lock.
 
     Both complete glyph and radical must already have unique exact matches.
     Every overlap, including hidden multi-label windows, participates. Three
@@ -1677,6 +1681,8 @@ def _restore_enclosed_radicals(
     """
     metrics: dict[str, Any] = {
         "font_enclosed_radical_matches": 0,
+        "font_enclosed_radical_half_matches": 0,
+        "font_enclosed_radical_rounds": 0,
         "font_enclosed_radical_bridge_matches": 0,
         "font_enclosed_radical_evidence": [],
         "font_enclosed_radical_evidence_truncated": 0,
@@ -1724,7 +1730,7 @@ def _restore_enclosed_radicals(
         else:
             metrics["font_enclosed_radical_rejections_truncated"] += 1
 
-    restored: dict[tuple[int, int], GlyphMatch] = {}
+    proposals: list[tuple[GlyphMatch, GlyphMatch, int, dict[str, object] | None]] = []
     for component in components:
         # More than one alternative, or a hidden ambiguous window, needs a
         # different proof. Do not absorb arbitrary small text or punctuation.
@@ -1747,62 +1753,133 @@ def _restore_enclosed_radicals(
             if not radical.start <= index < radical.end
             for path in atom.paths
         ]
-        if not strictly_encloses_paths(rings, remaining):
+        closed_enclosure = strictly_encloses_paths(rings, remaining)
+        half_enclosure = (
+            None if closed_enclosure else half_enclosure_evidence(rings, remaining)
+        )
+        if not closed_enclosure and half_enclosure is None:
             reject(parent, radical, "not_a_strict_closed_enclosure")
             continue
-        rejection = "no_matching_radical_alias_in_locked_font"
-        for lock in locks:
-            font = lock.catalog.catalog_id
-            if (
-                font not in parent.font_catalog_ids
-                or font not in radical.font_catalog_ids
-            ):
+        proposals.append((parent, radical, len(rings), half_enclosure))
+
+    restored: dict[tuple[int, int], GlyphMatch] = {}
+    rejections: dict[tuple[int, int], tuple[GlyphMatch, GlyphMatch, str]] = {}
+    verified_for_bridging: dict[tuple[int, int], GlyphMatch] = {}
+    # Each round sees only independently proved earlier results. New glyphs
+    # never supply anchors and cannot bootstrap one another within a round.
+    # Even a long chain must reach three ORIGINAL anchors within 96 neighbors.
+    for round_index in range(MAX_RECOVERED_TEXT_GLYPHS):
+        previous_count = len(restored)
+        for parent, radical, ring_count, half_enclosure in proposals:
+            if (parent.start, parent.end) in restored:
                 continue
-            digests = {
-                bytes.fromhex(digest)
-                for cid, digest, _ in radical.font_match_evidence
-                if cid == font
-            }
-            aliases = [
-                t
-                for t in lock.catalog.templates_by_label.get(radical.char, ())
-                if 0x2F00 <= t.codepoint <= 0x2FD5
-                and t.entity_count == t.closed_count == len(rings)
-                and 0.90 <= radical.template.aspect_ratio / t.aspect_ratio <= 1.10
-                and digests.intersection(t.match_digests)
-            ]
-            if not aliases:
-                continue
-            # Verified earlier stages may connect a row, never supply anchors.
-            # No new enclosure proposal is admitted into this member list.
-            row, anchors = _font_row_neighborhood(
-                parent, font, members, member_starts, anchor_spans
+            closed_enclosure = half_enclosure is None
+            rejection = (
+                "no_matching_radical_alias_in_locked_font"
+                if closed_enclosure
+                else "no_matching_canonical_radical_in_locked_font"
             )
-            if len(anchors) < MIN_FONT_LOCK_DISTINCT_HAN:
-                rejection = "insufficient_independent_local_row_anchors"
-                continue
-            restored[parent.start, parent.end] = parent
-            used_bridges = [m for m in row if (m.start, m.end) in bridges]
-            metrics["font_enclosed_radical_bridge_matches"] += bool(used_bridges)
-            if len(metrics["font_enclosed_radical_evidence"]) < 32:
-                metrics["font_enclosed_radical_evidence"].append(
-                    {
-                        "stage": "locked_font_enclosed_radical_recheck",
-                        "catalog_id": font,
-                        "parent": _font_fragment_evidence(parent),
-                        "radical": _font_fragment_evidence(radical),
-                        "radical_codepoint": f"U+{min(t.codepoint for t in aliases):04X}",
-                        "anchors": [_font_fragment_evidence(a) for a in anchors],
-                        "verified_bridges": [
-                            _font_fragment_evidence(m) for m in used_bridges
-                        ],
-                        "row_path": [_font_fragment_evidence(m) for m in row],
-                        "topology": "two_nested_rings_strictly_contain_all_remaining_paths",
-                    }
+            for lock in locks:
+                font = lock.catalog.catalog_id
+                if (
+                    font not in parent.font_catalog_ids
+                    or font not in radical.font_catalog_ids
+                ):
+                    continue
+                digests = {
+                    bytes.fromhex(digest)
+                    for cid, digest, _ in radical.font_match_evidence
+                    if cid == font
+                }
+                radical_codepoint = KANGXI_RADICAL_CODEPOINTS.get(radical.char)
+                if half_enclosure is not None and radical_codepoint is None:
+                    continue
+                # Compatibility radicals may use a different drawing from their
+                # canonical Han form. The open-side proof validates the actual
+                # canonical cmap outline; Unicode supplies its radical identity.
+                # Closed counters retain their existing exact alias-geometry check.
+                aliases = [
+                    t
+                    for t in lock.catalog.templates_by_label.get(radical.char, ())
+                    if (
+                        0x2F00 <= t.codepoint <= 0x2FD5
+                        if closed_enclosure
+                        else t.codepoint == ord(radical.char)
+                    )
+                    and t.entity_count == t.closed_count == ring_count
+                    and 0.90 <= radical.template.aspect_ratio / t.aspect_ratio <= 1.10
+                    and digests.intersection(t.match_digests)
+                ]
+                if not aliases:
+                    continue
+                # Verified earlier stages may connect a row, never supply anchors.
+                # Only results proved in earlier rounds enter the member list.
+                row, anchors = _font_row_neighborhood(
+                    parent, font, members, member_starts, anchor_spans
                 )
+                if len(anchors) < MIN_FONT_LOCK_DISTINCT_HAN:
+                    rejection = "insufficient_independent_local_row_anchors"
+                    continue
+                restored[parent.start, parent.end] = parent
+                # A globally shared whole-glyph match does not transfer the
+                # radical proof to a font that did not establish it.
+                verified_for_bridging[parent.start, parent.end] = replace(
+                    parent, font_catalog_ids=(font,)
+                )
+                metrics["font_enclosed_radical_half_matches"] += (
+                    half_enclosure is not None
+                )
+                used_bridges = [m for m in row if (m.start, m.end) in bridges]
+                metrics["font_enclosed_radical_bridge_matches"] += bool(used_bridges)
+                if len(metrics["font_enclosed_radical_evidence"]) < 32:
+                    metrics["font_enclosed_radical_evidence"].append(
+                        {
+                            "stage": "locked_font_enclosed_radical_recheck",
+                            "dependency_round": round_index + 1,
+                            "catalog_id": font,
+                            "parent": _font_fragment_evidence(parent),
+                            "radical": _font_fragment_evidence(radical),
+                            "radical_codepoint": f"U+{min(t.codepoint for t in aliases) if closed_enclosure else radical_codepoint:04X}",
+                            "anchors": [_font_fragment_evidence(a) for a in anchors],
+                            "verified_bridges": [
+                                {
+                                    **_font_fragment_evidence(m),
+                                    "verified_catalog_ids": list(m.font_catalog_ids),
+                                }
+                                for m in used_bridges
+                            ],
+                            "row_path": [_font_fragment_evidence(m) for m in row],
+                            "topology": (
+                                "two_nested_rings_strictly_contain_all_remaining_paths"
+                                if closed_enclosure
+                                else "disjoint_parts_interleave_across_one_open_side"
+                            ),
+                            **(
+                                {
+                                    "geometry_evidence": half_enclosure,
+                                    "radical_outline_codepoint": f"U+{ord(radical.char):04X}",
+                                    "radical_identity": "unicode_nfkc_kangxi_to_canonical_han",
+                                }
+                                if half_enclosure is not None
+                                else {}
+                            ),
+                        }
+                    )
+                break
+            else:
+                rejections[parent.start, parent.end] = (parent, radical, rejection)
+        if len(restored) == previous_count:
             break
-        else:
-            reject(parent, radical, rejection)
+        metrics["font_enclosed_radical_rounds"] = round_index + 1
+        bridges.update(verified_for_bridging)
+        members = sorted(
+            {(m.start, m.end): m for m in [*candidates, *bridges.values()]}.values(),
+            key=lambda m: m.start,
+        )
+        member_starts = [m.start for m in members]
+    for span, (parent, radical, reason) in rejections.items():
+        if span not in restored:
+            reject(parent, radical, reason)
     metrics["font_enclosed_radical_matches"] = len(restored)
     metrics["font_enclosed_radical_evidence_truncated"] = len(restored) - len(
         metrics["font_enclosed_radical_evidence"]
@@ -2093,6 +2170,8 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_row_recheck_evidence": [],
         "font_row_recheck_evidence_truncated": 0,
         "font_enclosed_radical_matches": 0,
+        "font_enclosed_radical_half_matches": 0,
+        "font_enclosed_radical_rounds": 0,
         "font_enclosed_radical_bridge_matches": 0,
         "font_enclosed_radical_evidence": [],
         "font_enclosed_radical_evidence_truncated": 0,
