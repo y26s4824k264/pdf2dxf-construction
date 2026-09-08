@@ -1,3 +1,9 @@
+# 2.0.0rc30
+
+rc30 补齐汉字内部标点冲突的复核，让先前已确认的字形连接后续拓扑证据，并以最多 96 字的局部邻接窗口处理长行。十字库组合完整样例从 63/84 提升到 67/84，多恢复 8 字；新增 12 个 Jigmo 长行 PDF 从全部漏“图”变为全部完整。新增 38 项回归，源码 566 项通过。84 个对应字体 PDF、原有 16 个长行 PDF 和 22 份 BIM PDF 也已复测。未确认的“建”继续保留轮廓；r2 字库无需重下。详见[算法说明](docs/OPEN_OUTLINE_ALGORITHMS.md)和[验证记录](docs/VALIDATION.md)。
+
+rc30 verifies Han glyphs blocked only by small internal punctuation, lets previously verified glyphs connect later topology evidence, and uses a bounded local window of at most 96 adjacent glyphs for long rows. All-ten-catalog completeness improves from 63/84 to 67/84, restoring eight characters. Twelve new Jigmo long PDFs improve from all missing 图 to all complete. Thirty-eight new regressions bring source tests to 566. All 84 matching-face PDFs, the existing 16 long PDFs and 22 BIM PDFs were also rerun. Ambiguous 建 remains geometry; reuse unchanged r2 catalogs. See [algorithms](docs/OPEN_OUTLINE_ALGORITHMS.md) and [validation](docs/VALIDATION.md).
+
 # 2.0.0rc29
 
 rc29 复用 Shapely/GEOS 严格包含算法，修复闭合部首与整字同时匹配导致的漏识别；需同字体部首别名、精确字形、封闭拓扑和三个独立同行汉字锚点。Jigmo 两个对应字体 PDF 补回“图”；“建”仍保留歧义。新增 36 项回归，源码 528 项通过。84 个对应字体 PDF 恢复 1308 字，16 个长行 PDF 全部完整；84 个十字库 DXF 和 22 份 BIM PDF 也已复测。r2 字库无需重下。详见[开源算法调研](docs/OPEN_OUTLINE_ALGORITHMS.md)和[验证记录](docs/VALIDATION.md)。

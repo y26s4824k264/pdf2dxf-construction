@@ -1482,15 +1482,7 @@ def _recheck_locked_font_rows(
                 continue
             minimum_height = min(m.height for m in anchors)
             for parent in run:
-                if (
-                    key(parent) not in missing
-                    or key(parent) in restored
-                    or (
-                        han_row
-                        and (parent.start, parent.end)
-                        not in local_context.han_parent_spans
-                    )
-                ):
+                if key(parent) not in missing or key(parent) in restored:
                     continue
                 reference_height = minimum_height if han_row else parent.height
                 maximum_ratio = MIN_HAN_RUN_SIZE_RATIO if han_row else 1.0
@@ -1523,6 +1515,23 @@ def _recheck_locked_font_rows(
                 ):
                     continue
                 windows = [_font_window_evidence(c, atoms) for c in competitors]
+                punctuation_only = all(
+                    all(
+                        unicodedata.category(ch).startswith("P")
+                        for ch in window["labels"]
+                    )
+                    for window in windows
+                )
+                # A locally unambiguous whole Han glyph can also be blocked
+                # solely by another font's small punctuation. It needs the
+                # same independent row anchors and strict subset/size checks;
+                # a Han-fragment proof is only relevant to Han competitors.
+                if (
+                    han_row
+                    and (parent.start, parent.end) not in local_context.han_parent_spans
+                    and not punctuation_only
+                ):
+                    continue
                 valid = True
                 for window in windows:
                     if latin_row:
@@ -1575,6 +1584,9 @@ def _recheck_locked_font_rows(
                             _font_fragment_evidence(a) for a in proof_anchors.values()
                         ],
                         "conflicts": windows,
+                        "conflict_kind": "contained_punctuation_only"
+                        if punctuation_only
+                        else "contained_han_fragments",
                         "minimum_anchor_height": minimum_height,
                         "fragment_height_reference": "minimum_anchor_height"
                         if han_row
@@ -1590,10 +1602,71 @@ def _recheck_locked_font_rows(
     return sorted(restored.values(), key=lambda m: m.start), metrics
 
 
+def _font_row_neighborhood(
+    parent: GlyphMatch,
+    font: str,
+    members: list[GlyphMatch],
+    starts: list[int],
+    anchor_spans: set[tuple[int, int]],
+) -> tuple[list[GlyphMatch], list[GlyphMatch]]:
+    """Find three independent anchors along at most 96 adjacent source glyphs.
+
+    Grow a local window in both directions, stopping at every unverified gap,
+    source/layer change or incompatible neighbor. Long rows need not fit inside
+    one TEXT entity. Already verified glyphs may connect the window but only
+    original uncontested matches can supply its anchors.
+    """
+    position = bisect_left(starts, parent.start)
+    indices = [position - 1, position]
+    frontiers = [parent, parent]
+    active = [True, True]
+    row = [parent]
+    anchors: dict[str, GlyphMatch] = {}
+    while any(active) and len(row) < MAX_RECOVERED_TEXT_GLYPHS:
+        for side in (0, 1):
+            if not active[side]:
+                continue
+            index = indices[side]
+            if not 0 <= index < len(members):
+                active[side] = False
+                continue
+            match = members[index]
+            left, right = (
+                (match, frontiers[side]) if side == 0 else (frontiers[side], match)
+            )
+            a, b = left.atoms[-1].source_ref, right.atoms[0].source_ref
+            if (
+                not is_han_character(match.char)
+                or font not in match.font_catalog_ids
+                or not _run_neighbors(left, right)
+                or a[:2] != b[:2]
+                or not 0 <= b[2] - a[2] <= MAX_SOURCE_SEQUENCE_GAP
+            ):
+                active[side] = False
+                continue
+            row.append(match)
+            frontiers[side] = match
+            indices[side] += -1 if side == 0 else 1
+            if (match.start, match.end) in anchor_spans:
+                anchors.setdefault(match.char, match)
+            if (
+                len(anchors) == MIN_FONT_LOCK_DISTINCT_HAN
+                or len(row) == MAX_RECOVERED_TEXT_GLYPHS
+            ):
+                return sorted(row, key=lambda m: m.start), sorted(
+                    anchors.values(), key=lambda m: m.start
+                )
+    return sorted(row, key=lambda m: m.start), sorted(
+        anchors.values(), key=lambda m: m.start
+    )
+
+
 def _restore_enclosed_radicals(
     locks: list[FontCatalogLock],
     candidates: list[GlyphMatch],
     context: _FontScanContext | None,
+    *,
+    verified_bridges: list[GlyphMatch] | tuple[GlyphMatch, ...] = (),
 ) -> tuple[list[GlyphMatch], dict[str, Any]]:
     """Resolve only a single enclosing radical after an independent font lock.
 
@@ -1604,12 +1677,22 @@ def _restore_enclosed_radicals(
     """
     metrics: dict[str, Any] = {
         "font_enclosed_radical_matches": 0,
+        "font_enclosed_radical_bridge_matches": 0,
         "font_enclosed_radical_evidence": [],
         "font_enclosed_radical_evidence_truncated": 0,
+        "font_enclosed_radical_rejection_counts": {},
+        "font_enclosed_radical_rejections": [],
+        "font_enclosed_radical_rejections_truncated": 0,
     }
     if context is None or not locks:
         return [], metrics
     existing = {(m.start, m.end) for m in candidates}
+    bridges = {(m.start, m.end): m for m in verified_bridges}
+    members = sorted(
+        {(m.start, m.end): m for m in [*candidates, *verified_bridges]}.values(),
+        key=lambda m: m.start,
+    )
+    member_starts = [m.start for m in members]
     components: list[list[GlyphMatch | _FontConflict]] = []
     end = -1
     for window in sorted(
@@ -1624,6 +1707,23 @@ def _restore_enclosed_radicals(
         for c in components
         if len(c) == 1 and isinstance(c[0], GlyphMatch)
     }
+    anchor_spans = uncontested & existing
+
+    def reject(parent: GlyphMatch, radical: GlyphMatch, reason: str) -> None:
+        counts = metrics["font_enclosed_radical_rejection_counts"]
+        counts[reason] = counts.get(reason, 0) + 1
+        if len(metrics["font_enclosed_radical_rejections"]) < 32:
+            metrics["font_enclosed_radical_rejections"].append(
+                {
+                    "status": "unconfirmed_geometry_retained",
+                    "reason": reason,
+                    "parent_candidate": _font_fragment_evidence(parent),
+                    "radical_candidate": _font_fragment_evidence(radical),
+                }
+            )
+        else:
+            metrics["font_enclosed_radical_rejections_truncated"] += 1
+
     restored: dict[tuple[int, int], GlyphMatch] = {}
     for component in components:
         # More than one alternative, or a hidden ambiguous window, needs a
@@ -1633,6 +1733,7 @@ def _restore_enclosed_radicals(
         parent, radical = sorted(component, key=lambda m: m.start - m.end)
         if (
             (parent.start, parent.end) in existing
+            or (parent.start, parent.end) in bridges
             or not is_han_character(parent.char)
             or not is_han_character(radical.char)
             or not parent.start <= radical.start < radical.end <= parent.end
@@ -1647,7 +1748,9 @@ def _restore_enclosed_radicals(
             for path in atom.paths
         ]
         if not strictly_encloses_paths(rings, remaining):
+            reject(parent, radical, "not_a_strict_closed_enclosure")
             continue
+        rejection = "no_matching_radical_alias_in_locked_font"
         for lock in locks:
             font = lock.catalog.catalog_id
             if (
@@ -1670,37 +1773,17 @@ def _restore_enclosed_radicals(
             ]
             if not aliases:
                 continue
-            # Check each proposal separately, so rejected proposals cannot
-            # bridge source gaps between otherwise independent anchor rows.
-            row = next(
-                run
-                for run in _group_runs(
-                    sorted([*candidates, parent], key=lambda m: m.start)
-                )
-                if any(m is parent for m in run)
+            # Verified earlier stages may connect a row, never supply anchors.
+            # No new enclosure proposal is admitted into this member list.
+            row, anchors = _font_row_neighborhood(
+                parent, font, members, member_starts, anchor_spans
             )
-            if (
-                not 4 <= len(row) <= MAX_RECOVERED_TEXT_GLYPHS
-                or any(
-                    not is_han_character(m.char) or font not in m.font_catalog_ids
-                    for m in row
-                )
-                or any(
-                    a.atoms[-1].source_ref[:2] != b.atoms[0].source_ref[:2]
-                    or not 0
-                    <= b.atoms[0].source_ref[2] - a.atoms[-1].source_ref[2]
-                    <= MAX_SOURCE_SEQUENCE_GAP
-                    for a, b in zip(row, row[1:])
-                )
-            ):
-                continue
-            anchors: dict[str, GlyphMatch] = {}
-            for match in row:
-                if (match.start, match.end) in uncontested & existing:
-                    anchors.setdefault(match.char, match)
             if len(anchors) < MIN_FONT_LOCK_DISTINCT_HAN:
+                rejection = "insufficient_independent_local_row_anchors"
                 continue
             restored[parent.start, parent.end] = parent
+            used_bridges = [m for m in row if (m.start, m.end) in bridges]
+            metrics["font_enclosed_radical_bridge_matches"] += bool(used_bridges)
             if len(metrics["font_enclosed_radical_evidence"]) < 32:
                 metrics["font_enclosed_radical_evidence"].append(
                     {
@@ -1709,14 +1792,17 @@ def _restore_enclosed_radicals(
                         "parent": _font_fragment_evidence(parent),
                         "radical": _font_fragment_evidence(radical),
                         "radical_codepoint": f"U+{min(t.codepoint for t in aliases):04X}",
-                        "anchors": [
-                            _font_fragment_evidence(a)
-                            for a in list(anchors.values())[:3]
+                        "anchors": [_font_fragment_evidence(a) for a in anchors],
+                        "verified_bridges": [
+                            _font_fragment_evidence(m) for m in used_bridges
                         ],
+                        "row_path": [_font_fragment_evidence(m) for m in row],
                         "topology": "two_nested_rings_strictly_contain_all_remaining_paths",
                     }
                 )
             break
+        else:
+            reject(parent, radical, rejection)
     metrics["font_enclosed_radical_matches"] = len(restored)
     metrics["font_enclosed_radical_evidence_truncated"] = len(restored) - len(
         metrics["font_enclosed_radical_evidence"]
@@ -2007,8 +2093,12 @@ def _base_report(mode: str, policy: str) -> dict[str, Any]:
         "font_row_recheck_evidence": [],
         "font_row_recheck_evidence_truncated": 0,
         "font_enclosed_radical_matches": 0,
+        "font_enclosed_radical_bridge_matches": 0,
         "font_enclosed_radical_evidence": [],
         "font_enclosed_radical_evidence_truncated": 0,
+        "font_enclosed_radical_rejection_counts": {},
+        "font_enclosed_radical_rejections": [],
+        "font_enclosed_radical_rejections_truncated": 0,
         "font_numeric_variant_masks": 0,
         "font_numeric_stabilized_matches": 0,
         "overlapping_glyph_matches_rejected": 0,
@@ -2120,7 +2210,9 @@ def recover_outline_text(
         atoms, locks, font_candidates,
         font_scan if len(font_catalogs) > 1 else None, occupied_indices
     )
-    enclosed, enclosure_metrics = _restore_enclosed_radicals(locks, font_candidates, font_scan)
+    enclosed, enclosure_metrics = _restore_enclosed_radicals(
+        locks, font_candidates, font_scan, verified_bridges=restored
+    )
     font_candidates = sorted(
         {(m.start, m.end, m.char): m for m in [*font_candidates, *restored, *enclosed]}.values(),
         key=lambda m: m.start,

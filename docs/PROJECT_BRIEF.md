@@ -83,3 +83,9 @@ rc28 traces glyph misses to PDF numeric sampling ties, adds 23 regressions and a
 rc29 复用已有 Shapely/GEOS 与 FontTools，加入闭合部首消歧和 36 项回归，公开中英算法比较、许可来源与失败边界。84 字体 PDF 增加两字，22 BIM 图纸工程质量门槛不变；不将代码测试通过等同于任意字体识别或 OpenAI 福利资格。
 
 rc29 reuses existing open-source geometry tools, adds 36 regressions and publishes bilingual algorithm/license/limitation evidence. Two glyphs are restored across 84 matching-face PDFs; engineering gates remain unchanged. Passing tests does not establish universal font accuracy or OpenAI program eligibility.
+
+## rc30 可复核进展 / Reviewable progress
+
+新增 38 项回归，源码 566 项通过。补齐内部标点复核、已有结果的证据连接和长行局部搜索：十字库组合多恢复 8 字，新增 12 个长行 PDF 全部完整。逐字位置、来源图元、拒绝原因和原几何对照随中英说明公开；BIM 工程比例门槛保持不变。这些是可审查的技术贡献，不代表 OpenAI 项目福利已获批准。详见 [本轮验证](OUTLINE_ROW_VALIDATION.json)。
+
+Thirty-eight regressions bring source tests to 566. Punctuation rechecks, verified-stage connections and bounded row search restore eight combined-catalog characters and complete twelve new long PDFs. Published evidence covers glyph positions, provenance, rejection reasons and unchanged geometry. Engineering scale gates remain unchanged; these reviewable contributions do not establish OpenAI program approval.

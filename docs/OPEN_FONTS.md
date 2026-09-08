@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc29 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc29) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc30 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc30) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc29 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc29), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc30 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc30), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -145,3 +145,13 @@ Reconvert the original PDF to benefit; this does not infer or rewrite curves alr
 同字体别名、严格内孔包含和三个独立同行锚点可复核部分整字/部首冲突。Jigmo 对应字库的“图”补回，“建”及额外跨字体冲突仍保留。字库不变；详见 [算法](OPEN_OUTLINE_ALGORITHMS.md) 与 [实测](CONTOUR_TOPOLOGY_VALIDATION.json)。
 
 Same-font aliases, strict hole containment and three independent row anchors resolve a bounded class of glyph/radical conflicts. Jigmo 图 improves; 建 and additional multi-font conflicts remain unresolved. Resources are unchanged.
+
+## rc30 来源行与阶段证据 / Source rows and staged evidence
+
+仅被其他字体内部小标点阻断、但在当前字体已有唯一精确标签的汉字，现在可通过三个独立同行汉字锚点复核。竞争窗口必须严格属于整字来源范围，几何包含且明显小于锚点；字母、数字、其他汉字、跨界或整字别名冲突仍会拒绝。此前已通过来源行复核的字形可以连接后续闭合部首的证据路径，但不计入独立锚点。每个闭合部首候选最多检查 96 个相邻字形，找到三个不同的原始无冲突锚点即停止，因此 97/193 字长行不必整体小于 96 字。新提出的闭合部首候选不能互相连接或证明彼此。
+
+十字库组合为 **67/84 完整、1253 字**，其中全部 20 个大小写 52 字母样例保持完整。新增 12 个 Jigmo 长行 PDF 全部完整，1740 字逐项核验。“建”的开放部首仍不满足封闭拓扑；未知字体和同形歧义不能靠相似度猜字。r2 字库格式和字节不变。报告新增有界的拒绝原因、来源句柄和局部路径，仅覆盖本阶段评估过的部首候选，不能视为全部未知字清单。详见 [逐项证据](OUTLINE_ROW_VALIDATION.json)。
+
+Han glyphs uniquely matched in the locked font may be rechecked when their only competitors are small contained punctuation, supported by three independent Han anchors. Letters, digits, unsupported Han labels, crossing spans and whole-glyph aliases still fail. Earlier verified row results may connect a later enclosure proof but cannot become independent anchors. The local search visits at most 96 adjacent glyphs and stops at three distinct original uncontested anchors; proposed enclosures never connect each other. Long rows therefore need not fit inside a single 96-glyph window.
+
+All-ten-catalog probes reach **67/84 complete, 1253 characters**; all 20 full alphabet probes remain complete. Twelve new Jigmo long PDFs complete with 1740 independently checked characters. Open-radical 建 remains unresolved. Bounded rejection details cover evaluated radical proposals only. Existing r2 files remain byte-identical; see [evidence](OUTLINE_ROW_VALIDATION.json).
