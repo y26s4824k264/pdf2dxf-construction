@@ -101,3 +101,9 @@ Sixty-five regressions bring source tests to 631. Half-enclosures and bounded pr
 本轮复现并修复两处长行消歧上限，新增 60 项回归。十字库 16 个 PDF 的 2320 字逐字核验，补回 94 字；94 份本机/历史 PDF 的代表页检查及 12 页隔离版本对照记录了实际限制。原图纸不进入公开包。中英文文档、安装包、跨平台 CI 与精确提交一起核验；这些维护证据不代表 OpenAI 福利资格或批准。见[验证记录](VALIDATION.md)。
 
 This release reproduces and fixes two long-row ambiguity limits, adds 60 regressions and independently audits all 2320 characters in 16 all-ten-catalog PDFs, restoring 94. Representative inspection of 94 historical/local PDFs and twelve isolated-version comparisons disclose real limits. Private drawings are excluded from public artifacts. Bilingual documentation, packages, cross-platform CI and exact commits are verified; this maintenance evidence does not establish OpenAI eligibility or approval.
+
+## rc33 字库索引维护 / Catalog index maintenance
+
+对 Unicode 索引构建进行有边界的性能优化，并核对全部模板字段和原始几何；696 项测试、100 个 DXF 和 4 个 PDF 转换覆盖本次改动。该轮改善加载开销，不增加识别覆盖率。详见[验证记录](VALIDATION.md)。这些公开维护记录可用于项目说明，不代表 OpenAI 福利资格或审批结论。
+
+This bounded Unicode-index optimization compares all catalog fields and original geometry. Validation covers 696 tests, 100 DXF recognitions and four PDF conversions. It improves loading overhead without increasing recognition coverage. See [validation](VALIDATION.md). These maintenance records support the project description and do not establish OpenAI benefit eligibility or approval.

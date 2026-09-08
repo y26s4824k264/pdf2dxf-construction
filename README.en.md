@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc32` (prerelease).
+Version: `2.0.0rc33` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -44,7 +44,7 @@ result = Converter().convert(
 print(result.status, result.report_path)
 ```
 
-rc32 replaces whole-row rejection with a local window of at most 96 glyphs for Han-fragment and cross-font punctuation review. Sixteen 97/193-character PDFs with all ten catalogs improve from **8/16 to 16/16 complete, 2226→2320 characters**. Sixty new regressions bring source tests to 691; 84 short DXFs retain 69/84 completeness. Content inspection covers 155 representative pages from 94 historical/local PDFs; twelve pages are converted and compared against isolated rc31: one passes and eleven need review, preserving source geometry and text. Those drawings do not establish external font locks. This is not universal-font accuracy. Reuse unchanged r2 catalogs; see [validation](docs/VALIDATION.md).
+rc33 reduces repeated Unicode index construction while retaining every integrity check and recognition decision. Seven alternating local runs loading ten r2 catalogs reduce median load time **2.368→2.229 s (5.9%)** and median process peak RSS by **27.9 MiB**. Every field across 246,293 templates and 2,288,068 lookup keys matches rc32; 100 DXF recognitions and four actual PDF conversions preserve results. All 696 source tests pass. Short-corpus completeness remains 69/84; this is not universal-font accuracy. Reuse unchanged r2 resources. See [validation](docs/VALIDATION.md).
 
 ## Optional open font catalogs
 

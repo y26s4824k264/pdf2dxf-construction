@@ -1,3 +1,9 @@
+# 2.0.0rc33
+
+rc33 优化字库 Unicode 索引构建，保留全部校验和原有识别判定。十套 r2 字库七轮交替实测，完整加载中位耗时 **2.368→2.229 秒（减少 5.9%）**，进程峰值内存中位数减少 **27.9 MiB**。246,293 条模板和 2,288,068 个索引键的全部字段与 rc32 一致；100 个 DXF 和 4 个实际 PDF 转换结果保持一致。源码 696 项测试通过。短行仍为 69/84 完整，任意字体识别尚未达到 100%；r2 字库无需重下。详见[验证记录](docs/VALIDATION.md)。
+
+rc33 reduces repeated Unicode index construction while retaining every integrity check and recognition decision. Seven alternating local runs loading ten r2 catalogs reduce median load time **2.368→2.229 s (5.9%)** and median process peak RSS by **27.9 MiB**. Every field across 246,293 templates and 2,288,068 lookup keys matches rc32; 100 DXF recognitions and four actual PDF conversions preserve results. All 696 source tests pass. Short-corpus completeness remains 69/84; this is not universal-font accuracy. Reuse unchanged r2 resources. See [validation](docs/VALIDATION.md).
+
 # 2.0.0rc32
 
 rc32 修复长行的字形消歧上限：汉字片段和跨字体标点复核改为每个候选附近最多 96 字，不再跳过整条长行。十字库的 16 个 97/193 字 PDF 从 **8/16 提升到 16/16 完整恢复，2226→2320 字**。新增 60 项回归，源码 691 项通过；84 个短行 DXF 保持 69/84。另对 94 份历史及本机 PDF 的 155 个代表页作内容检查，并将其中 12 页实际转换、与隔离安装的 rc31 对照：1 页通过、11 页需复核，原图元与文字保持。该组图纸尚未建立外部字库字体锁；这不代表任意字体识别率达到 100%。r2 字库无需重下。详见[验证记录](docs/VALIDATION.md)。

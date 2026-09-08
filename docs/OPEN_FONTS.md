@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc32 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc32) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc33 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc33) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc32 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc32), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc33 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc33), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 

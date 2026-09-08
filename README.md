@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc32`（预发布）。
+版本：`2.0.0rc33`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 只负责预先把用户提供的 OpenType 轮廓字体编译为字库；转换时不再打开字体文件。
 
@@ -24,7 +24,7 @@ python3.12 -m venv .venv
 
 无系统字体的服务器若需要 `--emit-r12`，安装 `'.[render]'`，提供 MTEXT 拆分所需的字体度量。此时使用 Matplotlib 自带字体并报告 `R12_FONT_METRICS_FALLBACK`，中文字体外观仍需复核；通用 DXF 保留原生 MTEXT。项目不内置系统字体文件。
 
-rc32 修复长行的字形消歧上限：汉字片段和跨字体标点复核改为每个候选附近最多 96 字，不再跳过整条长行。十字库的 16 个 97/193 字 PDF 从 **8/16 提升到 16/16 完整恢复，2226→2320 字**。新增 60 项回归，源码 691 项通过；84 个短行 DXF 保持 69/84。另对 94 份历史及本机 PDF 的 155 个代表页作内容检查，并将其中 12 页实际转换、与隔离安装的 rc31 对照：1 页通过、11 页需复核，原图元与文字保持。该组图纸尚未建立外部字库字体锁；这不代表任意字体识别率达到 100%。r2 字库无需重下。详见[验证记录](docs/VALIDATION.md)。
+rc33 优化字库 Unicode 索引构建，保留全部校验和原有识别判定。十套 r2 字库七轮交替实测，完整加载中位耗时 **2.368→2.229 秒（减少 5.9%）**，进程峰值内存中位数减少 **27.9 MiB**。246,293 条模板和 2,288,068 个索引键的全部字段与 rc32 一致；100 个 DXF 和 4 个实际 PDF 转换结果保持一致。源码 696 项测试通过。短行仍为 69/84 完整，任意字体识别尚未达到 100%；r2 字库无需重下。详见[验证记录](docs/VALIDATION.md)。
 
 ## 可选开源字库
 

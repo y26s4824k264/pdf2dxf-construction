@@ -1,35 +1,43 @@
-# rc32 验证记录 / Validation
+# rc33 验证记录 / Validation
 
-版本 `2.0.0rc32`，本地 macOS ARM64 / Python 3.12.13。源码 **691 项通过**，新增 60 项回归；五条已有弃用警告来自 PyMuPDF SWIG。安装包及精确提交的 CI 结果见发行记录。
+版本 `2.0.0rc33`，本地 macOS ARM64 / Python 3.12.13。源码 **696 项通过**，新增 5 项回归。安装 wheel 和精确提交 CI 在发布时另行核验；最新结果见发行记录。[逐项证据](FONT_CATALOG_LOADING_VALIDATION.json)保留本轮完整测量和对照结果。
 
-| 本轮范围 | rc31 基线 | rc32 |
+## 字库加载
+
+单次加载内只计算一次每条模板的 NFKC 字符映射，各索引共享结果。实际 cmap 的原始轮廓优先，缺失的标签才使用首个别名。汉字分类改用排序区间边界的二分查询，覆盖统计使用等价的 NumPy 区间计数。全部哈希、元数据、轮廓摘要、歧义和覆盖计数校验继续执行；字库格式和资源字节不变，没有持久缓存或跳过校验。
+
+| 七轮交替独立进程测量 | rc32 | rc33 |
 | --- | --- | --- |
-| 十字库、16 个真实字体 97/193 字长行 | 8 完整，2226 字 | **16 完整，2320 字** |
-| 十字库、84 个保存短行 DXF | 69 完整，1255 字 | **69 完整，1255 字** |
-| 新选历史及本机 PDF，12 页实际转换 | 1 ok，11 degraded | **1 ok，11 degraded** |
+| 十字库完整加载中位耗时 | 2.367754 秒 | 2.228805 秒 |
+| 进程峰值 RSS 中位数 | 900.2 MiB | 872.3 MiB |
 
-16 个长行 PDF 是四个真实开源字体的描边/填充样例，全部使用原 PDF SHA256。rc31 对相同保存 DXF 加载十字库的结果为基线；rc32 重新转换原 PDF。每个字均与原字体 cmap、独立 BoundsPen 位置、来源句柄和模板摘要核对，全部 TEXT 插入点/FIT 端点核验通过，最大边界误差 **0.000430637 mm**；原始图元组码与 rc31 相同。不是 16 份未经标注的工程图均已识别。
+加载中位耗时减少 **5.9%**，峰值内存中位数减少 **27.9 MiB**。这是本机这一工作量的观察结果，不是所有平台、PDF 或识别阶段均有相同提速。计时包括正常校验和全部索引构建，排除资源清单发现和逐字段摘要审计；GC 保持启用，使用相同十个 r2 文件、交替启动全新进程。每条原始/填充 mask、digest、lookup 值、别名映射、模板对象引用及其余 dataclass 字段均对照一致，共 **246,293 条模板、2,288,068 个索引键**。
 
-短行 84 个 DXF 的全部原图元、保存实体库以及既有识别字段保持一致；仍有 15 个不完整样例，14 个无独立字体锁、1 个有较大内部标点竞争。没有放宽近似匹配、冲突、独立锚点或尺寸门槛。
+新增测试遍历全部 **1,114,112 个 Unicode 码点**，证明汉字区间分类与原约定完全相同，包含间隙、相邻边界、兼容区、代理码点和扩展 J 端点。其余测试检查别名排在实际码点前时的 raw/fill 优先级，以及错误的汉字覆盖计数仍被拒绝。码点分类校验不代表能识别全部码点或任意字体。
 
-## 历史语料与本机 PDF
+## 识别和保存结果
 
-在 Downloads、Desktop、Documents、Code 四个目录搜索到 6101 个 PDF 路径；不是整台机器所有位置的普查。以目录层次和确定性散列顺序选取 64 份历史文件及 32 个其他路径，内容去重后为 **94 份（64 历史、30 其他）**。检查首/中/末代表页，共 **155 页**，无读取错误。记录页尺寸、旋转、原生文字、矢量路径、图片及字体元数据；这一步不等同于转换。
+| 本轮实际执行范围 | 结果与 rc32 的关系 |
+| --- | --- |
+| 十字库、84 个保存短行 DXF | 69/84 完整、1255 字，全部识别字段与图元一致 |
+| 十字库、16 个保存长行 DXF | 16/16 完整、2320 字，全部识别字段与图元一致 |
+| 2 个 193 字原字体 PDF 重新转换 | 描边/填充共 386 字，正常资源加载，保存结果一致 |
+| 2 张本机 PDF 图纸重新转换 | 1 ok、1 degraded，文字、几何与比例门槛结果一致 |
 
-从中另选 6 个历史页、6 个新增本机页，使用正常 core r2 字库、原页码和相同请求，分别运行隔离安装 rc31 与当前源码。12 页均生成 DXF。逐一复验源文件及所有产物 SHA256、保存报告、比例误差、全部文字和 DXF 组码（仅两个 HEADER GUID 可变）。共比较 **6197364 个组码对、2668 个文字实体**，读取审计错误和修复均为 0。
+100 个 DXF 重新执行轮廓恢复，对比整个识别报告、整个实体库（仅经核验的写入时间可变）和全部原图元。四个 PDF 通过 Converter 重新转换，同一输入 SHA256、同一请求，核对全部识别字段（仅运行时间可变）、全部 DXF 组码（仅两个 HEADER GUID 可变），并再次验证保存产物摘要、尺寸数量与误差。两张本机图纸的外部字体锁和新增轮廓文字仍为 0，未通过门槛的图纸仍待复核。
 
-这 12 页为 **1 ok、11 degraded**：3 calibrated（其中 2 页未通过 0.2% 尺寸误差门槛）、2 paper、7 unknown。几何通过 10/12。外部字体锁和新增轮廓文本均为 0，因此不能称为文字完整恢复。未确认的轮廓和工程比例继续保留。私有 PDF、原字体、文件名及完整路径不进入公开包；公开证据使用散列案例标识。
+安装包另从源码目录之外重新转换同样四个 PDF，并核对父进程、子进程均加载 site-packages，防止工作目录使安装版意外调用源码。该项在发布前与最终源码逐字段及逐组码对齐；不是新增四个不同样本。
 
-历史全部 4290 份 /12577 页未重跑；原有 BIM22、84 个对应字体 PDF 及 12 个含“建”的长行 PDF 也未重跑。本轮仅报告上述实际覆盖，rc31 的 84/84 结果保留在[历史证据](HALF_ENCLOSURE_VALIDATION.json)。
+本轮没有增加识别率。短行仍有 15 个不完整样例：14 个无独立字体锁，1 个存在较大的内部标点竞争。未知文字保留轮廓，未知或冲突比例继续明确报告；没有新增 OCR、近似匹配、猜字或门槛放宽。r2 字库无需重下。
 
-## 回归与算法边界
+历史 **4290 份 /12577 页**、原 BIM22、84 个对应字体 PDF 和 rc32 的其余 10 个新增语料页均未重跑。rc32 的 94 份 /155 页内容检查和 12 页转换是历史证据，见[rc32 记录](LONG_ROW_WINDOW_VALIDATION.json)。本轮 100 个 DXF 不能计作 100 次 PDF 转换。
 
-旧版本对最终 60 项新回归为 **36 失败、24 通过**，36 项均为首/中/末位置的真实漏字复现。修复仅将“整行长度不得超过 96”改为“每个候选使用最多 96 字的局部窗口”。覆盖单字库汉字片段、多字库汉字/英文、描边/填充、97/193 字、来源断裂、窗口外锚点、原图元与幂等。短行判定不变，新恢复字不提供独立锚点。详见[逐例证据](LONG_ROW_WINDOW_VALIDATION.json)。
+全库 Ruff 仍报告 29 条 rc32 已有问题，涉及未改动文件，已与 rc32 原文件及完整诊断逐条核对；本次改动运行时和测试文件通过 Ruff。五条已有测试弃用警告来自 PyMuPDF SWIG。私有 PDF、原字体、文件名和完整路径不进入公开包。
 
 ## English
 
-All **691 source tests pass**, including 60 new regressions. Sixteen 97/193-character PDFs from four real fonts, with all ten catalogs, improve **8→16 complete and 2226→2320 characters**. rc31 baseline recognition uses the same saved DXFs; rc32 reconverts the unchanged PDFs. Every character is checked against original cmap/BoundsPen positions, handles, mask digests and saved TEXT endpoints; source geometry is preserved. The 84 short DXFs retain 69/84 completeness and existing entity/report fields.
+All **696 source tests pass**, including five new Unicode/alias/count regressions. Reusing one NFKC mapping per template, binary Han-range classification and vectorized coverage counting retain every loader check and raw/fill/cmap priority. Seven alternating fresh processes with GC enabled load the same ten r2 catalogs: median time **2.368→2.229 s**, median peak RSS **900.2→872.3 MiB**. Every dataclass field, mask, digest, lookup value and alias/template reference matches rc32 across 246,293 templates and 2,288,068 keys. This local workload is not a universal speed guarantee.
 
-A search of four local roots lists 6101 PDF paths. Deterministic directory-stratified selection and content deduplication inspect **94 documents /155 representative pages** without read errors; this is metadata/content inspection, not full conversion. Twelve selected historical/additional pages are converted using identical requests against isolated rc31 and current code. All generate DXF: **1 ok, 11 degraded**; scales are 3 calibrated (2 fail the 0.2% dimension gate), 2 paper and 7 unknown. Geometry passes 10/12. All source/artifact hashes, saved validations, 6197364 group pairs and 2668 TEXT/MTEXT entities are checked. External font locks and new outline text remain zero. Private drawings are not published.
+Fresh recognition of **100 saved DXFs** preserves complete reports and entity data: short84 remains **69 complete /1255 characters**, long16 remains **16 complete /2320 characters**. Four actual PDF reconversions use normal resource loading and original hashes: two open-font PDFs recover 386 characters; two private drawing pages retain one pass and one degraded scale result. Saved reports, group-code pairs and dimension checks match rc32. The source-free installed wheel reconverts the same four inputs before publication and is compared with final source; it adds no new sample coverage.
 
-The corrected new-test baseline yields **36 missing-text failures and 24 passes**. Local 96-glyph windows retain geometry, ambiguity and independent-anchor requirements. Historical 4290-document/12577-page conversion, BIM22, 84 matching-face PDFs and twelve long 建 PDFs are not rerun. Reuse unchanged r2 resources. The historical 84/84 result does not imply universal font accuracy.
+Every Unicode codepoint is checked for unchanged Han-range classification, not recognition coverage. Fifteen short cases remain incomplete and both private drawings lack an external font lock. Historical4290, BIM22, matching-face84 and the other ten rc32 additional corpus pages are not rerun. Reuse unchanged r2 fonts. Full-tree Ruff retains 29 verified pre-existing findings in unchanged files; changed files pass. Private source files and paths are excluded. See the [complete evidence](FONT_CATALOG_LOADING_VALIDATION.json).

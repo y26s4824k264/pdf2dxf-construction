@@ -17,6 +17,7 @@ import struct
 import tempfile
 import unicodedata
 import zipfile
+from bisect import bisect_right
 from collections import defaultdict
 from dataclasses import dataclass
 from itertools import groupby
@@ -103,6 +104,9 @@ HAN_RANGES = (
     (0x31350, 0x323AF),
     (0x323B0, 0x3347F),
 )
+# Sorted half-open boundaries also handle touching ranges: both boundaries at
+# a shared endpoint are crossed together, so it remains inside the next range.
+_HAN_BOUNDARIES = tuple(value for start, end in HAN_RANGES for value in (start, end + 1))
 ARRAY_NAMES = (
     "aspect_ratios.npy",
     "canonical_masks.npy",
@@ -189,7 +193,7 @@ def _is_lower_hex(value: Any, length: int) -> bool:
 
 
 def is_han_character(value: str) -> bool:
-    return len(value) == 1 and _in_ranges(ord(value), HAN_RANGES)
+    return len(value) == 1 and bisect_right(_HAN_BOUNDARIES, ord(value)) % 2 == 1
 
 
 def _canonical_catalog_character(codepoint: int) -> str:
@@ -1009,6 +1013,7 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         raise FontCatalogError("font catalog contains invalid glyph rows")
 
     templates: list[FontGlyphTemplate] = []
+    canonical_characters: list[str] = []
     lookup: dict[tuple[int, int, bytes], tuple[str, ...]] = {}
     ambiguous_labels: dict[tuple[int, int, bytes], set[str]] = {}
     structures_lists: dict[tuple[int, int], list[float]] = defaultdict(list)
@@ -1026,6 +1031,7 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         codepoint = int(codepoints[index])
         char = chr(codepoint)
         canonical_char = _canonical_catalog_character(codepoint)
+        canonical_characters.append(canonical_char)
         template = FontGlyphTemplate(
             char=char,
             codepoint=codepoint,
@@ -1070,9 +1076,7 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         manifest.get("fully_ambiguous_characters", -1)
     ):
         raise FontCatalogError("font catalog ambiguous character count mismatch")
-    recognition_characters = frozenset(
-        _canonical_catalog_character(template.codepoint) for template in templates
-    )
+    recognition_characters = frozenset(canonical_characters)
     normalized_alias_mappings = len(unique_codepoints) - len(recognition_characters)
     if len(recognition_characters) != int(
         manifest.get("recognition_character_count", -1)
@@ -1104,7 +1108,10 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         raise FontCatalogError("font catalog identity mismatch")
     requested_count = manifest.get("requested_mapped_codepoints")
     skipped_count = manifest.get("skipped_non_outline_mappings")
-    han_count = sum(_in_ranges(int(value), HAN_RANGES) for value in unique_codepoints)
+    han_count = sum(
+        int(np.count_nonzero((unique_codepoints >= start) & (unique_codepoints <= end)))
+        for start, end in HAN_RANGES
+    )
     if (
         not isinstance(requested_count, int)
         or not isinstance(skipped_count, int)
@@ -1114,18 +1121,14 @@ def _load_font_catalog(path: str | Path) -> FontGlyphCatalog:
         raise FontCatalogError("font catalog coverage counts are invalid")
     by_char: dict[str, FontGlyphTemplate] = {}
     templates_by_label: dict[str, list[FontGlyphTemplate]] = defaultdict(list)
-    for template in templates:
+    for template, canonical_char in zip(templates, canonical_characters, strict=True):
         by_char.setdefault(template.char, template)
-        templates_by_label[_canonical_catalog_character(template.codepoint)].append(
-            template
-        )
-    for template in templates:
-        canonical_char = _canonical_catalog_character(template.codepoint)
-        if canonical_char not in by_char or (
-            template.char == canonical_char
-            and by_char[canonical_char].char != canonical_char
-        ):
-            by_char[canonical_char] = template
+        templates_by_label[canonical_char].append(template)
+    # Real cmap entries and their first (raw) representation take precedence.
+    # Only absent labels borrow the first alias; each label was normalized once
+    # when its template was verified, regardless of how many indexes use it.
+    for canonical_char, variants in templates_by_label.items():
+        by_char.setdefault(canonical_char, variants[0])
     return FontGlyphCatalog(
         path=source,
         schema=manifest["schema"],
