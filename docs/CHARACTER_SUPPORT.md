@@ -122,3 +122,13 @@ The additive `font_ambiguous_overlap_rejections` field counts unique candidates 
 After exact matching and the existing confirmation process, rows exceeding 96 Unicode codepoints are split into bounded TEXT payloads. Lengths 97 and 193 become 95+2 and 96+95+2, avoiding a one-glyph tail. Every segment still passes its own original publication-consensus check; unsupported numeric segments and unknown/ambiguous glyphs remain geometry. FIT endpoints, fingerprints and source handles are derived from each segment's actual outlines.
 
 The two additive counters record source rows split and candidate segments, including segments later rejected. Use `accepted` and persisted TEXT for published totals. Font matching, locks and row-recheck thresholds are unchanged; this does not recover previously unmatched glyphs or invoke OCR.
+
+## rc28：曲线采样稳定性 / Curve sampling stability
+
+PDF 数值序列化可使同一曲线的理论采样数从 8.999983 变为 9.000077；直接向上取整会产生 9/10 点两种离散轮廓，进而改变掩码。rc28 将距离整数不超过 0.0001 的**采样数**对齐到该整数，其余取整决策、控制点、坐标、曲线容差及最大/最小采样数不变。转换器与字体构建器共用该规则。已有 r2 字库及精确掩码/拓扑/字体确认规则保持不变。
+
+这修复从原 PDF 转换时的数值边界；不会猜测或重写旧 DXF 中已离散的轮廓。升级后请从原 PDF 重新转换。16 个原始长行 PDF 全部完整恢复，四处 B 漏字补齐；不能据此宣称任意字体识别率。详见[逐项证据](CURVE_SAMPLING_VALIDATION.json)。
+
+PDF serialization can move the same curve's ideal count from 8.999983 to 9.000077, causing ceil to choose 9 versus 10 samples and different glyph masks. rc28 snaps only a **sample count** within 0.0001 of an integer; other rounding decisions, controls, coordinates, configured tolerance and sample limits remain unchanged. PDF conversion and font building share this rule. Exact masks, topology, font locks, ambiguity rejection and r2 resource bytes remain unchanged.
+
+Reconvert the original PDF to benefit; this does not infer or rewrite curves already flattened in old DXFs. The original 16 long PDFs now complete, restoring four missing B characters. This is a bounded regression result, not universal font accuracy. See [evidence](CURVE_SAMPLING_VALIDATION.json).

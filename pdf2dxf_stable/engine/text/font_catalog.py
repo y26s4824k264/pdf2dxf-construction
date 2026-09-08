@@ -27,6 +27,7 @@ import numpy as np
 from fontTools.pens.basePen import BasePen
 
 from ...paths import protect_inputs
+from ..curve_sampling import cubic_sample_count
 
 FONT_CATALOG_SCHEMA = "pdf2dxf.font_glyph_catalog.v2"
 FONT_CATALOG_VERSION = "2"
@@ -333,17 +334,7 @@ def _flatten_cubic(
     max_samples: int = 96,
 ) -> list[tuple[float, float]]:
     flatness = _cubic_flatness(p0, c1, c2, p1)
-    samples = int(
-        max(
-            4,
-            min(
-                max_samples,
-                math.ceil(
-                    2.0 + math.sqrt(max(flatness, 0.0) / max(tolerance, 1e-4)) * 5.0
-                ),
-            ),
-        )
-    )
+    samples = cubic_sample_count(flatness, tolerance, max_samples)
     values = []
     for index in range(samples):
         t = index / (samples - 1)

@@ -1,3 +1,11 @@
+# 2.0.0rc28
+
+rc28 修复 PDF 曲线采样数在整数边界受数值误差影响而漏识别文字的问题；转换器和字库构建器共用有界的采样规则，精确字形匹配与歧义检查不变。原 16 个长行 PDF 从 14 个完整恢复提升到 16 个，补齐四处 `B`，共恢复 2320 个字符。新增 23 项回归，源码 492 项通过；84 个对应字体 PDF、84 个短行 DXF 和 22 份 BIM 图纸均已复测。现有 r2 字库无需重下；需从原 PDF 重新转换以应用采样修复。详见[验证记录](docs/VALIDATION.md)。
+
+rc28 stabilizes integer curve-sampling ties affected by PDF numeric serialization. The converter and font builder share the bounded count rule; exact glyph matching and ambiguity checks remain unchanged. All 16 original long PDFs now recover completely (previously 14), restoring four missing `B` characters for 2320 characters total. Twenty-three regressions bring source tests to 492. The 84 matching-face PDFs, 84 short DXFs and 22 BIM PDFs have been rerun. Reuse r2 catalogs and reconvert the original PDF to apply this sampling fix; see [validation](docs/VALIDATION.md).
+
+四个受影响 HATCH 的边界变化 <0.000992 mm；对原 PDF 曲线的最大偏差 <0.001188 mm，仍在原容差内。其他长行原图元、84 对应字体 PDF、84 已保存 DXF 和 22 BIM 图纸的既有几何结果不变。
+
 # 2.0.0rc27
 
 - 修复已精确匹配且字体已确认的长文字超过 96 字时整行不输出。仅在写入 TEXT 前分段，每段仍通过原有文字共识检查，保留原字形、位置、来源和幂等行为。

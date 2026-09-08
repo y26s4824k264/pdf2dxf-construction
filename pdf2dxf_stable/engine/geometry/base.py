@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Generic PDF vector graphics -> DXF kernel v1.4.
 
 The module deliberately treats PDF coordinates as observations and preserves
@@ -8,6 +6,8 @@ extended drawing stream to retain OCG layer names and clipping scopes, emits
 native DXF primitives where confidence is high, and falls back to polylines
 when exact primitive clipping is not practical.
 """
+
+from __future__ import annotations
 
 from dataclasses import dataclass, asdict, field
 from pathlib import Path
@@ -29,13 +29,14 @@ from shapely.geometry import (
     LineString,
     MultiLineString,
     MultiPolygon,
-    Point,
+    Point as Point,
     Polygon,
     box,
 )
 from shapely.ops import unary_union
 from shapely.validation import make_valid
 
+from pdf2dxf_stable.engine.curve_sampling import cubic_sample_count
 from pdf2dxf_stable.engine.geometry.native_text import (
     TextRecoveryConfig,
     TextRecoveryDiagnostics,
@@ -44,7 +45,7 @@ from pdf2dxf_stable.engine.geometry.native_text import (
     match_outline_records,
 )
 from pdf2dxf_stable.engine.geometry.media import (
-    MediaConfig,
+    MediaConfig as MediaConfig,
     enumerate_media_occurrences,
     clip_polygon_to_image_pixels,
     extract_image_pixmap,
@@ -402,15 +403,7 @@ def flatten_cubic(
     seg: CubicSeg, tolerance: float, max_samples: int = 96
 ) -> list[tuple[float, float]]:
     flat = cubic_flatness(seg)
-    n = int(
-        max(
-            4,
-            min(
-                max_samples,
-                math.ceil(2.0 + math.sqrt(max(flat, 0.0) / max(tolerance, 1e-4)) * 5.0),
-            ),
-        )
-    )
+    n = cubic_sample_count(flat, tolerance, max_samples)
     return [cubic_point(seg, i / (n - 1)) for i in range(n)]
 
 
@@ -855,7 +848,6 @@ class GenericGraphicsKernelV14:
         sample = np.asarray(transform.points(sample_pdf), dtype=float)
         if len(sample) < 8 or not is_full_closed_sample(sample):
             return False
-        span = max(float(np.ptp(sample[:, 0])), float(np.ptp(sample[:, 1])), 1e-9)
         if self.config.detect_circles:
             fit = fit_circle(sample[:-1])
             if fit is not None:

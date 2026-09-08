@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc27 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc27) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc28 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc28) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc27 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc27), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc28 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc28), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -129,3 +129,13 @@ Ambiguous multi-label windows now block overlapping candidates and cannot act as
 无需更新字库。rc27 修复 96 字以上已匹配行不输出的问题；16 个真实字体长文本 PDF 为 14 个完整、2 个部分恢复，发布字符由 286 增至 2316，原字体匹配候选数不变。原有 84 个短文本 DXF 仍为 63/84，21 个部分或未确认。历史 rc26 对应字体 84-PDF 结果仍标记为 rc26，本轮未重跑该批 PDF。详见 [验证记录](VALIDATION.md) 和 [长行逐项证据](LONG_TEXT_VALIDATION.json)。
 
 Reuse unchanged catalogs. rc27 fixes publication of matched rows longer than 96 glyphs. Sixteen new real-font long PDFs yield 14 complete and 2 partial cases, with 286→2316 published characters and unchanged matching-candidate counts. The existing 84 short DXFs remain 63/84 complete; the historical rc26 matching-face PDF batch was not rerun. See [validation](VALIDATION.md) and [long-row evidence](LONG_TEXT_VALIDATION.json).
+
+## rc28：曲线采样稳定性 / Curve sampling stability
+
+PDF 数值序列化可使同一曲线的理论采样数从 8.999983 变为 9.000077；直接向上取整会产生 9/10 点两种离散轮廓，进而改变掩码。rc28 将距离整数不超过 0.0001 的**采样数**对齐到该整数，其余取整决策、控制点、坐标、曲线容差及最大/最小采样数不变。转换器与字体构建器共用该规则。已有 r2 字库及精确掩码/拓扑/字体确认规则保持不变。
+
+这修复从原 PDF 转换时的数值边界；不会猜测或重写旧 DXF 中已离散的轮廓。升级后请从原 PDF 重新转换。16 个原始长行 PDF 全部完整恢复，四处 B 漏字补齐；不能据此宣称任意字体识别率。详见[逐项证据](CURVE_SAMPLING_VALIDATION.json)。
+
+PDF serialization can move the same curve's ideal count from 8.999983 to 9.000077, causing ceil to choose 9 versus 10 samples and different glyph masks. rc28 snaps only a **sample count** within 0.0001 of an integer; other rounding decisions, controls, coordinates, configured tolerance and sample limits remain unchanged. PDF conversion and font building share this rule. Exact masks, topology, font locks, ambiguity rejection and r2 resource bytes remain unchanged.
+
+Reconvert the original PDF to benefit; this does not infer or rewrite curves already flattened in old DXFs. The original 16 long PDFs now complete, restoring four missing B characters. This is a bounded regression result, not universal font accuracy. See [evidence](CURVE_SAMPLING_VALIDATION.json).

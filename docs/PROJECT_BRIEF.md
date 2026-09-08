@@ -28,8 +28,8 @@ rc22 增加同字体连续文字行的短笔画尺寸证据判断，使用相同
 | 证据 | 范围与限制 | 入口 |
 | --- | --- | --- |
 | 自动回归 | 图元、轮廓文本、字库、尺寸比例、R12、资源取消和发布包检查；执行结果以对应 CI 提交为准 | [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)、[tests](../tests) |
-| rc27 实图回归 | 22 PDF / 22 页均产出 DXF；238 条恢复 TEXT、1035 个字符；22 份仍存在质量降级 | [验证记录](VALIDATION.md)、[摘要](validation.json) |
-| 保存后复核 | 历史 rc20 修复填充经独立绕数及已保存 HATCH 核对；rc27 检查输出 SHA256、实际 TEXT 句柄内容、尺寸和源预检证据；不等于所有图元视觉保真 | [验证记录](VALIDATION.md) |
+| rc28 实图回归 | 22 PDF / 22 页均产出 DXF；238 条恢复 TEXT、1035 个字符；22 份仍存在质量降级 | [验证记录](VALIDATION.md)、[摘要](validation.json) |
+| 保存后复核 | 历史 rc20 修复填充经独立绕数及已保存 HATCH 核对；rc28 检查输出 SHA256、实际 TEXT 句柄内容、尺寸和源预检证据；不等于所有图元视觉保真 | [验证记录](VALIDATION.md) |
 | 维护记录 | 修复和整理历史写入 CHANGELOG；GitHub 从独立快照首次公开，不伪造历史提交 | [CHANGELOG](../CHANGELOG.md)、[来源](../SOURCE_ORIGIN.json) |
 
 本项目刚开始公开发布，尚无成熟的公开采用或社区规模证据。历史内部测试数量不是下载量、用户数或行业采用量；不以其替代开源生态影响力数据。
@@ -60,7 +60,7 @@ The project exposes geometric Chinese/English glyph matching, repeated-template 
 
 The public [test suite](../tests) covers geometry, outlined text, catalogs, dimensions, R12, resource cancellation and packaging. [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml) identifies the exact tested commits and platforms.
 
-The rc27 real-drawing run covers 22 PDFs / 22 pages. All produced DXFs; 238 TEXT entities containing 1035 characters were recovered. All 22 retained degraded quality status. Historical rc20 fill repairs were checked against independent source winding and persisted HATCH regions, including engineering scaling. rc27 compares all saved DXF group pairs to rc26, excluding only two HEADER GUIDs. Saved-output hashes, actual text handles, dimension validation and preflight evidence were checked. See [validation](VALIDATION.md) and its [JSON summary](validation.json). These results are not a claim of universal font coverage or complete visual/engineering acceptance.
+The rc28 real-drawing run covers 22 PDFs / 22 pages. All produced DXFs; 238 TEXT entities containing 1035 characters were recovered. All 22 retained degraded quality status. Historical rc20 fill repairs were checked against independent source winding and persisted HATCH regions, including engineering scaling. rc28 compares all saved DXF group pairs to rc27, excluding only two HEADER GUIDs. Saved-output hashes, actual text handles, dimension validation and preflight evidence were checked. See [validation](VALIDATION.md) and its [JSON summary](validation.json). These results are not a claim of universal font coverage or complete visual/engineering acceptance.
 
 This is a newly public project without established public-adoption evidence. Internal test counts are not downloads, users or industry adoption. Earlier maintenance work is summarized in [CHANGELOG](../CHANGELOG.md); the standalone GitHub history begins with the public snapshot rather than invented backdated commits.
 
@@ -75,3 +75,7 @@ Near-term priorities are reproducible cross-platform releases, clearly licensed 
 rc27 的维护工作修复已匹配长文字在 96 字边界整行丢失的问题，新增 26 项回归。16 个真实字体长行 PDF 增加 2030 个此前未输出字符，每个输出字形的原字体位置、轮廓句柄和文本定位均独立核验；既有短文本和 BIM 比例结果保持不变。见[验证记录](VALIDATION.md)。这说明 Codex 用于复现缺陷、编写回归、维护中英文档和核对发布包的实际工作，不代表项目采用量或资助资格。
 
 rc27 fixes matched long rows disappearing at the 96-glyph output boundary, with 26 new regressions. Sixteen real-font long PDFs gain 2030 previously unpublished characters; each published glyph, source handle and TEXT position is independently checked. Existing short-text and BIM scale results remain unchanged. See [validation](VALIDATION.md). This is concrete Codex-assisted reproduction, regression, documentation and release work, not evidence of adoption or funding eligibility.
+
+rc28 将字体漏识别追溯到 PDF 数值取整，新增 23 项回归并逐项审计曲线误差；16 个既有长行 PDF 全部恢复，r2 字库不变。修复证据同时披露四处采样几何的微小变化及仍未通过的 BIM 工程门槛。
+
+rc28 traces glyph misses to PDF numeric sampling ties, adds 23 regressions and audits source-curve error. All 16 existing long PDFs complete with unchanged r2 catalogs. The evidence discloses four small sampling changes and remaining BIM engineering gates.
