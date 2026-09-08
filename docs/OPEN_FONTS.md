@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc31 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc31) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc32 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc32) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc31 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc31), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc32 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc32), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -169,3 +169,13 @@ The exact whole glyph and canonical 廴 outline support a half-enclosure proof: 
 Only earlier-round verified results may connect a later proof, restricted to the font that proved them; they never become anchors. Each search visits at most 96 neighboring glyphs, with at most 96 rounds. A 94-proposal chain confirms only its first 93 glyphs while all three original anchors remain within the window. Reports retain proof rounds, font-bound bridges, geometry and source handles with bounded detail.
 
 Matching-face probes reach **84/84 complete, 1310 characters**; combined catalogs reach **69/84, 1255 characters**. Fourteen combined cases lack an independent font lock; one retains a large punctuation conflict. Twelve new long 建 PDFs complete with 1740 independently checked characters. This is a bounded corpus result, not universal font accuracy. Reuse unchanged r2 resources; see [evidence](HALF_ENCLOSURE_VALIDATION.json).
+
+## rc32 长行局部消歧 / Local ambiguity review for long rows
+
+汉字片段初筛及锁定字体后的同行复核均使用以候选为中心、最多 96 字的连续窗口；靠近行端时窗口向另一侧补齐。短行继续使用完整原行。全部几何、字体、来源边界、最小锚点字高及独立锚点条件不变；远处锚点不能跨越窗口提供证明，新恢复字不能充当独立锚点。超过 96 字的证据额外记录窗口来源范围和字形数量，TEXT 仍按最多 96 字分段。
+
+Both Han-fragment screening and locked-font row rechecks now use a centered contiguous window of at most 96 glyphs, shifted inward at row ends. Short rows retain the complete original row. Geometry, font/source boundaries, minimum anchor height and independent-anchor requirements are unchanged. Distant anchors cannot cross the window and restored results cannot become independent anchors. Long-row evidence records the source span and glyph count; TEXT output retains its 96-glyph segmentation.
+
+十字库长行 PDF 为 16/16、2320 字，比 rc31 多 94 字；84 个短行 DXF 保持 69/84。新增历史及本机 12 页转换对照不改变原文字、几何与比例状态，但外部轮廓字体尚未确认。见[本轮证据](LONG_ROW_WINDOW_VALIDATION.json)。此前 rc31 的对应字体 84/84 和 BIM22 结果保留历史版本，本轮未重跑这两批 PDF。
+
+All-ten long PDFs complete 16/16 with 2320 characters, gaining 94 over rc31; short DXFs remain 69/84. Twelve historical/local pages preserve text, geometry and scale states but do not lock an external outline font. See [evidence](LONG_ROW_WINDOW_VALIDATION.json). Earlier rc31 matching-face 84/84 and BIM22 results retain their historical version; neither PDF batch is rerun here.

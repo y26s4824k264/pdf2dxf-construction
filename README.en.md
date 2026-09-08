@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc31` (prerelease).
+Version: `2.0.0rc32` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -44,7 +44,7 @@ result = Converter().convert(
 print(result.status, result.report_path)
 ```
 
-rc31 verifies half-enclosed geometry and chains only previously proved results, restoring Jigmo 建. The 84 existing matching-face PDF probes reach **84/84 complete** (1310 characters); this bounded 100% result does not establish arbitrary-font recognition. All-ten-catalog probes reach **69/84**, retaining unsupported outlines. Twelve new long PDFs containing 建 all complete. Sixty-five regressions bring source tests to 631. Existing long PDFs and 22 BIM PDFs were rerun; engineering-scale gates are unchanged. Reuse r2 catalogs; see [algorithms](docs/OPEN_OUTLINE_ALGORITHMS.md) and [validation](docs/VALIDATION.md).
+rc32 replaces whole-row rejection with a local window of at most 96 glyphs for Han-fragment and cross-font punctuation review. Sixteen 97/193-character PDFs with all ten catalogs improve from **8/16 to 16/16 complete, 2226→2320 characters**. Sixty new regressions bring source tests to 691; 84 short DXFs retain 69/84 completeness. Content inspection covers 155 representative pages from 94 historical/local PDFs; twelve pages are converted and compared against isolated rc31: one passes and eleven need review, preserving source geometry and text. Those drawings do not establish external font locks. This is not universal-font accuracy. Reuse unchanged r2 catalogs; see [validation](docs/VALIDATION.md).
 
 ## Optional open font catalogs
 

@@ -1,3 +1,9 @@
+# 2.0.0rc32
+
+rc32 修复长行的字形消歧上限：汉字片段和跨字体标点复核改为每个候选附近最多 96 字，不再跳过整条长行。十字库的 16 个 97/193 字 PDF 从 **8/16 提升到 16/16 完整恢复，2226→2320 字**。新增 60 项回归，源码 691 项通过；84 个短行 DXF 保持 69/84。另对 94 份历史及本机 PDF 的 155 个代表页作内容检查，并将其中 12 页实际转换、与隔离安装的 rc31 对照：1 页通过、11 页需复核，原图元与文字保持。该组图纸尚未建立外部字库字体锁；这不代表任意字体识别率达到 100%。r2 字库无需重下。详见[验证记录](docs/VALIDATION.md)。
+
+rc32 replaces whole-row rejection with a local window of at most 96 glyphs for Han-fragment and cross-font punctuation review. Sixteen 97/193-character PDFs with all ten catalogs improve from **8/16 to 16/16 complete, 2226→2320 characters**. Sixty new regressions bring source tests to 691; 84 short DXFs retain 69/84 completeness. Content inspection covers 155 representative pages from 94 historical/local PDFs; twelve pages are converted and compared against isolated rc31: one passes and eleven need review, preserving source geometry and text. Those drawings do not establish external font locks. This is not universal-font accuracy. Reuse unchanged r2 catalogs; see [validation](docs/VALIDATION.md).
+
 # 2.0.0rc31
 
 rc31 补齐半包围字形的几何判断与已确认结果的逐轮连接，恢复 Jigmo 的“建”。指定对应字体字库的 84 个原 PDF 样例达到 **84/84 完整恢复**（1310 字）；这组样例的 100% 不代表任意字体均能识别。组合十字库为 **69/84**，仍保留证据不足的轮廓。新增 12 个含“建”的长行 PDF 全部完整；新增 65 项回归，源码 631 项通过。原有长行和 22 份 BIM PDF 已复测，工程比例门槛不变。r2 字库无需重下。详见[算法说明](docs/OPEN_OUTLINE_ALGORITHMS.md)和[验证记录](docs/VALIDATION.md)。

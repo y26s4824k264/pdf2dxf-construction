@@ -65,3 +65,13 @@ Matching-face probes reach **84/84 complete, 1310 characters**; combined catalog
 本轮复用 Shapely/GEOS 的 [convex_hull](https://shapely.readthedocs.io/en/stable/reference/shapely.convex_hull.html)、[overlaps](https://shapely.readthedocs.io/en/stable/reference/shapely.overlaps.html) 和 [disjoint](https://shapely.readthedocs.io/en/stable/reference/shapely.disjoint.html)，不新增依赖。凸包仅作为临时空间证据，不替换或简化原始路径。部首映射使用 Python 标准库 Unicode NFKC；[Unicode 康熙部首表](https://www.unicode.org/charts/PDF/U2F00.pdf)和[规范化标准](https://www.unicode.org/reports/tr15/)解释兼容映射及字形差异。没有复制 Unicode 字体或码表图形。
 
 Existing Shapely/GEOS predicates supply temporary spatial evidence without changing source paths. Python's Unicode NFKC supplies the radical mapping, not the glyph identity. The linked primary references document these primitives; this project's combined admission rule still requires independently verified labels and anchors. No new dependency, OCR, approximate-label inference or Unicode font data is introduced.
+
+## rc32 长行局部消歧 / Local ambiguity review for long rows
+
+汉字片段初筛及锁定字体后的同行复核均使用以候选为中心、最多 96 字的连续窗口；靠近行端时窗口向另一侧补齐。短行继续使用完整原行。全部几何、字体、来源边界、最小锚点字高及独立锚点条件不变；远处锚点不能跨越窗口提供证明，新恢复字不能充当独立锚点。超过 96 字的证据额外记录窗口来源范围和字形数量，TEXT 仍按最多 96 字分段。
+
+Both Han-fragment screening and locked-font row rechecks now use a centered contiguous window of at most 96 glyphs, shifted inward at row ends. Short rows retain the complete original row. Geometry, font/source boundaries, minimum anchor height and independent-anchor requirements are unchanged. Distant anchors cannot cross the window and restored results cannot become independent anchors. Long-row evidence records the source span and glyph count; TEXT output retains its 96-glyph segmentation.
+
+十字库长行 PDF 为 16/16、2320 字，比 rc31 多 94 字；84 个短行 DXF 保持 69/84。新增历史及本机 12 页转换对照不改变原文字、几何与比例状态，但外部轮廓字体尚未确认。见[本轮证据](LONG_ROW_WINDOW_VALIDATION.json)。此前 rc31 的对应字体 84/84 和 BIM22 结果保留历史版本，本轮未重跑这两批 PDF。
+
+All-ten long PDFs complete 16/16 with 2320 characters, gaining 94 over rc31; short DXFs remain 69/84. Twelve historical/local pages preserve text, geometry and scale states but do not lock an external outline font. See [evidence](LONG_ROW_WINDOW_VALIDATION.json). Earlier rc31 matching-face 84/84 and BIM22 results retain their historical version; neither PDF batch is rerun here.

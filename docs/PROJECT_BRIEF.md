@@ -95,3 +95,9 @@ Thirty-eight regressions bring source tests to 566. Punctuation rechecks, verifi
 新增 65 项回归，源码 631 项通过。半包围与有界证据链使对应字体 PDF 样例达到 84/84 完整恢复，公开声明 100% 只适用于该组样例；组合字库为 69/84，剩余原因及 BIM 工程比例限制一并披露。新增 12 个长行 PDF 的 1740 字均与原字体位置、摘要和来源图元独立对照。详见 [验证证据](HALF_ENCLOSURE_VALIDATION.json)。这些是可审查的维护成果，不代表 OpenAI 福利资格或批准。
 
 Sixty-five regressions bring source tests to 631. Half-enclosures and bounded proof chains complete 84/84 matching-face probes, with an explicit limit on the 100% claim. Combined catalogs remain 69/84 and engineering-scale limits are disclosed. All 1740 characters in twelve new long PDFs pass original-font position, digest and provenance checks. These reviewable maintenance results do not establish OpenAI eligibility or approval.
+
+## rc32 可复核维护 / Reviewable maintenance
+
+本轮复现并修复两处长行消歧上限，新增 60 项回归。十字库 16 个 PDF 的 2320 字逐字核验，补回 94 字；94 份本机/历史 PDF 的代表页检查及 12 页隔离版本对照记录了实际限制。原图纸不进入公开包。中英文文档、安装包、跨平台 CI 与精确提交一起核验；这些维护证据不代表 OpenAI 福利资格或批准。见[验证记录](VALIDATION.md)。
+
+This release reproduces and fixes two long-row ambiguity limits, adds 60 regressions and independently audits all 2320 characters in 16 all-ten-catalog PDFs, restoring 94. Representative inspection of 94 historical/local PDFs and twelve isolated-version comparisons disclose real limits. Private drawings are excluded from public artifacts. Bilingual documentation, packages, cross-platform CI and exact commits are verified; this maintenance evidence does not establish OpenAI eligibility or approval.

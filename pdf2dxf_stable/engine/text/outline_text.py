@@ -1109,6 +1109,18 @@ def _scan_font_catalog_matches(
     return accepted, metrics
 
 
+def _font_row_window_bounds(length: int, position: int) -> tuple[int, int]:
+    """Keep the complete short row, or at most 96 glyphs around a long-row parent."""
+    start = max(
+        0,
+        min(
+            position - (MAX_RECOVERED_TEXT_GLYPHS - 1) // 2,
+            length - MAX_RECOVERED_TEXT_GLYPHS,
+        ),
+    )
+    return start, min(length, start + MAX_RECOVERED_TEXT_GLYPHS)
+
+
 def _resolve_contained_han_fragments(
     matches: list[GlyphMatch],
     rejected: set[int],
@@ -1213,15 +1225,17 @@ def _resolve_contained_han_fragments(
         if run:
             runs.append(run)
         for run in runs:
-            if not 3 <= len(run) <= 96:
+            if len(run) < 3:
                 continue
-            anchors = [match for index, match in run if index not in proposals]
-            if len(anchors) < 2:
-                continue
-            minimum_height = min(match.height for match in anchors)
-            for index, parent in run:
+            for position, (index, parent) in enumerate(run):
                 if index not in proposals or index in promoted:
                     continue
+                start, stop = _font_row_window_bounds(len(run), position)
+                window = run[start:stop]
+                anchors = [match for i, match in window if i not in proposals]
+                if len(anchors) < 2:
+                    continue
+                minimum_height = min(match.height for match in anchors)
                 children, shared = proposals[index]
                 if (
                     font not in shared
@@ -1264,6 +1278,16 @@ def _resolve_contained_han_fragments(
                         )
                         / minimum_height,
                         "required_height_ratio_below": MIN_HAN_RUN_SIZE_RATIO,
+                        **(
+                            {
+                                "row_window": {
+                                    "glyph_count": len(window),
+                                    "span": [window[0][1].start, window[-1][1].end],
+                                }
+                            }
+                            if len(run) > MAX_RECOVERED_TEXT_GLYPHS
+                            else {}
+                        ),
                     }
                 )
     return promoted, suppressed, evidence
@@ -1460,7 +1484,7 @@ def _recheck_locked_font_rows(
             required_anchors = (
                 MIN_FONT_LOCK_DISTINCT_HAN if han_row else MIN_FONT_LOCK_DISTINCT_LATIN
             )
-            if not (han_row or latin_row) or not required_anchors + 1 <= len(run) <= 96:
+            if not (han_row or latin_row) or len(run) < required_anchors + 1:
                 continue
             if any(
                 a.atoms[-1].source_ref[:2] != b.atoms[0].source_ref[:2]
@@ -1470,24 +1494,26 @@ def _recheck_locked_font_rows(
                 for a, b in zip(run, run[1:])
             ):
                 continue
-            anchors = [
-                m
-                for m in run
-                if key(m) in existing
-                and font in existing[key(m)].font_catalog_ids
-                and not any(
-                    m.start < c.end and c.start < m.end for c in context.conflicts
-                )
-            ]
-            if (
-                len({m.char.lower() if latin_row else m.char for m in anchors})
-                < required_anchors
-            ):
-                continue
-            minimum_height = min(m.height for m in anchors)
-            for parent in run:
+            for position, parent in enumerate(run):
                 if key(parent) not in missing or key(parent) in restored:
                     continue
+                start, stop = _font_row_window_bounds(len(run), position)
+                window = run[start:stop]
+                anchors = [
+                    m
+                    for m in window
+                    if key(m) in existing
+                    and font in existing[key(m)].font_catalog_ids
+                    and not any(
+                        m.start < c.end and c.start < m.end for c in context.conflicts
+                    )
+                ]
+                if (
+                    len({m.char.lower() if latin_row else m.char for m in anchors})
+                    < required_anchors
+                ):
+                    continue
+                minimum_height = min(m.height for m in anchors)
                 reference_height = minimum_height if han_row else parent.height
                 maximum_ratio = MIN_HAN_RUN_SIZE_RATIO if han_row else 1.0
                 competitors: list[GlyphMatch | _FontConflict] = [
@@ -1597,6 +1623,16 @@ def _recheck_locked_font_rows(
                         else "parent_height",
                         "fragment_height_reference_value": reference_height,
                         "required_fragment_height_ratio_below": maximum_ratio,
+                        **(
+                            {
+                                "row_window": {
+                                    "glyph_count": stop - start,
+                                    "span": [run[start].start, run[stop - 1].end],
+                                }
+                            }
+                            if len(run) > MAX_RECOVERED_TEXT_GLYPHS
+                            else {}
+                        ),
                     }
                 )
     metrics["font_row_recheck_matches"] = len(restored)
