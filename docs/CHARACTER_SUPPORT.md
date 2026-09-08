@@ -112,3 +112,13 @@ Latin recovery requires an existing font lock, a globally unique whole-letter la
 A window matching multiple labels remains an overlap conflict even without a unique candidate. Contained, crossing and whole-parent ambiguous windows cannot disappear when another catalog is added; adjacent half-open endpoints remain separate. Rejected candidates cannot bootstrap their own font locks. Existing anchored source-row rechecks must still account for every original conflict.
 
 The additive `font_ambiguous_overlap_rejections` field counts unique candidates blocked during the initial scan; `font_ambiguous_geometry_matches` counts ambiguous windows. Later anchored rechecks may restore a whole parent, so initial rejections are not final missing-character counts. Use `accepted` and persisted DXF TEXT for output totals. Unconfirmed outlines, geometry and scale evidence remain intact; no OCR is used.
+
+## rc27：长文字分段输出 / Long TEXT rows
+
+字形已精确匹配并通过原有确认流程后，连续行超过 96 个字符时分成不超过 96 字的 TEXT；97 字分为 95+2，193 字分为 96+95+2，避免单字尾段。按 Unicode 码点计数，不切开补充平面汉字。每段独立执行原有发布共识检查：不足依据的纯数字段仍保留轮廓，未知或歧义字形不跨越拼接。每段的 FIT 定位点、字形指纹和源句柄来自该段实际轮廓。
+
+`long_text_runs_split` 是被分段的原行数，`long_text_segments` 是这些行产生的候选段数，包含最终未发布的段。最终字符和实体数以 `accepted` 与保存 TEXT 为准。本轮不改变字形匹配、字体锚点或来源行复核门槛；未匹配的长行字符仍可能缺失，不使用 OCR。
+
+After exact matching and the existing confirmation process, rows exceeding 96 Unicode codepoints are split into bounded TEXT payloads. Lengths 97 and 193 become 95+2 and 96+95+2, avoiding a one-glyph tail. Every segment still passes its own original publication-consensus check; unsupported numeric segments and unknown/ambiguous glyphs remain geometry. FIT endpoints, fingerprints and source handles are derived from each segment's actual outlines.
+
+The two additive counters record source rows split and candidate segments, including segments later rejected. Use `accepted` and persisted TEXT for published totals. Font matching, locks and row-recheck thresholds are unchanged; this does not recover previously unmatched glyphs or invoke OCR.

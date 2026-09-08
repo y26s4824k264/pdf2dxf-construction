@@ -50,6 +50,7 @@ MIN_FONT_LOCK_DISTINCT_HAN = 3
 MIN_FONT_LOCK_DISTINCT_LATIN = 4
 MAX_OUTLINE_POINTS_PER_ATOM = 4096
 RECOVERY_KEY_PRECISION = 6
+MAX_RECOVERED_TEXT_GLYPHS = 96
 TEXT_LAYER = "PDF_TEXT_RECOVERED_NOOCR"
 BACKUP_LAYER = "PDF_OUTLINE_BACKUP"
 APPID = "PDF2DXF_GLYPH"
@@ -1704,7 +1705,7 @@ def _group_runs(matches: list[GlyphMatch]) -> list[list[GlyphMatch]]:
 
 
 def _publishable_text(text: str, *, font_locked: bool = False) -> tuple[bool, str]:
-    if not text or len(text) > 96:
+    if not text or len(text) > MAX_RECOVERED_TEXT_GLYPHS:
         return False, "unsupported_text_length"
     if SCALE_TEXT.fullmatch(text):
         return True, "reviewed_scale_token"
@@ -1714,6 +1715,27 @@ def _publishable_text(text: str, *, font_locked: bool = False) -> tuple[bool, st
     if font_locked and han_count + sum(_is_english_letter(char) for char in text) >= 2:
         return True, "locked_font_letter_run"
     return False, "insufficient_text_run_consensus"
+
+
+def _split_long_text_run(run: list[GlyphMatch]) -> list[list[GlyphMatch]]:
+    """Bound TEXT payloads after matching, without discarding an exact long row.
+
+    Every segment still needs its own publication consensus. Move a final
+    one-glyph remainder into a two-glyph tail; never invent a missing neighbor
+    or cross the original run boundary. Glyphs retain their own source atoms.
+    """
+    if len(run) <= MAX_RECOVERED_TEXT_GLYPHS:
+        return [run]
+    segments: list[list[GlyphMatch]] = []
+    start = 0
+    while len(run) - start > MAX_RECOVERED_TEXT_GLYPHS:
+        end = start + MAX_RECOVERED_TEXT_GLYPHS
+        if len(run) - end == 1:
+            end -= 1
+        segments.append(run[start:end])
+        start = end
+    segments.append(run[start:])
+    return segments
 
 
 def _run_geometry(
@@ -1802,6 +1824,8 @@ def _related_fill_entities(
 def _base_report(mode: str, policy: str) -> dict[str, Any]:
     return {
         "schema": REPORT_SCHEMA,
+        "long_text_runs_split": 0,
+        "long_text_segments": 0,
         "status": "disabled" if mode == "off" else "pending",
         "mode": mode,
         "policy": policy,
@@ -1969,7 +1993,13 @@ def recover_outline_text(
     selected = sorted([*selected, *font_matches], key=lambda match: match.start)
     report["selected_glyph_matches"] = len(selected)
     report["overlapping_glyph_matches_rejected"] = overlap_rejected
-    runs = _group_runs(selected)
+    runs = []
+    for run in _group_runs(selected):
+        segments = _split_long_text_run(run)
+        if len(segments) > 1:
+            report["long_text_runs_split"] += 1
+            report["long_text_segments"] += len(segments)
+        runs.extend(segments)
     accepted_runs: list[list[GlyphMatch]] = []
     for run in runs:
         text = "".join(match.char for match in run)

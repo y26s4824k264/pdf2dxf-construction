@@ -4,7 +4,7 @@ rc18 提供独立的 `.p2dfont` 资源包，无需安装系统字体。字体只
 
 ## 下载与使用
 
-从 [rc26 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc26) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
+从 [rc27 发行页](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc27) 下载需要的 ZIP，并用发行页的 SHA256SUMS.txt 校验。解压到自己的字库目录；主 wheel 和源码包不包含字体或这些资源包。
 
 | 资源 | 字体来源（各取一个静态字重/字面） | 大小 |
 | --- | --- | --- |
@@ -76,7 +76,7 @@ python tools/build_open_font_bundle.py \
 
 ## English
 
-Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc26 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc26), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
+Two optional resource ZIPs contain ten static font-face catalogs: Source Han Sans/Serif SC Regular and three DejaVu regular faces in **core**; Jigmo's three plane files and Plangothic's two regular parts in **extended**. Download the desired assets from the [rc27 release](https://github.com/y26s4824k264/pdf2dxf-construction/releases/tag/v2.0.0rc27), compare the release checksums, unpack, and use `--outline-font-bundle path/to/font-bundle.json`. The option is repeatable for convert/batch/regress. Individual `.p2dfont` paths remain supported. The Python example above verifies the same bundle before passing its catalog paths to the existing request API.
 
 Jigmo's catalog union covers all **102,998 assigned Han codepoints** in Unicode 17's unified, A–J and compatibility ranges, checked against the official UnicodeData.txt. Coverage is not universal recognition accuracy. Real outlined-PDF tests publish complete, partial and unconfirmed results; All ten catalogs recover the full 52-letter stroke/fill test strings; sixteen Han cases still retain competing-contour ambiguities. Unknown geometry remains available. IVS/IVD sequences and every weight/regional variant are not supported by this release. See the [validation data](OPEN_FONT_VALIDATION.json) for exact inputs and results.
 
@@ -123,3 +123,9 @@ The same r2 catalogs load in a median 2.31 seconds versus 5.76 seconds, with abo
 修复后，同形多标签窗口继续阻止与其重叠的候选，不能再作为字体锚点。组合十字库的完整样例为 **63/84**（此前 70/84），21 个部分或未确认；八个样例因锚点不足共保留 31 个旧输出字符的原轮廓。逐字体指定对应字库仍 **82/84**，全部 20 个完整英文字母样例通过。不是所有减少输出的标签都已被证明错误，组合更多字库也不保证更好识别。请依据图纸的实际字体选择字库，不为追求输出数量而删除已知冲突证据。资源字节不变，详见 [验证记录](VALIDATION.md)。
 
 Ambiguous multi-label windows now block overlapping candidates and cannot act as font-lock anchors. With all ten catalogs, **63/84** probes complete (previously 70/84); eight cases with insufficient anchors withhold 31 prior characters while retaining their outlines. Matching-face PDFs remain **82/84** and all 20 alphabet probes pass. Withheld labels are not necessarily wrong. Select catalogs based on the actual drawing font, without discarding known conflicting evidence merely to increase output. Resource bytes remain unchanged; see [validation](VALIDATION.md).
+
+## rc27：长行输出 / Long rows
+
+无需更新字库。rc27 修复 96 字以上已匹配行不输出的问题；16 个真实字体长文本 PDF 为 14 个完整、2 个部分恢复，发布字符由 286 增至 2316，原字体匹配候选数不变。原有 84 个短文本 DXF 仍为 63/84，21 个部分或未确认。历史 rc26 对应字体 84-PDF 结果仍标记为 rc26，本轮未重跑该批 PDF。详见 [验证记录](VALIDATION.md) 和 [长行逐项证据](LONG_TEXT_VALIDATION.json)。
+
+Reuse unchanged catalogs. rc27 fixes publication of matched rows longer than 96 glyphs. Sixteen new real-font long PDFs yield 14 complete and 2 partial cases, with 286→2316 published characters and unchanged matching-candidate counts. The existing 84 short DXFs remain 63/84 complete; the historical rc26 matching-face PDF batch was not rerun. See [validation](VALIDATION.md) and [long-row evidence](LONG_TEXT_VALIDATION.json).

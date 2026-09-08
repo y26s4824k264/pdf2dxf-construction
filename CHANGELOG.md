@@ -1,3 +1,13 @@
+# 2.0.0rc27
+
+- 修复已精确匹配且字体已确认的长文字超过 96 字时整行不输出。仅在写入 TEXT 前分段，每段仍通过原有文字共识检查，保留原字形、位置、来源和幂等行为。
+- 97/193/289 字等边界避免留下单字尾段；不足共识的数字段、未知字形、同形冲突继续保留轮廓。新增 `long_text_runs_split` / `long_text_segments` 统计初次分段，最终输出仍以 accepted 和保存 TEXT 为准。
+- 新增 26 项回归；冻结 rc26 为 21 失败、5 通过，修复后全量源码 469 项通过。中英文描边/填充、补充平面汉字、定位点、句柄完整性和重复执行均核验。
+- 四个真实字体的 16 个 97/193 字 PDF：14 个完整、2 个仍部分恢复，发布字符 286→2316（增加 2030）。字形匹配候选数与 rc26 相同；所有输出逐字对齐原字体边界和来源，不能把分段输出改善当成字形匹配准确率提升。
+- 原有 84 个短文本 DXF 的全部既有识别字段及实体库组码保持一致（仅保存时间变化），仍为 63/84 完整；22 份 BIM 实图重新转换，保存组码除 HEADER GUID 外与 rc26 相同，原有比例限制不变。r2 资源不变。
+
+rc27 splits already matched long rows into TEXT payloads of at most 96 glyphs, retaining independent consensus, source geometry, positioning and idempotence. Twenty-six regressions cover boundaries and rejection cases; source tests pass 469. Sixteen real-font long PDFs publish 2316 characters versus 286 on rc26, with 14 complete and 2 partial cases. Candidate matching itself is unchanged. Short-DXF and fresh BIM evidence preserve prior results and scale limitations; existing r2 catalogs are reused.
+
 # 2.0.0rc26
 
 - 修复多标签轮廓窗口未生成候选后，从重叠检查中消失的问题。歧义的内部、跨字边界和完整父字窗口均继续阻止重叠候选；仅已有锚点支持的来源行复核可恢复完整字形。
