@@ -166,6 +166,7 @@ class KernelStats:
     shading_entities: int = 0
     shading_files: int = 0
     outside_page_media_skipped: int = 0
+    fully_clipped_media_skipped: int = 0
     skipped_full_page_shadings: int = 0
     malformed_paths: int = 0
     invalid_geometries_repaired: int = 0
@@ -1485,53 +1486,14 @@ class GenericGraphicsKernelV14:
                         confidence=None,
                     )
 
-    def _build_media_clip_map(
-        self, drawings: list[dict[str, Any]], stats: KernelStats
-    ) -> dict[int, ClipState]:
-        """Map bboxlog sequence numbers of immediately following media to clips.
+    def _build_media_clip_map(self, drawings, stats, page):
+        from .media_clipping import collect_media_clips
 
-        In common PDF streams a clip path is painted/declared immediately before
-        an image or shading. PyMuPDF omits images from get_cdrawings(), but its
-        drawing seqno shares the page bboxlog sequence, which lets us bind the
-        next fill-image/fill-shade occurrence conservatively.
-        """
-        result: dict[int, ClipState] = {}
-        last_seqno: int | None = None
-        pending: ClipState | None = None
-        for record in drawings:
-            typ = str(record.get("type", ""))
-            if typ == "clip":
-                state = clip_state_from_record(record, self.config, stats)
-                if state is not None:
-                    if pending is None:
-                        pending = state
-                    else:
-                        try:
-                            geom = pending.geometry.intersection(state.geometry)
-                            if not geom.is_empty and isinstance(
-                                geom, (Polygon, MultiPolygon)
-                            ):
-                                b = tuple(map(float, geom.bounds))
-                                rect = box(*b)
-                                pending = ClipState(
-                                    geom,
-                                    b,
-                                    abs(float(geom.area) - float(rect.area))
-                                    <= max(1e-6, float(rect.area) * 1e-8),
-                                )
-                        except Exception:
-                            pending = state
-                    if last_seqno is not None:
-                        result[last_seqno + 1] = pending
-                continue
-            seq = record.get("seqno")
-            if seq is not None:
-                last_seqno = int(seq)
-                # A normal drawing after the pending clip means the next media slot
-                # has passed; keep only exact next-sequence bindings.
-                if pending is not None and last_seqno not in result:
-                    pending = None
-        return result
+        try:
+            return collect_media_clips(page, drawings, self.config, stats)
+        except Exception as exc:
+            stats.warnings.append(f"image clipping failed: {exc}")
+            return {}
 
     def _add_images(
         self,
@@ -1604,6 +1566,9 @@ class GenericGraphicsKernelV14:
             )
             seqno = occurrence.seqno if occurrence is not None else -1
             clip = media_clips.get(seqno)
+            if clip is not None and clip.geometry.is_empty:
+                stats.fully_clipped_media_skipped += 1
+                continue
             xref = int(info.get("xref", 0) or 0)
             digest = info.get("digest") or xref or index
             mask_paint = mask_paints.get(index)
@@ -1682,8 +1647,8 @@ class GenericGraphicsKernelV14:
                         pix.save(str(img_path))
                         extracted[cache_key] = (
                             img_path,
-                            int(info.get("width", pix.width) or pix.width),
-                            int(info.get("height", pix.height) or pix.height),
+                            pix.width,
+                            pix.height,
                         )
                         stats.image_files += 1
                     except Exception as exc:
@@ -1737,7 +1702,9 @@ class GenericGraphicsKernelV14:
                 entity.dxf.image_size = (float(width), float(height), 0.0)
                 if self.config.clip_images and clip is not None:
                     boundary = clip_polygon_to_image_pixels(
-                        info, clip.geometry, self.config.max_image_clip_vertices
+                        {**info, "width": width, "height": height},
+                        clip.geometry,
+                        self.config.max_image_clip_vertices,
                     )
                     if boundary is not None:
                         entity.set_boundary_path(boundary)
@@ -1840,7 +1807,7 @@ class GenericGraphicsKernelV14:
                 stats.matched_outline_records = len(matched_outline_indices)
 
         media_clips = (
-            self._build_media_clip_map(drawings, stats)
+            self._build_media_clip_map(drawings, stats, page)
             if self.config.clip_images
             else {}
         )

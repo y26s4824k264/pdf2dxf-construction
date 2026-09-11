@@ -172,3 +172,13 @@ Both Han-fragment screening and locked-font row rechecks now use a centered cont
 十字库长行 PDF 为 16/16、2320 字，比 rc31 多 94 字；84 个短行 DXF 保持 69/84。新增历史及本机 12 页转换对照不改变原文字、几何与比例状态，但外部轮廓字体尚未确认。见[本轮证据](LONG_ROW_WINDOW_VALIDATION.json)。此前 rc31 的对应字体 84/84 和 BIM22 结果保留历史版本，本轮未重跑这两批 PDF。
 
 All-ten long PDFs complete 16/16 with 2320 characters, gaining 94 over rc31; short DXFs remain 69/84. Twelve historical/local pages preserve text, geometry and scale states but do not lock an external outline font. See [evidence](LONG_ROW_WINDOW_VALIDATION.json). Earlier rc31 matching-face 84/84 and BIM22 results retain their historical version; neither PDF batch is rerun here.
+
+## rc34：原字体排版证据 / Persisted font layout evidence
+
+r3 / v3 字库新增每种描边/填充表示的有效 em 外框与水平字距。布局编译忽略不产生笔画的 moveTo，填充外框另排除共线零面积轮廓；旧版模板和索引保持不变。v1/v2 仍可读取，但不具备新证据。
+
+新流程仅补充水平等比例汉字行：至少三个不同、整字标签唯一的完整候选，至少一个原本无歧义的候选，原字体字身尺度、基线、字距及连续来源同时一致。掩码和拓扑保持精确匹配，布局误差限制为 0.01 em；字身尺度与基线的误差不能逐字累积。整字异名、交叉切分、竞争字母/数字、任意竞争汉字、独立小字行及断开的证据继续保留。`font_layout_matches` 单列补充候选数；`font_layout_evidence` 最多保存 32 行详细源句柄、父字、竞争窗口和布局测量，更多行由截断计数记录。最终写入结果仍以 `accepted` 与 DXF TEXT 为准。
+
+Schema v3 adds per-representation em-space ink bounds and horizontal advance. Move-only contours are excluded; fill bounds also exclude collinear zero-area contours. Existing template geometry and lookup keys remain unchanged. Legacy v1/v2 catalogs remain readable without layout evidence.
+
+The added horizontal Han-row proof requires three distinct uniquely labeled whole glyphs, an uncontested candidate, consistent em scale/baseline/advance and contiguous provenance. Exact mask/topology matching remains mandatory; local layout error is bounded at 0.01 em, with global bounds on em-scale and baseline drift. Whole-glyph aliases, crossing windows, competing letters/digits or arbitrary Han, independent small-text rows and broken evidence remain unresolved. Reports retain separate candidate counts and at most 32 detailed row proofs with a truncation count. Actual output is determined by `accepted` and saved TEXT.

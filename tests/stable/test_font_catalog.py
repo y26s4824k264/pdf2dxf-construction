@@ -121,6 +121,15 @@ def _rewrite_legacy_catalog(source: Path, destination: Path) -> None:
     manifest.pop("mapped_codepoint_count")
     manifest.pop("representation_order")
     manifest.pop("outline_policy")
+    manifest.pop("layout_policy", None)
+    payloads.pop("layout_metrics.npy", None)
+    manifest["arrays"].pop("layout_metrics.npy", None)
+    from pdf2dxf_stable.engine.text.font_catalog import _dataset_digest
+
+    manifest["template_set_sha256"] = _dataset_digest({
+        name: np.load(io.BytesIO(payloads[name]), allow_pickle=False)
+        for name in manifest["arrays"]
+    })
     manifest["schema"] = "pdf2dxf.font_glyph_catalog.v1"
     manifest["catalog_version"] = "1"
     identity = (

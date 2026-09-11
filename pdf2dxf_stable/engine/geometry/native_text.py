@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Conservative Unicode recovery for outline/search-text PDFs.
 
 Many CAD PDFs paint visible glyphs as vector paths and add an invisible Unicode
@@ -7,6 +5,8 @@ text layer for copy/search. This module uses that invisible text as semantic
 metadata, but only suppresses the matching vector outlines when spatial,
 optional-content-layer, and paint-order evidence agree.
 """
+
+from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any, Iterable, Sequence

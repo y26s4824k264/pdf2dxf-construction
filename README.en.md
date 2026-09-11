@@ -4,7 +4,7 @@
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc33` (prerelease).
+Version: `2.0.0rc34` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -44,7 +44,7 @@ result = Converter().convert(
 print(result.status, result.report_path)
 ```
 
-rc33 reduces repeated Unicode index construction while retaining every integrity check and recognition decision. Seven alternating local runs loading ten r2 catalogs reduce median load time **2.368→2.229 s (5.9%)** and median process peak RSS by **27.9 MiB**. Every field across 246,293 templates and 2,288,068 lookup keys matches rc32; 100 DXF recognitions and four actual PDF conversions preserve results. All 696 source tests pass. Short-corpus completeness remains 69/84; this is not universal-font accuracy. Reuse unchanged r2 resources. See [validation](docs/VALIDATION.md).
+rc34 completes the 15 previously incomplete short cases: **84/84 short rows and 16/16 long rows** with all ten catalogs loaded. Reconverting the 100 original font PDFs restores 3,630 characters. Persisted em-size, baseline and advance measurements add an independent layout check while preserving original geometry. All 29 old lint findings are fixed and lint is now a CI gate. The added proof requires **r3 catalogs**; existing r2 catalogs remain readable. Fixture completeness is not universal-font accuracy. See [validation](docs/VALIDATION.md) for the partial historical-corpus rerun.
 
 ## Optional open font catalogs
 
@@ -85,7 +85,7 @@ pdf2dxf convert input.pdf -o output/drawing.dxf \
 
 A catalog must first be locked by exact matches for three distinct adjacent Han characters, four distinct adjacent English letters (counted case-insensitively), or three distinct reviewed Han anchors. English-only runs need no Han anchors; recovered text preserves case. Matching requires exact normalized 56×56 masks, contour counts and closed topology, followed by per-template aspect-ratio checks. A locked English/mixed run needs at least two letters/Han characters to publish. Conflicting catalogs, unresolved identical shapes, overlapping segmentations, isolated characters and insufficient evidence remain geometry. Single-character NFKC compatibility aliases are normalized.
 
-Catalogs contain Unicode mappings, topology, masks, curve-discretization fingerprints and the source font SHA256, not the font program. After building a catalog, conversion no longer needs to open the font file. **No catalog guarantees recognition of arbitrary unknown fonts.** Font coverage, actual geometry and successful font locking all matter. A generated catalog is not automatically licensed for redistribution.
+Catalogs contain Unicode mappings, topology, masks, curve-discretization fingerprints, original-font em bounds/advances and the source font SHA256, not the font program. After building a catalog, conversion no longer needs to open the font file. **No catalog guarantees recognition of arbitrary unknown fonts.** Font coverage, actual geometry and successful font locking all matter. A generated catalog is not automatically licensed for redistribution.
 
 ## Scale and quality evidence
 
@@ -162,6 +162,7 @@ Output subdirectories combine the filename and a hash of its absolute source pat
 
 ```sh
 python -m pip install '.[test]'
+python -m ruff check pdf2dxf_stable tests tools
 python -m pytest -q
 python -m build
 python -m twine check dist/*
@@ -170,9 +171,8 @@ python tools/check_distribution.py --public dist/*
 
 After installing the built wheel, run `python tools/test_installed_wheel.py` to verify imports and tests from an isolated directory using `site-packages`. CI covers Linux, macOS and Windows. Current evidence and the exact executed environments are recorded in [docs/VALIDATION.md](docs/VALIDATION.md) and [docs/validation.json](docs/validation.json).
 
-The rc31 drawing run with the core open-font bundle covers 22 PDFs / 22 pages: all produced DXFs, with zero conversion failures and zero saved-DXF audit errors/fixes. All 22 still reported `degraded`. Built-in templates restored 238 TEXT entities containing 1035 characters. The core catalogs produced 262 candidates, zero font locks and zero external characters. Scale states were 9 calibrated, 6 declared approximate, 6 paper and 1 unknown; 13/22 passed the geometry gate. Nine calibrated sheets still exceeded the dimension-error gate.
 
-A historical rc11 run covered 4290 unique PDFs / 12577 pages for basic conversion. It is not a current full-corpus text-recognition or engineering-quality result. Private PDFs, screenshots, fonts and path-bearing internal reports are not distributed. Unknown fonts, complex clipping, scans and multiple-scale sheets remain limitations. Producing a DXF does not mean every quality gate passed.
+rc34 tests **4,253 pages from 4,251 historical PDFs** with all ten r3 catalogs, finding zero conversion/integrity failures: 1072 pages are model-ready and 3181 need review. At the user's request, the full run was stopped; 8,324 of the manifest's 12,577 pages remain untested. The final runtime converts 3,454 pages; 799 verified no-media results from this run retain their actual earlier fingerprints. See [validation](docs/VALIDATION.md). This is partial conversion coverage, not universal-font accuracy or engineering acceptance.
 
 ## Project structure and contribution
 

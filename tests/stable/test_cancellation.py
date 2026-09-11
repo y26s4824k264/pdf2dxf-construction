@@ -133,3 +133,41 @@ def test_interrupted_conversion_persists_cancelled_report(tmp_path, monkeypatch)
     report = json.loads((tmp_path / "output.report.json").read_text())
     assert report["errors"][-1]["code"] == "CANCELLED"
     assert report["status"] == "failed"
+
+
+@pytest.mark.parametrize("operation", ["rgb", "xdata"])
+@pytest.mark.parametrize("exception", [KeyboardInterrupt, SystemExit])
+def test_dense_geometry_optional_metadata_does_not_swallow_cancellation(
+    operation, exception
+):
+    from types import SimpleNamespace
+    from pdf2dxf_stable.engine.geometry.construction import (
+        ConstructionGraphicsKernelV15,
+        _Bucket,
+    )
+
+    class Entity:
+        @property
+        def rgb(self):
+            return None
+
+        @rgb.setter
+        def rgb(self, value):
+            if operation == "rgb":
+                raise exception()
+
+        def set_xdata(self, *args):
+            if operation == "xdata":
+                raise exception()
+
+    kernel = ConstructionGraphicsKernelV15()
+    kernel.config.add_xdata = True
+    msp = SimpleNamespace(add_line=lambda *args, **kwargs: Entity())
+    stats = SimpleNamespace(
+        dense_pattern_duplicates_or_joins=0,
+        line_entities=0,
+        dense_pattern_entities_out=0,
+    )
+    buckets = {"one": _Bucket({}, (0, 0, 0), 1.0, [((0, 0), (1, 1))])}
+    with pytest.raises(exception):
+        kernel._emit_buckets(msp, buckets, stats, 0)

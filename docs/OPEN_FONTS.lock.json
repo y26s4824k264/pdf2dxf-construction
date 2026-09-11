@@ -1,6 +1,6 @@
 {
   "schema": "pdf2dxf.open_font_sources.v1",
-  "version": "2026.09.07",
+  "version": "2026.09.11-r3",
   "charset": "chinese",
   "downloads": {
     "SourceHanSansSC-Regular.otf": {

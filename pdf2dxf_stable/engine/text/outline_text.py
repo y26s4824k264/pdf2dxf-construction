@@ -2332,6 +2332,18 @@ def recover_outline_text(
         {(m.start, m.end, m.char): m for m in [*font_candidates, *restored, *enclosed]}.values(),
         key=lambda m: m.start,
     )
+    from .font_layout import resolve_font_layout_rows
+
+    layout_matches, layout_metrics = resolve_font_layout_rows(
+        atoms, font_catalogs, font_candidates, font_scan
+    )
+    if layout_matches:
+        font_candidates = sorted([*font_candidates, *layout_matches], key=lambda m: m.start)
+        locks = _complete_font_catalog_locks(
+            font_catalogs, locks, matching_anchors, font_candidates, font_catalog_entries
+        )
+        report["font_catalogs"]["locked"] = len(locks)
+    report.update(layout_metrics)
     report.update(recheck_metrics)
     report.update(enclosure_metrics)
     report["font_catalog_candidate_matches"] = len(font_candidates)

@@ -1,0 +1,87 @@
+{
+  "schema": "pdf2dxf.full_corpus_validation.v2",
+  "version": "2.0.0rc34",
+  "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+  "documents": 4290,
+  "expected_pages": 12577,
+  "completed_pages": 4253,
+  "all_pages_complete": false,
+  "verdicts": {
+    "review": 3181,
+    "model_ready": 1072
+  },
+  "statuses": {
+    "degraded": 3256,
+    "ok": 997
+  },
+  "validation_error_codes": {
+    "ENGINEERING_SCALE_UNCONFIRMED": 1698,
+    "DIMENSION_P95_EXCEEDED": 1005
+  },
+  "validation_warning_codes": {
+    "DIMENSION_VALIDATION_UNAVAILABLE": 2176,
+    "BACKEND_WARNINGS": 402,
+    "PAPER_SPACE_OUTPUT": 478
+  },
+  "scale_statuses": {
+    "unknown": 1698,
+    "calibrated": 2077,
+    "paper": 478
+  },
+  "runtime_fingerprint_verified_pages": 4253,
+  "all_ten_catalogs_verified_pages": 4253,
+  "artifact_sha256_rechecked_pages": 4253,
+  "raw_text_entities_compared": 2608690,
+  "dimensions_checked": 136525,
+  "engineering_scale_confirmed_pages": 2077,
+  "geometry_valid_pages": 3248,
+  "recovered_outline_characters": 1035,
+  "font_layout_matches": 0,
+  "artifact_bytes": 82285370994,
+  "maximum_page_peak_rss_bytes": 2441428992,
+  "total_page_seconds": 239814.2479749335,
+  "saved_dxf_audit_errors": 0,
+  "saved_dxf_audit_fixes": 0,
+  "failed_pages": 0,
+  "private_source_files_or_paths_published": false,
+  "runtime_fingerprints": {
+    "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 791,
+    "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288": 8,
+    "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb": 3454
+  },
+  "final_runtime_conversion_pages": 3454,
+  "retained_equivalence_checked_pages": 799,
+  "runtime_repair_equivalence": {
+    "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "changed_files_since_mask_fix": [
+      "engine/geometry/base.py",
+      "engine/geometry/construction.py",
+      "engine/geometry/media_clipping.py",
+      "validation.py"
+    ],
+    "completed_prior_pages": 1490,
+    "retained_no_media_pages": 799,
+    "media_pages_to_reconvert": 691,
+    "prior_runtime_counts": {
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 928,
+      "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288": 562
+    },
+    "preflight_problem_pages": 0,
+    "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages.",
+    "kind": "no_media_scope",
+    "private_page_proof_file": "clipping-repair-impact.json",
+    "private_page_proof_sha256": "6e32e7b303c47bd9c0216976ec432efc68ecd751759df44be48ab9480afc4e94",
+    "prior_runtime_fingerprints": [
+      "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288",
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+    ]
+  },
+  "exhaustive_page_coverage": false,
+  "tested_documents": 4251,
+  "fully_tested_documents": 4119,
+  "partially_tested_documents": 132,
+  "untested_pages": 8324,
+  "stopped_by_user": true,
+  "stop_reason": "User requested stopping the expensive full conversion after sufficient coverage; in-flight pages drained normally."
+}

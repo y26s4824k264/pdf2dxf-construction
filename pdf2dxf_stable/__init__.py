@@ -1,4 +1,4 @@
-from .version import __version__
+from .version import __version__ as __version__
 from .request import ConversionRequest, ConversionResult, ConversionArtifact
 from .core import Converter
 

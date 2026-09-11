@@ -207,6 +207,7 @@ def test_large_empty_contour_preserves_both_exact_representations(
 
 
 def test_legacy_wire_catalog_keeps_original_identity_and_exact_templates(tmp_path):
+    from dataclasses import replace
     from test_font_catalog import _rewrite_legacy_catalog
 
     font = _write_font(tmp_path / "font.ttf")
@@ -218,7 +219,7 @@ def test_legacy_wire_catalog_keeps_original_identity_and_exact_templates(tmp_pat
     assert old.schema == "pdf2dxf.font_glyph_catalog.v1"
     assert old.outline_policy == "raw_contours_v1"
     assert old.catalog_id != new.catalog_id
-    assert old.templates == new.templates
+    assert old.templates == tuple(replace(t, layout_metrics=None) for t in new.templates)
     assert old.lookup == new.lookup
 
 
@@ -291,6 +292,9 @@ def test_v2_loader_rejects_invalid_rows_even_with_valid_hashes(
         manifest["schema"] = "pdf2dxf.font_glyph_catalog.v1"
         manifest["catalog_version"] = "1"
         manifest["outline_policy"] = "raw_contours_v1"
+        manifest.pop("layout_policy")
+        manifest["arrays"].pop("layout_metrics.npy")
+        arrays.pop("layout_metrics.npy")
     arrays = {name: array[order] for name, array in arrays.items()}
     manifest["template_set_sha256"] = _dataset_digest(arrays)
     payloads = {}

@@ -507,6 +507,7 @@ def validate_dxf(
                     "image extract failed",
                     "image mask rendering failed",
                     "image placement failed",
+                    "image clipping failed",
                     "image soft mask enumeration failed",
                     "raster fallback failed",
                     "shading render failed",

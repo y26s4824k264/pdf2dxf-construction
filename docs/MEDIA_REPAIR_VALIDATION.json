@@ -1,0 +1,147 @@
+{
+  "schema": "pdf2dxf.media_repair_validation.v2",
+  "version": "2.0.0rc34",
+  "source": "https://pymupdf.readthedocs.io/en/latest/pixmap.html",
+  "media_regressions": 13,
+  "pixel_and_dimension_regressions": 8,
+  "rotation_and_clip_scope_regressions": 2,
+  "fully_clipped_image_regressions": 1,
+  "callback_cancellation_regressions": 2,
+  "repair": {
+    "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "changed_files_since_mask_fix": [
+      "engine/geometry/base.py",
+      "engine/geometry/construction.py",
+      "engine/geometry/media_clipping.py",
+      "validation.py"
+    ],
+    "completed_prior_pages": 1490,
+    "retained_no_media_pages": 799,
+    "media_pages_to_reconvert": 691,
+    "prior_runtime_counts": {
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 928,
+      "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288": 562
+    },
+    "preflight_problem_pages": 0,
+    "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages.",
+    "kind": "no_media_scope",
+    "private_page_proof_file": "clipping-repair-impact.json",
+    "private_page_proof_sha256": "6e32e7b303c47bd9c0216976ec432efc68ecd751759df44be48ab9480afc4e94",
+    "prior_runtime_fingerprints": [
+      "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288",
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+    ]
+  },
+  "additional_sample_scope": {
+    "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "changed_files_since_mask_fix": [
+      "engine/geometry/base.py",
+      "engine/geometry/construction.py",
+      "engine/geometry/media_clipping.py",
+      "validation.py"
+    ],
+    "completed_prior_pages": 72,
+    "retained_no_media_pages": 46,
+    "media_pages_to_reconvert": 26,
+    "prior_runtime_counts": {
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 72
+    },
+    "preflight_problem_pages": 0,
+    "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages."
+  },
+  "known_font_final_runtime_execution": {
+    "schema": "pdf2dxf.font_pdf_final_runtime.v1",
+    "version": "2.0.0rc34",
+    "cases": 100,
+    "characters": 3630,
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "actual_reconversion": true,
+    "source_free_installed_module": true,
+    "source_matches_installed_runtime": true,
+    "artifact_sha256_rechecked_cases": 100,
+    "geometry_audit_cases": 100,
+    "execution_log_sha256": "f9f5439b76fc19bb0a54af6f33792a878713cc3677a289876f86f35159225fd1",
+    "method": "All 100 original font PDFs were reconverted after installing the final clipping repair. The installed runtime remained frozen for every conversion and the subsequent original-font coordinate audit; source/installed bytes and all saved DXF hashes were rechecked afterwards."
+  },
+  "fixes": [
+    "Preserve the sole alpha channel of NULL-colorspace soft masks.",
+    "Use actual resampled PNG pixel dimensions in IMAGE/IMAGEDEF and pixel clipping transforms.",
+    "Bind native PDF paint order to nested clip scope, with rotation and empty clips preserved.",
+    "Report unsupported clipping as SOURCE_GRAPHICS_INCOMPLETE rather than accepting unverified visible geometry."
+  ],
+  "limitations": [
+    "Soft-mask alpha remains in PNG pixels; vector clipping is preserved separately in the DXF IMAGE boundary.",
+    "Retained no-media pages were converted earlier in this turn, not reconverted with the final binary. Their source/image absence, record SHA and actual runtime identity were verified."
+  ],
+  "initial_failure_pages_final_runtime": {
+    "cases": 7,
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "added_IMAGE": 44,
+    "rows": [
+      {
+        "id": "a3239cbaaa83bc148d3a487e737c11bd9986bf2e50cc0137991f6b259aedd601/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "5d68ae7d3064da627c48b08108ccb492878f69b1cce5c8d037e155d56403261c",
+        "verdict": "review",
+        "final_IMAGE": 9,
+        "added_IMAGE": 7
+      },
+      {
+        "id": "2a632f982475f0111e202b7a04a3fddeb79c01c98d32c2b87809ae8f681de849/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "30ddfb9ab0cdff5558dd75e9e9f1e92663cf6fad417beead5aa50680de58f859",
+        "verdict": "review",
+        "final_IMAGE": 19,
+        "added_IMAGE": 6
+      },
+      {
+        "id": "d7f82c6f14fbf76179b5e5aba37acd13aafc7f668904639f9be5fff6db42565b/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "0fc8ad315e99dbb24986727f6e8391d2840d8863b6481e25bcd0f17be1b6d390",
+        "verdict": "review",
+        "final_IMAGE": 8,
+        "added_IMAGE": 6
+      },
+      {
+        "id": "6f7a3017ad9b87bffd82e040365f94e0610320dc106011f85c016ae3f96270a3/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "25389098e7e85ab6245bbfc867a8fcf23c26f537c43d7886e565315b866fb422",
+        "verdict": "review",
+        "final_IMAGE": 9,
+        "added_IMAGE": 7
+      },
+      {
+        "id": "52ace11d3a0a7a0f7cb895911b0ad59469180f0b14580ffbbca64cd8635e359a/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "4741475042bf438671348c450af4f78f04b088eb632f6da2f9e0d6ca33e02a05",
+        "verdict": "review",
+        "final_IMAGE": 8,
+        "added_IMAGE": 6
+      },
+      {
+        "id": "64f4e4b4ea24fa9a7e7dd0c8836f52ce911cc6a922a1a70c7c96416681407050/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "26c84e548694985634ef47425b9c857f0e6227794e0af5f6c4111e1fe838ac02",
+        "verdict": "review",
+        "final_IMAGE": 19,
+        "added_IMAGE": 6
+      },
+      {
+        "id": "022d5c96d0373adf9cdf663134a8adcf89b0ff226f7ba8da8ba2ba6a49d53867/p00001",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+        "artifact_sha256": "30b2d7e146e9bcc1546b0fab4b402a10e5f67af419ac4dfc91f85ccf78b7c082",
+        "verdict": "review",
+        "final_IMAGE": 11,
+        "added_IMAGE": 6
+      }
+    ]
+  },
+  "all_prior_media_pages_final_runtime": {
+    "reconverted_pages": 691,
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "conversion_or_integrity_failures": 0,
+    "all_prior_media_pages_reconverted": true
+  }
+}

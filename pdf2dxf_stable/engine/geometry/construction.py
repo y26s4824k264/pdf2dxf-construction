@@ -3,8 +3,9 @@ from dataclasses import dataclass, asdict, field
 from pathlib import Path
 from collections import Counter, defaultdict
 from typing import Any
-import math, time
-import ezdxf, fitz
+import math
+import time
+import ezdxf
 from shapely.geometry import LineString, box
 import pdf2dxf_stable.engine.geometry.base as v14
 
@@ -67,10 +68,10 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
             if str(d.get("type", "")) in {"s", "fs"}
         )
         return {
-            l
-            for l, n in c.items()
-            if n >= self.config.dense_pattern_min_records
-            and any(t.upper() in l.upper() for t in self.config.dense_pattern_tokens)
+            layer
+            for layer, count in c.items()
+            if count >= self.config.dense_pattern_min_records
+            and any(t.upper() in layer.upper() for t in self.config.dense_pattern_tokens)
         }
 
     def _append(self, buckets, attrs, d, p0, p1):
@@ -178,7 +179,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                     if bucket.rgb is not None:
                         try:
                             e.rgb = bucket.rgb
-                        except:
+                        except Exception:
                             pass
                     if self.config.add_xdata:
                         try:
@@ -191,7 +192,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                                     (1000, "s"),
                                 ],
                             )
-                        except:
+                        except Exception:
                             pass
                     stats.line_entities += 1
                     stats.dense_pattern_entities_out += 1
@@ -266,7 +267,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                 stats.outline_unmatched_runs = text_diag.unmatched_runs
                 stats.matched_outline_records = len(matched)
         media_clips = (
-            self._build_media_clip_map(drawings, stats)
+            self._build_media_clip_map(drawings, stats, page)
             if self.config.clip_images
             else {}
         )
@@ -367,7 +368,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                             inside = bool(
                                 r and clip.geometry.covers(box(*map(float, r)))
                             )
-                        except:
+                        except Exception:
                             pass
                         if inside:
                             for ch in chains:
@@ -389,7 +390,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                     try:
                         r = rec.get("rect")
                         inside = bool(r and clip.geometry.covers(box(*map(float, r))))
-                    except:
+                    except Exception:
                         pass
                     if inside:
                         for ch in chains:
@@ -430,7 +431,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
         try:
             doc.header["$EXTMIN"] = (0, 0, 0)
             doc.header["$EXTMAX"] = (transform.width, transform.height, 0)
-        except:
+        except Exception:
             pass
         doc.saveas(output_path)
         stats.layers = len(doc.layers)

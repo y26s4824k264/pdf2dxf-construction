@@ -48,6 +48,7 @@ setup(
     extras_require={
         "test": [
             "pytest>=8,<10",
+            "ruff==0.9.10",
             "reportlab>=4",
             "build>=1",
             "twine>=6,<7",

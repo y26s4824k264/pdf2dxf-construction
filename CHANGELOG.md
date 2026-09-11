@@ -1,3 +1,17 @@
+# 2.0.0rc34
+
+rc34 补齐此前 15 个短行缺字样例：十字库同时加载时 **84/84 短行完整，16/16 长行完整**，100 个原始字体 PDF 重新转换共恢复 3,630 个字符。新增字身尺寸、基线和字距一致性校验，原始轮廓保持完整；29 条旧 lint 已清零并加入 CI。新算法需配合 **r3 字库**，旧 r2 仍可读取。测试样例完整率不代表任意字体准确率；历史图纸部分复测结果见[验证记录](docs/VALIDATION.md)。
+
+rc34 completes the 15 previously incomplete short cases: **84/84 short rows and 16/16 long rows** with all ten catalogs loaded. Reconverting the 100 original font PDFs restores 3,630 characters. Persisted em-size, baseline and advance measurements add an independent layout check while preserving original geometry. All 29 old lint findings are fixed and lint is now a CI gate. The added proof requires **r3 catalogs**; existing r2 catalogs remain readable. Fixture completeness is not universal-font accuracy. See [validation](docs/VALIDATION.md) for the partial historical-corpus rerun.
+
+rc34 已使用十套 r3 字库完成历史清单中 **4,251 份 PDF /4,253 页**的复测，转换及保存完整性失败为 0；1072 页通过 model_ready，3181 页待复核。按用户要求停止全量转换，原清单 12,577 页中仍有 8,324 页未测。3,454 页由最终代码转换，799 个无图片页保留经范围核验的本轮结果。详见[验证记录](docs/VALIDATION.md)。这是部分转换验证，不是任意字体准确率或全部工程图纸通过的承诺。
+
+rc34 tests **4,253 pages from 4,251 historical PDFs** with all ten r3 catalogs, finding zero conversion/integrity failures: 1072 pages are model-ready and 3181 need review. At the user's request, the full run was stopped; 8,324 of the manifest's 12,577 pages remain untested. The final runtime converts 3,454 pages; 799 verified no-media results from this run retain their actual earlier fingerprints. See [validation](docs/VALIDATION.md). This is partial conversion coverage, not universal-font accuracy or engineering acceptance.
+
+另修复软蒙版、重采样图片尺寸及裁剪作用域，13 项媒体回归通过；源码和隔离安装包各 732 项测试通过。
+
+Media fixes cover soft masks, resampled image dimensions and clipping scope, with 13 media regressions and 732 source/installed-wheel tests passing.
+
 # 2.0.0rc33
 
 rc33 优化字库 Unicode 索引构建，保留全部校验和原有识别判定。十套 r2 字库七轮交替实测，完整加载中位耗时 **2.368→2.229 秒（减少 5.9%）**，进程峰值内存中位数减少 **27.9 MiB**。246,293 条模板和 2,288,068 个索引键的全部字段与 rc32 一致；100 个 DXF 和 4 个实际 PDF 转换结果保持一致。源码 696 项测试通过。短行仍为 69/84 完整，任意字体识别尚未达到 100%；r2 字库无需重下。详见[验证记录](docs/VALIDATION.md)。

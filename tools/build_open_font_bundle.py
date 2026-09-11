@@ -32,6 +32,7 @@ from pdf2dxf_stable.engine.text.font_catalog import (
     CHINESE_RANGES,
     DEFAULT_TOLERANCE_DIVISORS,
     FONT_CATALOG_RASTER_DECIMALS,
+    FONT_CATALOG_SCHEMA,
     FONT_OUTLINE_POLICY,
     UNICODE_CJK_VERSION,
     FontCatalogError,
@@ -216,6 +217,7 @@ def build_bundle(lock_path, cache, output, group, *, catalog_cache=None, offline
             catalog = load_font_catalog(target)
             if (
                 catalog.font["sha256"] != font["source"]["sha256"]
+                or catalog.schema != FONT_CATALOG_SCHEMA
                 or catalog.font["face_index"] != 0
                 or catalog.charset != "chinese"
                 or catalog.tolerance_divisors != DEFAULT_TOLERANCE_DIVISORS

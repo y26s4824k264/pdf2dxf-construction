@@ -2,8 +2,9 @@ from __future__ import annotations
 from dataclasses import dataclass, asdict, field
 from collections import Counter, defaultdict
 from pathlib import Path
-from typing import Any
-import json, math, re
+import json
+import math
+import re
 import fitz
 
 _SCALE_RE = re.compile(

@@ -75,3 +75,15 @@ Both Han-fragment screening and locked-font row rechecks now use a centered cont
 十字库长行 PDF 为 16/16、2320 字，比 rc31 多 94 字；84 个短行 DXF 保持 69/84。新增历史及本机 12 页转换对照不改变原文字、几何与比例状态，但外部轮廓字体尚未确认。见[本轮证据](LONG_ROW_WINDOW_VALIDATION.json)。此前 rc31 的对应字体 84/84 和 BIM22 结果保留历史版本，本轮未重跑这两批 PDF。
 
 All-ten long PDFs complete 16/16 with 2320 characters, gaining 94 over rc31; short DXFs remain 69/84. Twelve historical/local pages preserve text, geometry and scale states but do not lock an external outline font. See [evidence](LONG_ROW_WINDOW_VALIDATION.json). Earlier rc31 matching-face 84/84 and BIM22 results retain their historical version; neither PDF batch is rerun here.
+
+## rc34 字形排版尺寸证明 / Persisted font layout proof
+
+新增 `font_layout.py` 阶段在已有几何恢复之后，对尚未接受的完整汉字候选检查 r3 / v3 字库中的原字体 em 外框与水平字距。至少三个不同且整字标签唯一的完整字形、至少一个原本无歧义的候选，以及一致的字身尺度、基线、相邻字距和连续来源，才可复核严格位于整字内部的笔画或标点竞争。局部误差上限 0.01 em，字身尺度与基线另有全行漂移上限；精确掩码和拓扑条件保持不变。
+
+整字异名、跨字窗口、竞争字母/数字、任意竞争汉字、独立小字行、超过 96 字的本阶段证据行和来源中断仍不接受。恢复候选还须经过字体锁定和最终发布门槛。详细证据最多 32 行，额外条目由截断计数标明。此阶段只读持久化 DXF 和字库；em 字身尺度不替代工程尺寸比例。
+
+字库构建复用现有 FontTools 的轮廓记录和 BoundsPen，排除不产生笔画的 moveTo；填充另排除共线零面积轮廓。原字体不进入运行识别阶段，也未增加运行时依赖。v1/v2 可继续读取，但没有新增排版数据。短行从 69/84 补齐到 84/84，长行维持 16/16；100 个原字体 PDF 实际转换与坐标核对见[本轮证据](FONT_LAYOUT_VALIDATION.json)。
+
+The additional stage validates previously rejected exact whole-Han candidates against persisted em-space ink bounds and advance. It requires three distinct uniquely labeled whole glyphs, an uncontested candidate, consistent em scale/baseline/adjacent advance and contiguous provenance. Local error is bounded at 0.01 em, with separate whole-row em-scale/baseline drift limits; exact masks and topology remain mandatory. Only strictly internal stroke/punctuation conflicts are eligible. Whole aliases, crossing windows, competing letters/digits or arbitrary Han, independent small-text rows, this stage's rows beyond 96 glyphs and source gaps remain rejected. Font-lock and publication gates still apply.
+
+Catalog compilation reuses existing FontTools contour recording and BoundsPen, excluding move-only contours and zero-area collinear fill paths. No runtime dependency is added. Runtime uses saved DXF/catalogs, never PDF, source fonts or OCR; glyph em scale is not engineering calibration. Legacy catalogs lack layout data. See [evidence](FONT_LAYOUT_VALIDATION.json) for 84/84 short and 16/16 long cases and 100 actual PDF conversions.

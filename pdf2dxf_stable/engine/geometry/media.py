@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Raster media, shading fallback, and DXF IMAGE clipping helpers."""
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -54,11 +54,11 @@ def extract_image_pixmap(
         pix = fitz.Pixmap(fitz.csRGB, pix)
     if soft_mask_xref:
         mask = fitz.Pixmap(pdf, soft_mask_xref)
-        if mask.alpha:
+        # A stencil mask has no colorspace: its sole alpha component already
+        # contains the opacity samples. Dropping it would discard all data.
+        if mask.colorspace is not None and mask.alpha:
             mask = fitz.Pixmap(mask, 0)
-        if mask.colorspace is None:
-            raise RuntimeError("unsupported soft mask colorspace")
-        if mask.colorspace.n != 1:
+        if mask.colorspace is not None and mask.colorspace.n != 1:
             mask = fitz.Pixmap(fitz.csGRAY, mask)
         if (mask.width, mask.height) != (pix.width, pix.height):
             # Image and soft-mask samples share normalized image space. Some

@@ -1,0 +1,4407 @@
+{
+  "additional_document_sampling": {
+    "schema": "pdf2dxf.additional_document_sampling.v1",
+    "version": "2.0.0rc34",
+    "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "documents": 24,
+    "total_available_pages": 8712,
+    "tested_pages": 72,
+    "exhaustive_page_coverage": false,
+    "sampling": "First, middle and last pages of each newly added standard/reference PDF.",
+    "verdicts": {
+      "review": 72
+    },
+    "conversion_or_integrity_failures": 0,
+    "saved_dxf_audit_errors": 0,
+    "saved_dxf_audit_fixes": 0,
+    "native_text_entities_compared": 18073,
+    "dimensions_checked": 0,
+    "validation_error_codes": {
+      "ENGINEERING_SCALE_UNCONFIRMED": 72
+    },
+    "rows": [
+      {
+        "id": "da0d02eeb9f2f8fd4e8434c392ab449ac9cc2c0eff522d3cdf93282357ff61dc/p00001",
+        "page": 1,
+        "artifact_sha256": "08780e2ea89b5d8655176861a122b993930a11fcc65cf5f2eca5d634cb1d04c0",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "da0d02eeb9f2f8fd4e8434c392ab449ac9cc2c0eff522d3cdf93282357ff61dc/p00408",
+        "page": 408,
+        "artifact_sha256": "a0b8c7b1fc841d698bd5b52d405fb42a092c4d6afadb27d6272080826701e1bb",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "da0d02eeb9f2f8fd4e8434c392ab449ac9cc2c0eff522d3cdf93282357ff61dc/p00815",
+        "page": 815,
+        "artifact_sha256": "448affcfeb181b88cb643f10b957e5ace3555464788941399b24abd06c4e3deb",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "cdf43e4dae150431c69878013faeb361e200295ab3bae09287c52ba2ce9b60fb/p00001",
+        "page": 1,
+        "artifact_sha256": "3b923555283bc8c38e2d80184e96e8019228b3e3d9b30d1a788bc0bec04a99d2",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "cdf43e4dae150431c69878013faeb361e200295ab3bae09287c52ba2ce9b60fb/p00006",
+        "page": 6,
+        "artifact_sha256": "98550da700be7c15006367f52718a6b38ad9f0e58ca332da0c73d43b0f1481f0",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "cdf43e4dae150431c69878013faeb361e200295ab3bae09287c52ba2ce9b60fb/p00011",
+        "page": 11,
+        "artifact_sha256": "e485d8348a72ddd4fb01815a522bfe869489790bd9b5082aaffac388315a7e9b",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "617783d81a3e7fb3448666697cc91cd97d07179a4b32b70a52edc8ff13fad5e2/p00001",
+        "page": 1,
+        "artifact_sha256": "4fd62c4eb7bf407a49bc9dad333068fe1022dc8bfaab12d52204bf95dc6d5b77",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "617783d81a3e7fb3448666697cc91cd97d07179a4b32b70a52edc8ff13fad5e2/p00120",
+        "page": 120,
+        "artifact_sha256": "2bbe714abb327e1e0c7ae9030c4923435e043e0b119870d4fe67f82c002cc107",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "617783d81a3e7fb3448666697cc91cd97d07179a4b32b70a52edc8ff13fad5e2/p00240",
+        "page": 240,
+        "artifact_sha256": "a86684564add1b68b0ac20de73b03524f79551822885b4721b0d62c910c0354d",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "53337f384f0f7ac5c5ffd62fbee9e383f3f34b3d9cd7019c2f2eb0c86bc1b98c/p00001",
+        "page": 1,
+        "artifact_sha256": "6abf3fc62eaa9a6b250787504327085951a9be4e20f4ba5a972659a0276b3630",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "53337f384f0f7ac5c5ffd62fbee9e383f3f34b3d9cd7019c2f2eb0c86bc1b98c/p00055",
+        "page": 55,
+        "artifact_sha256": "174725497a048adc43854c230288c830a5758528f02e3cac57b22095b175ca15",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "53337f384f0f7ac5c5ffd62fbee9e383f3f34b3d9cd7019c2f2eb0c86bc1b98c/p00110",
+        "page": 110,
+        "artifact_sha256": "20c962efd510d874b96d38fd6a079f32cb177e233b83e2c6b5e2b2e7176c3d94",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "0a5bae361d94e999a6fff51523577ef42b28d1ebe865ef74c2dd6a5ba5647439/p00111",
+        "page": 111,
+        "artifact_sha256": "965919b01e823c61ae9c5328cc9c17ed26a3efa8605edb2acd35752f210e2714",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "0a5bae361d94e999a6fff51523577ef42b28d1ebe865ef74c2dd6a5ba5647439/p00222",
+        "page": 222,
+        "artifact_sha256": "f66110b646486ae5a35395239534ce8e2feec4289dcc7e29bd9c8824b99e68ec",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "3c28f4dc15e9cf14693fb3dac2fbfd40db7680b4a0bdb8ec1a5bafee132fd06f/p00278",
+        "page": 278,
+        "artifact_sha256": "c8cbcb445cac930c78a91f4442ab843c0840d954cdb028e954cbe31948f319d1",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "3c28f4dc15e9cf14693fb3dac2fbfd40db7680b4a0bdb8ec1a5bafee132fd06f/p00555",
+        "page": 555,
+        "artifact_sha256": "1429e5ee36e415c7cf787f3bb79b1e69ced63238bef5b3c1d722fd6cb1e5707d",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "18a7fb834ddb631b2943f911aa1f3407be34643da7fc84d2f1f55c6a74bd0bed/p00422",
+        "page": 422,
+        "artifact_sha256": "316444709486f2cc9e1222c0c5ca88b6b5555bc8e77f1d7cee9551caa87039ae",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "18a7fb834ddb631b2943f911aa1f3407be34643da7fc84d2f1f55c6a74bd0bed/p00844",
+        "page": 844,
+        "artifact_sha256": "159c18a5c7f49b51e8232af3bd3e42feb81a0474579035a985b02c7014bf5589",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "559552b372332598ed4217ad78bd27c540e76a91d380b916d9a723d1b993296c/p00361",
+        "page": 361,
+        "artifact_sha256": "4f749e9c7092cb7f27f25e3974472b38bc55bcb77e1ef8f1814da167cdaea929",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "559552b372332598ed4217ad78bd27c540e76a91d380b916d9a723d1b993296c/p00721",
+        "page": 721,
+        "artifact_sha256": "f527e0f9f6857bd96ee222fb707c3489a0367cbe41f2de406dcf2e1db1b13287",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "e7b85608f43df4814af701e6edb80adf63c05b7deb183715d6f2fa5f9764a83e/p00234",
+        "page": 234,
+        "artifact_sha256": "9e22dd01e52c2df0d6a74cf4576ba3741f1a8113af447404fb400221f137e8e5",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "e7b85608f43df4814af701e6edb80adf63c05b7deb183715d6f2fa5f9764a83e/p00468",
+        "page": 468,
+        "artifact_sha256": "417fa89d3b8fe5c3c87071240e8f3178e07dc180fd7f507b6c057153d8f37382",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "4a2fe55d796f603e7847b7349f93a372e2e0806b0b4973e8cf13a0f422ebd28a/p00084",
+        "page": 84,
+        "artifact_sha256": "a8fdf539c72dc5c6fe8b9c70239927fe117e51672614c1844434dc8a0cba9a74",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "4a2fe55d796f603e7847b7349f93a372e2e0806b0b4973e8cf13a0f422ebd28a/p00168",
+        "page": 168,
+        "artifact_sha256": "f3729439c7bdbbd4d1db8c2a691723c5ae964a808cb02e50dfdf71bf92efb941",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "c402fd1458b84d0a04674d8dfa13bd195728ae8090422d660132d865d63070ca/p00333",
+        "page": 333,
+        "artifact_sha256": "462f90ecdd31fc38b5fc4c2bce3cfed38d79c1140f26b4d1db0606ba45c82e77",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "c402fd1458b84d0a04674d8dfa13bd195728ae8090422d660132d865d63070ca/p00666",
+        "page": 666,
+        "artifact_sha256": "afa885d3873933cb61ed08ed8574f55bc18b560f9e6a78e8e6e83dd5ec36e4ea",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "1b871e142d75888325ad5d1458c75987bc5756f996f69b7db654e8ee3e5c3e4f/p00066",
+        "page": 66,
+        "artifact_sha256": "a394075845c769a0ad1842d5afe6176ad868e8ff0a027ea31c18378fde9e9e59",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "1b871e142d75888325ad5d1458c75987bc5756f996f69b7db654e8ee3e5c3e4f/p00131",
+        "page": 131,
+        "artifact_sha256": "9b3ae87b7d0f8bdceba54a7e3c730937a48680f4f507c6a86f7c1f49c8e945c2",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "1cf7fe99a71899a351c6e96eb2b168d3927c1cd2720bcefc325d9c9ef97ce7a7/p00214",
+        "page": 214,
+        "artifact_sha256": "4f641df5d9173a89906b300daeea443689971e7ccf71b68755d2118e5f072ad7",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "1cf7fe99a71899a351c6e96eb2b168d3927c1cd2720bcefc325d9c9ef97ce7a7/p00427",
+        "page": 427,
+        "artifact_sha256": "75eb4ee93bafd5c81ca7eb5b9af559509e3d978c6152bfedd66d724b094475a6",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "e28c2a3a103af8a05b051f728b88f05d4c0b8e57b908fcf2ab48d1210c59df55/p00091",
+        "page": 91,
+        "artifact_sha256": "e31766e99ebca4c64694d195d92d8e39356702486e5211e891cddcb1b04a16b5",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "e28c2a3a103af8a05b051f728b88f05d4c0b8e57b908fcf2ab48d1210c59df55/p00181",
+        "page": 181,
+        "artifact_sha256": "0445537f6299c3f7bedbe972d0be90ef9749801a47190eaa1f672fd7ba4a8782",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "3081408389c9a70c02415f251079f9b642f607df7db4e189090f25332401e1e0/p00439",
+        "page": 439,
+        "artifact_sha256": "487391b34dbc6a0348de814c276e51f30bd4cc599cf87e8f1dada8566c2ecdf6",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "3081408389c9a70c02415f251079f9b642f607df7db4e189090f25332401e1e0/p00877",
+        "page": 877,
+        "artifact_sha256": "490d28aab2a5019f6a9abdd4b6ffbbc10521f3479c7e3375411b9d9888f8b40e",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "a6f798dac659e228119f63eb982161f86db5fe825be764b93f32dd2f1b2a33e5/p00142",
+        "page": 142,
+        "artifact_sha256": "bcd9d4a0e6c59341fb2c4712208ea0e59e0ea50c4e3547b64f970fed38b470ff",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "a6f798dac659e228119f63eb982161f86db5fe825be764b93f32dd2f1b2a33e5/p00284",
+        "page": 284,
+        "artifact_sha256": "885cf2093af61c41060b1c7a770c89285d7047edb91e48a6bcec434308c1d9f4",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "894cf7101e9b16266bf1e372c01d2978d4c3a8d77cf5ee2e5162cc879f21a9cf/p00031",
+        "page": 31,
+        "artifact_sha256": "99eec5b9b8e14a898f9ca42aa127e921814c99b9a32ea093ceadb247a13f73d6",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "894cf7101e9b16266bf1e372c01d2978d4c3a8d77cf5ee2e5162cc879f21a9cf/p00061",
+        "page": 61,
+        "artifact_sha256": "62d12adafd20251dcad74e9506d75c6236f9835a2b9ecc2d1bc6d485b7a8a175",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "4bc030e7e2a4b12e801de28830a2488b01ced31cf67352672f7b7ba52e13ac64/p00030",
+        "page": 30,
+        "artifact_sha256": "b3fcaed5351bcde064c208f1d90c1ac8fc76858ea73d7d23090fff5759adfce1",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "4bc030e7e2a4b12e801de28830a2488b01ced31cf67352672f7b7ba52e13ac64/p00059",
+        "page": 59,
+        "artifact_sha256": "2eb73c504ad69ae759e94b3a86448cfbf714e9189362b6513e68e21f77a5808e",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "3afcd2a7bcd809bc35e59a7e05f464bc4c64577ac854f1413dd214b339169763/p00149",
+        "page": 149,
+        "artifact_sha256": "4583aba0266f0086b96727345010ea9f31aeacb96c18005c85862557ee5b5bfd",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "3afcd2a7bcd809bc35e59a7e05f464bc4c64577ac854f1413dd214b339169763/p00298",
+        "page": 298,
+        "artifact_sha256": "8c437f92871a99b62f6f3abde37a6c9062a77c004a80a9be74dd3a6964998a96",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "ef04bc54b2a635f094122ee9e8edefed1e272417126dbbbaa446adfc5de4b656/p00227",
+        "page": 227,
+        "artifact_sha256": "225b3730b611b8452bd7f0c9ad73b6236960d06622b643ef3fe6f63b9fbd1028",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "ef04bc54b2a635f094122ee9e8edefed1e272417126dbbbaa446adfc5de4b656/p00454",
+        "page": 454,
+        "artifact_sha256": "0633b12d7b1f9acb3911229bb6d13b85b0b0b95e2285f1278b0163c2b454c499",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "0abb59e9185852fac21b316d7567ad5039da081ccfa21bbfe9c64647a4c85b3d/p00355",
+        "page": 355,
+        "artifact_sha256": "3828510bedaa1bd0b3602eb902ad04866363265a861700f3ecde3752b77f186d",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "0abb59e9185852fac21b316d7567ad5039da081ccfa21bbfe9c64647a4c85b3d/p00709",
+        "page": 709,
+        "artifact_sha256": "f95210c3ec49436da8435a0448f5cacd801d9ace445d54bf5f1f88380eeb3c98",
+        "verdict": "review",
+        "runtime_fingerprint": "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      },
+      {
+        "id": "cee06719fcfd23fee3e007c0cd65ae751c3edc4a72bb90006c4ba88703bbf708/p00001",
+        "page": 1,
+        "artifact_sha256": "87989d3554d740beaeaa90f2ccc91324bb09f2d10d668457a73299e86c2e78b6",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "cee06719fcfd23fee3e007c0cd65ae751c3edc4a72bb90006c4ba88703bbf708/p00054",
+        "page": 54,
+        "artifact_sha256": "4dadfacca652a76abfc27995a4f2e9f071878ccaa4af12c3c2808390ccbe9426",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "cee06719fcfd23fee3e007c0cd65ae751c3edc4a72bb90006c4ba88703bbf708/p00108",
+        "page": 108,
+        "artifact_sha256": "7304e5b1a965dd8948ff942f18ec3f650f646e9ca0bccf7a0fbcf76dfb2e208e",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "0676557a7b83764d6d1b03c8a2b28e4e9cde782d23688bf36eab466d0bc6dd2b/p00001",
+        "page": 1,
+        "artifact_sha256": "79f64d64f1fd1ed01eb4d0299edd8290522e8ba43e606fb0ed7f258519df54fe",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "0676557a7b83764d6d1b03c8a2b28e4e9cde782d23688bf36eab466d0bc6dd2b/p00098",
+        "page": 98,
+        "artifact_sha256": "2ffe5e67d4d202157e75fe39d94280a077894159f4365bbd105fc38b48b67b62",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "0676557a7b83764d6d1b03c8a2b28e4e9cde782d23688bf36eab466d0bc6dd2b/p00195",
+        "page": 195,
+        "artifact_sha256": "7111ac317254358111368583c5b57a36a00a6d8822cd09e3cf10640775e575b9",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "5724439c59bf8a686b41f5a048a2d4966a334967f0a7ea0f9e6093d8ff0cc68f/p00001",
+        "page": 1,
+        "artifact_sha256": "1960a94188f38e132506a3efd5b873b03fe5d3c482f06adc455b108bbdbca98f",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "5724439c59bf8a686b41f5a048a2d4966a334967f0a7ea0f9e6093d8ff0cc68f/p00054",
+        "page": 54,
+        "artifact_sha256": "1d14e67489c9301755d4da3ac741fb6776dff9aeceaf59ca278edf17c3342be5",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "5724439c59bf8a686b41f5a048a2d4966a334967f0a7ea0f9e6093d8ff0cc68f/p00108",
+        "page": 108,
+        "artifact_sha256": "d739f2d0e078b4552e1e27f85dab81655321157c77056bc75ceb0d75bba9b7dd",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "0a5bae361d94e999a6fff51523577ef42b28d1ebe865ef74c2dd6a5ba5647439/p00001",
+        "page": 1,
+        "artifact_sha256": "0f99d5499021ec55a6d6be002bb58a08ccdb035b955cebcfda5207e2e6b78a5e",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "3c28f4dc15e9cf14693fb3dac2fbfd40db7680b4a0bdb8ec1a5bafee132fd06f/p00001",
+        "page": 1,
+        "artifact_sha256": "0a309f9a5e27dc19a8c1922a1dc695353f108fa537a0e90cdb9db4c10ac656ce",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "18a7fb834ddb631b2943f911aa1f3407be34643da7fc84d2f1f55c6a74bd0bed/p00001",
+        "page": 1,
+        "artifact_sha256": "16fed440f298d8126b2b505751930d141d486151336854ad8eb2353316c05e72",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "559552b372332598ed4217ad78bd27c540e76a91d380b916d9a723d1b993296c/p00001",
+        "page": 1,
+        "artifact_sha256": "0ea29c2aa0e67aecfe2d69585cb8a11c30f126e8bc1a52a8ae34d185532392d6",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "e7b85608f43df4814af701e6edb80adf63c05b7deb183715d6f2fa5f9764a83e/p00001",
+        "page": 1,
+        "artifact_sha256": "e2b29932cd40911b7e6996a8abaac25aa8e2525a2231113d7bae4ef480f381a5",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "4a2fe55d796f603e7847b7349f93a372e2e0806b0b4973e8cf13a0f422ebd28a/p00001",
+        "page": 1,
+        "artifact_sha256": "945180aa4708229dc1b0c72c8f40b234110d3673cea872ddd97aec35f2bd6952",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "c402fd1458b84d0a04674d8dfa13bd195728ae8090422d660132d865d63070ca/p00001",
+        "page": 1,
+        "artifact_sha256": "9a21415398a05fd56589e9970dcb2804704e6182a54d0c5726b820aac2b9634f",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "1b871e142d75888325ad5d1458c75987bc5756f996f69b7db654e8ee3e5c3e4f/p00001",
+        "page": 1,
+        "artifact_sha256": "04976c6c85996aad46f36adf31bb009f01160596d5841cb013bf801b47a8c9c8",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "1cf7fe99a71899a351c6e96eb2b168d3927c1cd2720bcefc325d9c9ef97ce7a7/p00001",
+        "page": 1,
+        "artifact_sha256": "c987b9333ffa0aca1be8a20c7b4787c9f11f65bad4ae2676aaaacc483c322643",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "e28c2a3a103af8a05b051f728b88f05d4c0b8e57b908fcf2ab48d1210c59df55/p00001",
+        "page": 1,
+        "artifact_sha256": "777d871772b2d175c284dcfd1cfd9103fd5135a05553be5e217fa2bfa3f2372a",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "3081408389c9a70c02415f251079f9b642f607df7db4e189090f25332401e1e0/p00001",
+        "page": 1,
+        "artifact_sha256": "3ad1ead8049dd0d39a36c253ea47e0d18f18091ce8d8034245ca0345aaf2cbe8",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "a6f798dac659e228119f63eb982161f86db5fe825be764b93f32dd2f1b2a33e5/p00001",
+        "page": 1,
+        "artifact_sha256": "443237ed4a0556182cfee252f5652d801d9404b5cec78690f7dc9588f88fe7a0",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "894cf7101e9b16266bf1e372c01d2978d4c3a8d77cf5ee2e5162cc879f21a9cf/p00001",
+        "page": 1,
+        "artifact_sha256": "c6161570d44cdc63e7ce977e346ccb3c723fb01a86fb1be324d64a1860be1a6e",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "4bc030e7e2a4b12e801de28830a2488b01ced31cf67352672f7b7ba52e13ac64/p00001",
+        "page": 1,
+        "artifact_sha256": "1f364ac9ee75949d1593ecff8d620fa9d5c0a507620075bd183a884bc51b4435",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "3afcd2a7bcd809bc35e59a7e05f464bc4c64577ac854f1413dd214b339169763/p00001",
+        "page": 1,
+        "artifact_sha256": "cefea06781ae7b1a538e2d6147731350b3323d53e9af63201fce6ae46b3c2bb2",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "ef04bc54b2a635f094122ee9e8edefed1e272417126dbbbaa446adfc5de4b656/p00001",
+        "page": 1,
+        "artifact_sha256": "5406746ed7c7006f858cd3f770dbc51b8b85c4ca1bd22ce813428ff0c7246ce9",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      },
+      {
+        "id": "0abb59e9185852fac21b316d7567ad5039da081ccfa21bbfe9c64647a4c85b3d/p00001",
+        "page": 1,
+        "artifact_sha256": "efcb1d2fa1dc9a3567fe38b3e9acfcdfdf92d9f58f310a2f32a605a37344e115",
+        "verdict": "review",
+        "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb"
+      }
+    ],
+    "runtime_fingerprints": {
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 46,
+      "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb": 26
+    },
+    "final_runtime_conversion_pages": 26,
+    "retained_no_media_pages": 46,
+    "media_repair_scope": {
+      "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "changed_files_since_mask_fix": [
+        "engine/geometry/base.py",
+        "engine/geometry/construction.py",
+        "engine/geometry/media_clipping.py",
+        "validation.py"
+      ],
+      "completed_prior_pages": 72,
+      "retained_no_media_pages": 46,
+      "media_pages_to_reconvert": 26,
+      "prior_runtime_counts": {
+        "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 72
+      },
+      "preflight_problem_pages": 0,
+      "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages."
+    }
+  },
+  "schema": "pdf2dxf.font_layout_validation.v1",
+  "version": "2.0.0rc34",
+  "baseline": "2.0.0rc33",
+  "source_tests": 732,
+  "installed_wheel_tests": 732,
+  "lint_before": 29,
+  "lint_after": 0,
+  "lint_before_by_code": {
+    "F401": 4,
+    "E401": 4,
+    "E741": 1,
+    "E722": 5,
+    "E402": 15
+  },
+  "font_catalog_schema": "pdf2dxf.font_glyph_catalog.v3",
+  "font_resource_revision": "r3",
+  "short_cases_before_complete": 69,
+  "short_cases_after_complete": 84,
+  "short_case_total": 84,
+  "newly_published_characters": 55,
+  "long_cases_complete": 16,
+  "long_case_total": 16,
+  "all_ten_catalog_pdf_conversions": {
+    "version": "2.0.0rc34",
+    "cases": 100,
+    "complete": 100,
+    "characters": 3630,
+    "rows": [
+      {
+        "case": "cjk-sans-sc-regular-193-fill",
+        "group": "long",
+        "source_sha256": "2303a44694353b825c71486e4976fcdd652c8ab5dbae572ca05af68ada9c8b09",
+        "artifact_sha256": "da64c4548640af48ef6acca486ebcf3479c3fbdf54a03d14f7ce26fea39e3bb2",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 6.160786583990557,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-193-stroke",
+        "group": "long",
+        "source_sha256": "c4c298a3bf37d5eb4f14bea48759d31cc2a0f6dc249f880827dcbc17ddad031b",
+        "artifact_sha256": "b16808b3d54844badfc1284eaaca0eb81ae98b1638870f6f2943e749701d2d9d",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 8.164945750002516,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-97-fill",
+        "group": "long",
+        "source_sha256": "7502aa1fca03cbd8e7113a292230d65f8a98b8f1fdc4f4973928e3a85fe96c18",
+        "artifact_sha256": "eed1ace5967cd47277d7eee833b48204f6d8669b878f1121fc91ebdaa34adda1",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.464161333016818,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-97-stroke",
+        "group": "long",
+        "source_sha256": "4eccc13b4dfc15e186485aefea6aec12454ce00d3a970732e92c229429a71fab",
+        "artifact_sha256": "8de4aaa25a07f3db21aef65956480d0cdc782763f94b99aacef94399c5621fa5",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 6.4435497089871205,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-common-han-fill",
+        "group": "short",
+        "source_sha256": "e8ffcbbd4e4e7a7b9f2131ce68f6451959d9ed1ac8fb8b2fbe2dffdbda33cff0",
+        "artifact_sha256": "11b5245dff1357d58a452791feacd33f70dd51a7c059d17a8bad7d680eab098e",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.089297833008459,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-common-han-stroke",
+        "group": "short",
+        "source_sha256": "ac4454a242d22f073c3dc8e4f235725dc031de4d20d65c087ffefda35a6d8dda",
+        "artifact_sha256": "5a0e1e9387bbb475732217057649ffe49868206662048b81f2d24cdebed1a4ef",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.0895938749890774,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-english52-fill",
+        "group": "short",
+        "source_sha256": "4f43b2f68bb1600c6290491ed00ff0b20bcdf10f13101e888ba435746d7b1663",
+        "artifact_sha256": "c9f90cadf2ad07baef6e5d75696639ef7868a7754395d50f3a64dec379e42fbf",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.089924166008132,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-english52-stroke",
+        "group": "short",
+        "source_sha256": "7163ce262f4b0eaedd0ba3b2502aa8517ac89bde2d015b25f8b30c289e72b424",
+        "artifact_sha256": "47c4d55b7cccfb138f644a826d05456e487d955b97fe47a6637559b92c81b063",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.3605424579873215,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-20000-fill",
+        "group": "short",
+        "source_sha256": "3e74dcee91f5c0aa16a55c3648f2eb3f5d376dfa0af9971b3738837f3b9476f5",
+        "artifact_sha256": "b000f549334207de773ca3add25b39fbdf327848a48ac85a7a4bae14d57c690b",
+        "expected": "𠀋𠀡𠀤",
+        "actual": "𠀋𠀡𠀤",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.037523707986111,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-20000-stroke",
+        "group": "short",
+        "source_sha256": "21c98cd89d069d9139198655d3db65c8dd28c5513043c6b8ac7b0e2eda654c43",
+        "artifact_sha256": "94de536191948f41e7ab8d6b547fd6035585d88327c996635f247f20fde29241",
+        "expected": "𠀋𠀡𠀤",
+        "actual": "𠀋𠀡𠀤",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.999581540992949,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2b740-fill",
+        "group": "short",
+        "source_sha256": "10f4a28faa100fb15358218f1fa3b56bcdbc25e4f73020647e5dd98ed40fd9da",
+        "artifact_sha256": "c89bebec3f00dbf78b4ca4d1e282bae287cdd2b1991f8083860c580be963537d",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.907797791005578,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2b740-stroke",
+        "group": "short",
+        "source_sha256": "99a14eb00cbfb6769bb1c527b809534686f81f1bcaa35fc8d8b4d2dc8bcb50eb",
+        "artifact_sha256": "d0358e76b0930394ea19af9da4d2674dced445cd584829b95989dc1e6f4b2f2a",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.093751082982635,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2f800-fill",
+        "group": "short",
+        "source_sha256": "db454f59d138c979ad7a23af71382e21fdcbb34bb1075cbbc8a401bb06d875ec",
+        "artifact_sha256": "6e8e42f4569938c0bd253c0bdeaed3b57eaac918901b5f11efed064f6c3b67aa",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.936813624983188,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2f800-stroke",
+        "group": "short",
+        "source_sha256": "8d9ce44543971c1b642ab661f37cd13a9143c14c7a0dff3ae6862e53909967dd",
+        "artifact_sha256": "a522896b1771cbf24662f3cb54b65643dd3ea9086f73895d5a7789b9938513d1",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.93410133299767,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-3400-fill",
+        "group": "short",
+        "source_sha256": "aeda4ab4a99d63baa0d013492b7342fc11712588c9ab2fb02c34544d17a42b87",
+        "artifact_sha256": "ccc0686bb11d28743cc1462d7e79f2ee5bb040a03a106847b73556176414cacf",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.748857040976873,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-3400-stroke",
+        "group": "short",
+        "source_sha256": "cae59e5312d3344d4096d52d40e1d06b1967fed674721b966ffdd2c0fb510fea",
+        "artifact_sha256": "30dd586125e9a378a2f85ec84b6deeaa47c9ed92bf82b29cbd3492f7a06e1097",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.809107584005687,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-193-fill",
+        "group": "long",
+        "source_sha256": "1539dec4edf294ca86b61f06d1d7726be9bb3d07edc4cb3118a3c34115c88d68",
+        "artifact_sha256": "c16fd5ccdec9a1aefcecf8a1cedf0f55c7795b22f28aa0979f5eff51c0426a15",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 6.794854999985546,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-193-stroke",
+        "group": "long",
+        "source_sha256": "8056c65956fa7947bdc9c6b76ac344f5b7e41193a9b5ac61df03d3b3d8b9ad1d",
+        "artifact_sha256": "b89bda0ae0a1f89c95a36c55c37cf4b88e8e570c72edf06080e9c5990a4d748e",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 9.511006416985765,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-97-fill",
+        "group": "long",
+        "source_sha256": "b6cf7b6378f26cbc78148b3e6caeb045c776ee2d963bd8a5f058e3ae9ed4aaa8",
+        "artifact_sha256": "ea422154c868b5cec749a1154d11838a8fb32986375ce4fbb73c363c1dc6779b",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.810841166006867,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-97-stroke",
+        "group": "long",
+        "source_sha256": "0d3eb7057548ff75c86d0f6138bcd0a7899b5d7df3c3448c258273ef15089239",
+        "artifact_sha256": "5da145e48e370c14f5453e1620641b9f9293147b8266c22a04ac455650e82c07",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 7.204187999974238,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-common-han-fill",
+        "group": "short",
+        "source_sha256": "9957ec08cf1ea8dab5239459df1fd2d6a37dd5fae87737720ea622179ec05431",
+        "artifact_sha256": "bee516e650a8f69ce607791bf6bcc93e0cdfe52ab00b70b615028ab4c34c03ab",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.041757416998735,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-common-han-stroke",
+        "group": "short",
+        "source_sha256": "10841e29d0eed29993b913880def07a2f7c4dee31dcc525c439f57a59f4d7a59",
+        "artifact_sha256": "6374093d30acbc1556ad7ad36eecbfe1fb89fc312cbfa12f56b633ece70dfe5d",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.082775249989936,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-english52-fill",
+        "group": "short",
+        "source_sha256": "4736f9694b0238ba12adac08f5262feef3eade970b5b5ebec81609538d0b7944",
+        "artifact_sha256": "aa73547e170b8a0e3e125b7d309109de0f574f7ed88a4cef1d9dd8f11024c1a6",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.015638083015801,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-english52-stroke",
+        "group": "short",
+        "source_sha256": "5b4d78cf5b4f4acaa0f8a441c485f60c994c7cce99d7dacfe0094dd16415005e",
+        "artifact_sha256": "395490a58384065586d48685c4677122194b498918f8d060735c6bb1b43e0df1",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.376319125003647,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2b740-fill",
+        "group": "short",
+        "source_sha256": "5dec8b51745fc85447fed59f7cebd7bbab815a9e06e3167d4597b32c9f03f9b3",
+        "artifact_sha256": "2b52e0a285fedea21d74c2696fe1d5f87f06f0f63b430a694db27802b286c144",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.997796166018816,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2b740-stroke",
+        "group": "short",
+        "source_sha256": "9a4a6234d9dae0651dc9f0a53d0fdb8a5ecd6d95539d06de3278d7f08f5e612c",
+        "artifact_sha256": "3dafb0b6a70688f65688a3fa9adb720225111033c993d997ae9ad4175ce18dc1",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.922752875019796,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2f800-fill",
+        "group": "short",
+        "source_sha256": "08c8a3c2ad448391cdc0fdfcd5630fb113e0f70c242bc73aa9df2f0fd11c03dc",
+        "artifact_sha256": "8bcab426c71eee7e166262bfc9dca1bf6f40c6872e95c99fc33ba62ecb90dcc1",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.9571171249845065,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2f800-stroke",
+        "group": "short",
+        "source_sha256": "e823cd398a03c9975cc873eae1676d7dd7f8db600d9728e1cc9b056309b9ac8f",
+        "artifact_sha256": "8ea492fd4b300ed64bb43f6f45cb632555e16c42f7b44a983a432c64ae67b40c",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.904970292001963,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-3400-fill",
+        "group": "short",
+        "source_sha256": "34457447d7ed3f3b368f3f5ec304ce5eed2bc9b34a13ca1e37c3c0ea282808e7",
+        "artifact_sha256": "99a3e8e6b23b71652e44bd694f165edaa7248abcc89386509c96881dca8aa4e5",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.754369583999505,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-3400-stroke",
+        "group": "short",
+        "source_sha256": "f62aa5236a6b3ee8a3f6b81e8e02bbf05141698785f8ff4db4adddd7e33ecc8b",
+        "artifact_sha256": "1e9c0827b77042949352d54041c340d29da6b1b1c5940b1dde32d0d98f509bed",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.728219957993133,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-english52-fill",
+        "group": "short",
+        "source_sha256": "95f1c5aae42188209d450e0d10be280202eac3b20e0f72d2dcdb03dfd7966593",
+        "artifact_sha256": "4ddf684c8ae936426813912e945665ed53d1da7d03125a93bfcebcaa2a4feaa8",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.999772000010125,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-english52-stroke",
+        "group": "short",
+        "source_sha256": "2f6d296134a104c01bec89028c0139dbdb972dcb5815c3612216f4f9b4d52e5a",
+        "artifact_sha256": "b783b0cf4d424669fdf718408e328e1802a7fcd47bcb0c592c9dcee35183c448",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.260795042006066,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-20000-fill",
+        "group": "short",
+        "source_sha256": "367ea61fd6fbc9064af15a1bc30ef4de1aca14687d638806a5bdc570509a4298",
+        "artifact_sha256": "d126e14ac3750f8090238075ad3fc8bd6f7d9b4ad4f01e26c028b4ae75b1f1da",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.774025666993111,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-20000-stroke",
+        "group": "short",
+        "source_sha256": "38d65bb93cef29f6a5eabb090fb88a0dd06ac1d92eab77242fb80a3b15ac7b1e",
+        "artifact_sha256": "fb5d3c543b8bf0c9466186847a78e213c050a254534e394c4e188b4e873eb70f",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.694142624997767,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2a700-fill",
+        "group": "short",
+        "source_sha256": "72fb55f105d1ece710848e0005f1c8f2e015c38d3d9ebd85ad79b89370d56e8d",
+        "artifact_sha256": "6eb337df85bedde457e7c18554916f96704a7b86ae6476eadb82956ed2d160b4",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.728999750019284,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2a700-stroke",
+        "group": "short",
+        "source_sha256": "c1dbf0bbc2179ca69511112da5a6c91c9b23c35dc4e49ac8b6389639d6ccd1ec",
+        "artifact_sha256": "916f46246e5c1339430070f00993ed54ac82b5858465c46395bf94c0d2d10a82",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.865426249976736,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 3,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b740-fill",
+        "group": "short",
+        "source_sha256": "a335049eb724468a71d63e0b8390b725f5b395a4fb81135c65035b28aa6204b5",
+        "artifact_sha256": "e906abbc8bbaa87bf8831bffb41c5072f74b4e11b74ad93b2aa70f5db1809da7",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.71447566698771,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b740-stroke",
+        "group": "short",
+        "source_sha256": "9f4d1b894f8df72a2479753da589e480e659fa87c45ea7a1e189512a1f28846a",
+        "artifact_sha256": "58a0668d7ecf47573b7d3c41eddec1720d6dca4aed790bfddba5e8493ae6e3e8",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.828826540993759,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b820-fill",
+        "group": "short",
+        "source_sha256": "52d9fd91e078699a62a0f766ce20fe74688b33b74439907add6edb8440c6d99c",
+        "artifact_sha256": "b6b1c1e71760fa01fe5bb6646258029a18e50cf596e0fa63571e5bca76fb080a",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.824069875001442,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2b820-stroke",
+        "group": "short",
+        "source_sha256": "d5f13b3f2405bf0b319b22eed116435c208d1c7fdfd77ebbd1d56926826b24c9",
+        "artifact_sha256": "5a18e7b6bc7ee1ba20ebb68c65b6c7e64479708cb5b53f7217cf91f5b29fa3e1",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.746194500010461,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2ceb0-fill",
+        "group": "short",
+        "source_sha256": "3c1061461964a13a1c63c5ca3a5e55dc32f1dea7f7b66a9d169d20b7470d8cf1",
+        "artifact_sha256": "79a9962600476ab688b1dfac0d6630bf995c1a75380e143d700c35cad6cfe7a6",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.801485667005181,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2ceb0-stroke",
+        "group": "short",
+        "source_sha256": "726c88585872937b8c650d5a46b3a1a57475f3c6feac652b638b52e60efd6409",
+        "artifact_sha256": "4ba38af9052491420aba61026785ff7637e02d18d60c04bae11023d67970bf72",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.79725629099994,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2ebf0-fill",
+        "group": "short",
+        "source_sha256": "b576ec69161460873810a52530724ac6b01a15ab87f722c1aef0233539bbbe97",
+        "artifact_sha256": "8b6eb0cbc76af4eba8354168d83e392825a70bbb5d6228de493c130481bb3c3e",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.759008749999339,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2ebf0-stroke",
+        "group": "short",
+        "source_sha256": "8add5e2b45709dbf9768d0faad79a2073a79ef234f6107e495afc153004360c4",
+        "artifact_sha256": "de2e63a8f51592ede997b9c83193c5f512769d889e82b4978fd07a90c290b40f",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.755438250023872,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 1,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2f800-fill",
+        "group": "short",
+        "source_sha256": "b7c32d75677942a0d909426bc9432653f773124d7be05aa648976788788d9a99",
+        "artifact_sha256": "68b0179f7eddaea1680c3da235ed0a00341add2af9d5a8a0657c3b50e3b1b364",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.77211120800348,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part1-extension-2f800-stroke",
+        "group": "short",
+        "source_sha256": "bf57beb1559396a7ba90e55369b96b23abba50b22e09a49dd6da7650bb6f5759",
+        "artifact_sha256": "5df77ef4eccfa376e951bf2763a7714f19af8edfaca1402dab262dfd8eedda55",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.781129375012824,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-english52-fill",
+        "group": "short",
+        "source_sha256": "ea9ae9aee27028bfbdb573086854d2152f1e9b948dad9c5f411419ac8ef50297",
+        "artifact_sha256": "49a3342e8c51b671d2ca5d9b8ca04fcd6087ec85ce603cc295afc8f6cadc823c",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.951723916979972,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-english52-stroke",
+        "group": "short",
+        "source_sha256": "36f3d1a08ed8e2ef8cbeffc007ff859e3eccc3083fbdb9a9f330ced0c4890fd3",
+        "artifact_sha256": "2077d63685eb5e5e63bec95fae12ffc5d0a10e49c7f7ac03c4590687f6b51ae8",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.218431916000554,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-20000-fill",
+        "group": "short",
+        "source_sha256": "ceb08bad4eaf70d3d8ab2c643e7cad9251cf5fbbce25a97d1e664380c5fe6ccb",
+        "artifact_sha256": "b6606319493973b3547705db2ce1727983bb4ae9b232cff6fa699d5f296c730c",
+        "expected": "𠀁𠀆𠀐",
+        "actual": "𠀁𠀆𠀐",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.715139541978715,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-20000-stroke",
+        "group": "short",
+        "source_sha256": "735ca116a6a3a28b503c7f1cf750801b7946c1fb44c28a70eafcd840f16eed7a",
+        "artifact_sha256": "1070f4765571f72b0af0456dcfc10ff01ca2a46ee1991e1e6a31a76b1cea1f31",
+        "expected": "𠀁𠀆𠀐",
+        "actual": "𠀁𠀆𠀐",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.761726249998901,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-fill",
+        "group": "short",
+        "source_sha256": "f51dc7b0898c06b9cb48f6be96952c1860ba4a6af0eaf3359aa26dd872a5b01a",
+        "artifact_sha256": "053046b0625b5698ec8f1b03ff6d08ccd0b0ee4dbbd242cfa47562478b8468ff",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.759442792012123,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-stroke",
+        "group": "short",
+        "source_sha256": "00b0e2aa7c5db0e8346c7b4ea6b48752b36b3aa1baee3acaf8f26d8786a14875",
+        "artifact_sha256": "5ce228d23f32eeda7b90f6571d31123212e8164444db35193db47b7dc0c4996e",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.7969207919959445,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-31350-fill",
+        "group": "short",
+        "source_sha256": "622d0c6982654d8c1835a387ab2be85eb9d8da26ce2981bed0826a56dfc2aa7f",
+        "artifact_sha256": "280f912a3df3284f4df4b578111254558ef5f9315dded7b8feb85438fd543c31",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.696063041017624,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-31350-stroke",
+        "group": "short",
+        "source_sha256": "2aa1c6c0e898e2cc27f1c95dbfe6777bd49faa4063554105310d1e2c663a4f3b",
+        "artifact_sha256": "8502714f887dbe3c11788c8a91cef74cd8ce6715647de161108f1596e5318d3f",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.816848291986389,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 2,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-323b0-fill",
+        "group": "short",
+        "source_sha256": "ddcb01b6c48916f2553ed170684415810dfb24602fe1cde8967613c5b3a643a7",
+        "artifact_sha256": "3cc187772762a39ba2fdba7b2cece4bc3792baceeb1c2c91550ab4328feb7ebb",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.805197124980623,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-gothic-part2-extension-323b0-stroke",
+        "group": "short",
+        "source_sha256": "dfe5ce5f91f405d6fdcabbb43c597ae2d6096a9d43a5cd588a86f5805b5e94e1",
+        "artifact_sha256": "3ceedb7a5a605d010c3e91cb2f604a4d0b5c5744c1628bd6a54c9dd9d3f95c79",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.766666832991177,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane0-common-han-fill",
+        "group": "short",
+        "source_sha256": "6d70a07e6661c6a2a35d8c9317aa3043f984e41d1528b1bc56d2e7995510c5ec",
+        "artifact_sha256": "4f3bab70ad734e57b29c1f607d57b39b4dedc10b2647e88e96bdee358f4fa93a",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.86663933302043,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane0-common-han-stroke",
+        "group": "short",
+        "source_sha256": "f90315e18224d895aa67e7b12a5a889804eed17b13d72080aee0abd83dc20500",
+        "artifact_sha256": "d0c50e965575d2898eef19ac0f31e03ce272c8dfd45e39face3ab345ea734934",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.897010832995875,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane0-english52-fill",
+        "group": "short",
+        "source_sha256": "1aa66f8304d3d650c9868e7ace983dd365c403a108298dd632b379142aad6e6c",
+        "artifact_sha256": "3b2cca1bbb9f01bad5b122ec9fab40fd0326eb1efe201fdf0cf55fa4053e5a25",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.785868374980055,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane0-english52-stroke",
+        "group": "short",
+        "source_sha256": "41bd9fdae2114840d25c7c404ff1a8a4022f65907acc71b7390c3946459b1e1e",
+        "artifact_sha256": "d83dfe25c472de6aca7e9b6f05812577477039442631eedd6defa12799a4a6fd",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.87821399999666,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane0-extension-3400-fill",
+        "group": "short",
+        "source_sha256": "96fcbbbecad443d08673bdfa62f2d8a52baa68666efcb0719d1d85911617f148",
+        "artifact_sha256": "6e8908b3ac05842c2b2965490bc6d436547716adaa8f6031d73b01adddc78f3d",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.72220879199449,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane0-extension-3400-stroke",
+        "group": "short",
+        "source_sha256": "74935972136ca68306263e1d5a38ff7c37e35407f078340e1af3159b6a0806a1",
+        "artifact_sha256": "fe66c9f361bb329d2691918604c10a49c9d43fed745f3f87c6b381acefaee013",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.7930339589947835,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-english52-fill",
+        "group": "short",
+        "source_sha256": "7bfea349a7802746cc414eb080e783e43f226e296a3493aadab77379025f99b3",
+        "artifact_sha256": "c9062c0026b2aa557b29ee66498b23392931c018a28cae84864cc5bde82e2bf5",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.915221083996585,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-english52-stroke",
+        "group": "short",
+        "source_sha256": "f46f91c9a4fa20d4531af03fba6326c0632ca0d05410103323a1615af465ed5b",
+        "artifact_sha256": "4370f683852a5111c624ca5142ba63614ecdf7fdb74ba405d5cff09c400c47d5",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.893654124985915,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-20000-fill",
+        "group": "short",
+        "source_sha256": "5f9563a8967d738b2be064047cb2ee597c1d8746b3b0961c66cfd819fc018589",
+        "artifact_sha256": "661b3830ab6dbee2b48fff0fc5a7e0cad24f709e2589c38055f5eb34ae301ed2",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.803282875014702,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-20000-stroke",
+        "group": "short",
+        "source_sha256": "1b6310a939b2b37f7a3caa2f529d76a492e3c6202544a4c296cb97b9961cb987",
+        "artifact_sha256": "c04b7b7c5f9134f0987cfdd2e6f3ba40c93f9456f15d1a91b1c568640511b33c",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.831994332984323,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2a700-fill",
+        "group": "short",
+        "source_sha256": "ea2c36b42de20ea25b33f3496a5abe9abf2b9e65f2dcb04a4deadb3aecfdf3ed",
+        "artifact_sha256": "1926c78569a3e5424cd0710c680aa3822e7bdbbe9daff38102f327cb6b3c639a",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.7485020000021905,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2a700-stroke",
+        "group": "short",
+        "source_sha256": "d56b1969f57cc292e533d121bbf94951ae690c2ba57c2e54e0a412d89fc95c8b",
+        "artifact_sha256": "5c97c49f167b4a561a40024705110a2b70551513200ef56f7e0b090ac00ec28e",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.786192624975229,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b740-fill",
+        "group": "short",
+        "source_sha256": "5f8eaae4a2b70a2fe586fde42796f3b0eb60f391db58ecade0cdda31d828ea87",
+        "artifact_sha256": "b9f0608ac125782b008cb9ecece4a08e5728c418f3649320c6dd04d96282cb76",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.761469124990981,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b740-stroke",
+        "group": "short",
+        "source_sha256": "2d2a27b21fef471292375a6ec116592b45c684eeb1954cdbc0635cfeb5f207c9",
+        "artifact_sha256": "c271027258c32abf184adca60d91622c133c6fbb4ff6787551236a8371d17191",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.892352875001961,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b820-fill",
+        "group": "short",
+        "source_sha256": "b3752d54d280c53e95eed02bb305de1b5b6c5bd56c48fc100b1659e0989dc537",
+        "artifact_sha256": "d3c4f561bbb3f77174ff5b250f0f7fd2aec1b7648765976b15c39a42bf5d2e82",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.816959083022084,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b820-stroke",
+        "group": "short",
+        "source_sha256": "868575e656acf3dde59c38ce801fd147821be34f02b7e05f48f3315650923f33",
+        "artifact_sha256": "4c3b70597d9f3084edd6eb2013a9022c0f803eb1595b14e10aebf87be29af263",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.7705832089995965,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ceb0-fill",
+        "group": "short",
+        "source_sha256": "c8d69b244803e8ae13fa4e0a3038cf4a773746db184b7f09f6491735bc1e2c68",
+        "artifact_sha256": "60aa3df52bdf1ad3894e6621220ebfb91d2b9d0bf1f77189fc21976b045fa9bc",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.729489874996943,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ceb0-stroke",
+        "group": "short",
+        "source_sha256": "99da123c28eb967ce04a208c6f692b3177614bfadd8a2a4af4791735fcd5fe64",
+        "artifact_sha256": "d8593bd7062135ab678e2ff83451a4a60f3e9c42c5b41382c08990245963b8b7",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.784070499998052,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ebf0-fill",
+        "group": "short",
+        "source_sha256": "864190d08d79ca87b4d608161f41a34f626b76d4821a97c1ace6cf1ca2487391",
+        "artifact_sha256": "dbc0da0e7796b40f626de77717e555fc5df28e4d5de2cc2e114166c674a6b039",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.81133358401712,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ebf0-stroke",
+        "group": "short",
+        "source_sha256": "a421b5e13d5d3cff013645c8a3b5ea4b1cd435e347ed8e6406c0371977941d6f",
+        "artifact_sha256": "4890282aea65652d2ed0fdf64ddc98388fc52b2642fb8106b641b053211f1e87",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.814178959000856,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2f800-fill",
+        "group": "short",
+        "source_sha256": "59062f8a5fd4bb2f8edfa144653eb7cb2c07c97ec4e160215b4276a9ca491d83",
+        "artifact_sha256": "9c9451be3c49317b156316e630c899ce513536e617ef3e750cb39c02284b317b",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.779346167022595,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane2-extension-2f800-stroke",
+        "group": "short",
+        "source_sha256": "98781c06c946e2381f5cb178761333dc51e5ec2e1af8e68cf9c414d795ef6384",
+        "artifact_sha256": "0d6bf537a1d6ca3abeb1ab90d40c740bde1952a6c7ea16a3661cb1dd527fe7e4",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.810776750004152,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-english52-fill",
+        "group": "short",
+        "source_sha256": "e4326cf090c0329fe951d5f5e04eb3b93b6ca59dafa7927c967ba5cf7586759b",
+        "artifact_sha256": "a492082871c57de6d780fdefbc79147b14495402ffb4a2ca2014d32a1ca3ebf7",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.896969374996843,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-english52-stroke",
+        "group": "short",
+        "source_sha256": "be9826692e8e06c0ffe115f8674f468546e6b270ddbc7914233f90d3f34cd88c",
+        "artifact_sha256": "b0f04e97568dc4198777ac0b49cbc2303958f1cf00130f079c141bd03cd80492",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.928527999989456,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-30000-fill",
+        "group": "short",
+        "source_sha256": "bae8da359721c6e69ae790816dd356b91d5765b319deff03c7345510113b16b5",
+        "artifact_sha256": "26ce32efbea80eca27069061ef81b6b6922ab177053e5429858acc47ab8140a8",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.767494333995273,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-30000-stroke",
+        "group": "short",
+        "source_sha256": "cb4a55a5618f50778d975fb52b5d34d649b6761fc16e5f6eede44c1b15940e1e",
+        "artifact_sha256": "bb4aafc3bcc14cf450efca1b17db9a0960e98bf1df58276c7da8734696c7d636",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.726778749987716,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-31350-fill",
+        "group": "short",
+        "source_sha256": "2861f8ad4e4b50bb80792a0943c6a12173fa2480c0213a66c69f549dac99b0a5",
+        "artifact_sha256": "7a170be3f951fabd2ee928c26298ffcc03e593cbda4be94795abb6fcd96ca9cd",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.764968041999964,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-31350-stroke",
+        "group": "short",
+        "source_sha256": "a60f753ad8488d622817c700da0cc093ba9e353182fa5f281f79700357861cb8",
+        "artifact_sha256": "5c784ca91763ab64e1b55051425f7de7faa3563eed94e157880ff395067b995b",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.809869500022614,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-323b0-fill",
+        "group": "short",
+        "source_sha256": "b52381026e300d7e0f41825c242e56a4e346316006a089c053b5558adfb3b8fc",
+        "artifact_sha256": "e9c8a4099e9841aea5791688dd7597f1ecfe87ab8c5bc3947c15aec7c9fdd1ef",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.748638165998273,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "han-mincho-plane3-extension-323b0-stroke",
+        "group": "short",
+        "source_sha256": "ca600ec0a4080cd3a198626f721c93c769fca5f153a5290c4cfb4eda3e3b8c95",
+        "artifact_sha256": "975d98efbc99bf5828c06efd1ed0dc97aec14de5fa1fedcaaee901e7dbd45e00",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.764955041988287,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-mono-regular-english52-fill",
+        "group": "short",
+        "source_sha256": "cc1aa8bbf2c435f7ed3231b1ebed7fd2f7cdcc5b09af1431f0e38613d0aa8e50",
+        "artifact_sha256": "6b551e7a33b17596f2d328809ea657892b9c3158f377901d1cbb5d6b3c578941",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.089094124996336,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-mono-regular-english52-stroke",
+        "group": "short",
+        "source_sha256": "fc00143971a597a67295830aa890408d0f3f7b5dfd910f2c8e5045a516037e8b",
+        "artifact_sha256": "18bbfc265ad5a117bb539beaf218f7cfec6481623f6f14f8a991303b58a865fe",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.2919240839837585,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-sans-regular-193-fill",
+        "group": "long",
+        "source_sha256": "486802abf26b3615293db5669368e2a1aed1be2a58170ab1be09a7d546575da4",
+        "artifact_sha256": "e88971266d010298351dfc4a710d2796f78aa49578b543160b711f49a552944f",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.5161533749778755,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-sans-regular-193-stroke",
+        "group": "long",
+        "source_sha256": "d78359f02a867b1ebcd787ddf131b87e3617849909b88ee6cc5f3e66329fea9b",
+        "artifact_sha256": "b039f862141dc0dabc3251cb49b0437dbe0b5b4d41b3fa8a43a3d39eb8f11e12",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 6.203421749989502,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-sans-regular-97-fill",
+        "group": "long",
+        "source_sha256": "eb3fbbe0e032c96328d1fd47ec934c884609c9fc5ade6a5086fd147579728da9",
+        "artifact_sha256": "ca9b3c223234de9fdd87524b427801fd7bdd38013d12c72454aaeffd844ae5a6",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.021793749998324,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-sans-regular-97-stroke",
+        "group": "long",
+        "source_sha256": "7b624950836e3ea4f52ed195030aa30963be9b330dd81d4c273f5bb1dff2dc19",
+        "artifact_sha256": "bb4ef8eb75f530c1b79937ed958e3ab11cc5c36be6222a4a9fa4ecb96e195f57",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.537482542014914,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-sans-regular-english52-fill",
+        "group": "short",
+        "source_sha256": "3ece3afff31afad8e7a0281de9b76a2fbd79341d13d49e0ff509fd263a4269df",
+        "artifact_sha256": "9a638609dc69e000ad7001f74ed8ca11d8bd2fb4e751cbca9156bd4e9b954e8f",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 4.96702195898979,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-sans-regular-english52-stroke",
+        "group": "short",
+        "source_sha256": "34b2f9c44f1717570f775a93c97f587162ab155870b226d8261e85d72a5e7298",
+        "artifact_sha256": "1cf6f05a61f5037794fdf6cf2720c11ca9b74963f90d91e0a13e1192a0a36fb2",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.23300645800191,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-serif-regular-193-fill",
+        "group": "long",
+        "source_sha256": "0b6fe04000f8425ec4878636bc9a4fdc0c61332008a802c7e9db60746fbac955",
+        "artifact_sha256": "2bfe307eff50af2f17ed6c151ea9de489370fd9973e1105bd3394142f4ba5822",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.295327250001719,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-serif-regular-193-stroke",
+        "group": "long",
+        "source_sha256": "1009da64afada53adf32ebddcb3fdf360f496f74bd549be9802af48d04cc02ca",
+        "artifact_sha256": "a2852ede1a948f3d8b9ee4c52d77fc05e22b1250b79e0f889dab9bdbe8c3f55e",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 6.133670666982653,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-serif-regular-97-fill",
+        "group": "long",
+        "source_sha256": "a09883b1fd486401d401a9e42f0dabe6ebcccf92eac2d51e8a90f0d2af336952",
+        "artifact_sha256": "3681965e61983afde7df0ba8f70d85984e67ec773d36052d52d8db5b43da77f5",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.119539750012336,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-serif-regular-97-stroke",
+        "group": "long",
+        "source_sha256": "9bd3635689014d72a2eb65e786744c4618be44e3597f790ce2a73f60ebcfae5a",
+        "artifact_sha256": "e2152b94ccd2ef96bfd1971f9b516eff6ad815701f99fa94f4d5be73bb4b499f",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.5417217499925755,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-serif-regular-english52-fill",
+        "group": "short",
+        "source_sha256": "94c5a90288cbdb1513041e963a05a3364b373c13249cff10d44af5c2ed6b0bb2",
+        "artifact_sha256": "6b72c026c15d42c3cd7ba90389df95768d65bb33a6d4d1cf6a24bdfc7849fc75",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.303270542004611,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "case": "latin-serif-regular-english52-stroke",
+        "group": "short",
+        "source_sha256": "b7a2c1dde240357e63d1abd8465f6d3fb405feafbed5bfaefff9e3c837d3eee9",
+        "artifact_sha256": "4104043b5add849576bd89329c19dd27d77c0eee25dea5687751c2c4cc08d5b8",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "status": "degraded",
+        "seconds": 5.355372042016825,
+        "all_ten_catalogs_loaded": true,
+        "font_layout_matches": 0,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      }
+    ]
+  },
+  "original_font_coordinate_audit": {
+    "cases": 100,
+    "glyphs_checked": 3630,
+    "max_glyph_bbox_error_mm": 0.0008663238273349805,
+    "bbox_tolerance_mm": 0.05,
+    "rows": [
+      {
+        "case": "cjk-sans-sc-regular-193-fill",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 9.398194299770068e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-193-stroke",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 9.398194299770068e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-97-fill",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 9.398194299770068e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-97-stroke",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 9.398194299770068e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-common-han-fill",
+        "glyphs_checked": 7,
+        "max_glyph_bbox_error_mm": 9.398194299770068e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-common-han-stroke",
+        "glyphs_checked": 7,
+        "max_glyph_bbox_error_mm": 9.398194299770068e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.0670572922654173e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 1.0335286418694523e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-20000-fill",
+        "glyphs_checked": 3,
+        "max_glyph_bbox_error_mm": 1.291910805889529e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-20000-stroke",
+        "glyphs_checked": 3,
+        "max_glyph_bbox_error_mm": 1.291910805889529e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2b740-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 9.689331044171468e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2b740-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 9.689331044171468e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2f800-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.07659234060975e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-2f800-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.07659234060975e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-3400-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-sans-sc-regular-extension-3400-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-193-fill",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 3.789605057136214e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-193-stroke",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 3.789605057136214e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-97-fill",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 1.7225477563442837e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-97-stroke",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 1.7225477563442837e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-common-han-fill",
+        "glyphs_checked": 7,
+        "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-common-han-stroke",
+        "glyphs_checked": 7,
+        "max_glyph_bbox_error_mm": 1.291910805889529e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 1.9809299033113348e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 1.0335286475537941e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2b740-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 0.0008663238273349805,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2b740-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 0.0001382782578112085,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2f800-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-2f800-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-3400-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.07659234060975e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "cjk-serif-sc-regular-extension-3400-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.07659234060975e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.0004153556574415518,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.0001579743750284024,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-20000-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-20000-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2a700-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738717772572e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2a700-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738717772572e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2b740-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 9.689331044171468e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2b740-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 9.689331044171468e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2b820-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 9.689331044171468e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2b820-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 4.306369341122718e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2ceb0-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.4043895582082087e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2ceb0-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 0.00012228294655258765,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2ebf0-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 0.00022792154400974596,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2ebf0-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 5.1629548430298655e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2f800-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part1-extension-2f800-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.1842515696969258e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.0004153556574415518,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.0001579743750284024,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-20000-fill",
+        "glyphs_checked": 3,
+        "max_glyph_bbox_error_mm": 1.5072292747220217e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-20000-stroke",
+        "glyphs_checked": 3,
+        "max_glyph_bbox_error_mm": 1.1842515732496395e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 7.536146426900814e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-30000-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 7.536146426900814e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-31350-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.5072292782747354e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-31350-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.2919108094422427e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-323b0-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738753299709e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-gothic-part2-extension-323b0-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738753299709e-07,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane0-common-han-fill",
+        "glyphs_checked": 7,
+        "max_glyph_bbox_error_mm": 8.747312757684256e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane0-common-han-stroke",
+        "glyphs_checked": 7,
+        "max_glyph_bbox_error_mm": 2.6914808444189475e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane0-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 6.997850206502676e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane0-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane0-extension-3400-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715285673e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane0-extension-3400-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.3457404293149011e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 6.997850206502676e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-20000-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-20000-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2a700-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2a700-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.0186106350905675e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b740-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b740-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b820-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2b820-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ceb0-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ceb0-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.691480847971661e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ebf0-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2ebf0-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.691480847971661e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2f800-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane2-extension-2f800-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 6.997850206502676e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-extension-30000-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-extension-30000-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-extension-31350-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-extension-31350-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 2.6914808444189475e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-extension-323b0-fill",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 8.612738715640944e-05,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "han-mincho-plane3-extension-323b0-stroke",
+        "glyphs_checked": 4,
+        "max_glyph_bbox_error_mm": 1.3457404257621874e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-mono-regular-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.00020724402533645048,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-mono-regular-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-sans-regular-193-fill",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 0.0004306369356754658,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-sans-regular-193-stroke",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-sans-regular-97-fill",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 0.0004306369356754658,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-sans-regular-97-stroke",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-sans-regular-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.0002476162380560254,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-sans-regular-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.691480851524375e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-serif-regular-193-fill",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 0.0004306369356754658,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-serif-regular-193-stroke",
+        "glyphs_checked": 193,
+        "max_glyph_bbox_error_mm": 2.6914808586298022e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-serif-regular-97-fill",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 0.00034450954859721605,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-serif-regular-97-stroke",
+        "glyphs_checked": 97,
+        "max_glyph_bbox_error_mm": 2.6914808586298022e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-serif-regular-english52-fill",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 0.00027453104654284743,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      },
+      {
+        "case": "latin-serif-regular-english52-stroke",
+        "glyphs_checked": 52,
+        "max_glyph_bbox_error_mm": 2.6914808586298022e-06,
+        "all_original_entity_tags_equal": true,
+        "all_saved_TEXT_labels_equal_cmap": true
+      }
+    ]
+  },
+  "saved_dxf_recognition": {
+    "version": "2.0.0rc34",
+    "baseline": "2.0.0rc32 preserved-geometry artifacts; rc33 completeness is identical in its published regression evidence",
+    "cases": 100,
+    "groups": {
+      "short": {
+        "cases": 84,
+        "complete": 84,
+        "characters": 1310
+      },
+      "long": {
+        "cases": 16,
+        "complete": 16,
+        "characters": 2320
+      }
+    },
+    "all_original_geometry_equal": true,
+    "method": "Fresh recognition of 100 original saved DXFs using all ten verified r3 catalogs. Every original modelspace entity tag matches both the input and preserved rc32 output. Per-case expected/actual TEXT and saved-DXF audit results are included. These checks are distinct from the 100 actual PDF conversions; full recognition-report equality is not asserted because recovery intentionally improves.",
+    "rows": [
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-english52-stroke",
+        "source_dxf_sha256": "36b5428c6212c9fcd659e655ae36d79ce1b5106c23229030800b4453127d6083",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-english52-fill",
+        "source_dxf_sha256": "06ef8f12871a420e8c20a5284557ce3b013818c2ab75c996ce83ad175d2bd35d",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-common-han-stroke",
+        "source_dxf_sha256": "8a21ad858d69015d0c56eb0c46bab75d00d7655c6abcf158c2d694c3e02e2c87",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-common-han-fill",
+        "source_dxf_sha256": "72f2e45e2f10ddbdea57273f36f1778f1f78dc18cfa5fb83a34ca3afab2143fb",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-20000-stroke",
+        "source_dxf_sha256": "cfe96f66d6b7748f37f78fb1cf44662786e037147447d01f867dce92c98148f2",
+        "expected": "𠀋𠀡𠀤",
+        "actual": "𠀋𠀡𠀤",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-20000-fill",
+        "source_dxf_sha256": "63bfc9a63728d4cd1282590332b16bccc9d577df71878e59f6e1037beade71ea",
+        "expected": "𠀋𠀡𠀤",
+        "actual": "𠀋𠀡𠀤",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-2b740-stroke",
+        "source_dxf_sha256": "2b8739a824a19c1b3b6515a956c7fb8226a4cb793c2ef8d03ed6081cf76d8c8c",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-2b740-fill",
+        "source_dxf_sha256": "91e190b183fcf1a19ad08ab073d5a162709d7ac9d0d3e346acbe49a64e404f02",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-2f800-stroke",
+        "source_dxf_sha256": "27f7f0efb60f2a40dd5ef46ee5dd21d62c74bab99eadf3fad74813a9323c9408",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-2f800-fill",
+        "source_dxf_sha256": "b18d058770584087bff4d4d6f0eb5cad668967c15f12c1a9d37d18e405eedf27",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-english52-stroke",
+        "source_dxf_sha256": "5439e07aafacce974b30636a7e29ab8212cfeaeb177d9f9166fea62e0f8e6b79",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-english52-fill",
+        "source_dxf_sha256": "5368c567e2f4bb41c5f26fee2bdf956deff8fe42081f855df5246c7f35ff3ca7",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-common-han-stroke",
+        "source_dxf_sha256": "a287c52196a3b0176094b8d12ee28f4472ebbec1cc2cd559de0554ce0e6f1663",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-common-han-fill",
+        "source_dxf_sha256": "f05b7b068b2b4e22031ba4246015ef1c0cf9442d2059d8e723e530d4be1bc1fe",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-extension-2b740-stroke",
+        "source_dxf_sha256": "1ee2672cea122c53c094feadc728b875145bdbad39db54335c6a2b0143ec6eea",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-extension-2b740-fill",
+        "source_dxf_sha256": "efcedf54ca59955966b9d67efb64f59ecd35f1bb5ee42d9d2718fe76b9ba66e7",
+        "expected": "𫝆𫝑𫝓𫝚",
+        "actual": "𫝆𫝑𫝓𫝚",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-extension-2f800-stroke",
+        "source_dxf_sha256": "a0e37b6fb44742faf0fabfa61a5bb1ace05eec05518776eceb1d3777edb6ec41",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-extension-2f800-fill",
+        "source_dxf_sha256": "0781c8762837be6dacfdef81a2a74848d55181e7ea863eedf912d95610fb5703",
+        "expected": "你兔再冤",
+        "actual": "你兔再冤",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "latin-sans-regular-english52-stroke",
+        "source_dxf_sha256": "f705d250fbbe15faeb54f59ae0318864f5c12e3421e30a6f89dde91d9893ffc2",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "latin-sans-regular-english52-fill",
+        "source_dxf_sha256": "a651a69c65d805cedd9c462159fea75d16f39cb476e58bd02603b66283134115",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "latin-serif-regular-english52-stroke",
+        "source_dxf_sha256": "6dbc3a7b7b22e9c50a8f40771a0b1823db0b7cb6d1dbfd265f504dec795b5c2e",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "latin-serif-regular-english52-fill",
+        "source_dxf_sha256": "3558d4fbee332166ac04322cad86facda92b8c6c5bbf93e7545022b83af3cde2",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "latin-mono-regular-english52-stroke",
+        "source_dxf_sha256": "d0af5795ebf2791cf5532822b41d6ea200517d7eb84485359785a1e72292dd37",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "latin-mono-regular-english52-fill",
+        "source_dxf_sha256": "6d8a87ab881006bc901a19778b0947878bd0dc13495ea738e44d622795847bfb",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane0-english52-stroke",
+        "source_dxf_sha256": "4ed0152dd8df3342e9599705b8e7e77000a36cfd929e95fe2caede1ee92f8b2a",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane0-english52-fill",
+        "source_dxf_sha256": "1c6d81a031270d2f0ac8c9ea1449e415147d9e2b9b32f68c9806ef3f1afc7ea7",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane0-common-han-stroke",
+        "source_dxf_sha256": "070880d8514455e08be528290b9c8a2cfbcaf8815384e79cb20c343718a0d04b",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane0-common-han-fill",
+        "source_dxf_sha256": "12ea452247540d6c649861d1fe0ba4202f10819fe1c0721e89479f3291d93996",
+        "expected": "建筑结构平面图",
+        "actual": "建筑结构平面图",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-english52-stroke",
+        "source_dxf_sha256": "9254b8fa1605de04fc07545e502dc6f2f38fa6b664209865c2745f32eededb8e",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-english52-fill",
+        "source_dxf_sha256": "3b4b2ede606c49e5e6f538422769e09c370e91f605609bd80bc5e2bbccf4d333",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-20000-stroke",
+        "source_dxf_sha256": "f3241adb31875db2c2c2b4f49e7f6270d1edf3a490c82d8d6f1a1378f65f66ae",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-20000-fill",
+        "source_dxf_sha256": "86963ad90036b3d6d5d233f83c2732d1a8edf1be4a7e09812a7196d41ea27c9a",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2a700-stroke",
+        "source_dxf_sha256": "2bdc8a2f53d3341f8e23cf9e26a67e9bda5abd011035b043db51f5974f3e59c9",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2a700-fill",
+        "source_dxf_sha256": "ee75753cd46a4f49861211e66fce177df7c9f0dd8b0889c6c4d60c37deed08bc",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2b740-stroke",
+        "source_dxf_sha256": "82113e32cb3c41f3f9ead90b05b1f29b22024fd90c92c2560e7cb4a13f999056",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2b740-fill",
+        "source_dxf_sha256": "9203f41f5321c81eff913dca7e97393b12c5602a16919ffa3077667f9d04b0d8",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2b820-stroke",
+        "source_dxf_sha256": "9fafb0bcec6d05e2df9779555ed9aaf2eb4842b23b13daf47f1f786123cbaaa4",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2b820-fill",
+        "source_dxf_sha256": "d8a8a2f526bf08e2115ce687605b37f1d6a27e79d857225184e59fc7df6f11d5",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2ceb0-stroke",
+        "source_dxf_sha256": "4ca29d6a2e9075de4367bbc4d034db95c61158be58a93879948a82d156af4214",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2ceb0-fill",
+        "source_dxf_sha256": "58877b3785da40c89c157671a9feeb03e37195e6b60c7a92a6bf9ab2a46dd556",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2ebf0-stroke",
+        "source_dxf_sha256": "04d382360417e8d725ff269144283999855b324819d17df360c176135df12016",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2ebf0-fill",
+        "source_dxf_sha256": "72696c86cac7b744cc319009ea2609277802877ed51651b8a2472d876e17ff89",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2f800-stroke",
+        "source_dxf_sha256": "efa63ef65f248ce2c615f38f57c579ed3b85f2ec62b2f1aa5613d550d7f1d9ea",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane2-extension-2f800-fill",
+        "source_dxf_sha256": "a5df7f1e5b1f628e0316929f48be6a74aa6b511d554c869ceb9979abfb515601",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-english52-stroke",
+        "source_dxf_sha256": "7c14f5aa30e62434caa43274cf8d45e6a0b362c3b7692ba23f3394b97ed668f5",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-english52-fill",
+        "source_dxf_sha256": "6c0bb96c6146d4a9d1e3220ae716d86dd9bc222cc308f421d78ce65a7f2d25af",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-extension-30000-stroke",
+        "source_dxf_sha256": "721ea2370a7f3667e948b0c94fda998aef507fe2cb74314762ad0b056b4cc5a4",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-extension-30000-fill",
+        "source_dxf_sha256": "0b93973600d1e76338ce754071b705c0085ea587b828d648e8a870c6139e47c3",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-extension-31350-stroke",
+        "source_dxf_sha256": "16c1405cee52cff8827d25c49a0ebd05e71282c82fea29cb8c56b61278843775",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-extension-31350-fill",
+        "source_dxf_sha256": "e9eb62e20c5768860192f1a818e26edf3050333c1fedb25c24a9597594cdac8f",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-extension-323b0-stroke",
+        "source_dxf_sha256": "8cee1aed5c7b589d806937442fb702148a7ea6ab6663321c054dd0323341d6ef",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane3-extension-323b0-fill",
+        "source_dxf_sha256": "ac9966fe14273c6a90979c84d4b1766940a31ef6f0d1f3c4739d56d01408992f",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-english52-stroke",
+        "source_dxf_sha256": "6b47ff17a72d78d17f7ba97dddfc0296942a204df202c0e29dcd85bba0ad1e8d",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-english52-fill",
+        "source_dxf_sha256": "082d66f60a77eca44d1ad84013d4a9a8f9fc0ef28d4be99ac15acaec3d321f87",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-20000-stroke",
+        "source_dxf_sha256": "7b588536d436b55f8f1f02d7725460b6360692b08f7719002cc7e7945c06ed34",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-20000-fill",
+        "source_dxf_sha256": "0d0bb1cfedb03238570152f909afe2e4dd6e2b41a77bcdb1dd3cb18e7a858edb",
+        "expected": "𠀀𠀁𠀂𠀃",
+        "actual": "𠀀𠀁𠀂𠀃",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2a700-stroke",
+        "source_dxf_sha256": "b9bf47ba8df4abb1cb01459bc6a515832a86fae961d449445d19f3c1450faf9d",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "font_layout_matches": 3,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2a700-fill",
+        "source_dxf_sha256": "14b277f4deff8e369c70b3fbe487c38afd292d1e0403cde209fddd49e82ebfc7",
+        "expected": "𪜀𪜁𪜂𪜃",
+        "actual": "𪜀𪜁𪜂𪜃",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2b740-stroke",
+        "source_dxf_sha256": "56078a2b5ce7d6038e0889665f9208837e041f2f9e245f7433181f33e99ecc96",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2b740-fill",
+        "source_dxf_sha256": "871e4fb12b6609ca4793aeb325371e614400a3ea10e2f7ccdc59af4373ed277b",
+        "expected": "𫝀𫝁𫝂𫝃",
+        "actual": "𫝀𫝁𫝂𫝃",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2b820-stroke",
+        "source_dxf_sha256": "dc77ac44aa6dfc5acd9955dd28f8b10f86a87265d4db22b9b77b2d478ca5baff",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2b820-fill",
+        "source_dxf_sha256": "f627a44da66b0de183b040c0ee1ae08314a893b1440fd8f480189ae3e9efb93a",
+        "expected": "𫠠𫠡𫠢𫠣",
+        "actual": "𫠠𫠡𫠢𫠣",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2ceb0-stroke",
+        "source_dxf_sha256": "a3e97b6cfc8dbaddcabf8d3f9946e3421e58ee0f55fc06dbb07865c4fb5e9648",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2ceb0-fill",
+        "source_dxf_sha256": "55f552e001cd2a9ce67826ab894161a99ab046f6841697e7af7700fe427f2c41",
+        "expected": "𬺰𬺱𬺲𬺳",
+        "actual": "𬺰𬺱𬺲𬺳",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2ebf0-stroke",
+        "source_dxf_sha256": "a09d76b529856a01d077523f5e9976c8e95a021ddb34e432a9b4358de6480217",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "font_layout_matches": 1,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2ebf0-fill",
+        "source_dxf_sha256": "b95aa4a01c17f430640e9082a0adb98525ec9d851a0d309867f70c40a95b3659",
+        "expected": "𮯰𮯱𮯲𮯳",
+        "actual": "𮯰𮯱𮯲𮯳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2f800-stroke",
+        "source_dxf_sha256": "7b53581f7c18f77b000a053408d0b3ddd90f980258b4f757456c18c17e6324c1",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part1-extension-2f800-fill",
+        "source_dxf_sha256": "6b0830b1e0ee807b1945e95165836f5cc968969db7b9bd720cba928844ef815a",
+        "expected": "丽丸乁𠄢",
+        "actual": "丽丸乁𠄢",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-english52-stroke",
+        "source_dxf_sha256": "3cc5b6e5794baf3484486fb5df9b0ad5b38b52c7802859458acde087a98247da",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-english52-fill",
+        "source_dxf_sha256": "705876cb496ff3ad7d14c56dc941063a5e2d316cf7f7023482071e4829f2ba20",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-20000-stroke",
+        "source_dxf_sha256": "309f427f3bb7064f98c2e0df558d10e27fb0ed1f2e03a23fcda4e7e6c85e4de4",
+        "expected": "𠀁𠀆𠀐",
+        "actual": "𠀁𠀆𠀐",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-20000-fill",
+        "source_dxf_sha256": "f51e3fb93e8584e883569c108d3f369d9a2e4659f1ed1dc5475273281d628c8b",
+        "expected": "𠀁𠀆𠀐",
+        "actual": "𠀁𠀆𠀐",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-30000-stroke",
+        "source_dxf_sha256": "2a2733e59935b26a23ad1b9c0011aa78fa9c0e1017519817348b278453c07bf1",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-30000-fill",
+        "source_dxf_sha256": "3554aca9fe66b96f1131b4cb30938ad19f447381ca32d491589f5541ec159c19",
+        "expected": "𰀀𰀁𰀂𰀃",
+        "actual": "𰀀𰀁𰀂𰀃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-31350-stroke",
+        "source_dxf_sha256": "87a8565b425c075708c74657ca95e101116d16f21b8949e3fb6926ce08d59dc2",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-31350-fill",
+        "source_dxf_sha256": "fa8faec2154b3a040c4947839576582890ff6fbbc2b03c1f800086f8d5d8e4fe",
+        "expected": "𱍐𱍑𱍒𱍓",
+        "actual": "𱍐𱍑𱍒𱍓",
+        "complete": true,
+        "font_layout_matches": 2,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-323b0-stroke",
+        "source_dxf_sha256": "19fc5589dccd50aac08e854a16c7ac033a51ab7271cba1b81ce1debe1bb0752f",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-gothic-part2-extension-323b0-fill",
+        "source_dxf_sha256": "fa3bde074acc9bdb8f00ec6da87fa585b194ad470912684309337f0721b24cea",
+        "expected": "𲎰𲎱𲎲𲎳",
+        "actual": "𲎰𲎱𲎲𲎳",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-3400-stroke",
+        "source_dxf_sha256": "2817615b05951ea7be96dd14bbea78ec0bd0b0adebb8ed5f61311d91a3d839ef",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-sans-sc-regular-extension-3400-fill",
+        "source_dxf_sha256": "e29af4a5d1a47dd6d468a330f8c63249f0422b0bcbcb7c5e4442072a04157dda",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-extension-3400-stroke",
+        "source_dxf_sha256": "e692e1a390b49cb361908fd4c8b63eb954c17acd6d3cb64548bde130ab9009b0",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "cjk-serif-sc-regular-extension-3400-fill",
+        "source_dxf_sha256": "f161e253f4ed2e26f89bac0bd5ce17349ef5649561cbfcb6b0e2726fb2da6744",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane0-extension-3400-stroke",
+        "source_dxf_sha256": "034791d9a1dcc6b7f0aca7574dbfee2d153e9fdb40a0c051cc0904aa73566015",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "short",
+        "case": "han-mincho-plane0-extension-3400-fill",
+        "source_dxf_sha256": "ca020ac72fbf7217f2bff4d3aee05ffa433e0cc78768f31a30a509c5b22e68e8",
+        "expected": "㐀㐁㐂㐃",
+        "actual": "㐀㐁㐂㐃",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-sans-sc-regular-97-stroke",
+        "source_dxf_sha256": "434780f939c08a38da047a4e5d01605221d25666278ef9838ed1a0cd1e0e9713",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-sans-sc-regular-97-fill",
+        "source_dxf_sha256": "658a0f036c1f78538aa757c9ec02e4c02683298454a9a37704f4f3c42b9020ce",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-sans-sc-regular-193-stroke",
+        "source_dxf_sha256": "04d6130893028d5b463b43cc3a149772f62cd5b3f0c9efb6ae1bf740b1193c62",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-sans-sc-regular-193-fill",
+        "source_dxf_sha256": "0f54d99d7d735759284db78764f24de797ffe8994e799ff869cce308f5d95453",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-serif-sc-regular-97-stroke",
+        "source_dxf_sha256": "ff7a4914ebc010fc332db71ddc001c49c2de3da63f4e87ecb366e48f49c56030",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-serif-sc-regular-97-fill",
+        "source_dxf_sha256": "b861f841f61b7bab1f26cf59f87fbf5068be369b548d61aafd2dbaa366bc86e4",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-serif-sc-regular-193-stroke",
+        "source_dxf_sha256": "06849655f1b9a0542bb3672ce3868cfce2366a848725e7264393b0cacd48330d",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "cjk-serif-sc-regular-193-fill",
+        "source_dxf_sha256": "ae1c167516b8d21145fdff0d84a7ec8211e8b5d8e7ca21b9befec85d4b0c2dfc",
+        "expected": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "actual": "建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构平面图建筑结构",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-sans-regular-97-stroke",
+        "source_dxf_sha256": "35de92f285f29b39a8d81b9bcbbc816296a78b4cad05770f1846cb02986f93ac",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-sans-regular-97-fill",
+        "source_dxf_sha256": "2cf3e635b46c3bf877d7b7bc4a9a18a86a7f4db268c6704661a2d5e736afb39e",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-sans-regular-193-stroke",
+        "source_dxf_sha256": "f414345d19dadf65a5a5d91e2d19352d9e2f23ec58216bf491d6b38e0dba9616",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-sans-regular-193-fill",
+        "source_dxf_sha256": "ef58883d5ba12f04474610585bc0ea3e035fd944386a257e452ef776a5d957d1",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-serif-regular-97-stroke",
+        "source_dxf_sha256": "27dfb314d99fbe9d31f0997bf7968d3f8b3a89ff50c8a9808c73ec5070fcb175",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-serif-regular-97-fill",
+        "source_dxf_sha256": "39266064d11083aa4dfeeb2760370064b92ea164bfc6582bfcf728b56bb717a5",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-serif-regular-193-stroke",
+        "source_dxf_sha256": "89d59d32069817648db0d93e820ecb5ed9db2aa2ddbf7d68e3635a3800ccedab",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      },
+      {
+        "group": "long",
+        "case": "latin-serif-regular-193-fill",
+        "source_dxf_sha256": "7874bc99e962c5329c67bc7c572f1f8115e4396342a345d1f6661eec3c5c5820",
+        "expected": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "actual": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijk",
+        "complete": true,
+        "font_layout_matches": 0,
+        "original_entity_tags_equal": true,
+        "audit_errors": 0,
+        "audit_fixes": 0
+      }
+    ]
+  },
+  "original_bim22": {
+    "cases": 22,
+    "all_22_in_current_full_corpus_manifest": true,
+    "rows": [
+      {
+        "sha256": "be8ea714d057e2945aae5a4436dc22853f0ba91e4c48ad8271fd9f07c43ddbc2",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "5e3d9e1d7f419979d058b044e71e9c044a916039e5d0be4ff4364084c1e9c6cf",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "2d2abebb1d06602bddecc83e8c410682cc562353d80bd410543c943044b28140",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "22b06a12d3dc1dab67d6c40f5741a366a7ed5e9e5f9cf4b1f1818b0c7183fd3c",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "765a8594358e3742683060aa80a0db4cfe90bbcaf16500f0238a1c7e1c726a93",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "753fc144c129a9bd259f8a5c270f4833e437dc63df0167144f3a3f540a825897",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "63a202d8a7da35e82e399663bc96a7d4fb1eac0abb0bddc8001b41fa29a5c550",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "83ce6ce7490a5955a0bc72ffa3cb2f5f803bff2a6419063c4f582773332e1ad3",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "6c2b0f543350e1aab5a8b7e1cd21d6cf90d86228d2f7c098737afaffc29a83f6",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "e72d6aeed734d1b826cce87104060706e265c96f67fb83d73ace46970aff08c1",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "827e24fa2a78f95fafe1de40eda93a9098b78aa234d5ecfaea9122fd99217570",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "d64137a219adf657af30c133c7e3c9a23ce5cc6a04e2786fea8a7b52c9778022",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "bd7f2e9a101815c35a5703ca49d6ff277b7b2be3e6a042455f780b843756aa10",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "ca41ce952d724dfb786be4628974bef1e4a1dbf345ee7925e7a58788ca08cd21",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "6007fc72999f2bed96602e13c390a369b6180c92f636b8c37e56b5a8cc9fea3b",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "2779369abd0e5089104898a9a63e1b668a1573bfa7d0f97b98ce077bb202c433",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "66383294f47137b62d9c02fbf8799c926f7447559faaaed4365cfcd75fbd7403",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "134494d829fb1fe13a2d8c850c99123143d0f182b3e931cc9bafd5a986f76c0b",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "ce78cece37581cb1f2b10c39f87cb91de7109e4c7de052ceeefc544f09625a4b",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "4208ab6959914cef91fd6edb0be9e9201391134a7d1642486e1ecc7335e5ec46",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "5b8ac7e6d9f959e211ad257be7b52d458af88cceba66179af91aa936d40c1679",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      },
+      {
+        "sha256": "673a3641e7c81e08a4c17e02ea7930bd93f2a6c6df7d09c30c67fe2d77beaddb",
+        "page": 1,
+        "in_full_corpus": true,
+        "completed_in_current_run": true
+      }
+    ],
+    "all_22_completed_in_current_run": true
+  },
+  "historical_full_corpus": {
+    "schema": "pdf2dxf.full_corpus_validation.v2",
+    "version": "2.0.0rc34",
+    "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "documents": 4290,
+    "expected_pages": 12577,
+    "completed_pages": 4253,
+    "all_pages_complete": false,
+    "verdicts": {
+      "review": 3181,
+      "model_ready": 1072
+    },
+    "statuses": {
+      "degraded": 3256,
+      "ok": 997
+    },
+    "validation_error_codes": {
+      "ENGINEERING_SCALE_UNCONFIRMED": 1698,
+      "DIMENSION_P95_EXCEEDED": 1005
+    },
+    "validation_warning_codes": {
+      "DIMENSION_VALIDATION_UNAVAILABLE": 2176,
+      "BACKEND_WARNINGS": 402,
+      "PAPER_SPACE_OUTPUT": 478
+    },
+    "scale_statuses": {
+      "unknown": 1698,
+      "calibrated": 2077,
+      "paper": 478
+    },
+    "runtime_fingerprint_verified_pages": 4253,
+    "all_ten_catalogs_verified_pages": 4253,
+    "artifact_sha256_rechecked_pages": 4253,
+    "raw_text_entities_compared": 2608690,
+    "dimensions_checked": 136525,
+    "engineering_scale_confirmed_pages": 2077,
+    "geometry_valid_pages": 3248,
+    "recovered_outline_characters": 1035,
+    "font_layout_matches": 0,
+    "artifact_bytes": 82285370994,
+    "maximum_page_peak_rss_bytes": 2441428992,
+    "total_page_seconds": 239814.2479749335,
+    "saved_dxf_audit_errors": 0,
+    "saved_dxf_audit_fixes": 0,
+    "failed_pages": 0,
+    "private_source_files_or_paths_published": false,
+    "runtime_fingerprints": {
+      "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 791,
+      "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288": 8,
+      "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb": 3454
+    },
+    "final_runtime_conversion_pages": 3454,
+    "retained_equivalence_checked_pages": 799,
+    "runtime_repair_equivalence": {
+      "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "changed_files_since_mask_fix": [
+        "engine/geometry/base.py",
+        "engine/geometry/construction.py",
+        "engine/geometry/media_clipping.py",
+        "validation.py"
+      ],
+      "completed_prior_pages": 1490,
+      "retained_no_media_pages": 799,
+      "media_pages_to_reconvert": 691,
+      "prior_runtime_counts": {
+        "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 928,
+        "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288": 562
+      },
+      "preflight_problem_pages": 0,
+      "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages.",
+      "kind": "no_media_scope",
+      "private_page_proof_file": "clipping-repair-impact.json",
+      "private_page_proof_sha256": "6e32e7b303c47bd9c0216976ec432efc68ecd751759df44be48ab9480afc4e94",
+      "prior_runtime_fingerprints": [
+        "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288",
+        "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      ]
+    },
+    "exhaustive_page_coverage": false,
+    "tested_documents": 4251,
+    "fully_tested_documents": 4119,
+    "partially_tested_documents": 132,
+    "untested_pages": 8324,
+    "stopped_by_user": true,
+    "stop_reason": "User requested stopping the expensive full conversion after sufficient coverage; in-flight pages drained normally."
+  },
+  "limitations": [
+    "Historical corpus coverage is partial: further dispatch was stopped at the user request and in-flight tasks drained normally.",
+    "Known-font fixtures are not a representative benchmark for arbitrary fonts.",
+    "Full-corpus conversion coverage is not a ground-truth text-recognition accuracy score.",
+    "Unconfirmed scale, paper-space output and dimension-error failures remain explicit; no engineering dimensions are guessed.",
+    "Legacy v1/v2 catalogs do not provide layout metrics.",
+    "Five PyMuPDF SWIG deprecation warnings remain; they are not Ruff findings."
+  ],
+  "media_repair": {
+    "schema": "pdf2dxf.media_repair_validation.v2",
+    "version": "2.0.0rc34",
+    "source": "https://pymupdf.readthedocs.io/en/latest/pixmap.html",
+    "media_regressions": 13,
+    "pixel_and_dimension_regressions": 8,
+    "rotation_and_clip_scope_regressions": 2,
+    "fully_clipped_image_regressions": 1,
+    "callback_cancellation_regressions": 2,
+    "repair": {
+      "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "changed_files_since_mask_fix": [
+        "engine/geometry/base.py",
+        "engine/geometry/construction.py",
+        "engine/geometry/media_clipping.py",
+        "validation.py"
+      ],
+      "completed_prior_pages": 1490,
+      "retained_no_media_pages": 799,
+      "media_pages_to_reconvert": 691,
+      "prior_runtime_counts": {
+        "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 928,
+        "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288": 562
+      },
+      "preflight_problem_pages": 0,
+      "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages.",
+      "kind": "no_media_scope",
+      "private_page_proof_file": "clipping-repair-impact.json",
+      "private_page_proof_sha256": "6e32e7b303c47bd9c0216976ec432efc68ecd751759df44be48ab9480afc4e94",
+      "prior_runtime_fingerprints": [
+        "872fe7a4573d833b9584658aae25a7de8ba4bbb6c49f81a735573f735035e288",
+        "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5"
+      ]
+    },
+    "additional_sample_scope": {
+      "schema": "pdf2dxf.rc34_clipping_repair_impact.v1",
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "changed_files_since_mask_fix": [
+        "engine/geometry/base.py",
+        "engine/geometry/construction.py",
+        "engine/geometry/media_clipping.py",
+        "validation.py"
+      ],
+      "completed_prior_pages": 72,
+      "retained_no_media_pages": 46,
+      "media_pages_to_reconvert": 26,
+      "prior_runtime_counts": {
+        "ea2031ec68e93c22c9a5d9cc68434f6922f89c629205d78b28b422176c0aaea5": 72
+      },
+      "preflight_problem_pages": 0,
+      "method": "Rehash every completed source and record. Retain only pages with zero source image occurrences and zero raw/final IMAGE entities, where changed media behavior is unreachable. Reconvert every media-containing page, regardless of whether its previous validation passed. Actual prior runtime fingerprints remain recorded; no final-runtime reconversion is claimed for retained pages."
+    },
+    "known_font_final_runtime_execution": {
+      "schema": "pdf2dxf.font_pdf_final_runtime.v1",
+      "version": "2.0.0rc34",
+      "cases": 100,
+      "characters": 3630,
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "actual_reconversion": true,
+      "source_free_installed_module": true,
+      "source_matches_installed_runtime": true,
+      "artifact_sha256_rechecked_cases": 100,
+      "geometry_audit_cases": 100,
+      "execution_log_sha256": "f9f5439b76fc19bb0a54af6f33792a878713cc3677a289876f86f35159225fd1",
+      "method": "All 100 original font PDFs were reconverted after installing the final clipping repair. The installed runtime remained frozen for every conversion and the subsequent original-font coordinate audit; source/installed bytes and all saved DXF hashes were rechecked afterwards."
+    },
+    "fixes": [
+      "Preserve the sole alpha channel of NULL-colorspace soft masks.",
+      "Use actual resampled PNG pixel dimensions in IMAGE/IMAGEDEF and pixel clipping transforms.",
+      "Bind native PDF paint order to nested clip scope, with rotation and empty clips preserved.",
+      "Report unsupported clipping as SOURCE_GRAPHICS_INCOMPLETE rather than accepting unverified visible geometry."
+    ],
+    "limitations": [
+      "Soft-mask alpha remains in PNG pixels; vector clipping is preserved separately in the DXF IMAGE boundary.",
+      "Retained no-media pages were converted earlier in this turn, not reconverted with the final binary. Their source/image absence, record SHA and actual runtime identity were verified."
+    ],
+    "initial_failure_pages_final_runtime": {
+      "cases": 7,
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "added_IMAGE": 44,
+      "rows": [
+        {
+          "id": "a3239cbaaa83bc148d3a487e737c11bd9986bf2e50cc0137991f6b259aedd601/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "5d68ae7d3064da627c48b08108ccb492878f69b1cce5c8d037e155d56403261c",
+          "verdict": "review",
+          "final_IMAGE": 9,
+          "added_IMAGE": 7
+        },
+        {
+          "id": "2a632f982475f0111e202b7a04a3fddeb79c01c98d32c2b87809ae8f681de849/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "30ddfb9ab0cdff5558dd75e9e9f1e92663cf6fad417beead5aa50680de58f859",
+          "verdict": "review",
+          "final_IMAGE": 19,
+          "added_IMAGE": 6
+        },
+        {
+          "id": "d7f82c6f14fbf76179b5e5aba37acd13aafc7f668904639f9be5fff6db42565b/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "0fc8ad315e99dbb24986727f6e8391d2840d8863b6481e25bcd0f17be1b6d390",
+          "verdict": "review",
+          "final_IMAGE": 8,
+          "added_IMAGE": 6
+        },
+        {
+          "id": "6f7a3017ad9b87bffd82e040365f94e0610320dc106011f85c016ae3f96270a3/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "25389098e7e85ab6245bbfc867a8fcf23c26f537c43d7886e565315b866fb422",
+          "verdict": "review",
+          "final_IMAGE": 9,
+          "added_IMAGE": 7
+        },
+        {
+          "id": "52ace11d3a0a7a0f7cb895911b0ad59469180f0b14580ffbbca64cd8635e359a/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "4741475042bf438671348c450af4f78f04b088eb632f6da2f9e0d6ca33e02a05",
+          "verdict": "review",
+          "final_IMAGE": 8,
+          "added_IMAGE": 6
+        },
+        {
+          "id": "64f4e4b4ea24fa9a7e7dd0c8836f52ce911cc6a922a1a70c7c96416681407050/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "26c84e548694985634ef47425b9c857f0e6227794e0af5f6c4111e1fe838ac02",
+          "verdict": "review",
+          "final_IMAGE": 19,
+          "added_IMAGE": 6
+        },
+        {
+          "id": "022d5c96d0373adf9cdf663134a8adcf89b0ff226f7ba8da8ba2ba6a49d53867/p00001",
+          "runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+          "artifact_sha256": "30b2d7e146e9bcc1546b0fab4b402a10e5f67af419ac4dfc91f85ccf78b7c082",
+          "verdict": "review",
+          "final_IMAGE": 11,
+          "added_IMAGE": 6
+        }
+      ]
+    },
+    "all_prior_media_pages_final_runtime": {
+      "reconverted_pages": 691,
+      "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+      "conversion_or_integrity_failures": 0,
+      "all_prior_media_pages_reconverted": true
+    }
+  },
+  "font_pdf_final_runtime_execution": {
+    "schema": "pdf2dxf.font_pdf_final_runtime.v1",
+    "version": "2.0.0rc34",
+    "cases": 100,
+    "characters": 3630,
+    "final_runtime_fingerprint": "b9118777f55f671acc74fc94bee85256674ab03bfa4a053b88aa0a4b79e01dfb",
+    "actual_reconversion": true,
+    "source_free_installed_module": true,
+    "source_matches_installed_runtime": true,
+    "artifact_sha256_rechecked_cases": 100,
+    "geometry_audit_cases": 100,
+    "execution_log_sha256": "f9f5439b76fc19bb0a54af6f33792a878713cc3677a289876f86f35159225fd1",
+    "method": "All 100 original font PDFs were reconverted after installing the final clipping repair. The installed runtime remained frozen for every conversion and the subsequent original-font coordinate audit; source/installed bytes and all saved DXF hashes were rechecked afterwards."
+  }
+}
