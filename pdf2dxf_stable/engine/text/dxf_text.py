@@ -133,6 +133,8 @@ def stroke_components(doc):
     """Spatial index keeps grouping local; large architectural paths stay intact."""
     geometries, rows = [], []
     for entity in doc.modelspace():
+        if entity.dxf.get("invisible", 0):
+            continue
         if entity.dxf.layer in (
             "PDF_PAGE",
             "PDF_OUTLINE_BACKUP",
@@ -329,6 +331,8 @@ def _group_characters(characters, method, *, numeric_only=False):
 def read_tokens(doc, recover=True, *, spool_dir=None):
     native = []
     for entity in doc.modelspace().query("TEXT MTEXT"):
+        if entity.dxf.get("invisible", 0):
+            continue
         if (
             entity.dxf.layer == "PDF_TEXT_RECOVERED_NOOCR"
             and not entity.has_xdata("PDF2DXF_GLYPH")

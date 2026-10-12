@@ -9,6 +9,7 @@ from .backend_worker import main as backend_main
 from .request import ConversionRequest
 from .profiles import emit_universal, emit_legacy_r12
 from .validation import validate_dxf
+from .coordinates import stamp_coordinate_contract
 
 
 def main():
@@ -68,6 +69,10 @@ def main():
             allow_paper_space=mode == "sheet",
             request=request,
         )
+        stamp_coordinate_contract(
+            universal, validation, page=args.page,
+            seed=args.seed if request.deterministic else None,
+        )
         outputs = [universal.name] if request.profile == "universal" else []
         r12_profile = r12_validation = None
         if request.profile == "legacy-r12" or request.emit_r12:
@@ -89,6 +94,10 @@ def main():
                 dimension_p95_limit=request.dimension_p95_limit,
                 allow_paper_space=mode == "sheet",
                 request=request,
+            )
+            stamp_coordinate_contract(
+                r12, r12_validation, page=args.page,
+                seed=args.seed + ":r12" if request.deterministic else None,
             )
             outputs.append(r12.name)
         validations = [validation] + ([r12_validation] if r12_validation else [])

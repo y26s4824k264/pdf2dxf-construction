@@ -71,7 +71,9 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
             layer
             for layer, count in c.items()
             if count >= self.config.dense_pattern_min_records
-            and any(t.upper() in layer.upper() for t in self.config.dense_pattern_tokens)
+            and any(
+                t.upper() in layer.upper() for t in self.config.dense_pattern_tokens
+            )
         }
 
     def _append(self, buckets, attrs, d, p0, p1):
@@ -84,7 +86,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
             attrs.get("linetype", "BYLAYER"),
             attrs.get("lineweight", -1),
             v14.color_to_rgb(d.get("color")),
-            round(float(d.get("stroke_opacity", 1) or 1), 4),
+            round(v14.paint_opacity(d, "stroke_opacity"), 4),
         )
         if key not in buckets:
             buckets[key] = _Bucket(dict(attrs), key[3], key[4])
@@ -176,6 +178,10 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                         (ux * b + vx * off, uy * b + vy * off),
                         dxfattribs=bucket.attrs,
                     )
+                    if bucket.opacity < 1:
+                        e.transparency = 1 - bucket.opacity
+                    if bucket.opacity == 0:
+                        e.dxf.invisible = 1
                     if bucket.rgb is not None:
                         try:
                             e.rgb = bucket.rgb
@@ -352,9 +358,26 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                 typ == "s" or self.config.preserve_stroke_for_fill_stroke
             ):
                 chains = v14.parse_drawing_chains(rec, stats)
+                if self._emit_phase_stroke(
+                    msp,
+                    chains,
+                    rec,
+                    clip,
+                    transform,
+                    forced or layers.style_layer(rec, "STROKE"),
+                    ltypes,
+                    stats,
+                    page_index,
+                    seq,
+                ):
+                    continue
                 sl = forced or layers.style_layer(rec, "STROKE")
                 attrs = self._entity_attrs(sl, rec, ltypes, stroke=True)
-                if str(src.get("layer", "") or "") in dense and not is_outline:
+                if (
+                    str(src.get("layer", "") or "") in dense
+                    and not is_outline
+                    and not v14.parse_dash(rec.get("dashes"))[0]
+                ):
                     stats.dense_pattern_records += 1
                     if clip is None:
                         for ch in chains:

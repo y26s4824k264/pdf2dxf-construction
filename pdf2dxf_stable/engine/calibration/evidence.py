@@ -33,6 +33,8 @@ class LineIndex:
     def __init__(self, doc):
         self.rows, shapes, self.markers = [], [], defaultdict(list)
         for e in doc.modelspace():
+            if e.dxf.get("invisible", 0):
+                continue
             if e.dxf.layer in (
                 "PDF_PAGE",
                 "PDF_OUTLINE_BACKUP",

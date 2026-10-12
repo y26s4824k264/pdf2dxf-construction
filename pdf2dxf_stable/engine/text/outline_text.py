@@ -449,6 +449,8 @@ def _entity_paths(entity: Any, *, include_fill: bool = False) -> tuple[np.ndarra
 
 
 def _source_ref(entity: Any, page_index: int) -> tuple[str, int, int] | None:
+    if entity.dxf.get("invisible", 0):
+        return None
     for appid in SOURCE_APPIDS:
         if not entity.has_xdata(appid):
             continue

@@ -1,0 +1,130 @@
+{
+  "version": "2.0.0rc35",
+  "date": "2026-10-12",
+  "scope": "three representative pages, not an exhaustive corpus rerun",
+  "representative_pages": [
+    {
+      "case": "architecture",
+      "page": 1,
+      "status": "ok",
+      "validation": {
+        "schema": "pdf2dxf.stable.validation.v2",
+        "profile": "universal",
+        "acadver": "AC1021",
+        "audit_errors": 0,
+        "audit_fixes": 0,
+        "dimension_count_checked": 25,
+        "dimension_validation_status": "checked",
+        "dimension_relative_error_median": 0.0005000658002819891,
+        "dimension_relative_error_p95": 0.001280330722477629,
+        "fatal_failure_count": 0,
+        "resolved_dimension_fallbacks": 0,
+        "silent_drop_count": 0,
+        "paper_space_fallback": false,
+        "geometry_valid": true,
+        "scale_status": "calibrated",
+        "engineering_scale_confirmed": true,
+        "model_ready": true,
+        "output_units": "mm",
+        "errors": [],
+        "warnings": [],
+        "valid": true
+      },
+      "image_assets": 0,
+      "project_admitted": true,
+      "project_error": null,
+      "frames": [
+        {
+          "blocked": false,
+          "entities": 1
+        }
+      ],
+      "elapsed_seconds_including_project_checks": 8.583
+    },
+    {
+      "case": "structure",
+      "page": 1,
+      "status": "ok",
+      "validation": {
+        "schema": "pdf2dxf.stable.validation.v2",
+        "profile": "universal",
+        "acadver": "AC1021",
+        "audit_errors": 0,
+        "audit_fixes": 0,
+        "dimension_count_checked": 53,
+        "dimension_validation_status": "checked",
+        "dimension_relative_error_median": 0.00038958674790504327,
+        "dimension_relative_error_p95": 0.0018863393183023113,
+        "fatal_failure_count": 0,
+        "resolved_dimension_fallbacks": 0,
+        "silent_drop_count": 0,
+        "paper_space_fallback": false,
+        "geometry_valid": true,
+        "scale_status": "calibrated",
+        "engineering_scale_confirmed": true,
+        "model_ready": true,
+        "output_units": "mm",
+        "errors": [],
+        "warnings": [],
+        "valid": true
+      },
+      "image_assets": 0,
+      "project_admitted": true,
+      "project_error": null,
+      "frames": [
+        {
+          "blocked": false,
+          "entities": 1
+        }
+      ],
+      "elapsed_seconds_including_project_checks": 67.352
+    },
+    {
+      "case": "directory",
+      "page": 1,
+      "status": "degraded",
+      "validation": {
+        "schema": "pdf2dxf.stable.validation.v2",
+        "profile": "universal",
+        "acadver": "AC1021",
+        "audit_errors": 0,
+        "audit_fixes": 0,
+        "dimension_count_checked": 0,
+        "dimension_validation_status": "unavailable",
+        "dimension_relative_error_median": null,
+        "dimension_relative_error_p95": null,
+        "fatal_failure_count": 0,
+        "resolved_dimension_fallbacks": 0,
+        "silent_drop_count": 0,
+        "paper_space_fallback": true,
+        "geometry_valid": true,
+        "scale_status": "paper",
+        "engineering_scale_confirmed": false,
+        "model_ready": false,
+        "output_units": "mm",
+        "errors": [],
+        "warnings": [
+          {
+            "code": "PAPER_SPACE_OUTPUT"
+          },
+          {
+            "code": "DIMENSION_VALIDATION_UNAVAILABLE",
+            "reason": "no independently checkable dimension labels"
+          }
+        ],
+        "valid": true
+      },
+      "image_assets": 2,
+      "project_admitted": false,
+      "project_error": "PDF_DXF_EXTERNAL_IMAGES_UNSUPPORTED",
+      "frames": [],
+      "elapsed_seconds_including_project_checks": 84.408
+    }
+  ],
+  "private_drawings_published": false,
+  "local_test_evidence": {
+    "source_and_installed_suite_checkpoint": 754,
+    "final_paint_regressions": 20,
+    "final_endpoint_change_affects_representative_pages": false
+  }
+}

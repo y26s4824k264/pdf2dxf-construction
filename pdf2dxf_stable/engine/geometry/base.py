@@ -37,6 +37,7 @@ from shapely.ops import unary_union
 from shapely.validation import make_valid
 
 from pdf2dxf_stable.engine.curve_sampling import cubic_sample_count
+from .dashes import parse_dash, dashed_chains
 from pdf2dxf_stable.engine.geometry.native_text import (
     TextRecoveryConfig,
     TextRecoveryDiagnostics,
@@ -202,6 +203,7 @@ Segment = LineSeg | CubicSeg
 class PathChain:
     segments: list[Segment]
     closed: bool = False
+    dot_direction: tuple[float, float] | None = None
 
     @property
     def start(self) -> tuple[float, float]:
@@ -321,14 +323,9 @@ class LinetypeManager:
             return None
         if dash_spec in self.cache:
             return self.cache[dash_spec]
-        m = re.search(r"\[([^]]*)\]", dash_spec)
-        if not m:
-            return None
-        try:
-            vals = [float(x) * self.scale for x in m.group(1).replace(",", " ").split()]
-        except ValueError:
-            return None
-        if not vals or sum(abs(x) for x in vals) <= 1e-9:
+        values, _phase = parse_dash(dash_spec)
+        vals = [value * self.scale for value in values]
+        if not vals:
             return None
         pattern: list[float] = [sum(abs(x) for x in vals)]
         for i, v in enumerate(vals):
@@ -666,6 +663,11 @@ def geometry_parts(geom: Any) -> Iterator[Any]:
             yield from geometry_parts(g)
 
 
+def paint_opacity(drawing, key):
+    value = drawing.get(key)
+    return 1.0 if value is None else float(value)
+
+
 class GenericGraphicsKernelV14:
     def __init__(self, config: KernelConfig | None = None):
         self.config = config or KernelConfig()
@@ -714,6 +716,8 @@ class GenericGraphicsKernelV14:
                 entity.transparency = max(0.0, min(1.0, 1.0 - float(opacity)))
             except Exception:
                 pass
+        if opacity == 0:
+            entity.dxf.invisible = 1
         if self.config.add_xdata:
             try:
                 entity.set_xdata(
@@ -746,9 +750,11 @@ class GenericGraphicsKernelV14:
         if closed and points_close(pts[0], pts[-1], 1e-8):
             pts = pts[:-1]
         length = sum(dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1))
-        if length <= self.config.min_entity_length_pt * (
-            25.4 / 72.0 if self.config.units == "paper_mm" else 1.0
-        ):
+        if length <= (
+            0.0
+            if drawing.get("_dash_materialized")
+            else self.config.min_entity_length_pt
+        ) * (25.4 / 72.0 if self.config.units == "paper_mm" else 1.0):
             stats.zero_length_entities_skipped += 1
             return 0
         if len(pts) == 2 and not closed:
@@ -763,7 +769,7 @@ class GenericGraphicsKernelV14:
             page_index,
             seqno,
             method,
-            float(drawing.get("stroke_opacity", 1.0) or 1.0),
+            paint_opacity(drawing, "stroke_opacity"),
         )
         return 1
 
@@ -799,7 +805,7 @@ class GenericGraphicsKernelV14:
             page_index,
             seqno,
             "hatch",
-            float(drawing.get("fill_opacity", 1.0) or 1.0),
+            paint_opacity(drawing, "fill_opacity"),
         )
         stats.hatch_entities += 1
         if self.config.emit_fill_boundary:
@@ -861,7 +867,7 @@ class GenericGraphicsKernelV14:
                         page_index,
                         seqno,
                         "circle",
-                        float(drawing.get("stroke_opacity", 1.0) or 1.0),
+                        paint_opacity(drawing, "stroke_opacity"),
                     )
                     stats.circle_entities += 1
                     return True
@@ -884,7 +890,7 @@ class GenericGraphicsKernelV14:
                         page_index,
                         seqno,
                         "ellipse",
-                        float(drawing.get("stroke_opacity", 1.0) or 1.0),
+                        paint_opacity(drawing, "stroke_opacity"),
                     )
                     stats.ellipse_entities += 1
                     return True
@@ -956,7 +962,7 @@ class GenericGraphicsKernelV14:
             page_index,
             seqno,
             "ellipse_arc",
-            float(drawing.get("stroke_opacity", 1.0) or 1.0),
+            paint_opacity(drawing, "stroke_opacity"),
         )
         stats.elliptical_arc_entities += 1
         return True
@@ -1007,7 +1013,7 @@ class GenericGraphicsKernelV14:
             page_index,
             seqno,
             "arc",
-            float(drawing.get("stroke_opacity", 1.0) or 1.0),
+            paint_opacity(drawing, "stroke_opacity"),
         )
         stats.arc_entities += 1
         return True
@@ -1025,7 +1031,7 @@ class GenericGraphicsKernelV14:
     ) -> int:
         if not chain.segments:
             return 0
-        if self._emit_closed_curve_primitive(
+        if not drawing.get("_dash_materialized") and self._emit_closed_curve_primitive(
             msp,
             chain,
             transform,
@@ -1037,11 +1043,13 @@ class GenericGraphicsKernelV14:
             seqno,
         ):
             return 1
-        if self._emit_open_ellipse_arc_if_possible(
+        if not drawing.get(
+            "_dash_materialized"
+        ) and self._emit_open_ellipse_arc_if_possible(
             msp, chain, transform, attrs, drawing, stats, page_index, seqno
         ):
             return 1
-        if self._emit_open_arc_if_possible(
+        if not drawing.get("_dash_materialized") and self._emit_open_arc_if_possible(
             msp, chain, transform, attrs, drawing, stats, page_index, seqno
         ):
             return 1
@@ -1105,7 +1113,7 @@ class GenericGraphicsKernelV14:
                             page_index,
                             seqno,
                             "cubic_spline",
-                            float(drawing.get("stroke_opacity", 1.0) or 1.0),
+                            paint_opacity(drawing, "stroke_opacity"),
                         )
                         stats.spline_entities += 1
                         count += 1
@@ -1163,6 +1171,91 @@ class GenericGraphicsKernelV14:
                 "close_segment",
             )
         return count
+
+    def _emit_phase_stroke(
+        self,
+        msp,
+        chains,
+        drawing,
+        clip,
+        transform,
+        layer,
+        ltypes,
+        stats,
+        page_index,
+        seqno,
+    ):
+        values, phase = parse_dash(drawing.get("dashes"))
+        if not values or (
+            phase == 0
+            and clip is None
+            and 0 not in values
+            and all(len(c.segments) == 1 and not c.closed for c in chains)
+        ):
+            return False
+        painted = {**drawing, "dashes": "[] 0", "_dash_materialized": True}
+        attrs = self._entity_attrs(layer, painted, ltypes, stroke=True)
+        for chain in dashed_chains(chains, values, phase):
+            if len(chain.segments) == 1 and dist(chain.start, chain.end) <= 1e-10:
+                cap = drawing.get("lineCap", (0, 0, 0))
+                cap = max(cap) if isinstance(cap, (tuple, list)) else int(cap)
+                if cap != 0:
+                    center = transform.point(chain.start)
+                    radius = float(drawing.get("width", 0)) * transform.scale / 2
+                    if radius > 0:
+                        if clip is not None:
+                            r = radius / transform.scale
+                            x, y = chain.start
+                            bounds = box(x - r, y - r, x + r, y + r)
+                            if clip.geometry.disjoint(bounds):
+                                continue
+                            if not clip.geometry.covers(bounds):
+                                raise ValueError("PDF_DASH_CLIPPED_DOT_UNSUPPORTED")
+                        dot = msp.add_hatch(dxfattribs=attrs)
+                        if cap == 1:
+                            dot.paths.add_edge_path().add_arc(center, radius, 0, 360)
+                        else:
+                            x, y = center
+                            angle = math.radians(
+                                transform.angle_from_pdf_vector(
+                                    chain.dot_direction or (1, 0)
+                                )
+                            )
+                            ux, uy = radius * math.cos(angle), radius * math.sin(angle)
+                            dot.paths.add_polyline_path(
+                                [
+                                    (x + a * ux - b * uy, y + a * uy + b * ux)
+                                    for a, b in ((-1, -1), (1, -1), (1, 1), (-1, 1))
+                                ],
+                                is_closed=True,
+                            )
+                        self._decorate(
+                            dot,
+                            painted,
+                            page_index,
+                            seqno,
+                            "dash_dot",
+                            paint_opacity(drawing, "stroke_opacity"),
+                        )
+                        stats.hatch_entities += 1
+                continue
+            if clip is None:
+                self._emit_native_chain(
+                    msp, chain, transform, attrs, painted, stats, page_index, seqno
+                )
+            else:
+                self._emit_clipped_stroke(
+                    msp,
+                    [chain],
+                    clip,
+                    transform,
+                    attrs,
+                    painted,
+                    stats,
+                    page_index,
+                    seqno,
+                )
+        return True
 
     def _effective_clip(
         self,
@@ -1313,6 +1406,15 @@ class GenericGraphicsKernelV14:
             return
 
         style_cache: dict[tuple[str, str], str] = {}
+        run_contracts = {
+            r.index: (
+                len(r.nonspace_chars),
+                hashlib.sha256(
+                    "".join(c.text for c in r.nonspace_chars).encode("utf-8")
+                ).hexdigest(),
+            )
+            for r in runs
+        }
 
         def style_for(font: str, category: str, char: str) -> str:
             key = (font, category)
@@ -1344,6 +1446,7 @@ class GenericGraphicsKernelV14:
             method: str,
             visible: bool,
             confidence: float | None,
+            char_index: int,
         ) -> None:
             text = str(char.text)
             if not text or text.isspace() or text == "\ufffd":
@@ -1411,6 +1514,22 @@ class GenericGraphicsKernelV14:
                     if confidence is not None:
                         payload.append((1040, float(confidence)))
                     e.set_xdata(self.config.appid, payload)
+                if visible and self.config.add_xdata:
+                    if "DRAWING_TEXT_RUN" not in doc.appids:
+                        doc.appids.add("DRAWING_TEXT_RUN")
+                    e.set_xdata(
+                        "DRAWING_TEXT_RUN",
+                        [
+                            (1000, "v1"),
+                            (1000, f"{page_index}:{run.index}"),
+                            (1071, char_index),
+                            (1071, run_contracts[run.index][0]),
+                            (
+                                1000,
+                                run_contracts[run.index][1],
+                            ),
+                        ],
+                    )
                 if method == "native_text":
                     stats.native_text_entities += 1
                 elif method == "hidden_native_text":
@@ -1425,10 +1544,11 @@ class GenericGraphicsKernelV14:
         for run in runs:
             if not run.hidden:
                 layer = layers.sanitize(run.layer, "PDF_NATIVE_TEXT")
-                for char in run.chars:
+                for char_index, char in enumerate(run.nonspace_chars):
                     emit_char(
                         run,
                         char,
+                        char_index=char_index,
                         layer=layer,
                         method="native_text",
                         visible=True,
@@ -1441,10 +1561,11 @@ class GenericGraphicsKernelV14:
                 layer = layers.sanitize(
                     self.config.recovered_text_layer, self.config.recovered_text_layer
                 )
-                for char in run.chars:
+                for char_index, char in enumerate(run.nonspace_chars):
                     emit_char(
                         run,
                         char,
+                        char_index=char_index,
                         layer=layer,
                         method="recovered_outline_text",
                         visible=True,
@@ -1461,10 +1582,11 @@ class GenericGraphicsKernelV14:
                     self.config.unmatched_recovered_text_layer,
                     self.config.unmatched_recovered_text_layer,
                 )
-                for char in run.chars:
+                for char_index, char in enumerate(run.nonspace_chars):
                     emit_char(
                         run,
                         char,
+                        char_index=char_index,
                         layer=layer,
                         method="recovered_search_text_unmatched",
                         visible=True,
@@ -1476,10 +1598,11 @@ class GenericGraphicsKernelV14:
                 layer = layers.sanitize(
                     self.config.hidden_text_layer, self.config.hidden_text_layer
                 )
-                for char in run.chars:
+                for char_index, char in enumerate(run.nonspace_chars):
                     emit_char(
                         run,
                         char,
+                        char_index=char_index,
                         layer=layer,
                         method="hidden_native_text",
                         visible=False,
@@ -1890,6 +2013,19 @@ class GenericGraphicsKernelV14:
                 typ == "s" or self.config.preserve_stroke_for_fill_stroke
             ):
                 chains = parse_drawing_chains(record, stats)
+                if self._emit_phase_stroke(
+                    msp,
+                    chains,
+                    record,
+                    clip,
+                    transform,
+                    forced_layer or layers.style_layer(record, "STROKE"),
+                    ltypes,
+                    stats,
+                    page_index,
+                    seqno,
+                ):
+                    continue
                 stroke_layer = forced_layer or layers.style_layer(record, "STROKE")
                 attrs = self._entity_attrs(stroke_layer, record, ltypes, stroke=True)
                 if clip is None:

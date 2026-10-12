@@ -1,5 +1,14 @@
 # 2.0.0rc34
 
+## 2.0.0rc35
+
+- Preserve zero stroke/fill opacity as transparent, invisible geometry; retain opacity during dense-stroke merging and exclude invisible paths from glyph/scale evidence.
+- Repeat odd PDF dash arrays correctly. Preserve phase and path continuity using painted intervals, exact cubic subdivision and clipping after dash placement. Round/square zero-length dash marks are retained; partially clipped dots remain an explicit conversion warning.
+- Persist the saved validator's coordinate decision on DXF entities, including block contents and R12's non-model-ready status.
+- Preserve native per-character placement with a hash-checked text-run contract for downstream grouping.
+- Integrate the installed dependency in DrawingIR; preserve coordinate guards through normalization and frame extraction. Historical corpora are not exhaustively rerun for this release.
+
+
 rc34 补齐此前 15 个短行缺字样例：十字库同时加载时 **84/84 短行完整，16/16 长行完整**，100 个原始字体 PDF 重新转换共恢复 3,630 个字符。新增字身尺寸、基线和字距一致性校验，原始轮廓保持完整；29 条旧 lint 已清零并加入 CI。新算法需配合 **r3 字库**，旧 r2 仍可读取。测试样例完整率不代表任意字体准确率；历史图纸部分复测结果见[验证记录](docs/VALIDATION.md)。
 
 rc34 completes the 15 previously incomplete short cases: **84/84 short rows and 16/16 long rows** with all ten catalogs loaded. Reconverting the 100 original font PDFs restores 3,630 characters. Persisted em-size, baseline and advance measurements add an independent layout check while preserving original geometry. All 29 old lint findings are fixed and lint is now a CI gate. The added proof requires **r3 catalogs**; existing r2 catalogs remain readable. Fixture completeness is not universal-font accuracy. See [validation](docs/VALIDATION.md) for the partial historical-corpus rerun.

@@ -1,10 +1,12 @@
 # PDF2DXF Construction
 
+Current version: **2.0.0rc35**. Fixes zero opacity, translucent dense strokes, odd dash arrays and dash phase. Saved DXFs carry per-entity coordinate decisions and verifiable native character-run evidence. See the [rc35 validation notes](docs/RELEASE_RC35.md). This release uses representative drawings, not a rerun of the historical corpus.
+
 [简体中文](README.md) | **English**
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc34` (prerelease).
+Version: `2.0.0rc35` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -14,7 +16,11 @@ Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redist
 
 ## Install and convert
 
-Python 3.10 or later is required. Local validation covers macOS ARM64 with Python 3.10/3.12 and Linux ARM64 with Python 3.12. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
+Python 3.10 or later is required. This release was checked locally on macOS ARM64 / Python 3.12; earlier releases also have Python 3.10 and Linux ARM64 evidence. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
+
+```sh
+python -m pip install "pdf2dxf-construction==2.0.0rc35"
+```
 
 ```sh
 git clone https://github.com/y26s4824k264/pdf2dxf-construction.git
@@ -24,7 +30,7 @@ python3.12 -m venv .venv
 .venv/bin/pdf2dxf convert input.pdf -o output/drawing.dxf --pages 1
 ```
 
-On Windows, use `py -3.12 -m venv .venv`, `.venv\Scripts\python.exe` and `.venv\Scripts\pdf2dxf.exe`. Wheels and source archives are available from [GitHub Releases](https://github.com/y26s4824k264/pdf2dxf-construction/releases). A PyPI publication is not required for these installation methods.
+On Windows, use `py -3.12 -m venv .venv`, `.venv\Scripts\python.exe` and `.venv\Scripts\pdf2dxf.exe`. Wheels and source archives are available from [GitHub Releases](https://github.com/y26s4824k264/pdf2dxf-construction/releases). The pinned PyPI dependency can also be installed with the command above.
 
 For `--emit-r12` on a server without system fonts, install `'.[render]'`. Matplotlib then supplies fallback metrics for splitting MTEXT, with an explicit `R12_FONT_METRICS_FALLBACK` warning. Chinese font appearance still requires review. The universal DXF preserves native MTEXT; this package does not bundle system font files.
 
@@ -170,7 +176,6 @@ python tools/check_distribution.py --public dist/*
 ```
 
 After installing the built wheel, run `python tools/test_installed_wheel.py` to verify imports and tests from an isolated directory using `site-packages`. CI covers Linux, macOS and Windows. Current evidence and the exact executed environments are recorded in [docs/VALIDATION.md](docs/VALIDATION.md) and [docs/validation.json](docs/validation.json).
-
 
 rc34 tests **4,253 pages from 4,251 historical PDFs** with all ten r3 catalogs, finding zero conversion/integrity failures: 1072 pages are model-ready and 3181 need review. At the user's request, the full run was stopped; 8,324 of the manifest's 12,577 pages remain untested. The final runtime converts 3,454 pages; 799 verified no-media results from this run retain their actual earlier fingerprints. See [validation](docs/VALIDATION.md). This is partial conversion coverage, not universal-font accuracy or engineering acceptance.
 
