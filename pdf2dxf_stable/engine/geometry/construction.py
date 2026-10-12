@@ -330,6 +330,9 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                 if self.config.clip_paths
                 else None
             )
+            if clip is not None and clip.geometry.is_empty:
+                stats.clip_rejected_records += 1
+                continue
             if (
                 clip is not None
                 and clip.is_rectangle

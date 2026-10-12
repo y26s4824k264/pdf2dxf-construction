@@ -1,0 +1,41 @@
+{
+  "version": "2.0.0rc36",
+  "scope": "two representative pages; historical corpus not rerun",
+  "targeted_tests_passed": 118,
+  "paint_tests_passed": 40,
+  "new_regression_cases": 20,
+  "render_comparison": {
+    "binary_paint_iou": 0.9832990750256937,
+    "size": [
+      720,
+      576
+    ],
+    "hatch_count": 5
+  },
+  "samples": [
+    {
+      "category": "architecture",
+      "source_sha256": "eeb465ed981bd4ff5546b52a93bdf0655662f7c7fe6e35f211e5158c31984c44",
+      "page": 1,
+      "checked_dimensions": 25,
+      "p95_relative_error": 0.001280330722477629,
+      "geometry_valid": true,
+      "model_ready": true,
+      "normalized_and_frame_coordinate_guards_passed": true,
+      "audit_errors": 0,
+      "audit_fixes": 0
+    },
+    {
+      "category": "structure",
+      "source_sha256": "c58289e00eb6e617468243ed561a1ef3c45217d08019fcbc47a1c4448f8ddb34",
+      "page": 1,
+      "checked_dimensions": 53,
+      "p95_relative_error": 0.0018863393183023113,
+      "geometry_valid": true,
+      "model_ready": true,
+      "normalized_and_frame_coordinate_guards_passed": true,
+      "audit_errors": 0,
+      "audit_fixes": 0
+    }
+  ]
+}

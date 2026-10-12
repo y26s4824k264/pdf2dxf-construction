@@ -1,6 +1,6 @@
 # rc34 验证记录 / Validation
 
-Latest: [rc35 targeted validation](RELEASE_RC35.md), three representative pages. Earlier corpus results below are historical and were not rerun for rc35.
+Latest: [rc36 clipping validation](RELEASE_RC36.md). The [rc35 three-page baseline](RELEASE_RC35.md) and earlier corpus results below are historical, not full reruns for rc36.
 
 版本 `2.0.0rc34`。本地 macOS ARM64 / Python 3.12.13：源码和隔离安装 wheel 各 **732 项测试通过**；全库 Ruff **29→0**，并在四个平台/版本的 CI 作业中加入 lint 门槛。精确提交的远端 CI 在发布前核验，见发行页和 [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)。
 

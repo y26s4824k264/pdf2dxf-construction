@@ -38,6 +38,7 @@ from shapely.validation import make_valid
 
 from pdf2dxf_stable.engine.curve_sampling import cubic_sample_count
 from .dashes import parse_dash, dashed_chains
+from .dash_dots import add_dot_paths
 from pdf2dxf_stable.engine.geometry.native_text import (
     TextRecoveryConfig,
     TextRecoveryDiagnostics,
@@ -574,19 +575,23 @@ def clip_state_from_record(
     clip_record["closePath"] = True
     geom = drawing_fill_geometry(clip_record, config, stats)
     scissor = record.get("scissor")
-    if (geom is None or geom.is_empty) and scissor:
+    if scissor is not None and (scissor[2] <= scissor[0] or scissor[3] <= scissor[1]):
+        return ClipState(Polygon(), (0, 0, 0, 0), False)
+    if geom is None and scissor is not None:
         geom = box(*map(float, scissor))
-    elif scissor:
-        try:
-            geom = geom.intersection(box(*map(float, scissor)))
-        except Exception:
-            pass
+    elif geom is not None and scissor is not None:
+        geom = geom.intersection(box(*map(float, scissor)))
     if geom is None or geom.is_empty:
-        return None
+        return ClipState(Polygon(), (0, 0, 0, 0), False)
     if not isinstance(geom, (Polygon, MultiPolygon)):
         geom = make_valid(geom)
         if not isinstance(geom, (Polygon, MultiPolygon)):
-            return None
+            polygons = [
+                part for part in geometry_parts(geom) if isinstance(part, Polygon)
+            ]
+            if not polygons:
+                return ClipState(Polygon(), (0, 0, 0, 0), False)
+            geom = MultiPolygon(polygons)
     b = tuple(map(float, geom.bounds))
     rect = box(*b)
     is_rect = abs(float(geom.area) - float(rect.area)) <= max(
@@ -1195,6 +1200,18 @@ class GenericGraphicsKernelV14:
             return False
         painted = {**drawing, "dashes": "[] 0", "_dash_materialized": True}
         attrs = self._entity_attrs(layer, painted, ltypes, stroke=True)
+        dot_clip = None
+        if clip is not None and 0 in values:
+            dot_clip = MultiPolygon(
+                [
+                    Polygon(
+                        transform.points(part.exterior.coords),
+                        [transform.points(r.coords) for r in part.interiors],
+                    )
+                    for part in geometry_parts(clip.geometry)
+                    if isinstance(part, Polygon)
+                ]
+            )
         for chain in dashed_chains(chains, values, phase):
             if len(chain.segments) == 1 and dist(chain.start, chain.end) <= 1e-10:
                 cap = drawing.get("lineCap", (0, 0, 0))
@@ -1203,32 +1220,15 @@ class GenericGraphicsKernelV14:
                     center = transform.point(chain.start)
                     radius = float(drawing.get("width", 0)) * transform.scale / 2
                     if radius > 0:
-                        if clip is not None:
-                            r = radius / transform.scale
-                            x, y = chain.start
-                            bounds = box(x - r, y - r, x + r, y + r)
-                            if clip.geometry.disjoint(bounds):
-                                continue
-                            if not clip.geometry.covers(bounds):
-                                raise ValueError("PDF_DASH_CLIPPED_DOT_UNSUPPORTED")
                         dot = msp.add_hatch(dxfattribs=attrs)
-                        if cap == 1:
-                            dot.paths.add_edge_path().add_arc(center, radius, 0, 360)
-                        else:
-                            x, y = center
-                            angle = math.radians(
-                                transform.angle_from_pdf_vector(
-                                    chain.dot_direction or (1, 0)
-                                )
+                        angle = math.radians(
+                            transform.angle_from_pdf_vector(
+                                chain.dot_direction or (1, 0)
                             )
-                            ux, uy = radius * math.cos(angle), radius * math.sin(angle)
-                            dot.paths.add_polyline_path(
-                                [
-                                    (x + a * ux - b * uy, y + a * uy + b * ux)
-                                    for a, b in ((-1, -1), (1, -1), (1, 1), (-1, 1))
-                                ],
-                                is_closed=True,
-                            )
+                        )
+                        if not add_dot_paths(dot, center, radius, cap, angle, dot_clip):
+                            msp.delete_entity(dot)
+                            continue
                         self._decorate(
                             dot,
                             painted,
@@ -1276,9 +1276,14 @@ class GenericGraphicsKernelV14:
             geom = geom.intersection(state.geometry)
             if geom.is_empty:
                 break
-        if geom.is_empty or not isinstance(geom, (Polygon, MultiPolygon)):
-            cache[key] = None
-            return None
+        if not isinstance(geom, (Polygon, MultiPolygon)):
+            geom = MultiPolygon(
+                [part for part in geometry_parts(geom) if isinstance(part, Polygon)]
+            )
+        if geom.is_empty:
+            result = ClipState(Polygon(), (0, 0, 0, 0), False)
+            cache[key] = result
+            return result
         b = tuple(map(float, geom.bounds))
         rect = box(*b)
         result = ClipState(
@@ -1297,6 +1302,15 @@ class GenericGraphicsKernelV14:
         if not r:
             return False
         x0, y0, x1, y1 = map(float, r)
+        values, _ = parse_dash(drawing.get("dashes"))
+        if values and 0 in values:
+            # The record rectangle bounds centerlines, not the painted dash caps.
+            cap = drawing.get("lineCap", (0, 0, 0))
+            cap = max(cap) if isinstance(cap, (tuple, list)) else int(cap)
+            margin = (
+                float(drawing.get("width", 0)) / 2 * (math.sqrt(2) if cap == 2 else 1)
+            )
+            x0, y0, x1, y1 = x0 - margin, y0 - margin, x1 + margin, y1 + margin
         a0, b0, a1, b1 = clip.bounds
         return (
             x0 >= a0 - 1e-6 and y0 >= b0 - 1e-6 and x1 <= a1 + 1e-6 and y1 <= b1 + 1e-6
@@ -1989,6 +2003,9 @@ class GenericGraphicsKernelV14:
                 if self.config.clip_paths
                 else None
             )
+            if clip is not None and clip.geometry.is_empty:
+                stats.clip_rejected_records += 1
+                continue
             if (
                 clip is not None
                 and clip.is_rectangle

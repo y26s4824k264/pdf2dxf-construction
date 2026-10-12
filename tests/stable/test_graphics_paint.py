@@ -162,3 +162,130 @@ def test_invisible_paths_are_not_text_candidates():
     from pdf2dxf_stable.engine.calibration.evidence import LineIndex
 
     assert LineIndex(doc).rows == []
+
+
+def hatch_area(hatch):
+    """Green's theorem on saved LINE/ARC boundaries, without tessellation."""
+    area = 0.0
+    for path in hatch.paths:
+        if hasattr(path, "vertices"):
+            points = list(path.vertices)
+            area += (
+                sum(
+                    a[0] * b[1] - b[0] * a[1]
+                    for a, b in zip(points, points[1:] + points[:1])
+                )
+                / 2
+            )
+            continue
+        for edge in path.edges:
+            if hasattr(edge, "radius"):
+                a, b = map(math.radians, (edge.start_angle, edge.end_angle))
+                sweep = (b - a) % math.tau or math.tau
+                x, y = edge.center
+                r = edge.radius
+                area += (
+                    r * x * (math.sin(b) - math.sin(a))
+                    + r * y * (math.cos(a) - math.cos(b))
+                    + r * r * sweep
+                ) / 2
+            else:
+                area += (edge.start.x * edge.end.y - edge.end.x * edge.start.y) / 2
+    return area
+
+
+@pytest.mark.parametrize("cut", [0, 0.5])
+def test_clipped_round_dot_preserves_exact_arc_and_area(tmp_path, kernel, cut):
+    doc = converted(
+        tmp_path,
+        kernel,
+        f"q {20 + cut} 0 80 100 re W n 2 w 1 J [0 5] 0 d 20 50 m 21 50 l S Q".encode(),
+    )
+    dots = list(doc.modelspace().query("HATCH"))
+    assert len(dots) == 1
+    scale = 25.4 / 72
+    assert hatch_area(dots[0]) / scale**2 == pytest.approx(
+        math.acos(cut) - cut * math.sqrt(1 - cut**2), abs=1e-7
+    )
+    assert any(hasattr(edge, "radius") for edge in dots[0].paths[0].edges)
+    audit = doc.audit()
+    assert not audit.has_errors and not audit.has_fixes
+
+
+def test_clipped_rotated_square_dot_keeps_tangent_and_area(tmp_path, kernel):
+    doc = converted(
+        tmp_path, kernel, b"q 20 0 80 100 re W n 2 w 2 J [0 5] 0 d 20 50 m 21 51 l S Q"
+    )
+    dots = list(doc.modelspace().query("HATCH"))
+    assert len(dots) == 1
+    assert hatch_area(dots[0]) / (25.4 / 72) ** 2 == pytest.approx(2, abs=1e-7)
+
+
+@pytest.mark.parametrize("nested", [True, False])
+def test_empty_clip_cannot_reveal_paint_and_scope_is_restored(tmp_path, kernel, nested):
+    clip = b"0 0 10 10 re W n 20 20 10 10 re W n" if nested else b"0 0 0 10 re W n"
+    doc = converted(
+        tmp_path,
+        kernel,
+        b"q " + clip + b" 1 5 m 9 5 l S 1 1 8 8 re f Q 40 50 m 50 50 l S",
+    )
+    entities = [e for e in doc.modelspace() if e.dxf.layer != "PDF_PAGE"]
+    assert len(entities) == 1
+    assert entities[0].dxftype() == "LINE"
+    assert entities[0].dxf.start.x / (25.4 / 72) == pytest.approx(40)
+
+
+@pytest.mark.parametrize(
+    "clip,expected_area,expected_paths",
+    [
+        ("0 0 100 100 re 19.5 49.5 1 1 re W* n", math.pi - 1, 2),
+        (
+            "18 0 1.5 100 re 20.5 0 2 100 re W n",
+            2 * (math.acos(0.5) - math.sqrt(3) / 4),
+            2,
+        ),
+        ("21 0 70 100 re W n", 0, 0),
+        ("0 0 100 100 re 0 0 100 100 re W* n", 0, 0),
+    ],
+)
+def test_dot_clips_keep_holes_disjoint_regions_and_empty_tangency(
+    tmp_path, kernel, clip, expected_area, expected_paths
+):
+    doc = converted(
+        tmp_path, kernel, f"q {clip} 2 w 1 J [0 5] 0 d 20 50 m 21 50 l S Q".encode()
+    )
+    dots = list(doc.modelspace().query("HATCH"))
+    assert sum(len(dot.paths) for dot in dots) == expected_paths
+    assert sum(hatch_area(dot) for dot in dots) / (25.4 / 72) ** 2 == pytest.approx(
+        expected_area, abs=1e-7
+    )
+    for dot in dots:
+        for path in dot.paths:
+            edges = path.edges
+            for a, b in zip(edges, edges[1:] + edges[:1]):
+
+                def endpoint(edge, end):
+                    if not hasattr(edge, "radius"):
+                        return tuple(edge.end if end else edge.start)
+                    angle = math.radians(edge.end_angle if end else edge.start_angle)
+                    return (
+                        edge.center.x + edge.radius * math.cos(angle),
+                        edge.center.y + edge.radius * math.sin(angle),
+                    )
+
+                assert math.dist(endpoint(a, True), endpoint(b, False)) < 1e-9
+
+
+def test_clip_intersection_keeps_area_when_another_component_only_touches(
+    tmp_path, kernel
+):
+    doc = converted(
+        tmp_path,
+        kernel,
+        b"q 0 0 10 10 re 20 0 10 10 re W n 0 5 20 10 re W n "
+        b"1 7 m 9 7 l S 21 7 m 29 7 l S Q",
+    )
+    lines = list(doc.modelspace().query("LINE"))
+    assert len(lines) == 1
+    assert lines[0].dxf.start.x / (25.4 / 72) == pytest.approx(1)
+    assert lines[0].dxf.end.x / (25.4 / 72) == pytest.approx(9)

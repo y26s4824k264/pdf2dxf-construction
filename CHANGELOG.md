@@ -1,6 +1,11 @@
-# 2.0.0rc34
+# 2.0.0rc36
 
-## 2.0.0rc35
+- 修复空裁剪区域漏出线条/填充，以及圆点中心在框内但笔画越界时跳过裁剪的问题。
+- 支持圆点和旋转方点与多边形裁剪区域求交，保留孔洞、分离区域、透明度和原生 HATCH 圆弧。
+- Preserve exact circular dash-cap arcs and tangent-oriented square caps through polygon clipping. Empty or disjoint clip scopes stay empty instead of becoming unrestricted paint.
+- See [rc36 validation](docs/RELEASE_RC36.md); no full historical corpus rerun and no new universal-font claim.
+
+# 2.0.0rc35
 
 - Preserve zero stroke/fill opacity as transparent, invisible geometry; retain opacity during dense-stroke merging and exclude invisible paths from glyph/scale evidence.
 - Repeat odd PDF dash arrays correctly. Preserve phase and path continuity using painted intervals, exact cubic subdivision and clipping after dash placement. Round/square zero-length dash marks are retained; partially clipped dots remain an explicit conversion warning.
@@ -8,6 +13,8 @@
 - Preserve native per-character placement with a hash-checked text-run contract for downstream grouping.
 - Integrate the installed dependency in DrawingIR; preserve coordinate guards through normalization and frame extraction. Historical corpora are not exhaustively rerun for this release.
 
+
+# 2.0.0rc34
 
 rc34 补齐此前 15 个短行缺字样例：十字库同时加载时 **84/84 短行完整，16/16 长行完整**，100 个原始字体 PDF 重新转换共恢复 3,630 个字符。新增字身尺寸、基线和字距一致性校验，原始轮廓保持完整；29 条旧 lint 已清零并加入 CI。新算法需配合 **r3 字库**，旧 r2 仍可读取。测试样例完整率不代表任意字体准确率；历史图纸部分复测结果见[验证记录](docs/VALIDATION.md)。
 
