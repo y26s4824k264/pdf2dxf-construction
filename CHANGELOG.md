@@ -1,3 +1,9 @@
+# 2.0.0rc39
+
+- Select a Han-capable fallback STYLE after inspecting all runs of a source font, so Latin-first mixed text cannot cache Arial for later Chinese characters. Keep character values, original positions and provenance unchanged.
+- Cover mixed and separate runs in either order through both graphics kernels and the cached pipeline. Latin-only text retains its previous style.
+- Persisted-DXF topology/geometric-template recognition remains unchanged, with no OCR, raster recognition or semantic guesses. See [rc39 repair notes](docs/RELEASE_RC39.md). Representative pages only; no historical corpus rerun.
+
 # 2.0.0rc38
 
 - Fix disk-spooled drawing records losing rc37 stroke state between extraction and emission. Persist enrichment in a replacement spool without loading the full page into memory.

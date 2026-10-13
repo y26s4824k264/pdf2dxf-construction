@@ -1539,6 +1539,10 @@ class GenericGraphicsKernelV14:
             return
 
         style_cache: dict[tuple[str, str], str] = {}
+        # A STYLE is shared by source font, not by the first emitted character.
+        # Inspect all its runs before caching: Latin-first mixed text must not
+        # assign Arial to later Han characters of the same source font.
+        cjk_fonts = {run.font for run in runs if any(ord(c) > 255 for c in run.text)}
         run_contracts = {
             r.index: (
                 len(r.nonspace_chars),
@@ -1549,7 +1553,7 @@ class GenericGraphicsKernelV14:
             for r in runs
         }
 
-        def style_for(font: str, category: str, char: str) -> str:
+        def style_for(font: str, category: str) -> str:
             key = (font, category)
             if key in style_cache:
                 return style_cache[key]
@@ -1560,7 +1564,7 @@ class GenericGraphicsKernelV14:
             # DXF styles reference font file names; no font bytes are distributed.
             fallback_font = (
                 self.config.cjk_font
-                if any(ord(c) > 255 for c in char)
+                if font in cjk_fonts
                 else self.config.latin_font
             )
             try:
@@ -1623,7 +1627,7 @@ class GenericGraphicsKernelV14:
                     text,
                     dxfattribs={
                         "layer": layer,
-                        "style": style_for(run.font, category, text),
+                        "style": style_for(run.font, category),
                         "height": height,
                         "rotation": rotation,
                         "width": width_factor,
