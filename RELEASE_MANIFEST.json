@@ -12,8 +12,8 @@
       "bytes": 294
     },
     "CHANGELOG.md": {
-      "sha256": "ff2aaf6a94416389cdba4a08be04e97598f8913a5eddd853646fd8fcc5154a48",
-      "bytes": 42899
+      "sha256": "4cfe18048b3ed9d5e9d2c9c55871befc0222d45b71da02b59b311bed546a854e",
+      "bytes": 43444
     },
     "CONTRIBUTING.md": {
       "sha256": "bba2f277bbf730903516be26e24ad6d120b673cfea829fc7fac2cb3526525cdf",
@@ -32,12 +32,12 @@
       "bytes": 1460
     },
     "README.en.md": {
-      "sha256": "29eb2f7a6d94605368661e1c771d2901a9a08beb9a99daf2645ebf6cfde9f486",
-      "bytes": 18855
+      "sha256": "6b5e45ca482e4f8cd9f15e36cacedf0c1434a812a7b39fd0f024ac0c5472426a",
+      "bytes": 18895
     },
     "README.md": {
-      "sha256": "c720409d364812bba11bd6a8e77791a0db7fc6b1160312e7caf191f3091627c5",
-      "bytes": 21320
+      "sha256": "f856a6dd0668b0dbd88b6d6c90e6e7f0070b4c0f2271c2b52c636ce8a380a87d",
+      "bytes": 21328
     },
     "SECURITY.md": {
       "sha256": "f7ed27e453fa7f2132340d5e46d14d17d7ea4393461ac2d19ff94d51519b911d",
@@ -151,13 +151,17 @@
       "sha256": "73466c0ffcb591c0f22bf6d9124238dda2e8cb4139a7b784ec36577306de522b",
       "bytes": 3454
     },
+    "docs/RELEASE_RC38.md": {
+      "sha256": "f27122773747a52375925451078c522aa123451388ae0c7a30fbb5c3df1f3390",
+      "bytes": 1725
+    },
     "docs/TEMPLATE_PROVENANCE.md": {
       "sha256": "85c89d48b54751bcfad38838edd56c6e1a23721e0647d692f53f1ce631952f43",
       "bytes": 1701
     },
     "docs/VALIDATION.md": {
-      "sha256": "c2e8c005c1a3fd31de8e726b0c847ad6a0f093c5dd53ff1ce7eb975ceb23b80d",
-      "bytes": 9011
+      "sha256": "d035fbd4f04cbdf5c272f613a3ce29f3b2462bc9f4710367bf079f335e8d3b4c",
+      "bytes": 9108
     },
     "docs/validation.json": {
       "sha256": "548cf58d69f0f8dfc7ddda04c6869b55abaa58f0ab70db098cd65e2c23fc1e9f",
@@ -200,8 +204,8 @@
       "bytes": 5200
     },
     "pdf2dxf_stable/drawings.py": {
-      "sha256": "c2468bbc1b9c133b09bd0ae3066c596d0c0e6b4cb57a70318ecf80c1d37af632",
-      "bytes": 3262
+      "sha256": "93450367f473dbbf3a6b2d3f9ad18fcca5b479529ac295b3029623aeadbd0af2",
+      "bytes": 3916
     },
     "pdf2dxf_stable/engine/__init__.py": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -264,8 +268,8 @@
       "bytes": 19430
     },
     "pdf2dxf_stable/engine/geometry/stroke_paint.py": {
-      "sha256": "47c83c369c5aa77096a3ad3786be60f17fa33a4836d4d25050c0f58379e02138",
-      "bytes": 11892
+      "sha256": "a29855f716f925f6671ee49c3950e2f39717dfd5df3242a4e00588c59f06e4f5",
+      "bytes": 12372
     },
     "pdf2dxf_stable/engine/pdf.py": {
       "sha256": "c26e5c06fb6f414e33c026d64d3e25bd9e867828550ac67d7b91da9cf3f59d28",
@@ -372,7 +376,7 @@
       "bytes": 20615
     },
     "pdf2dxf_stable/version.py": {
-      "sha256": "b4f166c33eb7507ee42e8185eb7daed7ea71cc70d116428019d4b059fb90ad0a",
+      "sha256": "7f15f63b79274ea381ce9cbc4003c68c6c61289ed7e9859cdb865090a348ef42",
       "bytes": 26
     },
     "pyproject.toml": {
@@ -544,8 +548,8 @@
       "bytes": 6780
     },
     "tests/stable/test_stroke_styles.py": {
-      "sha256": "4aa4bb251606f77d320aea79d4e5577ceefb2015ee15a4eb74c30e24fc03dfa1",
-      "bytes": 3798
+      "sha256": "1c409abfab4f67c0dd4267700657e8c76ea5758a35884b0a9aa176db21b19cf8",
+      "bytes": 4668
     },
     "tools/build_open_font_bundle.py": {
       "sha256": "90f18870bea5fe9a623d90ebce0eba796dd548a0a68a8fd8cac5f90b362ff56f",

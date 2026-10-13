@@ -1,3 +1,9 @@
+# 2.0.0rc38
+
+- Fix disk-spooled drawing records losing rc37 stroke state between extraction and emission. Persist enrichment in a replacement spool without loading the full page into memory.
+- Exercise all cap, join, dash, clip and cubic regressions through the cached conversion pipeline, plus the public supervised Converter API. Direct-kernel checks alone did not expose this regression.
+- Preserve verified image attachments and existing scale admission contracts. See [rc38 repair notes](docs/RELEASE_RC38.md). No historical corpus rerun.
+
 # 2.0.0rc37
 
 - Preserve butt/round/square caps, miter/round/bevel joins, miter-limit fallback, dash phase, closed seams and affine stroke space. Tagged HATCH envelopes carry paint; transparent native centerlines remain for geometry evidence.

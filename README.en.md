@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-Current version: **2.0.0rc37**. Preserves per-path caps, joins, miter limits and painted-area clipping, with native unclipped centerlines and curves. Adds verified PNG persistence and DXF+PNG zip helpers. See [rc37 validation notes](docs/RELEASE_RC37.md). Three representative pages were tested; the historical corpus was not rerun.
+Current version: **2.0.0rc38**. Persist stroke state through the disk drawing spool used by the full conversion pipeline, so rc37 caps, joins, dash phase and paint envelopes survive repeated cache reads. Add cached-pipeline and public Converter API regressions. See [rc38 repair notes](docs/RELEASE_RC38.md). Only representative pages are used; no historical corpus rerun.
 
 [简体中文](README.md) | **English**
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc37` (prerelease).
+Version: `2.0.0rc38` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -19,7 +19,7 @@ Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redist
 Python 3.10 or later is required. This release was checked locally on macOS ARM64 / Python 3.12; earlier releases also have Python 3.10 and Linux ARM64 evidence. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc37"
+python -m pip install "pdf2dxf-construction==2.0.0rc38"
 ```
 
 ```sh

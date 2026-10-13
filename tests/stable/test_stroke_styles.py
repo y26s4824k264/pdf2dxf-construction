@@ -9,9 +9,12 @@ from shapely.geometry import Polygon
 
 from pdf2dxf_stable.engine.geometry.base import GenericGraphicsKernelV14
 from pdf2dxf_stable.engine.geometry.construction import ConstructionGraphicsKernelV15
+from pdf2dxf_stable.engine.pipeline import ConstructionPDF2DXFV15
 
 
-@pytest.fixture(params=[GenericGraphicsKernelV14, ConstructionGraphicsKernelV15])
+@pytest.fixture(
+    params=[GenericGraphicsKernelV14, ConstructionGraphicsKernelV15, ConstructionPDF2DXFV15]
+)
 def kernel(request):
     return request.param()
 
@@ -107,3 +110,22 @@ def test_closed_dash_seam_is_joined(tmp_path, kernel):
         for x, y, *_ in ring.vertices
     ]
     assert any(abs(x - 15) < 1e-6 and abs(y - 15) < 1e-6 for x, y in points)
+
+
+def test_public_converter_preserves_round_cap_paint(tmp_path):
+    from pdf2dxf_stable import Converter, ConversionRequest
+
+    source = tmp_path / "round-cap.pdf"
+    with fitz.open() as pdf:
+        page = pdf.new_page(width=100, height=100)
+        page.draw_line((0, 0), (1, 1))
+        pdf.update_stream(page.get_contents()[0], b"10 w 1 J 20 50 m 60 50 l S")
+        pdf.save(source)
+    result = Converter().convert(
+        source,
+        tmp_path / "public.dxf",
+        ConversionRequest(scale_mode="page", units="mm", recover_pure_path_text=False),
+    )
+    assert result.status != "failed", result.errors
+    path = next(a.path for a in result.artifacts if a.kind == "dxf")
+    assert area(ezdxf.readfile(path)) == pytest.approx(400 + 25 * math.pi, abs=0.15)

@@ -125,12 +125,29 @@ def attach_stroke_states(page, drawings):
         finally:
             if rotation:
                 page.set_rotation(rotation)
-    strokes = [record for record in drawings if "s" in str(record.get("type", ""))]
-    if len(strokes) != len(device.rows):
-        raise ValueError("PDF_STROKE_STATE_UNCONFIRMED")
-    for record, state in zip(strokes, device.rows):
+    count = 0
+
+    def annotate(record):
+        nonlocal count
+        if "s" not in str(record.get("type", "")):
+            return
+        if count >= len(device.rows):
+            raise ValueError("PDF_STROKE_STATE_UNCONFIRMED")
+        state = device.rows[count]
+        count += 1
         record["_stroke_chains"] = state.pop("chains")
         record["_stroke_state"] = state
+
+    # A spool yields fresh dictionaries on each pass. Updating one pass alone
+    # loses state before the geometry emitter reads it; persist that enrichment.
+    update = getattr(drawings, "update_records", None)
+    if callable(update):
+        update(annotate)
+    else:
+        for record in drawings:
+            annotate(record)
+    if count != len(device.rows):
+        raise ValueError("PDF_STROKE_STATE_UNCONFIRMED")
 
 
 def painted_chains(chains, drawing):
