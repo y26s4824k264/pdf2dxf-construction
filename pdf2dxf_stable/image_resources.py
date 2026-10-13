@@ -91,7 +91,7 @@ def embed_image_files(document, root):
         # Converter sidecars must stay in its reviewed output directory. Refuse
         # symlinks as well as absolute paths, URLs and parent traversal.
         relative = Path(filename.replace("\\", "/"))
-        if relative.is_absolute() or ".." in relative.parts or ":" in filename:
+        if relative.anchor or ".." in relative.parts or ":" in filename:
             raise ValueError("DXF_IMAGE_ATTACHMENT_PATH_INVALID")
         path = root / relative
         if any(p.is_symlink() for p in (path, *path.parents) if p != root.parent):

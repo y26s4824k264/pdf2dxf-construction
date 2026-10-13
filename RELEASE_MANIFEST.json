@@ -316,8 +316,8 @@
       "bytes": 3535
     },
     "pdf2dxf_stable/image_resources.py": {
-      "sha256": "23186e8d29b2133f75a423b86971f0b0ea3872628bcd761d0198a5ee36627be7",
-      "bytes": 6466
+      "sha256": "a40304e80d0f027b4c2ebd3f8603fd0e151bf9adbfb9ef5c126f1aabcd1aa1e1",
+      "bytes": 6459
     },
     "pdf2dxf_stable/locking.py": {
       "sha256": "f52f2ab8961af1204dbcda06068623efeb72bd54a9bd1a6aef0ab3492ff99325",
