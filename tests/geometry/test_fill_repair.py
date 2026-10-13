@@ -88,7 +88,9 @@ def test_pdf_fill_repair_reaches_saved_hatch_without_losing_stroke(
         )
         kernel.convert_page(pdf, 0, path)
     doc = ezdxf.readfile(path)
-    (hatch,) = doc.modelspace().query("HATCH")
+    (hatch,) = [
+        e for e in doc.modelspace().query("HATCH") if not e.has_xdata("PDF2DXF_STROKE")
+    ]
     boundaries = [[(v[0], v[1]) for v in ring.vertices] for ring in hatch.paths]
     actual = Polygon(boundaries[0], boundaries[1:])
     assert actual.equals(box(20, 40, 60, 80).difference(box(30, 50, 50, 70)))

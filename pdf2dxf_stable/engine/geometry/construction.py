@@ -242,6 +242,7 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
             drawings = page.get_cdrawings(extended=True)
         except TypeError:
             drawings = page.get_cdrawings()
+        v14.attach_stroke_states(page, drawings)
         stats.input_draw_records = len(drawings)
         dense = self._dense_layers(drawings)
         stats.dense_pattern_layers = sorted(dense)

@@ -39,6 +39,13 @@ from shapely.validation import make_valid
 from pdf2dxf_stable.engine.curve_sampling import cubic_sample_count
 from .dashes import parse_dash, dashed_chains
 from .dash_dots import add_dot_paths
+from .stroke_paint import (
+    STROKE_APPID,
+    attach_stroke_states,
+    painted_chains,
+    polygons,
+    stroke_geometry,
+)
 from pdf2dxf_stable.engine.geometry.native_text import (
     TextRecoveryConfig,
     TextRecoveryDiagnostics,
@@ -1190,6 +1197,19 @@ class GenericGraphicsKernelV14:
         page_index,
         seqno,
     ):
+        if self._emit_painted_stroke(
+            msp,
+            chains,
+            drawing,
+            clip,
+            transform,
+            layer,
+            ltypes,
+            stats,
+            page_index,
+            seqno,
+        ):
+            return True
         values, phase = parse_dash(drawing.get("dashes"))
         if not values or (
             phase == 0
@@ -1212,7 +1232,9 @@ class GenericGraphicsKernelV14:
                     if isinstance(part, Polygon)
                 ]
             )
-        for chain in dashed_chains(chains, values, phase):
+        for chain in drawing.get("_painted_chains", ()) or dashed_chains(
+            chains, values, phase
+        ):
             if len(chain.segments) == 1 and dist(chain.start, chain.end) <= 1e-10:
                 cap = drawing.get("lineCap", (0, 0, 0))
                 cap = max(cap) if isinstance(cap, (tuple, list)) else int(cap)
@@ -1255,6 +1277,94 @@ class GenericGraphicsKernelV14:
                     page_index,
                     seqno,
                 )
+        return True
+
+    def _emit_painted_stroke(
+        self,
+        msp,
+        chains,
+        drawing,
+        clip,
+        transform,
+        layer,
+        ltypes,
+        stats,
+        page_index,
+        seqno,
+    ):
+        state = drawing.get("_stroke_state")
+        chains = drawing.get("_stroke_chains", chains)
+        if not state or state["width"] <= 0 or not chains:
+            return False  # PDF hairlines retain their existing device-width semantics.
+        runs = painted_chains(chains, drawing)
+        if (
+            parse_dash(drawing.get("dashes"))[0]
+            and runs
+            and all(
+                dist(c.start, c.end) <= 1e-10 and len(c.segments) == 1 for c in runs
+            )
+        ):
+            a, b, c, d, _, _ = state["matrix"]
+            if abs(a * c + b * d) < 1e-9 and abs(a * a + b * b - c * c - d * d) < 1e-9:
+                drawing["_painted_chains"] = runs
+                return False  # rc36's analytic dot-circle boundaries remain exact.
+        geometry, tolerance = stroke_geometry(runs, drawing, clip)
+        if geometry is None or geometry.is_empty:
+            return True
+        if STROKE_APPID not in msp.doc.appids:
+            msp.doc.appids.add(STROKE_APPID)
+        painted = {**drawing, "dashes": "[] 0", "_dash_materialized": True}
+        attrs = self._entity_attrs(layer, painted, ltypes, stroke=True)
+        # Keep the original centerline primitives and cubic controls for DXF
+        # recognition. Fully transparent centerlines avoid a second paint pass.
+        for chain in runs:
+            before = len(msp)
+            if clip is None:
+                self._emit_native_chain(
+                    msp, chain, transform, attrs, painted, stats, page_index, seqno
+                )
+            else:
+                self._emit_clipped_stroke(
+                    msp,
+                    [chain],
+                    clip,
+                    transform,
+                    attrs,
+                    painted,
+                    stats,
+                    page_index,
+                    seqno,
+                )
+            for entity in msp[before:]:
+                entity.transparency = 1
+                entity.set_xdata(
+                    STROKE_APPID,
+                    [
+                        (1000, "centerline"),
+                        (1040, paint_opacity(drawing, "stroke_opacity")),
+                    ],
+                )
+        for part in polygons(geometry):
+            hatch = msp.add_hatch(dxfattribs={"layer": layer})
+            hatch.set_solid_fill(color=7, style=0)
+            for i, ring in enumerate((part.exterior, *part.interiors)):
+                hatch.paths.add_polyline_path(
+                    transform.points(ring.coords),
+                    is_closed=True,
+                    flags=1 if i == 0 else 0,
+                )
+            self._decorate(
+                hatch,
+                drawing,
+                page_index,
+                seqno,
+                "stroke_paint",
+                paint_opacity(drawing, "stroke_opacity"),
+            )
+            hatch.set_xdata(
+                STROKE_APPID, [(1000, "paint"), (1040, tolerance * transform.scale)]
+            )
+            stats.hatch_entities += 1
         return True
 
     def _effective_clip(
@@ -1302,13 +1412,22 @@ class GenericGraphicsKernelV14:
         if not r:
             return False
         x0, y0, x1, y1 = map(float, r)
-        values, _ = parse_dash(drawing.get("dashes"))
-        if values and 0 in values:
-            # The record rectangle bounds centerlines, not the painted dash caps.
+        if "s" in str(drawing.get("type", "")):
+            # Bound the entire paint envelope, including diagonal square caps
+            # and the longest admitted miter, before bypassing clipping.
             cap = drawing.get("lineCap", (0, 0, 0))
             cap = max(cap) if isinstance(cap, (tuple, list)) else int(cap)
+            state = drawing.get("_stroke_state", {})
+            a, b, c, d, _, _ = state.get("matrix", (1, 0, 0, 1, 0, 0))
+            width = state.get("width", float(drawing.get("width", 0)))
             margin = (
-                float(drawing.get("width", 0)) / 2 * (math.sqrt(2) if cap == 2 else 1)
+                width
+                * math.sqrt(a * a + b * b + c * c + d * d)
+                / 2
+                * max(
+                    math.sqrt(2) if cap == 2 else 1,
+                    state.get("miter", 10) if state.get("join", 0) == 0 else 1,
+                )
             )
             x0, y0, x1, y1 = x0 - margin, y0 - margin, x1 + margin, y1 + margin
         a0, b0, a1, b1 = clip.bounds
@@ -1837,6 +1956,9 @@ class GenericGraphicsKernelV14:
                     0.0,
                 )
                 entity.dxf.image_size = (float(width), float(height), 0.0)
+                entity.dxf.flags |= (
+                    8  # IMAGE.USE_TRANSPARENCY: retain PNG soft-mask alpha.
+                )
                 if self.config.clip_images and clip is not None:
                     boundary = clip_polygon_to_image_pixels(
                         {**info, "width": width, "height": height},
@@ -1911,6 +2033,7 @@ class GenericGraphicsKernelV14:
             drawings = page.get_cdrawings(extended=True)
         except TypeError:
             drawings = page.get_cdrawings()
+        attach_stroke_states(page, drawings)
         stats.input_draw_records = len(drawings)
 
         # Extract text before graphics emission so invisible search text can be

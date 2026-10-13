@@ -1,3 +1,11 @@
+# 2.0.0rc37
+
+- Preserve butt/round/square caps, miter/round/bevel joins, miter-limit fallback, dash phase, closed seams and affine stroke space. Tagged HATCH envelopes carry paint; transparent native centerlines remain for geometry evidence.
+- Preserve unclipped cubic controls and declare the envelope approximation bound. Clip painted area rather than only the centerline; retain rc36 analytic zero-length circular caps.
+- Enable IMAGE soft-mask alpha. Add verified PNG payloads in IMAGEDEF extension XRECORDs, lossless copying/materialization and deterministic DXF+PNG zip export.
+- DrawingIR retains images through normalization and frames, supports SVG/native CAD previews and FRAME_PACKAGE downloads. No PDF-direct modeling or OCR branch.
+- See [rc37 evidence](docs/RELEASE_RC37.md); three representative pages only, with no full historical corpus rerun.
+
 # 2.0.0rc36
 
 - 修复空裁剪区域漏出线条/填充，以及圆点中心在框内但笔画越界时跳过裁剪的问题。

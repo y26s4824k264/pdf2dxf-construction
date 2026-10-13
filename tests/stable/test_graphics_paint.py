@@ -48,7 +48,14 @@ def test_stroke_and_fill_keep_opacity(tmp_path, kernel, opacity):
     entities = [e for e in doc.modelspace() if e.dxf.layer != "PDF_PAGE"]
     assert {e.dxftype() for e in entities} == {"HATCH", "LWPOLYLINE"}
     for entity in entities:
-        assert entity.transparency == pytest.approx(1 - opacity, abs=1 / 255)
+        centerline = entity.dxftype() != "HATCH" and entity.has_xdata("PDF2DXF_STROKE")
+        assert entity.transparency == pytest.approx(
+            1 if centerline else 1 - opacity, abs=1 / 255
+        )
+        if centerline:
+            assert [
+                t.value for t in entity.get_xdata("PDF2DXF_STROKE") if t.code == 1040
+            ] == [opacity]
         assert bool(entity.dxf.get("invisible", 0)) == (opacity == 0)
 
 
@@ -62,9 +69,14 @@ def test_dense_fill_strokes_keep_opacity(tmp_path):
         page.draw_line((20, 20), (80, 20), stroke_opacity=0.5, oc=oc)
         path = tmp_path / "dense.dxf"
         kernel.convert_page(pdf, 0, path)
-    lines = list(ezdxf.readfile(path).modelspace().query("LINE"))
+    doc = ezdxf.readfile(path)
+    lines = list(doc.modelspace().query("LINE"))
     assert lines
-    assert all(e.transparency == pytest.approx(0.5, abs=1 / 255) for e in lines)
+    assert all(e.transparency == 1 for e in lines)
+    assert all(
+        e.transparency == pytest.approx(0.5, abs=1 / 255)
+        for e in doc.modelspace().query("HATCH")
+    )
 
 
 def test_odd_dash_array_repeats_as_dash_and_gap():
@@ -230,8 +242,9 @@ def test_empty_clip_cannot_reveal_paint_and_scope_is_restored(tmp_path, kernel, 
         b"q " + clip + b" 1 5 m 9 5 l S 1 1 8 8 re f Q 40 50 m 50 50 l S",
     )
     entities = [e for e in doc.modelspace() if e.dxf.layer != "PDF_PAGE"]
-    assert len(entities) == 1
+    assert len(entities) == 2
     assert entities[0].dxftype() == "LINE"
+    assert entities[1].dxftype() == "HATCH"
     assert entities[0].dxf.start.x / (25.4 / 72) == pytest.approx(40)
 
 
