@@ -749,6 +749,156 @@ def test_several_short_stroke_rows_cannot_bootstrap(tmp_path, monkeypatch):
     assert report["emitted_text_entities"] == 0
 
 
+@pytest.mark.parametrize(
+    "case",
+    [
+        90,
+        180,
+        270,
+        "one_reference",
+        "no_lock",
+        "no_grid",
+        "other_page",
+        "missing_branch",
+        "mirror",
+        "wrong_layer",
+        "incomplete_source",
+        "unicode_alias",
+        "duplicate_location",
+        "spacing",
+    ],
+)
+def test_rotated_han_keep_angle_and_require_preconfirmed_geometry(
+    tmp_path, monkeypatch, case
+):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    monkeypatch.setitem(SHAPES, "木", [[(10, 70), (30, 70), (90, 70)], *SHAPES["木"][1:]])
+    monkeypatch.setitem(
+        SHAPES,
+        "器",
+        [
+            [(5, 95), (35, 95)],
+            [(5, 95), (5, 70)],
+            [(35, 95), (35, 70)],
+            [(5, 70), (35, 70)],
+            [(65, 95), (95, 95)],
+            [(65, 95), (65, 70)],
+            [(95, 95), (95, 70)],
+            [(65, 70), (95, 70)],
+            [(10, 15), (40, 15)],
+            [(70, 15), (100, 15)],
+            [(10, 40), (40, 40)],
+            [(5, 5), (20, 5)],
+            [(35, 5), (50, 5)],
+            [(65, 5), (80, 5)],
+        ],
+    )
+    if case == "unicode_alias":
+        monkeypatch.setitem(SHAPES, "品", SHAPES["器"])
+    catalog = tmp_path / "rotation.p2dvec"
+    build_shx_vector_catalog(
+        font_file(tmp_path / "rotation.shx"), catalog, encoding="gbk"
+    )
+    doc = ezdxf.new("R2018")
+    doc.header["$INSUNITS"] = 4
+    doc.appids.new("PDF2DXF15")
+    doc.layers.new("OTHER")
+    pitch = 25.4 / 600
+    angle = case if isinstance(case, int) else 90
+    matrices = {
+        90: np.array([[0, -1], [1, 0]]),
+        180: -np.eye(2),
+        270: np.array([[0, 1], [-1, 0]]),
+    }
+    target_handles = []
+    for row, word in enumerate(
+        [CHARS + "器", CHARS + ("" if case == "one_reference" else "器"), "器木本"]
+    ):
+        if case == "no_lock" and row == 1:
+            continue
+        seq = row * 1000
+        for col, char in enumerate(word):
+            for part, stroke in enumerate(SHAPES[char]):
+                if row == 2 and char == "器" and case == "missing_branch" and part == 0:
+                    seq += 1
+                    continue
+                y = 0 if row == 1 and case == "duplicate_location" else 12 * row
+                points = np.array(stroke) * [0.035, 0.07] + [4.2 * col, y]
+                points = np.rint(points / pitch) * pitch
+                if row == 2:
+                    points = (points - [0, 12 * row]) @ matrices[angle].T + [60, 60]
+                    if case == "mirror":
+                        points[:, 0] = 120 - points[:, 0]
+                    if case == "no_grid":
+                        points[:, 0] += np.arange(len(points)) * 0.0011
+                    if case == "spacing" and char == "木":
+                        points[:, 0] += pitch * 10
+                e = doc.modelspace().add_lwpolyline(
+                    points,
+                    dxfattribs={
+                        "layer": "OTHER"
+                        if row == 2 and case == "wrong_layer" and char == "木"
+                        else "0"
+                    },
+                )
+                e.set_xdata(
+                    "PDF2DXF15",
+                    [
+                        (1000, "stroke"),
+                        (1070, int(row == 2 and case == "other_page")),
+                        (1070, seq),
+                        (1000, "s"),
+                    ],
+                )
+                if row == 2:
+                    target_handles.append(e.dxf.handle)
+                if (
+                    row == 2
+                    and case == "incomplete_source"
+                    and char == "器"
+                    and part == 0
+                ):
+                    missing = doc.modelspace().add_point((60, 60))
+                    missing.set_xdata(
+                        "PDF2DXF15",
+                        [(1000, "stroke"), (1070, 0), (1070, seq), (1000, "s")],
+                    )
+                seq += 1
+    path = tmp_path / "rotated.dxf"
+    doc.saveas(path)
+    before = {h: list(doc.entitydb[h].get_points()) for h in target_handles}
+    report = recover_outline_text(
+        path, mode="required", policy="off_layer", font_catalog_paths=[catalog]
+    )
+    targets = [r for r in report["accepted"] if min(r["source_seqnos"]) >= 2000]
+    success = isinstance(case, int)
+    assert [r["text"] for r in targets] == (list("器木本") if success else [])
+    assert report.get("font_stroke_rotated_glyph_matches", 0) == (3 if success else 0)
+    if success:
+        assert all(r["rotation"] == angle for r in targets)
+        assert len(report["font_stroke_rotated_row_evidence"]) == 1
+        reopened = ezdxf.readfile(path)
+        for h, points in before.items():
+            assert list(reopened.entitydb[h].get_points()) == points
+        texts = [
+            e for e in reopened.modelspace().query("TEXT") if e.dxf.rotation == angle
+        ]
+        assert [e.dxf.text for e in texts] == list("器木本")
+        for e in texts:
+            delta = np.array(e.dxf.align_point)[:2] - np.array(e.dxf.insert)[:2]
+            assert delta @ matrices[angle][:, 0] > 0
+            assert abs(delta @ matrices[angle][:, 1]) < 1e-9
+        assert not reopened.audit().errors
+        assert (
+            recover_outline_text(path, mode="required", font_catalog_paths=[catalog])[
+                "emitted_text_entities"
+            ]
+            == 0
+        )
+
+
 @pytest.mark.parametrize("bad_offset", [0, 10000000])
 def test_bigfont_rejects_out_of_bounds_records(tmp_path, bad_offset):
     from pdf2dxf_stable.engine.text.shx_font import Bigfont, SIGNATURE

@@ -152,6 +152,16 @@ def recover_vector_matches(
                 metrics[key].extend(value)
             else:
                 metrics[key] = value
+        from .stroke_rotation import recover_rotated_strokes
+
+        rotated, rotation_metrics = recover_rotated_strokes(
+            atoms, source_entities, stroke_catalogs, stroke_matches, occupied,
+            paper_mm=paper_mm,
+        )
+        matches = sorted([*matches, *rotated], key=lambda m: m.start)
+        metrics.update(rotation_metrics)
+        metrics["font_vector_glyph_matches"] += len(rotated)
+        metrics["font_stroke_glyph_matches"] += len(rotated)
     return matches, metrics
 
 

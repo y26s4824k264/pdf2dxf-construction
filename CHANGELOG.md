@@ -1,3 +1,10 @@
+# 2.0.0rc48
+
+- Verify 90/180/270-degree Han using two spatially independent earlier strict upright glyphs per character, the unchanged numeric-font geometry budget, complete source and measured row layout.
+- Preserve original ink bounds and angle as separate plain TEXT; reject missing branches, ambiguous Unicode, incomplete sources, inconsistent spacing and unconfirmed references without OCR or recursive learning.
+- Use a complete descriptor-radius prefilter for earlier known font labels; all supplied stroke fonts still participate in the final ambiguity check.
+- See [rc48 evidence and limits](docs/RELEASE_RC48.md); only the foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc47
 
 - Compile zero-ascent basic SHX bigfonts using a complete-Han geometry normalization scale, preserving source header provenance, consistent subset builds and nonzero-ascent compatibility.

@@ -144,6 +144,7 @@ class GlyphMatch:
     font_vector_error_limit: float | None = None
     font_vector_grid_pitch: float | None = None
     font_vector_layout: tuple[float, float, float, float, float] | None = None
+    font_vector_rotation: int = 0
 
     @property
     def height(self) -> float:
@@ -2002,6 +2003,8 @@ def _select_non_overlapping(matches: list[GlyphMatch]) -> tuple[list[GlyphMatch]
 
 
 def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
+    if left.font_vector_rotation or right.font_vector_rotation:
+        return False
     if any(m.template.admission in {"shx_stroke_spaced_row_consensus", "shx_stroke_isolated_repeat_consensus", "shx_stroke_repeated_label_consensus"} for m in (left,right)):
         return False
     if right.start != left.end or right.atoms[0].layer != left.atoms[0].layer:
@@ -2111,6 +2114,8 @@ def _run_geometry(
     low = np.min(np.asarray([match.low for match in run]), axis=0)
     high = np.max(np.asarray([match.high for match in run]), axis=0)
     height = float(np.median([match.height for match in run]))
+    if len(run) == 1 and run[0].font_vector_rotation in (90, 270):
+        height = float(high[0] - low[0])
     return text, low, high, height
 
 
@@ -2433,7 +2438,7 @@ def recover_outline_text(
             and run[0].template.admission in {"shx_stroke_row_anchor_consensus","shx_stroke_spaced_row_consensus"}
             and run[0].font_vector_layout is not None,
             stroke_repeat_confirmed=len(run) == 1
-            and run[0].template.admission in {"shx_stroke_isolated_repeat_consensus", "shx_stroke_repeated_label_consensus"}
+            and run[0].template.admission in {"shx_stroke_isolated_repeat_consensus", "shx_stroke_repeated_label_consensus", "shx_stroke_rotated_reference_consensus"}
             and run[0].font_vector_layout is not None,
         )
         if publishable:
@@ -2486,9 +2491,16 @@ def recover_outline_text(
             if run_font_catalog_ids else "exact_normalized_mask_and_topology"
         )
         start, end = (float(low[0]), float(low[1])), (float(high[0]), float(low[1]))
+        rotation = run[0].font_vector_rotation
+        if rotation == 90:
+            start, end = (float(high[0]), float(low[1])), (float(high[0]), float(high[1]))
+        elif rotation == 180:
+            start, end = (float(high[0]), float(high[1])), (float(low[0]), float(high[1]))
+        elif rotation == 270:
+            start, end = (float(low[0]), float(high[1])), (float(low[0]), float(low[1]))
         text = doc.modelspace().add_text(
             text_value,
-            dxfattribs={"height": height, "layer": TEXT_LAYER, "style": TEXT_STYLE},
+            dxfattribs={"height": height, "layer": TEXT_LAYER, "style": TEXT_STYLE, "rotation": rotation},
         )
         text.set_placement(start, end, align=TextEntityAlignment.FIT)
         text.set_xdata(
@@ -2532,6 +2544,7 @@ def recover_outline_text(
                 "text": text_value,
                 "bbox_dxf": [float(value) for value in (*low, *high)],
                 "height": height,
+                "rotation": rotation,
                 "match_method": match_method,
                 "template_ids": [match.template.id for match in run],
                 "template_fingerprints": [match.template.fingerprint for match in run],
