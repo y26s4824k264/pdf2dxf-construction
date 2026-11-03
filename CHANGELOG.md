@@ -1,3 +1,10 @@
+# 2.0.0rc46
+
+- Recover complete isolated Han from a locked numeric font and two spatially independent, previously strict row occurrences, retaining the original geometry budget, Unicode uniqueness, source completeness and verified printer lattice.
+- Permit reference layers and sizes to differ while requiring each target glyph to stay complete on one layer and on the same source page; reject insufficient, overlapping, ambiguous or newly learned references.
+- Emit separate plain TEXT at original ink bounds and persist the geometric references; no OCR, semantic completion or recursive learning.
+- See [rc46 evidence and limits](docs/RELEASE_RC46.md); only the foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc45
 
 - Recheck printer-topology boundary cases against two independent, previously confirmed glyph occurrences without widening the original complete-geometry budget or allowing recursive prototype learning.

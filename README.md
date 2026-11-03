@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-当前版本：**2.0.0rc45**。增加已确认重复字形的独立复核，并验证实际拉开的字距；继续由持久化 DXF 和数值字库确认纯 TEXT，不使用 OCR。见 [rc45 说明](docs/RELEASE_RC45.md)。
+当前版本：**2.0.0rc46**。补齐独立表格汉字的几何复核：已锁定字库、完整字形和至少两个此前确认的独立同字参考共同生成单字纯 TEXT，不使用 OCR。见 [rc46 说明](docs/RELEASE_RC46.md)。
 
 **简体中文** | [English](README.en.md)
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc45`（预发布）。
+版本：`2.0.0rc46`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont` / `.p2dvec`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 负责预编译外部轮廓字库，也在 PDF 输入解码时核验内嵌 TrueType cmap；轮廓识别阶段不打开 PDF 或外部字体文件。
 
@@ -17,7 +17,7 @@
 要求 Python 3.10+；本轮本地验证 macOS ARM64 / Python 3.12。最新跨平台执行结果见上方 CI 与[验证记录](docs/VALIDATION.md)。建议使用独立虚拟环境，以下为 macOS/Linux 命令；Windows 对应可执行文件位于 `.venv\Scripts\`：
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc45"
+python -m pip install "pdf2dxf-construction==2.0.0rc46"
 ```
 
 ```sh

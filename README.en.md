@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-Current version: **2.0.0rc45**. Independently recheck verified repeated glyphs and measure deliberate character tracking while preserving original positions as plain TEXT. Runtime input remains saved DXF plus numeric templates, without OCR or semantic completion. See [rc45 evidence and limits](docs/RELEASE_RC45.md).
+Current version: **2.0.0rc46**. Verify complete isolated Han against a locked numeric font and at least two independent, previously confirmed occurrences; emit separate plain TEXT at original positions. No OCR or semantic completion. See [rc46 evidence and limits](docs/RELEASE_RC46.md).
 
 [简体中文](README.md) | **English**
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc45` (prerelease).
+Version: `2.0.0rc46` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -21,7 +21,7 @@ Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redist
 Python 3.10 or later is required. This release was checked locally on macOS ARM64 / Python 3.12; earlier releases also have Python 3.10 and Linux ARM64 evidence. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc45"
+python -m pip install "pdf2dxf-construction==2.0.0rc46"
 ```
 
 ```sh

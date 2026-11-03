@@ -2002,7 +2002,7 @@ def _select_non_overlapping(matches: list[GlyphMatch]) -> tuple[list[GlyphMatch]
 
 
 def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
-    if any(m.template.admission == "shx_stroke_spaced_row_consensus" for m in (left,right)):
+    if any(m.template.admission in {"shx_stroke_spaced_row_consensus", "shx_stroke_isolated_repeat_consensus"} for m in (left,right)):
         return False
     if right.start != left.end or right.atoms[0].layer != left.atoms[0].layer:
         return False
@@ -2064,7 +2064,8 @@ def _group_runs(matches: list[GlyphMatch]) -> list[list[GlyphMatch]]:
 
 
 def _publishable_text(
-    text: str, *, font_locked: bool = False, stroke_row_anchored: bool = False
+    text: str, *, font_locked: bool = False, stroke_row_anchored: bool = False,
+    stroke_repeat_confirmed: bool = False,
 ) -> tuple[bool, str]:
     if not text or len(text) > MAX_RECOVERED_TEXT_GLYPHS:
         return False, "unsupported_text_length"
@@ -2073,6 +2074,8 @@ def _publishable_text(
     han_count = sum(is_han_character(char) or char == "〇" for char in text)
     if stroke_row_anchored and len(text) == han_count == 1:
         return True, "verified_stroke_row_anchor"
+    if stroke_repeat_confirmed and len(text) == han_count == 1:
+        return True, "verified_stroke_repeat_consensus"
     if han_count >= 2:
         return True, "multiple_han_glyphs"
     if font_locked and han_count + sum(_is_english_letter(char) for char in text) >= 2:
@@ -2428,6 +2431,9 @@ def recover_outline_text(
             and all(match.font_catalog_ids for match in latin_matches),
             stroke_row_anchored=len(run) == 1
             and run[0].template.admission in {"shx_stroke_row_anchor_consensus","shx_stroke_spaced_row_consensus"}
+            and run[0].font_vector_layout is not None,
+            stroke_repeat_confirmed=len(run) == 1
+            and run[0].template.admission == "shx_stroke_isolated_repeat_consensus"
             and run[0].font_vector_layout is not None,
         )
         if publishable:

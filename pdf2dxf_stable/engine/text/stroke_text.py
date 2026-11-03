@@ -254,6 +254,65 @@ def _repeat_candidates(matches, deferred, atoms):
     return added, evidence
 
 
+def _admit_isolated(matches, singletons, proofs, atoms, references, metrics):
+    """Confirm complete isolated Han from two earlier occurrences, not neighbours."""
+    from .font_catalog import is_han_character
+
+    locked = {row["catalog_id"] for row in metrics["font_vector_evidence"]}
+    used = {i for m in matches for i in range(m.start, m.end)}
+    pending = defaultdict(list)
+    for cid in locked:
+        for match in singletons[cid]:
+            if (
+                not is_han_character(match.char)
+                or not match.font_vector_grid_pitch
+                or len(locked.intersection(match.font_catalog_ids)) != 1
+                or any(i in used for i in range(match.start, match.end))
+            ):
+                continue
+            proof = proofs[match.start, match.end, match.char]
+            pending[match.atoms[0].source_ref[:2]].append(
+                (replace(match, font_catalog_ids=(cid,)), {cid: proof[cid]})
+            )
+    evidence = []
+    added = []
+    for source, candidates in pending.items():
+        seeds = [m for m in references if m.atoms[0].source_ref[:2] == source]
+        supported, details = _repeat_candidates(seeds, candidates, atoms)
+        for (match, proof), detail in zip(supported, details):
+            catalog = next(iter(proof.values()))[0]
+            layout = _placement(match, catalog, proofs)
+            if layout is None or not 0.2 <= layout[1] <= 3:
+                continue
+            added.append(
+                replace(
+                    match,
+                    font_vector_layout=layout,
+                    template=replace(
+                        match.template,
+                        support_locations=min(
+                            len(s["reference_source_spans"]) for s in detail["supports"]
+                        ),
+                        admission="shx_stroke_isolated_repeat_consensus",
+                    ),
+                )
+            )
+            evidence.append(
+                {
+                    **{k: v for k, v in detail.items() if k != "span_key"},
+                    "grid_pitch": match.font_vector_grid_pitch,
+                    "layout": list(layout),
+                    "source_layer": match.atoms[0].layer,
+                    "reference_policy": "previous_strict_rows_same_source_page",
+                }
+            )
+    metrics["font_stroke_isolated_glyph_matches"] = len(added)
+    metrics["font_stroke_isolated_evidence"] = evidence[:200]
+    result = sorted([*matches, *added], key=lambda m: m.start)
+    metrics["font_stroke_glyph_matches"] = metrics["font_vector_glyph_matches"] = len(result)
+    return result
+
+
 def _spaced_matches(matches, candidates, proofs, atoms, catalogs, locked):
     """Measure real uniform tracking, retaining each glyph as separate TEXT."""
     used = {i for m in matches for i in range(m.start, m.end)}
@@ -361,6 +420,8 @@ def recover_stroke_matches(
         "font_stroke_repeat_evidence": [],
         "font_stroke_spaced_glyph_matches": 0,
         "font_stroke_spaced_row_evidence": [],
+        "font_stroke_isolated_glyph_matches": 0,
+        "font_stroke_isolated_evidence": [],
         "font_vector_glyph_matches": 0,
         "font_vector_candidate_glyphs": 0,
         "font_vector_ambiguous_glyphs": 0,
@@ -644,6 +705,11 @@ def recover_stroke_matches(
                 for e in repeat_evidence
                 if tuple(e["span_key"]) in accepted_keys
             ][:200]
+            # Only the original strict rows may seed isolated characters;
+            # neither this retry's new glyphs nor single anchors may bootstrap.
+            retry = _admit_isolated(
+                retry, singletons, proofs, atoms, matches, retry_metrics
+            )
             return retry, retry_metrics
     spaced, spacing_evidence = _spaced_matches(
         matches,
@@ -659,4 +725,6 @@ def recover_stroke_matches(
     metrics["font_stroke_glyph_matches"] = metrics["font_vector_glyph_matches"] = len(
         matches
     )
+    if _prepared is None:
+        matches = _admit_isolated(matches, singletons, proofs, atoms, matches, metrics)
     return matches, metrics

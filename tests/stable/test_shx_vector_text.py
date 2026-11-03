@@ -523,6 +523,85 @@ def test_single_han_needs_local_row_geometry_and_complete_separator(tmp_path, ca
         ]
 
 
+@pytest.mark.parametrize(
+    "case",
+    ["valid", "one_reference", "unseeded_pair", "duplicate_location", "missing_branch", "no_grid", "mixed_layers", "other_page", "no_font_lock", "unicode_alias"],
+)
+def test_isolated_han_requires_two_independent_preconfirmed_glyphs(
+    tmp_path, monkeypatch, case
+):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    monkeypatch.setitem(
+        SHAPES, "土", [[(20, 55), (80, 55)], [(50, 100), (50, 5)], [(10, 5), (90, 5)]]
+    )
+    if case == "unicode_alias":
+        monkeypatch.setitem(SHAPES, "玉", SHAPES["本"])
+    catalog = tmp_path / "isolated.p2dvec"
+    font = font_file(tmp_path / "isolated.shx")
+    build_shx_vector_catalog(font, catalog, encoding="gbk")
+    font.unlink()
+    full, short = CHARS + "土", "工木大王土"
+    words = [full, short if case == "one_reference" else full]
+    if case == "unseeded_pair":
+        words = [short, short]
+    elif case == "no_font_lock":
+        words = [full + "本"]
+    elif case == "unicode_alias":
+        words = [short, short, full, full]
+    doc = ezdxf.new("R2018")
+    doc.header["$INSUNITS"] = 4
+    doc.appids.new("PDF2DXF15")
+    doc.layers.new("LABELS")
+    doc.layers.new("OTHER")
+    pitch = 25.4 / 600
+
+    def draw(char, origin, scale, seq, layer="0", page=0, target=False):
+        paths = SHAPES[char][:-1] if target and case == "missing_branch" else SHAPES[char]
+        bounds = []
+        for i, path in enumerate(paths):
+            points = np.array(path) * scale + origin
+            if char == "本" and not (target and case == "no_grid"):
+                points = np.rint(points / pitch) * pitch
+            bounds.extend(points)
+            entity = doc.modelspace().add_lwpolyline(
+                points, dxfattribs={"layer": "OTHER" if target and case == "mixed_layers" and i == 1 else layer}
+            )
+            entity.set_xdata(
+                "PDF2DXF15", [(1000, "stroke"), (1070, page), (1070, seq + i), (1000, "s")]
+            )
+        return np.min(bounds, axis=0)
+
+    for row, word in enumerate(words):
+        seq = row * 200
+        y = 0 if case == "duplicate_location" else row * 12
+        for col, char in enumerate(word):
+            draw(char, [col * 4.2, y], [0.035, 0.07], seq)
+            seq += len(SHAPES[char])
+    expected = draw("本", [35, 45], [0.0245, 0.049], 1000, "LABELS", int(case == "other_page"), True)
+    if case == "unseeded_pair":
+        draw("本", [45, 45], [0.0245, 0.049], 1100, "LABELS", target=True)
+    path = tmp_path / "isolated.dxf"
+    doc.saveas(path)
+    report = recover_outline_text(path, mode="required", policy="off_layer", font_catalog_paths=[catalog])
+    targets = [r for r in report["accepted"] if r["bbox_dxf"][1] >= 44]
+    assert [r["text"] for r in targets] == (["本"] if case == "valid" else [])
+    assert report.get("font_stroke_isolated_glyph_matches", 0) == int(case == "valid")
+    if case == "valid":
+        proof = report["font_stroke_isolated_evidence"][0]
+        assert len(proof["supports"][0]["reference_source_spans"]) == 2
+        assert proof["grid_pitch"] == pytest.approx(pitch)
+        assert targets[0]["font_vector_admissions"] == ["shx_stroke_isolated_repeat_consensus"]
+        reopened = ezdxf.readfile(path)
+        texts = list(reopened.modelspace().query("TEXT"))
+        target, = [e for e in texts if e.dxf.text == "本"]
+        assert tuple(target.dxf.insert)[:2] == pytest.approx(expected)
+        assert target.dxf.layer == "PDF_TEXT_RECOVERED_NOOCR"
+        assert reopened.layers.get("PDF_OUTLINE_BACKUP").is_off()
+        assert not reopened.audit().errors
+
+
 def test_alias_unicode_cannot_be_chosen_from_stroke_shape(tmp_path, monkeypatch):
     from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
 
