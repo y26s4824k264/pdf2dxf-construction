@@ -1,3 +1,10 @@
+# 2.0.0rc45
+
+- Recheck printer-topology boundary cases against two independent, previously confirmed glyph occurrences without widening the original complete-geometry budget or allowing recursive prototype learning.
+- Verify measured uniform tracking in locked-font rows of four distinct Han, emitting separate plain TEXT at the observed positions without inserting spaces or stretching glyphs.
+- Preserve font ambiguity, complete-source, font-cell and row gates, existing numeric resources and original DXF geometry. No OCR or semantic completion.
+- See [rc45 evidence and limits](docs/RELEASE_RC45.md); only foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc44
 
 - Recover crossing-stroke repartitions using complete vector-network coverage and component/hole topology, retaining strict per-path verification as an alternative under the unchanged geometry budget.

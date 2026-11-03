@@ -203,6 +203,73 @@ def test_network_match_cannot_recover_a_missing_branch(tmp_path):
 
 
 @pytest.mark.parametrize(
+    "case", ["two", "one", "none", "duplicate", "missing_branch", "unseeded_pair"]
+)
+def test_repeat_proof_requires_independent_preconfirmed_glyphs(
+    tmp_path, monkeypatch, case
+):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    wood = SHAPES["木"]
+    loop = [(10, 105), (10, 125), (90, 125), (90, 105), (14, 105)]
+    monkeypatch.setitem(SHAPES, "木", [loop, *wood])
+    monkeypatch.setitem(
+        SHAPES, "土", [[(20, 55), (80, 55)], [(50, 100), (50, 5)], [(10, 5), (90, 5)]]
+    )
+    catalog = tmp_path / "repeat.p2dvec"
+    build_shx_vector_catalog(
+        font_file(tmp_path / "repeat.shx"), catalog, encoding="gbk"
+    )
+    full, short = "工木本大王土", "工本大王土"
+    words = [
+        short if case in ("none", "unseeded_pair") else full,
+        full if case in ("two", "duplicate", "missing_branch") else short,
+        full,
+    ]
+    if case == "unseeded_pair":
+        words.append(full)
+    doc = ezdxf.new("R2018")
+    doc.header["$INSUNITS"] = 4
+    doc.appids.new("PDF2DXF15")
+    pitch = 25.4 / 600
+    for row, word in enumerate(words):
+        seq = row * 200
+        y = 0 if case == "duplicate" and row == 1 else row * 12
+        for col, char in enumerate(word):
+            paths = SHAPES[char]
+            if char == "木":
+                paths = [
+                    loop,
+                    [(10, 70), (50, 70), (50, 0)],
+                    [(50, 100), (50, 70), (90, 70)],
+                    *wood[2:],
+                ]
+                if row >= 2 and case == "missing_branch":
+                    paths = paths[:-1]
+            for path in paths:
+                points = np.array(path) * [0.035, 0.07] + [
+                    col * 4.2 + (0.01 if row >= 2 and char == "木" else 0),
+                    y,
+                ]
+                if char == "木":
+                    points = np.rint(points / pitch) * pitch
+                entity = doc.modelspace().add_lwpolyline(points)
+                entity.set_xdata(
+                    "PDF2DXF15", [(1000, "stroke"), (1070, 0), (1070, seq), (1000, "s")]
+                )
+                seq += 1
+    path = tmp_path / "repeat.dxf"
+    doc.saveas(path)
+    report = recover_outline_text(path, mode="required", font_catalog_paths=[catalog])
+    target = [r["text"] for r in report["accepted"] if r["bbox_dxf"][1] >= 23]
+    assert (full in target) is (case == "two")
+    assert report.get("font_stroke_repeat_glyph_matches", 0) == (
+        1 if case == "two" else 0
+    )
+
+
+@pytest.mark.parametrize(
     "paths,signature",
     [
         ([[(0, 0), (1, 0)], [(0, 1), (1, 1)]], (0, 0)),
@@ -218,6 +285,53 @@ def test_network_envelope_retains_components_and_holes(paths, signature):
         _stroke_network_topology(MultiLineString(paths).buffer(0.01, quad_segs=8))
         == signature
     )
+
+
+@pytest.mark.parametrize("case", ["uniform", "uneven", "baseline", "short", "unlocked"])
+def test_measured_character_spacing_needs_a_locked_font_and_four_labels(tmp_path, case):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    catalog = tmp_path / "spacing.p2dvec"
+    build_shx_vector_catalog(
+        font_file(tmp_path / "spacing.shx"), catalog, encoding="gbk"
+    )
+    path = stroke_dxf(tmp_path / "spacing.dxf", rows=1 if case == "unlocked" else 2)
+    doc = ezdxf.readfile(path)
+    word = CHARS[:3] if case == "short" else CHARS[:4]
+    seq = 200
+    for col, char in enumerate(word):
+        for stroke in SHAPES[char]:
+            points = np.array(stroke) * [0.035, 0.07] + [
+                col * 6.2 + (0.7 if case == "uneven" and col >= 2 else 0),
+                24 + (0.8 if case == "baseline" and col == 1 else 0),
+            ]
+            entity = doc.modelspace().add_lwpolyline(points)
+            entity.set_xdata(
+                "PDF2DXF15", [(1000, "stroke"), (1070, 0), (1070, seq), (1000, "s")]
+            )
+            seq += 1
+    doc.saveas(path)
+    report = recover_outline_text(path, mode="required", font_catalog_paths=[catalog])
+    rows = [r for r in report["accepted"] if r["bbox_dxf"][1] >= 23]
+    assert [r["text"] for r in rows] == (list(word) if case == "uniform" else [])
+    if case == "uniform":
+        assert report["font_stroke_spaced_row_evidence"][0]["text"] == word
+        assert report["font_stroke_spaced_row_evidence"][0][
+            "tracking_dxf_units"
+        ] == pytest.approx(2)
+        assert all(
+            r["font_vector_admissions"] == ["shx_stroke_spaced_row_consensus"]
+            for r in rows
+        )
+        saved = ezdxf.readfile(path)
+        for row in rows:
+            texts = [
+                e for e in saved.modelspace().query("TEXT") if e.dxf.text == row["text"]
+            ]
+            assert any(
+                np.allclose(tuple(e.dxf.insert)[:2], row["bbox_dxf"][:2]) for e in texts
+            )
 
 
 @pytest.mark.parametrize("repartition", [False, True])

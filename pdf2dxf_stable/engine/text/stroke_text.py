@@ -6,6 +6,7 @@ from dataclasses import replace
 import numpy as np
 
 from .vector_text import _adjacent, _candidate_group, _placement
+from .vector_catalog import _join_stroke_paths, _normalise, _stroke_paths_agree
 
 MAX_ROW_GLYPHS = 96
 
@@ -27,15 +28,22 @@ def _whole_source(group, source_entities):
     )
 
 
-def _row_model(row, catalog, proofs):
+def _row_model(row, catalog, proofs, *, spaced=False):
     # One affine placement for the whole row prevents accumulated per-glyph
-    # scale noise. Fit all ink bounds, without adding tracking or missing text.
+    # scale noise. Uniform tracking is fitted only for separately emitted,
+    # independently locked four-label rows; no missing text is inferred.
     x, y, observed_x, observed_y = [], [], [], []
     advance = 0.0
-    for match in row:
+    if spaced and len({m.char for m in row}) < 4:
+        return None
+    for position, match in enumerate(row):
         _, index, _, _ = proofs[match.start, match.end, match.char][catalog.catalog_id]
         x0, y0, x1, y1, step = map(float, catalog.arrays["metrics.npy"][index])
-        x.extend(((1, advance + x0), (1, advance + x1)))
+        x.extend(
+            ((1, advance + x0, position), (1, advance + x1, position))
+            if spaced
+            else ((1, advance + x0), (1, advance + x1))
+        )
         y.extend(((1, y0), (1, y1)))
         observed_x.extend((match.low[0], match.high[0]))
         observed_y.extend((match.low[1], match.high[1]))
@@ -44,6 +52,8 @@ def _row_model(row, catalog, proofs):
     a = np.linalg.lstsq(x, observed_x, rcond=None)[0]
     b = np.linalg.lstsq(y, observed_y, rcond=None)[0]
     if not 0 < b[1] or not 0.2 <= a[1] / b[1] <= 3:
+        return None
+    if spaced and not 0.05 * b[1] <= a[2] <= b[1]:
         return None
     pitch = min(m.font_vector_grid_pitch or 0 for m in row)
     limit = max(0.006 * b[1], np.sqrt(2) * pitch)
@@ -159,8 +169,183 @@ def _anchored_single(match, row, catalog, proofs, groups, whole):
     }
 
 
+def _separate_locations(a, b):
+    return any(a.high[i] <= b.low[i] or b.high[i] <= a.low[i] for i in (0, 1))
+
+
+def _repeat_candidates(matches, deferred, atoms):
+    """Use only independent, already confirmed glyphs; never feed back new ones."""
+    prototypes = defaultdict(list)
+    for match in matches:
+        if match.template.admission != "shx_stroke_boundary_layout_consensus":
+            continue
+        for cid in match.font_catalog_ids:
+            bucket = prototypes[cid, match.char]
+            if len(bucket) >= 8 or any(
+                not _separate_locations(match, ref) for ref, _ in bucket
+            ):
+                continue
+            normal, _, _ = _normalise(
+                _join_stroke_paths([p for a in match.atoms for p in a.paths])
+            )
+            bucket.append((match, normal))
+    used = {i for m in matches for i in range(m.start, m.end)}
+    added, evidence = [], []
+    for match, proof in deferred:
+        if any(i in used for i in range(match.start, match.end)):
+            continue
+        normal, _, extent = _normalise(
+            _join_stroke_paths([p for a in match.atoms for p in a.paths])
+        )
+        admitted = {}
+        supports = []
+        for cid in match.font_catalog_ids:
+            catalog = proof[cid][0]
+            if not _whole_cell(
+                match, atoms, catalog, {(match.start, match.end, match.char): proof}
+            ):
+                continue
+            votes = [
+                ref
+                for ref, paths in prototypes[cid, match.char]
+                if _separate_locations(match, ref)
+                and _stroke_paths_agree(
+                    normal, paths, extent[0] / extent[1], match.font_vector_error_limit
+                )
+            ]
+            if len(votes) < 2:
+                continue
+            admitted[cid] = proof[cid]
+            supports.append(
+                {
+                    "catalog_id": cid,
+                    "reference_source_handles": [
+                        [a.entity.dxf.handle for a in ref.atoms] for ref in votes
+                    ],
+                    "reference_source_spans": [
+                        [ref.atoms[0].source_ref[2], ref.atoms[-1].source_ref[2]]
+                        for ref in votes
+                    ],
+                }
+            )
+        if not admitted:
+            continue
+        candidate = replace(
+            match,
+            font_catalog_ids=tuple(sorted(admitted)),
+            font_vector_error=max(p[2] for p in admitted.values()),
+        )
+        added.append((candidate, admitted))
+        evidence.append(
+            {
+                "text": match.char,
+                "source_handles": [a.entity.dxf.handle for a in match.atoms],
+                "source_span": [
+                    match.atoms[0].source_ref[2],
+                    match.atoms[-1].source_ref[2],
+                ],
+                "boundary_error": candidate.font_vector_error,
+                "error_limit": match.font_vector_error_limit,
+                "method": "independent_preconfirmed_path_bijection",
+                "supports": supports,
+                "span_key": [match.start, match.end, match.char],
+            }
+        )
+    return added, evidence
+
+
+def _spaced_matches(matches, candidates, proofs, atoms, catalogs, locked):
+    """Measure real uniform tracking, retaining each glyph as separate TEXT."""
+    used = {i for m in matches for i in range(m.start, m.end)}
+    proposals = []
+    for catalog in catalogs:
+        if catalog.catalog_id not in locked:
+            continue
+        spans = [
+            m
+            for m in candidates
+            if catalog.catalog_id in m.font_catalog_ids
+            and not any(i in used for i in range(m.start, m.end))
+            and _whole_cell(m, atoms, catalog, proofs)
+        ]
+        starts = defaultdict(list)
+        for i, m in enumerate(spans):
+            starts[m.start].append(i)
+        forward, backward = defaultdict(list), defaultdict(list)
+        for i, a in enumerate(spans):
+            for j in starts.get(a.end, []):
+                if _adjacent(a, spans[j], catalog, proofs, spaced=True):
+                    forward[i].append(j)
+                    backward[j].append(i)
+        for i in range(len(spans)):
+            if backward[i]:
+                continue
+            indices = [i]
+            while len(forward[indices[-1]]) == 1:
+                j = forward[indices[-1]][0]
+                if len(backward[j]) != 1 or len(indices) >= MAX_ROW_GLYPHS:
+                    break
+                indices.append(j)
+            if forward[indices[-1]]:
+                continue
+            row = [spans[j] for j in indices]
+            model = _row_model(row, catalog, proofs, spaced=True)
+            if model is not None:
+                proposals.append((catalog, row, model))
+    additions = {}
+    evidence = []
+    for i, (catalog, row, model) in enumerate(proposals):
+        keys = {(m.start, m.end, m.char) for m in row}
+        if any(
+            any(a.start < b.end and b.start < a.end for a in row for b in other)
+            and keys != {(m.start, m.end, m.char) for m in other}
+            for j, (_, other, _) in enumerate(proposals)
+            if i != j
+        ):
+            continue
+        advance = 0.0
+        for position, m in enumerate(row):
+            index = proofs[m.start, m.end, m.char][catalog.catalog_id][1]
+            step = float(catalog.arrays["metrics.npy"][index, 4])
+            layout = (
+                model[4],
+                model[1] / model[4],
+                model[0] + advance * model[1] + position * model[2],
+                model[3],
+                step * model[1],
+            )
+            advance += step
+            additions.setdefault(
+                (m.start, m.end, m.char),
+                replace(
+                    m,
+                    font_catalog_ids=(catalog.catalog_id,),
+                    font_vector_layout=layout,
+                    template=replace(
+                        m.template, admission="shx_stroke_spaced_row_consensus"
+                    ),
+                ),
+            )
+        if len(evidence) < 200:
+            evidence.append(
+                {
+                    "text": "".join(m.char for m in row),
+                    "catalog_id": catalog.catalog_id,
+                    "tracking_dxf_units": model[2],
+                    "layout_model": list(model),
+                    "distinct_han": len({m.char for m in row}),
+                    "source_spans": [
+                        [m.atoms[0].source_ref[2], m.atoms[-1].source_ref[2]]
+                        for m in row
+                    ],
+                    "output_policy": "separate_TEXT_preserving_observed_ink_bounds",
+                }
+            )
+    return list(additions.values()), evidence
+
+
 def recover_stroke_matches(
-    atoms, source_entities, catalogs, occupied, entries, *, paper_mm
+    atoms, source_entities, catalogs, occupied, entries, *, paper_mm, _prepared=None
 ):
     metrics = {
         "font_stroke_windows_scanned": 0,
@@ -171,6 +356,11 @@ def recover_stroke_matches(
         "font_stroke_glyph_matches": 0,
         "font_stroke_anchored_single_glyphs": 0,
         "font_stroke_single_anchor_evidence": [],
+        "font_stroke_deferred_candidate_glyphs": 0,
+        "font_stroke_repeat_glyph_matches": 0,
+        "font_stroke_repeat_evidence": [],
+        "font_stroke_spaced_glyph_matches": 0,
+        "font_stroke_spaced_row_evidence": [],
         "font_vector_glyph_matches": 0,
         "font_vector_candidate_glyphs": 0,
         "font_vector_ambiguous_glyphs": 0,
@@ -187,9 +377,11 @@ def recover_stroke_matches(
     whole = {
         ref: _whole_source(group, source_entities) for ref, group in groups.items()
     }
-    candidates = []
-    proofs = {}
-    for start, first in enumerate(atoms):
+    candidates, proofs, deferred = [], {}, []
+    if _prepared is not None:
+        candidates, proofs, scan_metrics = _prepared
+        metrics.update(scan_metrics)
+    for start, first in enumerate(atoms if _prepared is None else []):
         if first.entity.dxftype() == "HATCH":
             break
         if (
@@ -224,7 +416,11 @@ def recover_stroke_matches(
                 continue
             metrics["font_stroke_windows_scanned"] += 1
             result = _candidate_group(
-                atoms[start : end + 1], catalogs, metrics, paper_mm=paper_mm
+                atoms[start : end + 1],
+                catalogs,
+                metrics,
+                paper_mm=paper_mm,
+                deferred=deferred,
             )
             if result is None:
                 continue
@@ -399,6 +595,67 @@ def recover_stroke_matches(
                 metrics["font_stroke_single_anchor_evidence"].append(proof)
 
     matches = sorted(admitted.values(), key=lambda m: m.start)
+    if _prepared is None and deferred:
+        metrics["font_stroke_deferred_candidate_glyphs"] = len(deferred)
+        added, repeat_evidence = _repeat_candidates(matches, deferred, atoms)
+        if added:
+            retry_proofs = dict(proofs)
+            for m, proof in added:
+                retry_proofs[m.start, m.end, m.char] = proof
+            scan_metrics = {
+                key: metrics[key]
+                for key in (
+                    "font_stroke_windows_scanned",
+                    "font_vector_ambiguous_glyphs",
+                    "font_stroke_deferred_candidate_glyphs",
+                )
+            }
+            retry, retry_metrics = recover_stroke_matches(
+                atoms,
+                source_entities,
+                catalogs,
+                occupied,
+                entries,
+                paper_mm=paper_mm,
+                _prepared=(
+                    [*candidates, *(m for m, _ in added)],
+                    retry_proofs,
+                    scan_metrics,
+                ),
+            )
+            keys = {tuple(e["span_key"]) for e in repeat_evidence}
+            accepted_keys = {(m.start, m.end, m.char) for m in retry} & keys
+            retry = [
+                replace(
+                    m,
+                    template=replace(
+                        m.template,
+                        admission="shx_stroke_repeat_boundary_layout_consensus",
+                    ),
+                )
+                if (m.start, m.end, m.char) in accepted_keys
+                and m.template.admission == "shx_stroke_boundary_layout_consensus"
+                else m
+                for m in retry
+            ]
+            retry_metrics["font_stroke_repeat_glyph_matches"] = len(accepted_keys)
+            retry_metrics["font_stroke_repeat_evidence"] = [
+                {k: v for k, v in e.items() if k != "span_key"}
+                for e in repeat_evidence
+                if tuple(e["span_key"]) in accepted_keys
+            ][:200]
+            return retry, retry_metrics
+    spaced, spacing_evidence = _spaced_matches(
+        matches,
+        candidates,
+        proofs,
+        atoms,
+        catalogs,
+        {r["catalog_id"] for r in metrics["font_vector_evidence"]},
+    )
+    matches = sorted([*matches, *spaced], key=lambda m: m.start)
+    metrics["font_stroke_spaced_glyph_matches"] = len(spaced)
+    metrics["font_stroke_spaced_row_evidence"] = spacing_evidence
     metrics["font_stroke_glyph_matches"] = metrics["font_vector_glyph_matches"] = len(
         matches
     )

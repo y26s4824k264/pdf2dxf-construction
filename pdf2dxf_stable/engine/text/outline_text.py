@@ -2002,6 +2002,8 @@ def _select_non_overlapping(matches: list[GlyphMatch]) -> tuple[list[GlyphMatch]
 
 
 def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
+    if any(m.template.admission == "shx_stroke_spaced_row_consensus" for m in (left,right)):
+        return False
     if right.start != left.end or right.atoms[0].layer != left.atoms[0].layer:
         return False
     if (left.font_vector_error is not None or right.font_vector_error is not None) and (
@@ -2425,7 +2427,7 @@ def recover_outline_text(
             font_locked=bool(latin_matches)
             and all(match.font_catalog_ids for match in latin_matches),
             stroke_row_anchored=len(run) == 1
-            and run[0].template.admission == "shx_stroke_row_anchor_consensus"
+            and run[0].template.admission in {"shx_stroke_row_anchor_consensus","shx_stroke_spaced_row_consensus"}
             and run[0].font_vector_layout is not None,
         )
         if publishable:

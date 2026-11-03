@@ -155,7 +155,7 @@ def recover_vector_matches(
     return matches, metrics
 
 
-def _adjacent(a, b, catalog, proofs):
+def _adjacent(a, b, catalog, proofs, *, spaced=False):
     if a.end != b.start or a.atoms[-1].layer != b.atoms[0].layer:
         return False
     aa, bb = a.atoms[-1].source_ref, b.atoms[0].source_ref
@@ -175,11 +175,15 @@ def _adjacent(a, b, catalog, proofs):
         )
         * min(x[1], y[1])
         and abs(x[3] - y[3]) <= max(0.015 * em, 2 * pitch)
-        and abs(y[2] - x[2] - x[4]) <= max(0.025 * em, 2 * pitch)
+        and (
+            0.05 * em <= y[2] - x[2] - x[4] <= em
+            if spaced
+            else abs(y[2] - x[2] - x[4]) <= max(0.025 * em, 2 * pitch)
+        )
     )
 
 
-def _candidate_group(group, catalogs, metrics, *, paper_mm):
+def _candidate_group(group, catalogs, metrics, *, paper_mm, deferred=None):
     from .outline_text import GlyphMatch, GlyphTemplate
 
     indices = [a.sequence_index for a in group]
@@ -214,19 +218,33 @@ def _candidate_group(group, catalogs, metrics, *, paper_mm):
         else MAX_BOUNDARY_ERROR
     )
     predictions = []
+    weak_predictions = []
+    allow_deferred = deferred is not None and stroke_catalogs and bool(pitch)
     overloaded = False
     for catalog in catalogs:
-        result = catalog.candidates(paths, max_error=error_limit)
+        weak = []
+        result = (
+            catalog.candidates(paths, max_error=error_limit, deferred=weak)
+            if allow_deferred
+            else catalog.candidates(paths, max_error=error_limit)
+        )
         if result is None:
             overloaded = True
             break
         predictions.extend((catalog, *r) for r in result)
+        weak_predictions.extend((catalog, *r) for r in weak)
     labels = {p[1] for p in predictions}
     if overloaded or len(labels) > 1:
         metrics["font_vector_ambiguous_glyphs"] += 1
         return None
+    pending = False
     if not labels:
-        return None
+        weak_labels = {p[1] for p in weak_predictions}
+        if not allow_deferred or len(weak_labels) != 1:
+            if len(weak_labels) > 1:
+                metrics["font_vector_ambiguous_glyphs"] += 1
+            return None
+        predictions, labels, pending = weak_predictions, weak_labels, True
     char = labels.pop()
     by_catalog = {}
     for catalog, _, row, error, width in predictions:
@@ -261,6 +279,9 @@ def _candidate_group(group, catalogs, metrics, *, paper_mm):
         font_vector_error_limit=error_limit,
         font_vector_grid_pitch=pitch or None,
     )
+    if pending:
+        deferred.append((match, by_catalog))
+        return None
     return match, by_catalog
 
 

@@ -200,7 +200,7 @@ class VectorFontCatalog:
             )
         return self._path_counts
 
-    def candidates(self, paths, *, max_error=MAX_BOUNDARY_ERROR):
+    def candidates(self, paths, *, max_error=MAX_BOUNDARY_ERROR, deferred=None):
         """Return every label inside the geometric budget, or reject ambiguity.
 
         Distance-to-outline samples are Lipschitz under Hausdorff distance.
@@ -261,6 +261,8 @@ class VectorFontCatalog:
                 observed_buffer = observed.buffer(max_error, quad_segs=8)
             if not observed_buffer.covers(expected):
                 continue
+            cp = int(self.arrays["codepoints.npy"][row])
+            prediction = (fc._canonical_catalog_character(cp), row, error, width_factor)
             if stroke and not _stroke_paths_agree(
                 normal, self.paths(row), aspect, max_error
             ):
@@ -268,6 +270,8 @@ class VectorFontCatalog:
                 if topology is None or topology != _stroke_network_topology(
                     expected_buffer
                 ):
+                    if deferred is not None:
+                        deferred.append(prediction)
                     continue
                 if observed_wide_topology is None:
                     observed_wide_topology = _stroke_network_topology(
@@ -280,11 +284,10 @@ class VectorFontCatalog:
                         expected.buffer(2 * max_error, quad_segs=8)
                     )
                 ):
+                    if deferred is not None:
+                        deferred.append(prediction)
                     continue
-            cp = int(self.arrays["codepoints.npy"][row])
-            result.append(
-                (fc._canonical_catalog_character(cp), row, error, width_factor)
-            )
+            result.append(prediction)
         return result
 
     def entry(self):
