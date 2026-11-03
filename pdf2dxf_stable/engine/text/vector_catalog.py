@@ -114,14 +114,24 @@ def _join_stroke_paths(paths):
     return tuple(joined)
 
 
+def _stroke_network_topology(envelope):
+    """Connected components and holes of a vector uncertainty envelope."""
+    parts = tuple(_polygon_parts(envelope))
+    holes = tuple(sorted(len(p.interiors) for p in parts))
+    if not parts or len(parts) + sum(holes) > 512:
+        return None
+    return holes
+
+
 def _stroke_paths_agree(observed, expected, aspect, limit):
+    """Retain the strict per-path proof when printer noise changes envelope topology."""
     from scipy.optimize import linear_sum_assignment
     from shapely.geometry import LineString
 
+    if len(observed) != len(expected):
+        return False
     a = [p * [aspect, 1] for p in observed]
     b = [p * [aspect, 1] for p in expected]
-    if len(a) != len(b):
-        return False
     costs = np.ones((len(a), len(b)))
     for i, p in enumerate(a):
         closed = np.array_equal(p[0], p[-1])
@@ -138,9 +148,8 @@ def _stroke_paths_agree(observed, expected, aspect, limit):
             ):
                 continue
             x, y = LineString(p), LineString(q)
-            error = float(hausdorff_distance(x, y, densify=0.25))
             if (
-                error <= limit
+                float(hausdorff_distance(x, y, densify=0.25)) <= limit
                 and x.buffer(limit, quad_segs=8).covers(y)
                 and y.buffer(limit, quad_segs=8).covers(x)
             ):
@@ -206,11 +215,17 @@ class VectorFontCatalog:
         topology = () if stroke else _topology(normal)
         if topology is None:
             return []
-        count = len(paths)
-        if count not in self._indices:
-            rows = np.flatnonzero(self.path_counts() == count)
-            self._indices[count] = (rows, cKDTree(self.arrays["descriptors.npy"][rows]))
-        rows, tree = self._indices[count]
+        # Pen partitions are not glyph identity. Search all stroke rows so a
+        # different path count cannot conceal a competing Unicode label.
+        key = "stroke_network" if stroke else len(paths)
+        if key not in self._indices:
+            rows = (
+                np.arange(len(self.arrays["codepoints.npy"]))
+                if stroke
+                else np.flatnonzero(self.path_counts() == len(paths))
+            )
+            self._indices[key] = (rows, cKDTree(self.arrays["descriptors.npy"][rows]))
+        rows, tree = self._indices[key]
         if not len(rows):
             return []
         aspect = float(extent[0] / extent[1])
@@ -220,6 +235,7 @@ class VectorFontCatalog:
             return None  # Never truncate away a competing label.
         observed = MultiLineString([p * [aspect, 1] for p in normal])
         observed_buffer = None
+        observed_wide_topology = None
         result = []
         for position in nearby:
             row = int(rows[position])
@@ -238,7 +254,8 @@ class VectorFontCatalog:
                 continue
             # Discrete Hausdorff alone can miss an error between vertices.
             # Inscribed buffers require coverage of both complete polylines.
-            if not expected.buffer(max_error, quad_segs=8).covers(observed):
+            expected_buffer = expected.buffer(max_error, quad_segs=8)
+            if not expected_buffer.covers(observed):
                 continue
             if observed_buffer is None:
                 observed_buffer = observed.buffer(max_error, quad_segs=8)
@@ -247,7 +264,23 @@ class VectorFontCatalog:
             if stroke and not _stroke_paths_agree(
                 normal, self.paths(row), aspect, max_error
             ):
-                continue
+                topology = _stroke_network_topology(observed_buffer)
+                if topology is None or topology != _stroke_network_topology(
+                    expected_buffer
+                ):
+                    continue
+                if observed_wide_topology is None:
+                    observed_wide_topology = _stroke_network_topology(
+                        observed.buffer(2 * max_error, quad_segs=8)
+                    )
+                if (
+                    observed_wide_topology is None
+                    or observed_wide_topology
+                    != _stroke_network_topology(
+                        expected.buffer(2 * max_error, quad_segs=8)
+                    )
+                ):
+                    continue
             cp = int(self.arrays["codepoints.npy"][row])
             result.append(
                 (fc._canonical_catalog_character(cp), row, error, width_factor)
@@ -264,6 +297,11 @@ class VectorFontCatalog:
             "outline_policy": self.manifest["outline_policy"],
             "templates": len(self.arrays["codepoints.npy"]),
             "vector_boundary_error_limit": MAX_BOUNDARY_ERROR,
+            "stroke_geometry_policy": (
+                "complete_ink_network_v1"
+                if self.manifest["outline_policy"] == "open_stroke_paths_v1"
+                else None
+            ),
         }
 
 

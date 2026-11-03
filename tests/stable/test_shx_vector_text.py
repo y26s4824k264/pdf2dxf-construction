@@ -135,6 +135,52 @@ def test_lone_stroke_row_cannot_lock_font(tmp_path):
     assert report["emitted_text_entities"] == 0
 
 
+@pytest.mark.parametrize("partition", ["rerouted", "split"])
+def test_crossing_strokes_recover_with_different_pdf_partitions(
+    tmp_path, monkeypatch, partition
+):
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    catalog = tmp_path / "font.p2dvec"
+    build_shx_vector_catalog(font_file(tmp_path / "font.shx"), catalog, encoding="gbk")
+    original = SHAPES["木"]
+    if partition == "rerouted":
+        paths = [
+            [(10, 70), (50, 70), (50, 0)],
+            [(50, 100), (50, 70), (90, 70)],
+            *original[2:],
+        ]
+    else:
+        paths = [[(10, 70), (50, 70)], original[1], [(50, 70), (90, 70)], *original[2:]]
+    monkeypatch.setitem(SHAPES, "木", paths)
+    dxf = stroke_dxf(tmp_path / "partitioned.dxf")
+    report = recover_outline_text(dxf, mode="required", font_catalog_paths=[catalog])
+    assert [row["text"] for row in report["accepted"]] == [CHARS, CHARS]
+    doc = ezdxf.readfile(dxf)
+    assert doc.layers.get("PDF_OUTLINE_BACKUP").is_off()
+    assert not doc.audit().errors
+
+
+def test_different_path_counts_cannot_hide_an_alias_unicode(tmp_path, monkeypatch):
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    paths = SHAPES["王"]
+    monkeypatch.setitem(
+        SHAPES,
+        "玉",
+        [paths[0], [(20, 55), (50, 55)], paths[2], [(50, 55), (80, 55)], paths[3]],
+    )
+    catalog = tmp_path / "alias.p2dvec"
+    build_shx_vector_catalog(font_file(tmp_path / "alias.shx"), catalog, encoding="gbk")
+    report = recover_outline_text(
+        stroke_dxf(tmp_path / "alias.dxf"),
+        mode="required",
+        font_catalog_paths=[catalog],
+    )
+    assert report["font_vector_ambiguous_glyphs"] >= 2
+    assert report["emitted_text_entities"] == 0
+
+
 def test_shx_requires_explicit_encoding(tmp_path):
     from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
 
@@ -144,7 +190,38 @@ def test_shx_requires_explicit_encoding(tmp_path):
         )
 
 
-def test_shx_source_pdf_runs_through_public_converter(tmp_path):
+def test_network_match_cannot_recover_a_missing_branch(tmp_path):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+    from pdf2dxf_stable.engine.text.vector_catalog import load_vector_font_catalog
+
+    catalog = tmp_path / "font.p2dvec"
+    build_shx_vector_catalog(font_file(tmp_path / "font.shx"), catalog, encoding="gbk")
+    paths = [np.array(p, dtype=float) for p in SHAPES["木"][:-1]]
+    result = load_vector_font_catalog(catalog).candidates(paths)
+    assert result is not None and all(row[0] != "木" for row in result)
+
+
+@pytest.mark.parametrize(
+    "paths,signature",
+    [
+        ([[(0, 0), (1, 0)], [(0, 1), (1, 1)]], (0, 0)),
+        ([[(0, 0), (1, 0), (1, 1), (0, 1), (0, 0)]], (1,)),
+        ([[(0, 0.5), (1, 0.5)], [(0.5, 0), (0.5, 1)]], (0,)),
+    ],
+)
+def test_network_envelope_retains_components_and_holes(paths, signature):
+    from shapely.geometry import MultiLineString
+    from pdf2dxf_stable.engine.text.vector_catalog import _stroke_network_topology
+
+    assert (
+        _stroke_network_topology(MultiLineString(paths).buffer(0.01, quad_segs=8))
+        == signature
+    )
+
+
+@pytest.mark.parametrize("repartition", [False, True])
+def test_shx_source_pdf_runs_through_public_converter(tmp_path, repartition):
     import fitz
     from pdf2dxf_stable import Converter, ConversionRequest
     from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
@@ -158,7 +235,14 @@ def test_shx_source_pdf_runs_through_public_converter(tmp_path):
         page = pdf.new_page(width=200, height=150)
         for row in range(2):
             for i, char in enumerate(CHARS):
-                for path in SHAPES[char]:
+                paths = SHAPES[char]
+                if repartition and char == "木":
+                    paths = [
+                        [(10, 70), (50, 70), (50, 0)],
+                        [(50, 100), (50, 70), (90, 70)],
+                        *paths[2:],
+                    ]
+                for path in paths:
                     points = [
                         (20 + i * 18 + x * 0.15, 30 + row * 40 + (100 - y) * 0.3)
                         for x, y in path

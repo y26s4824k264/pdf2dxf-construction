@@ -1,3 +1,10 @@
+# 2.0.0rc44
+
+- Recover crossing-stroke repartitions using complete vector-network coverage and component/hole topology, retaining strict per-path verification as an alternative under the unchanged geometry budget.
+- Search all stroke templates regardless of path count, rejecting hidden Unicode aliases instead of selecting one segmentation.
+- Preserve complete source paints, font-cell and row consensus, old numeric catalogs and original DXF geometry. No OCR or semantic completion.
+- See [rc44 evidence and limits](docs/RELEASE_RC44.md); only foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc43
 
 - Normalize exact consecutive SHX endpoint joints in either direction, retaining all segments and supporting existing rc42 catalogs without rebuilding them.

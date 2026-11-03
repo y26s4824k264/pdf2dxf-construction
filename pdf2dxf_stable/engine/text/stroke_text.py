@@ -6,7 +6,6 @@ from dataclasses import replace
 import numpy as np
 
 from .vector_text import _adjacent, _candidate_group, _placement
-from .vector_catalog import _join_stroke_paths
 
 MAX_ROW_GLYPHS = 96
 
@@ -165,6 +164,7 @@ def recover_stroke_matches(
 ):
     metrics = {
         "font_stroke_windows_scanned": 0,
+        "font_stroke_geometry_policy": "complete_ink_network_v1",
         "font_stroke_candidate_glyphs": 0,
         "font_stroke_cell_fragments_rejected": 0,
         "font_stroke_conflicting_rows_rejected": 0,
@@ -177,10 +177,8 @@ def recover_stroke_matches(
         "font_vector_locked_catalogs": 0,
         "font_vector_evidence": [],
     }
-    counts = {int(n) for c in catalogs for n in c.path_counts()}
-    maximum = max(counts)
     maximum_source = min(
-        128, max(int(c.font.get("max_source_paths", maximum * 2)) for c in catalogs)
+        128, 2 * max(int(c.font["max_source_paths"]) for c in catalogs)
     )
     groups = defaultdict(list)
     for atom in atoms:
@@ -200,7 +198,6 @@ def recover_stroke_matches(
             or (start and atoms[start - 1].source_ref == first.source_ref)
         ):
             continue
-        paths = []
         lo = first.low.copy()
         hi = first.high.copy()
         previous = first.source_ref
@@ -219,15 +216,11 @@ def recover_stroke_matches(
             ):
                 break
             previous = atom.source_ref
-            paths.extend(atom.paths)
             lo = np.minimum(lo, atom.low)
             hi = np.maximum(hi, atom.high)
-            joined_count = len(_join_stroke_paths(paths))
-            if joined_count > maximum or max(hi - lo) > 12:
+            if max(hi - lo) > 12:
                 break
-            if joined_count not in counts or (
-                end + 1 < len(atoms) and atoms[end + 1].source_ref == atom.source_ref
-            ):
+            if end + 1 < len(atoms) and atoms[end + 1].source_ref == atom.source_ref:
                 continue
             metrics["font_stroke_windows_scanned"] += 1
             result = _candidate_group(
@@ -320,6 +313,8 @@ def recover_stroke_matches(
         evidence = {
             "catalog_id": catalog.catalog_id,
             "method": "shx_stroke_boundary_layout_consensus",
+            "stroke_geometry_policy": "complete_ink_network_v1",
+            "network_topology_error_multipliers": [1, 2],
             "strong_rows": len(strong),
             "runs": ["".join(m.char for m in r) for r in strong[:10]],
             "maximum_boundary_error": max(
