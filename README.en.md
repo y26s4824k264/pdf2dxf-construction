@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-Current version: **2.0.0rc41**. Preserve ink islands inside fill holes and add persisted vector catalogs for resampled, compressed Han outlines. Recovery requires saved-DXF geometry, nesting topology and multiple coherent text rows, without OCR. Unconfirmed shapes stay as geometry. See [rc41 evidence and limits](docs/RELEASE_RC41.md).
+Current version: **2.0.0rc42**. Recover verified SHX stroke Han from saved DXF, with exact pen-break normalization, whole-row layout checks and source-index repair. No OCR or semantic completion. See [rc42 evidence and limits](docs/RELEASE_RC42.md).
 
 [简体中文](README.md) | **English**
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc41` (prerelease).
+Version: `2.0.0rc42` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -21,7 +21,7 @@ Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redist
 Python 3.10 or later is required. This release was checked locally on macOS ARM64 / Python 3.12; earlier releases also have Python 3.10 and Linux ARM64 evidence. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc41"
+python -m pip install "pdf2dxf-construction==2.0.0rc42"
 ```
 
 ```sh
@@ -224,3 +224,18 @@ pdf2dxf convert input.pdf -o output.dxf --outline-chinese required \
 The fallback accepts complete closed HATCH paints with converter provenance only. Nesting, bidirectional whole-boundary coverage, em sizes, baselines and advances must agree. At least two independent rows, each with five distinct Han labels, must confirm the font. Scans, isolated short rows, unknown fonts and conflicting labels remain unresolved. Pass the new resource directly with `--outline-font-catalog`; existing open-font bundles are unchanged.
 
 Coverage is limited to the font's actual cmap and is not drawing recognition accuracy. Fonts and derived vector catalogs retain their original licensing requirements and are excluded from this Python distribution. The privately evaluated SimSun font and catalog are not shipped on GitHub or PyPI.
+
+## SHX stroke Han (rc42)
+
+Open strokes in construction notes require stroke templates rather than closed fill boundaries. Compile a font you are entitled to use, with its encoding explicitly confirmed:
+
+```sh
+pdf2dxf font-catalog build /path/to/font.shx --vector --encoding gbk \
+  -o catalogs/stroke-han.p2dvec
+pdf2dxf convert input.pdf -o output.dxf --outline-chinese required \
+  --outline-font-catalog catalogs/stroke-han.p2dvec
+```
+
+This builder supports basic `AutoCAD-86 bigfont 1.0` Han programs with explicit GBK, not every SHX format/encoding. It executes bounded subshape programs and persists source SHA-256, actual advances and stroke vectors. Runtime matching never opens SHX. New stroke resources require rc42+; existing fill and r3 exact resources remain usable together. External fonts and derived catalogs are excluded from the Python distribution.
+
+Unique labels, complete source paints and bidirectional per-stroke coverage are mandatory. Only exactly coincident consecutive endpoints are joined; real gaps are not bridged. Two rows, each containing five distinct Han labels, confirm a font. Subsequent short runs need two distinct Han labels and coherent placement. Isolated characters, unsupported symbols, missing strokes and ambiguous shapes remain geometry. Coverage is not drawing recognition accuracy.

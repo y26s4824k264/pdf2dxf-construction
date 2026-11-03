@@ -92,6 +92,50 @@ def _filled_paths(paths):
     )
 
 
+def _join_stroke_paths(paths):
+    """Remove only zero-length pen-up breaks, without changing any segment."""
+    joined = []
+    for path in paths:
+        if joined and np.array_equal(joined[-1][-1], path[0]):
+            joined[-1] = np.vstack((joined[-1], path[1:]))
+        else:
+            joined.append(np.asarray(path))
+    return tuple(joined)
+
+
+def _stroke_paths_agree(observed, expected, aspect, limit):
+    from scipy.optimize import linear_sum_assignment
+    from shapely.geometry import LineString
+
+    a = [p * [aspect, 1] for p in observed]
+    b = [p * [aspect, 1] for p in expected]
+    costs = np.ones((len(a), len(b)))
+    for i, p in enumerate(a):
+        closed = np.array_equal(p[0], p[-1])
+        for j, q in enumerate(b):
+            if closed != np.array_equal(q[0], q[-1]):
+                continue
+            if (
+                not closed
+                and min(
+                    max(np.linalg.norm(p[0] - q[0]), np.linalg.norm(p[-1] - q[-1])),
+                    max(np.linalg.norm(p[0] - q[-1]), np.linalg.norm(p[-1] - q[0])),
+                )
+                > limit
+            ):
+                continue
+            x, y = LineString(p), LineString(q)
+            error = float(hausdorff_distance(x, y, densify=0.25))
+            if (
+                error <= limit
+                and x.buffer(limit, quad_segs=8).covers(y)
+                and y.buffer(limit, quad_segs=8).covers(x)
+            ):
+                costs[i, j] = 0
+    rows, cols = linear_sum_assignment(costs)
+    return bool(np.all(costs[rows, cols] == 0))
+
+
 @dataclass(slots=True)
 class VectorFontCatalog:
     path: Path
@@ -119,8 +163,10 @@ class VectorFontCatalog:
         """
         if not 0 < max_error <= MAX_GRID_BOUNDARY_ERROR:
             raise ValueError("invalid vector boundary error budget")
+        stroke = self.manifest["outline_policy"] == "open_stroke_paths_v1"
+        paths = _join_stroke_paths(paths) if stroke else paths
         normal, _, extent = _normalise(paths)
-        topology = _topology(normal)
+        topology = () if stroke else _topology(normal)
         if topology is None:
             return []
         count = len(paths)
@@ -144,10 +190,11 @@ class VectorFontCatalog:
             width_factor = aspect / template_aspect
             if not 0.2 <= width_factor <= 3:
                 continue
-            if row not in self._topologies:
-                self._topologies[row] = _topology(self.paths(row))
-            if self._topologies[row] != topology:
-                continue
+            if not stroke:
+                if row not in self._topologies:
+                    self._topologies[row] = _topology(self.paths(row))
+                if self._topologies[row] != topology:
+                    continue
             expected = MultiLineString([p * [aspect, 1] for p in self.paths(row)])
             error = float(hausdorff_distance(observed, expected, densify=0.25))
             if not np.isfinite(error) or error > max_error:
@@ -159,6 +206,10 @@ class VectorFontCatalog:
             if observed_buffer is None:
                 observed_buffer = observed.buffer(max_error, quad_segs=8)
             if not observed_buffer.covers(expected):
+                continue
+            if stroke and not _stroke_paths_agree(
+                normal, self.paths(row), aspect, max_error
+            ):
                 continue
             cp = int(self.arrays["codepoints.npy"][row])
             result.append(
@@ -173,6 +224,7 @@ class VectorFontCatalog:
             "status": "loaded",
             "font": self.font,
             "schema": SCHEMA,
+            "outline_policy": self.manifest["outline_policy"],
             "templates": len(self.arrays["codepoints.npy"]),
             "vector_boundary_error_limit": MAX_BOUNDARY_ERROR,
         }
@@ -270,10 +322,19 @@ def build_vector_font_catalog(
         "aspects.npy": np.asarray(aspects, dtype="<f4"),
         "descriptors.npy": np.asarray(descriptors, dtype="<f4"),
     }
+    return _write_vector_arrays(target, metadata, arrays, skipped)
+
+
+def _write_vector_arrays(
+    target, metadata, arrays, skipped, *, outline_policy="nonzero_filled_boundaries_v1"
+):
+    cps = arrays["codepoints.npy"]
+    face_index = metadata["face_index"]
+    policy_key = outline_policy if outline_policy == "open_stroke_paths_v1" else ""
     payloads = {name: fc._npy_bytes(a) for name, a in arrays.items()}
     digest = fc._dataset_digest(arrays)
     identity = hashlib.sha256(
-        (SCHEMA + metadata["sha256"] + str(face_index) + digest).encode()
+        (SCHEMA + metadata["sha256"] + str(face_index) + policy_key + digest).encode()
     ).hexdigest()[:24]
     manifest = {
         "schema": SCHEMA,
@@ -284,11 +345,11 @@ def build_vector_font_catalog(
         "runtime_pdf_access": False,
         "runtime_ocr": False,
         "unicode_label_normalization": "NFKC_single_codepoint",
-        "outline_policy": "nonzero_filled_boundaries_v1",
+        "outline_policy": outline_policy,
         "curve_tolerance_divisor": 1024,
         "template_set_sha256": digest,
         "rows": len(cps),
-        "paths": len(path_offsets) - 1,
+        "paths": len(arrays["path_offsets.npy"]) - 1,
         "points": len(arrays["points.npy"]),
         "mapped_codepoints": len(set(cps)),
         "skipped_codepoints": skipped,
@@ -320,7 +381,8 @@ def load_vector_font_catalog(path):
             m = json.loads(z.read("manifest.json"))
             if (
                 m.get("schema") != SCHEMA
-                or m.get("outline_policy") != "nonzero_filled_boundaries_v1"
+                or m.get("outline_policy")
+                not in {"nonzero_filled_boundaries_v1", "open_stroke_paths_v1"}
                 or m.get("runtime_input") != "persisted_dxf_only"
                 or any(
                     m.get(k) is not False
@@ -332,11 +394,12 @@ def load_vector_font_catalog(path):
                 )
             ):
                 raise ValueError("unsupported vector catalog contract")
+            stroke = m["outline_policy"] == "open_stroke_paths_v1"
             n, paths, points = (m.get(k) for k in ("rows", "paths", "points"))
             if any(type(v) is not int for v in (n, paths, points)) or not (
                 0 < n <= MAX_ROWS
                 and n <= paths <= MAX_PATHS
-                and paths * 4 <= points <= MAX_POINTS
+                and paths * (2 if stroke else 4) <= points <= MAX_POINTS
             ):
                 raise ValueError("invalid vector catalog counts")
             shapes = {
@@ -372,9 +435,22 @@ def load_vector_font_catalog(path):
             or not 16 <= font["units_per_em"] <= 16384
         ):
             raise ValueError("invalid vector font provenance")
+        if stroke and (
+            font.get("source_format") != "AutoCAD-86 bigfont 1.0"
+            or font.get("source_encoding") != "gbk"
+            or font.get("unicode_mapping") != "strict_gbk_roundtrip"
+            or font.get("path_join_policy") != "exact_sequential_endpoint_v1"
+        ):
+            raise ValueError("unsupported stroke font encoding contract")
         digest = fc._dataset_digest(a)
         identity = hashlib.sha256(
-            (SCHEMA + font["sha256"] + str(font["face_index"]) + digest).encode()
+            (
+                SCHEMA
+                + font["sha256"]
+                + str(font["face_index"])
+                + ("open_stroke_paths_v1" if stroke else "")
+                + digest
+            ).encode()
         ).hexdigest()[:24]
         if (
             digest != m["template_set_sha256"]
@@ -383,12 +459,21 @@ def load_vector_font_catalog(path):
         ):
             raise ValueError("vector catalog identity mismatch")
         po, go = a["path_offsets.npy"], a["glyph_offsets.npy"]
+        if stroke and (
+            type(font.get("max_source_paths")) is not int
+            or not int(np.max(np.diff(go.astype("i8"))))
+            <= font["max_source_paths"]
+            <= fc.MAX_CONTOURS
+            or font["face_index"] != 0
+            or font["face_count"] != 1
+        ):
+            raise ValueError("invalid stroke source path limits")
         if (
             po[0] != 0
             or po[-1] != points
             or go[0] != 0
             or go[-1] != paths
-            or np.any(np.diff(po.astype("i8")) < 4)
+            or np.any(np.diff(po.astype("i8")) < (2 if stroke else 4))
             or np.any(np.diff(go.astype("i8")) < 1)
             or np.any(np.diff(go.astype("i8")) > fc.MAX_CONTOURS)
         ):
@@ -429,7 +514,7 @@ def load_vector_font_catalog(path):
         for i in range(n):
             rings = catalog.paths(i)
             if sum(map(len, rings)) > MAX_GLYPH_POINTS or any(
-                not np.array_equal(p[0], p[-1]) for p in rings
+                not np.array_equal(p[0], p[-1]) for p in rings if not stroke
             ):
                 raise ValueError("unclosed or oversized vector glyph")
             bounds = np.vstack(rings)

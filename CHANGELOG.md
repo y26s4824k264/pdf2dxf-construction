@@ -1,3 +1,11 @@
+# 2.0.0rc42
+
+- Compile explicitly encoded basic SHX bigfonts into persisted Han stroke templates using pure Python and the existing ezdxf renderer. Bound source records and recursive subshapes; do not guess Unicode from SHX numbers or filenames.
+- Recover complete open-stroke glyphs with exact endpoint normalization, unique full-radius candidates, bidirectional per-path coverage, complete font cells and multiple coherent rows. Fit one affine placement per row and retain gaps/ambiguous alternatives.
+- Correct the Euclidean printer-grid diagonal allowance for stroke matching while retaining the 2% cap. Use verified font layout when grouping short-ink characters such as 工.
+- Preserve source sequence zero in both graphics kernels. Keep original DXF geometry and optional backup-layer behavior; no OCR, font/PDF lookup at recognition time or semantic completion.
+- See [rc42 validation and limitations](docs/RELEASE_RC42.md). Only representative foundation/beam pages are tested, without a historical corpus rerun.
+
 # 2.0.0rc41
 
 - Resolve nonzero/even-odd fills using planar faces and total source winding. Preserve ink islands, disjoint opposite-direction contours and self-crossing regions; honor PDF rectangle orientation.

@@ -143,6 +143,7 @@ class GlyphMatch:
     font_vector_error: float | None = None
     font_vector_error_limit: float | None = None
     font_vector_grid_pitch: float | None = None
+    font_vector_layout: tuple[float, float, float, float, float] | None = None
 
     @property
     def height(self) -> float:
@@ -2008,6 +2009,17 @@ def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
         or right.atoms[0].source_ref[2] - left.atoms[-1].source_ref[2] != 1
     ):
         return False
+    if left.font_vector_layout is not None and right.font_vector_layout is not None:
+        if not set(left.font_catalog_ids).intersection(right.font_catalog_ids):
+            return False
+        x, y = left.font_vector_layout, right.font_vector_layout
+        em = min(x[0], y[0])
+        pitch = min(left.font_vector_grid_pitch or 0, right.font_vector_grid_pitch or 0)
+        return (
+            abs(x[0]-y[0]) <= max(.02*em, 2*pitch)
+            and abs(x[3]-y[3]) <= max(.015*em, 2*pitch)
+            and abs(y[2]-x[2]-x[4]) <= max(.025*em, 2*pitch)
+        )
     if (left.atoms[0].entity.dxftype() == "HATCH") != (
         right.atoms[0].entity.dxftype() == "HATCH"
     ):
@@ -2515,6 +2527,7 @@ def recover_outline_text(
                 "font_vector_boundary_errors": [m.font_vector_error for m in run],
                 "font_vector_boundary_error_limits": [m.font_vector_error_limit for m in run],
                 "font_vector_printer_grid_mm": [m.font_vector_grid_pitch for m in run],
+                "font_vector_layout": [m.font_vector_layout for m in run],
                 "admission_methods": sorted(
                     {match.template.admission for match in run}
                 ),

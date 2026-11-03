@@ -325,7 +325,8 @@ class ConstructionGraphicsKernelV15(v14.GenericGraphicsKernelV14):
                 stats.input_fill_stroke_records += 1
             else:
                 continue
-            seq = int(rec.get("seqno", -1) or -1)
+            source_seqno = rec.get("seqno")
+            seq = -1 if source_seqno is None else int(source_seqno)
             clip = (
                 self._effective_clip(active, level, cache, versions)
                 if self.config.clip_paths

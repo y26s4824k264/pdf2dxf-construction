@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-当前版本：**2.0.0rc41**。修复填充孔洞内笔画丢失，新增持久化矢量字库与受限边界匹配，处理打印量化后的中文轮廓。仍按 DXF 字形、拓扑和多行排版证据恢复 TEXT，不使用 OCR；未确认文字保留几何。见 [rc41 说明](docs/RELEASE_RC41.md)。
+当前版本：**2.0.0rc42**。补齐 SHX 单线中文的字形匹配，处理零长度提笔、整行排版和首个来源编号；继续由持久化 DXF 与字库几何确认 TEXT，不使用 OCR。见 [rc42 说明](docs/RELEASE_RC42.md)。
 
 **简体中文** | [English](README.en.md)
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc41`（预发布）。
+版本：`2.0.0rc42`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont` / `.p2dvec`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 负责预编译外部轮廓字库，也在 PDF 输入解码时核验内嵌 TrueType cmap；轮廓识别阶段不打开 PDF 或外部字体文件。
 
@@ -17,7 +17,7 @@
 要求 Python 3.10+；本轮本地验证 macOS ARM64 / Python 3.12。最新跨平台执行结果见上方 CI 与[验证记录](docs/VALIDATION.md)。建议使用独立虚拟环境，以下为 macOS/Linux 命令；Windows 对应可执行文件位于 `.venv\Scripts\`：
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc41"
+python -m pip install "pdf2dxf-construction==2.0.0rc42"
 ```
 
 ```sh
@@ -215,3 +215,18 @@ pdf2dxf convert input.pdf -o output.dxf --outline-chinese required \
 矢量回退仅处理具有完整来源映射的闭合 HATCH 汉字；要求轮廓嵌套关系、完整路径双向误差和 em/字距证据，并需至少两行、每行至少五种不同汉字确认字体。扫描图、未知字体、孤立短行和同形异字不会凭相似度或词义补齐。新资源直接通过 `--outline-font-catalog` 传入；现有开源 bundle 格式不变。
 
 字库仅覆盖源字体实际 cmap；覆盖数不等于图纸识别率。外部字体及派生矢量字库遵守原许可，不随主包分发。此次本机核验使用的 SimSun 字体和派生资源均不进入 GitHub/PyPI；开源使用者可自行用有权使用的字体构建。
+
+## SHX 单线汉字（rc42）
+
+施工说明可能是多笔开放描边，不能用闭合填充模板代替。对有权使用且编码已确认的基础大字型文件，可预编译单线模板：
+
+```sh
+pdf2dxf font-catalog build /path/to/font.shx --vector --encoding gbk \
+  -o catalogs/stroke-han.p2dvec
+pdf2dxf convert input.pdf -o output.dxf --outline-chinese required \
+  --outline-font-catalog catalogs/stroke-han.p2dvec
+```
+
+当前仅支持基础 `AutoCAD-86 bigfont 1.0`、明确指定 GBK 的汉字程序；不是所有 SHX 格式或编码。构建器直接执行有界子字形程序，记录源 SHA-256、原始字距和笔画矢量，运行时不读取 SHX。新资源需 rc42+；既有填充矢量字库与 r3 精确字库仍可一起使用。源字体及派生字库不随 Python 主包公开分发。
+
+字形必须有唯一标签、完整来源和双向笔画覆盖；只合并端点完全重合的连续提笔，不跨真实间隙。字体仍须两行、每行五种不同汉字建立确认，确认后的短片段至少两个不同汉字且排版一致；单字、缺失笔画、歧义及不支持的符号保持几何。完整范围见发布说明，字库覆盖数不等于图纸识别率。

@@ -173,6 +173,7 @@ def main(argv=None):
     font_build.add_argument("font")
     font_build.add_argument("-o", "--output", required=True)
     font_build.add_argument("--face-index", type=int, default=0)
+    font_build.add_argument("--encoding", choices=("gbk",), help="explicit legacy SHX character encoding")
     font_build.add_argument(
         "--vector", action="store_true",
         help="build a .p2dvec Han boundary catalog for resampled/filled outlines",
@@ -252,10 +253,21 @@ def _execute(a):
             if a.vector:
                 if a.charset != "chinese":
                     raise ValueError("vector font catalogs currently support Han only")
-                from .engine.text.vector_catalog import build_vector_font_catalog
+                if Path(a.font).suffix.lower() == ".shx":
+                    if a.face_index != 0:
+                        raise ValueError("SHX has one face")
+                    from .engine.text.shx_font import build_shx_vector_catalog
 
-                o = build_vector_font_catalog(a.font, a.output, face_index=a.face_index)
+                    o = build_shx_vector_catalog(a.font, a.output, encoding=a.encoding)
+                else:
+                    if a.encoding is not None:
+                        raise ValueError("encoding applies only to legacy SHX vectors")
+                    from .engine.text.vector_catalog import build_vector_font_catalog
+
+                    o = build_vector_font_catalog(a.font, a.output, face_index=a.face_index)
             else:
+                if a.encoding is not None:
+                    raise ValueError("SHX encoding requires --vector")
                 o = build_font_catalog(
                     a.font, a.output, face_index=a.face_index, charset=a.charset,
                 )
