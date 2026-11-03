@@ -525,7 +525,7 @@ def test_single_han_needs_local_row_geometry_and_complete_separator(tmp_path, ca
 
 @pytest.mark.parametrize(
     "case",
-    ["valid", "one_reference", "unseeded_pair", "duplicate_location", "missing_branch", "no_grid", "mixed_layers", "other_page", "no_font_lock", "unicode_alias"],
+    ["valid", "late_matching_refs", "one_reference", "unseeded_pair", "duplicate_location", "missing_branch", "no_grid", "mixed_layers", "other_page", "no_font_lock", "unicode_alias"],
 )
 def test_isolated_han_requires_two_independent_preconfirmed_glyphs(
     tmp_path, monkeypatch, case
@@ -550,6 +550,8 @@ def test_isolated_han_requires_two_independent_preconfirmed_glyphs(
         words = [full + "本"]
     elif case == "unicode_alias":
         words = [short, short, full, full]
+    elif case == "late_matching_refs":
+        words = [full] * 10
     doc = ezdxf.new("R2018")
     doc.header["$INSUNITS"] = 4
     doc.appids.new("PDF2DXF15")
@@ -557,8 +559,14 @@ def test_isolated_han_requires_two_independent_preconfirmed_glyphs(
     doc.layers.new("OTHER")
     pitch = 25.4 / 600
 
-    def draw(char, origin, scale, seq, layer="0", page=0, target=False):
+    def draw(char, origin, scale, seq, layer="0", page=0, target=False, repartition=False):
         paths = SHAPES[char][:-1] if target and case == "missing_branch" else SHAPES[char]
+        if char == "本" and repartition:
+            paths = [
+                [(10, 70), (50, 70), (50, 0)],
+                [(50, 100), (50, 70), (90, 70)],
+                *SHAPES[char][2:],
+            ]
         bounds = []
         for i, path in enumerate(paths):
             points = np.array(path) * scale + origin
@@ -576,19 +584,21 @@ def test_isolated_han_requires_two_independent_preconfirmed_glyphs(
     for row, word in enumerate(words):
         seq = row * 200
         y = 0 if case == "duplicate_location" else row * 12
+        early = case == "late_matching_refs" and row < 8
         for col, char in enumerate(word):
-            draw(char, [col * 4.2, y], [0.035, 0.07], seq)
+            draw(char, [col * (5.88 if early else 4.2), y], [0.049, 0.098] if early else [0.035, 0.07], seq, repartition=early)
             seq += len(SHAPES[char])
-    expected = draw("本", [35, 45], [0.0245, 0.049], 1000, "LABELS", int(case == "other_page"), True)
+    expected = draw("本", [35, 160 if case == "late_matching_refs" else 45], [0.0245, 0.049], 10000, "LABELS", int(case == "other_page"), True)
     if case == "unseeded_pair":
-        draw("本", [45, 45], [0.0245, 0.049], 1100, "LABELS", target=True)
+        draw("本", [45, 45], [0.0245, 0.049], 11000, "LABELS", target=True)
     path = tmp_path / "isolated.dxf"
     doc.saveas(path)
     report = recover_outline_text(path, mode="required", policy="off_layer", font_catalog_paths=[catalog])
-    targets = [r for r in report["accepted"] if r["bbox_dxf"][1] >= 44]
-    assert [r["text"] for r in targets] == (["本"] if case == "valid" else [])
-    assert report.get("font_stroke_isolated_glyph_matches", 0) == int(case == "valid")
-    if case == "valid":
+    targets = [r for r in report["accepted"] if r["source_seqnos"][0] >= 10000]
+    success = case in {"valid", "late_matching_refs"}
+    assert [r["text"] for r in targets] == (["本"] if success else [])
+    assert report.get("font_stroke_isolated_glyph_matches", 0) == int(success)
+    if success:
         proof = report["font_stroke_isolated_evidence"][0]
         assert len(proof["supports"][0]["reference_source_spans"]) == 2
         assert proof["grid_pitch"] == pytest.approx(pitch)

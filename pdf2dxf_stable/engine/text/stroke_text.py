@@ -260,7 +260,7 @@ def _admit_isolated(matches, singletons, proofs, atoms, references, metrics):
 
     locked = {row["catalog_id"] for row in metrics["font_vector_evidence"]}
     used = {i for m in matches for i in range(m.start, m.end)}
-    pending = defaultdict(list)
+    pending = []
     for cid in locked:
         for match in singletons[cid]:
             if (
@@ -271,14 +271,24 @@ def _admit_isolated(matches, singletons, proofs, atoms, references, metrics):
             ):
                 continue
             proof = proofs[match.start, match.end, match.char]
-            pending[match.atoms[0].source_ref[:2]].append(
+            pending.append(
                 (replace(match, font_catalog_ids=(cid,)), {cid: proof[cid]})
             )
     evidence = []
     added = []
-    for source, candidates in pending.items():
-        seeds = [m for m in references if m.atoms[0].source_ref[:2] == source]
-        supported, details = _repeat_candidates(seeds, candidates, atoms)
+    for candidate, proof in pending:
+        # A source-order cap can be filled by a different printed size or pen
+        # partition. Prioritise comparable ink height, never Unicode scores;
+        # the same eight-independent-reference cap and geometry budget remain.
+        seeds = sorted(
+            (
+                m for m in references
+                if m.char == candidate.char
+                and m.atoms[0].source_ref[:2] == candidate.atoms[0].source_ref[:2]
+            ),
+            key=lambda m: abs(np.log(m.height / candidate.height)),
+        )
+        supported, details = _repeat_candidates(seeds, [(candidate, proof)], atoms)
         for (match, proof), detail in zip(supported, details):
             catalog = next(iter(proof.values()))[0]
             layout = _placement(match, catalog, proofs)
@@ -304,6 +314,7 @@ def _admit_isolated(matches, singletons, proofs, atoms, references, metrics):
                     "layout": list(layout),
                     "source_layer": match.atoms[0].layer,
                     "reference_policy": "previous_strict_rows_same_source_page",
+                    "reference_selection": "nearest_ink_height_before_independent_cap",
                 }
             )
     metrics["font_stroke_isolated_glyph_matches"] = len(added)
