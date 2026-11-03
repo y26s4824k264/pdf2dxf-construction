@@ -218,6 +218,113 @@ def test_real_gap_is_never_bridged_in_template_geometry():
     assert MultiLineString(joined).equals(MultiLineString(paths))
 
 
+@pytest.mark.parametrize(
+    "reverse_first,reverse_second",
+    [(False, False), (True, False), (False, True), (True, True)],
+)
+def test_exact_pen_joint_ignores_drawing_direction(reverse_first, reverse_second):
+    import numpy as np
+    from shapely.geometry import MultiLineString
+    from pdf2dxf_stable.engine.text.vector_catalog import _join_stroke_paths
+
+    a = np.array([(0, 0), (1, 2), (2, 2)])
+    b = np.array([(2, 2), (3, 1)])
+    paths = [a[::-1] if reverse_first else a, b[::-1] if reverse_second else b]
+    joined = _join_stroke_paths(paths)
+    assert len(joined) == 1
+    assert len(joined[0]) == 4
+    assert MultiLineString(joined).equals(MultiLineString(paths))
+
+
+def test_rc42_stroke_catalog_accepts_reversed_join_without_rebuild(
+    tmp_path, monkeypatch
+):
+    import numpy as np
+    import zipfile
+    from pdf2dxf_stable.engine.text import shx_font
+
+    def old_join(paths):
+        result = []
+        for path in paths:
+            if result and np.array_equal(result[-1][-1], path[0]):
+                result[-1] = np.vstack((result[-1], path[1:]))
+            else:
+                result.append(np.asarray(path))
+        return tuple(result)
+
+    original = SHAPES["木"]
+    split = [[(10, 70), (50, 70)], [(90, 70), (50, 70)], *original[1:]]
+    monkeypatch.setitem(SHAPES, "木", split)
+    catalog = tmp_path / "legacy.p2dvec"
+    with monkeypatch.context() as legacy:
+        legacy.setattr(shx_font, "_join_stroke_paths", old_join)
+        shx_font.build_shx_vector_catalog(
+            font_file(tmp_path / "legacy.shx"), catalog, encoding="gbk"
+        )
+    with zipfile.ZipFile(catalog) as z:
+        payloads = {name: z.read(name) for name in z.namelist()}
+    manifest = json.loads(payloads["manifest.json"])
+    manifest["font"]["path_join_policy"] = "exact_sequential_endpoint_v1"
+    payloads["manifest.json"] = json.dumps(manifest).encode()
+    with zipfile.ZipFile(catalog, "w") as z:
+        for name, data in payloads.items():
+            z.writestr(name, data)
+    monkeypatch.setitem(SHAPES, "木", original)
+    dxf = stroke_dxf(tmp_path / "merged.dxf")
+    report = recover_outline_text(dxf, mode="required", font_catalog_paths=[catalog])
+    assert [row["text"] for row in report["accepted"]] == [CHARS, CHARS]
+
+
+@pytest.mark.parametrize(
+    "case",
+    ["valid", "baseline", "width", "missing_paint", "wrong_layer", "no_font_lock"],
+)
+def test_single_han_needs_local_row_geometry_and_complete_separator(tmp_path, case):
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    catalog = tmp_path / "font.p2dvec"
+    build_shx_vector_catalog(font_file(tmp_path / "font.shx"), catalog, encoding="gbk")
+    path = stroke_dxf(tmp_path / "single.dxf", rows=1 if case == "no_font_lock" else 2)
+    doc = ezdxf.readfile(path)
+    if case != "missing_paint":
+        if case == "wrong_layer":
+            doc.layers.new("OTHER")
+        separator = doc.modelspace().add_lwpolyline(
+            [(21.5, 0.6), (21.7, 0.8)],
+            dxfattribs={"layer": "OTHER" if case == "wrong_layer" else "0"},
+        )
+        separator.set_xdata(
+            "PDF2DXF15", [(1000, "stroke"), (1070, 0), (1070, 19), (1000, "s")]
+        )
+    for seq, stroke in enumerate(SHAPES["木"], 20):
+        points = [
+            (
+                25.0 + x * (0.05 if case == "width" else 0.035),
+                y * 0.07 + (3 if case == "baseline" else 0),
+            )
+            for x, y in stroke
+        ]
+        entity = doc.modelspace().add_lwpolyline(points)
+        entity.set_xdata(
+            "PDF2DXF15", [(1000, "stroke"), (1070, 0), (1070, seq), (1000, "s")]
+        )
+    doc.saveas(path)
+    report = recover_outline_text(path, mode="required", font_catalog_paths=[catalog])
+    texts = [row["text"] for row in report["accepted"]]
+    assert texts == (
+        [CHARS, CHARS, "木"]
+        if case == "valid"
+        else []
+        if case == "no_font_lock"
+        else [CHARS, CHARS]
+    )
+    if case == "valid":
+        assert report["font_stroke_anchored_single_glyphs"] == 1
+        assert report["accepted"][-1]["font_vector_admissions"] == [
+            "shx_stroke_row_anchor_consensus"
+        ]
+
+
 def test_alias_unicode_cannot_be_chosen_from_stroke_shape(tmp_path, monkeypatch):
     from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
 

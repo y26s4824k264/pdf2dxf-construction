@@ -2061,12 +2061,16 @@ def _group_runs(matches: list[GlyphMatch]) -> list[list[GlyphMatch]]:
     return groups
 
 
-def _publishable_text(text: str, *, font_locked: bool = False) -> tuple[bool, str]:
+def _publishable_text(
+    text: str, *, font_locked: bool = False, stroke_row_anchored: bool = False
+) -> tuple[bool, str]:
     if not text or len(text) > MAX_RECOVERED_TEXT_GLYPHS:
         return False, "unsupported_text_length"
     if SCALE_TEXT.fullmatch(text):
         return True, "reviewed_scale_token"
     han_count = sum(is_han_character(char) or char == "〇" for char in text)
+    if stroke_row_anchored and len(text) == han_count == 1:
+        return True, "verified_stroke_row_anchor"
     if han_count >= 2:
         return True, "multiple_han_glyphs"
     if font_locked and han_count + sum(_is_english_letter(char) for char in text) >= 2:
@@ -2420,6 +2424,9 @@ def recover_outline_text(
             text,
             font_locked=bool(latin_matches)
             and all(match.font_catalog_ids for match in latin_matches),
+            stroke_row_anchored=len(run) == 1
+            and run[0].template.admission == "shx_stroke_row_anchor_consensus"
+            and run[0].font_vector_layout is not None,
         )
         if publishable:
             accepted_runs.append(run)
@@ -2528,6 +2535,7 @@ def recover_outline_text(
                 "font_vector_boundary_error_limits": [m.font_vector_error_limit for m in run],
                 "font_vector_printer_grid_mm": [m.font_vector_grid_pitch for m in run],
                 "font_vector_layout": [m.font_vector_layout for m in run],
+                "font_vector_admissions": [m.template.admission for m in run],
                 "admission_methods": sorted(
                     {match.template.admission for match in run}
                 ),

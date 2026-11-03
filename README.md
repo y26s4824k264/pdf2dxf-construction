@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-当前版本：**2.0.0rc42**。补齐 SHX 单线中文的字形匹配，处理零长度提笔、整行排版和首个来源编号；继续由持久化 DXF 与字库几何确认 TEXT，不使用 OCR。见 [rc42 说明](docs/RELEASE_RC42.md)。
+当前版本：**2.0.0rc43**。补齐 SHX 反向接笔和有局部排版证据的分隔单字，继续由持久化 DXF 与字库几何确认 TEXT，不使用 OCR。见 [rc43 说明](docs/RELEASE_RC43.md)。
 
 **简体中文** | [English](README.en.md)
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc42`（预发布）。
+版本：`2.0.0rc43`（预发布）。
 
 面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont` / `.p2dvec`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 负责预编译外部轮廓字库，也在 PDF 输入解码时核验内嵌 TrueType cmap；轮廓识别阶段不打开 PDF 或外部字体文件。
 
@@ -17,7 +17,7 @@
 要求 Python 3.10+；本轮本地验证 macOS ARM64 / Python 3.12。最新跨平台执行结果见上方 CI 与[验证记录](docs/VALIDATION.md)。建议使用独立虚拟环境，以下为 macOS/Linux 命令；Windows 对应可执行文件位于 `.venv\Scripts\`：
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc42"
+python -m pip install "pdf2dxf-construction==2.0.0rc43"
 ```
 
 ```sh
@@ -227,6 +227,6 @@ pdf2dxf convert input.pdf -o output.dxf --outline-chinese required \
   --outline-font-catalog catalogs/stroke-han.p2dvec
 ```
 
-当前仅支持基础 `AutoCAD-86 bigfont 1.0`、明确指定 GBK 的汉字程序；不是所有 SHX 格式或编码。构建器直接执行有界子字形程序，记录源 SHA-256、原始字距和笔画矢量，运行时不读取 SHX。新资源需 rc42+；既有填充矢量字库与 r3 精确字库仍可一起使用。源字体及派生字库不随 Python 主包公开分发。
+当前仅支持基础 `AutoCAD-86 bigfont 1.0`、明确指定 GBK 的汉字程序；不是所有 SHX 格式或编码。构建器直接执行有界子字形程序，记录源 SHA-256、原始字距和笔画矢量，运行时不读取 SHX。rc43 构建的 v2 接笔资源需 rc43+；既有 rc42 单线、填充矢量字库与 r3 精确字库仍可一起使用。源字体及派生字库不随 Python 主包公开分发。
 
 字形必须有唯一标签、完整来源和双向笔画覆盖；只合并端点完全重合的连续提笔，不跨真实间隙。字体仍须两行、每行五种不同汉字建立确认，确认后的短片段至少两个不同汉字且排版一致；单字、缺失笔画、歧义及不支持的符号保持几何。完整范围见发布说明，字库覆盖数不等于图纸识别率。

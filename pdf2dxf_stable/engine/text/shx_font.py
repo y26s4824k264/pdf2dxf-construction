@@ -256,7 +256,7 @@ def build_shx_vector_catalog(
         "unicode_mapping": "strict_gbk_roundtrip",
         "renderer": "ezdxf_with_bounded_inline_horizontal_subshapes",
         "unsupported_programs": len(font.errors),
-        "path_join_policy": "exact_sequential_endpoint_v1",
+        "path_join_policy": "exact_sequential_undirected_endpoint_v2",
         "max_source_paths": max_source_paths,
     }
     return _write_vector_arrays(

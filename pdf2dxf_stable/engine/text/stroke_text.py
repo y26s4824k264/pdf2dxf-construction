@@ -83,6 +83,83 @@ def _whole_cell(match, atoms, catalog, proofs):
     return True
 
 
+def _anchored_single(match, row, catalog, proofs, groups, whole):
+    """Confirm a separated glyph from a real local row, without labelling gaps."""
+    if len({m.char for m in row}) < 4:
+        return None
+    if match.atoms[0].layer != row[0].atoms[0].layer:
+        return None
+    ref = match.atoms[0].source_ref
+    if ref[:2] != row[0].atoms[0].source_ref[:2]:
+        return None
+    first, last = row[0].atoms[0].source_ref[2], row[-1].atoms[-1].source_ref[2]
+    if match.atoms[-1].source_ref[2] < first:
+        lo, hi = match.atoms[-1].source_ref[2], first
+        left, right = match, row[0]
+    elif ref[2] > last:
+        lo, hi = last, ref[2]
+        left, right = row[-1], match
+    else:
+        return None
+    if not 1 < hi - lo <= 64:
+        return None
+    model = _row_model(row, catalog, proofs)
+    if model is None:
+        return None
+    _, index, _, _ = proofs[match.start, match.end, match.char][catalog.catalog_id]
+    x0, y0, x1, y1, advance = map(float, catalog.arrays["metrics.npy"][index])
+    origin = (match.low[0] + match.high[0] - (x0 + x1) * model[1]) * 0.5
+    expected = np.array(
+        [
+            origin + x0 * model[1],
+            model[2] + y0 * model[3],
+            origin + x1 * model[1],
+            model[2] + y1 * model[3],
+        ]
+    )
+    pitch = min(
+        match.font_vector_grid_pitch or 0, *(m.font_vector_grid_pitch or 0 for m in row)
+    )
+    limit = max(0.006 * model[3], np.sqrt(2) * pitch)
+    error = float(np.max(np.abs(expected - (*match.low, *match.high))))
+    gap_lo, gap_hi = left.high[0], right.low[0]
+    if error > limit or not 0 < gap_hi - gap_lo <= 3 * advance * model[1]:
+        return None
+    # Every intervening source paint must survive completely, on the same
+    # layer and inside the visible gap. Missing/unsupported paints cannot act
+    # as punctuation evidence. Their Unicode and spacing are never invented.
+    for seq in range(lo + 1, hi):
+        key = (*ref[:2], seq)
+        if not whole.get(key, False) or not groups.get(key):
+            return None
+        for atom in groups[key]:
+            if (
+                atom.layer != match.atoms[0].layer
+                or atom.low[0] < gap_lo - limit
+                or atom.high[0] > gap_hi + limit
+                or atom.low[1] < model[2] - 0.3 * model[3]
+                or atom.high[1] > model[2] + 1.2 * model[3]
+            ):
+                return None
+    layout = (
+        model[3],
+        model[1] / model[3],
+        float(origin),
+        model[2],
+        advance * model[1],
+    )
+    return layout, {
+        "catalog_id": catalog.catalog_id,
+        "text": match.char,
+        "anchor_text": "".join(m.char for m in row),
+        "source_span": [lo, hi],
+        "layout": list(layout),
+        "maximum_layout_residual": error,
+        "layout_error_limit": float(limit),
+        "unlabelled_separator_paints": hi - lo - 1,
+    }
+
+
 def recover_stroke_matches(
     atoms, source_entities, catalogs, occupied, entries, *, paper_mm
 ):
@@ -92,13 +169,15 @@ def recover_stroke_matches(
         "font_stroke_cell_fragments_rejected": 0,
         "font_stroke_conflicting_rows_rejected": 0,
         "font_stroke_glyph_matches": 0,
+        "font_stroke_anchored_single_glyphs": 0,
+        "font_stroke_single_anchor_evidence": [],
         "font_vector_glyph_matches": 0,
         "font_vector_candidate_glyphs": 0,
         "font_vector_ambiguous_glyphs": 0,
         "font_vector_locked_catalogs": 0,
         "font_vector_evidence": [],
     }
-    counts = {int(n) for c in catalogs for n in np.diff(c.arrays["glyph_offsets.npy"])}
+    counts = {int(n) for c in catalogs for n in c.path_counts()}
     maximum = max(counts)
     maximum_source = min(
         128, max(int(c.font.get("max_source_paths", maximum * 2)) for c in catalogs)
@@ -163,6 +242,7 @@ def recover_stroke_matches(
         "font_vector_candidate_glyphs"
     ] = len(candidates)
     rows = []
+    singletons = defaultdict(list)
     for catalog in catalogs:
         spans = [m for m in candidates if catalog.catalog_id in m.font_catalog_ids]
         complete = [m for m in spans if _whole_cell(m, atoms, catalog, proofs)]
@@ -178,6 +258,18 @@ def recover_stroke_matches(
                 if _adjacent(a, spans[j], catalog, proofs):
                     forward[i].append(j)
                     backward[j].append(i)
+        for i, match in enumerate(spans):
+            if (
+                not forward[i]
+                and not backward[i]
+                and not any(
+                    other is not match
+                    and other.start < match.end
+                    and match.start < other.end
+                    for other in spans
+                )
+            ):
+                singletons[catalog.catalog_id].append(match)
         for i in range(len(spans)):
             if backward[i]:
                 continue
@@ -275,6 +367,41 @@ def recover_stroke_matches(
                         ),
                     ),
                 )
+        for match in singletons[catalog.catalog_id]:
+            anchored = [
+                result
+                for row in available
+                if (
+                    result := _anchored_single(
+                        match, row, catalog, proofs, groups, whole
+                    )
+                )
+                is not None
+            ]
+            if not anchored:
+                continue
+            layout, proof = min(
+                anchored, key=lambda result: result[1]["maximum_layout_residual"]
+            )
+            if any(
+                max(abs(a - b) for a, b in zip(layout, other))
+                > proof["layout_error_limit"]
+                for other, _ in anchored
+            ):
+                continue
+            admitted[match.start, match.end, match.char] = replace(
+                match,
+                font_catalog_ids=(catalog.catalog_id,),
+                font_vector_layout=layout,
+                template=replace(
+                    match.template,
+                    support_locations=len(strong),
+                    admission="shx_stroke_row_anchor_consensus",
+                ),
+            )
+            metrics["font_stroke_anchored_single_glyphs"] += 1
+            if len(metrics["font_stroke_single_anchor_evidence"]) < 200:
+                metrics["font_stroke_single_anchor_evidence"].append(proof)
 
     matches = sorted(admitted.values(), key=lambda m: m.start)
     metrics["font_stroke_glyph_matches"] = metrics["font_vector_glyph_matches"] = len(

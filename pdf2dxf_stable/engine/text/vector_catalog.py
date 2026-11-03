@@ -93,13 +93,24 @@ def _filled_paths(paths):
 
 
 def _join_stroke_paths(paths):
-    """Remove only zero-length pen-up breaks, without changing any segment."""
+    """Join exact consecutive pen endpoints, preserving every undirected edge."""
     joined = []
     for path in paths:
-        if joined and np.array_equal(joined[-1][-1], path[0]):
-            joined[-1] = np.vstack((joined[-1], path[1:]))
-        else:
+        path = np.asarray(path)
+        if not joined:
             joined.append(np.asarray(path))
+            continue
+        previous = joined[-1]
+        if np.array_equal(previous[-1], path[0]):
+            joined[-1] = np.vstack((previous, path[1:]))
+        elif np.array_equal(previous[-1], path[-1]):
+            joined[-1] = np.vstack((previous, path[-2::-1]))
+        elif np.array_equal(previous[0], path[-1]):
+            joined[-1] = np.vstack((path, previous[1:]))
+        elif np.array_equal(previous[0], path[0]):
+            joined[-1] = np.vstack((path[::-1], previous[1:]))
+        else:
+            joined.append(path)
     return tuple(joined)
 
 
@@ -109,6 +120,8 @@ def _stroke_paths_agree(observed, expected, aspect, limit):
 
     a = [p * [aspect, 1] for p in observed]
     b = [p * [aspect, 1] for p in expected]
+    if len(a) != len(b):
+        return False
     costs = np.ones((len(a), len(b)))
     for i, p in enumerate(a):
         closed = np.array_equal(p[0], p[-1])
@@ -145,14 +158,38 @@ class VectorFontCatalog:
     arrays: dict
     _indices: dict = field(default_factory=dict)
     _topologies: dict = field(default_factory=dict)
+    _stroke_paths: dict = field(default_factory=dict)
+    _path_counts: np.ndarray | None = None
 
     def paths(self, row):
+        if row in self._stroke_paths:
+            return self._stroke_paths[row]
         a = self.arrays
         first, end = a["glyph_offsets.npy"][row : row + 2]
-        return tuple(
+        paths = tuple(
             a["points.npy"][a["path_offsets.npy"][i] : a["path_offsets.npy"][i + 1]]
             for i in range(int(first), int(end))
         )
+        if self.manifest["outline_policy"] == "open_stroke_paths_v1":
+            # rc42 archives retain their verified original arrays and identity.
+            # Matching uses the same exact endpoint normalisation on both sides.
+            paths = _join_stroke_paths(paths)
+            self._stroke_paths[row] = paths
+        return paths
+
+    def path_counts(self):
+        if self._path_counts is None:
+            self._path_counts = (
+                np.array(
+                    [
+                        len(self.paths(i))
+                        for i in range(len(self.arrays["codepoints.npy"]))
+                    ]
+                )
+                if self.manifest["outline_policy"] == "open_stroke_paths_v1"
+                else np.diff(self.arrays["glyph_offsets.npy"])
+            )
+        return self._path_counts
 
     def candidates(self, paths, *, max_error=MAX_BOUNDARY_ERROR):
         """Return every label inside the geometric budget, or reject ambiguity.
@@ -171,7 +208,7 @@ class VectorFontCatalog:
             return []
         count = len(paths)
         if count not in self._indices:
-            rows = np.flatnonzero(np.diff(self.arrays["glyph_offsets.npy"]) == count)
+            rows = np.flatnonzero(self.path_counts() == count)
             self._indices[count] = (rows, cKDTree(self.arrays["descriptors.npy"][rows]))
         rows, tree = self._indices[count]
         if not len(rows):
@@ -439,7 +476,11 @@ def load_vector_font_catalog(path):
             font.get("source_format") != "AutoCAD-86 bigfont 1.0"
             or font.get("source_encoding") != "gbk"
             or font.get("unicode_mapping") != "strict_gbk_roundtrip"
-            or font.get("path_join_policy") != "exact_sequential_endpoint_v1"
+            or font.get("path_join_policy")
+            not in {
+                "exact_sequential_endpoint_v1",
+                "exact_sequential_undirected_endpoint_v2",
+            }
         ):
             raise ValueError("unsupported stroke font encoding contract")
         digest = fc._dataset_digest(a)

@@ -1,3 +1,10 @@
+# 2.0.0rc43
+
+- Normalize exact consecutive SHX endpoint joints in either direction, retaining all segments and supporting existing rc42 catalogs without rebuilding them.
+- Confirm separated single Han only from a locked font, verified local row geometry and complete bounded separator paints; persist the evidence and leave all gap characters unlabelled.
+- Keep shape-error budgets, complete-source requirements, unknown scale gates and original DXF geometry. No OCR or semantic completion.
+- See [rc43 evidence and limits](docs/RELEASE_RC43.md); only the foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc42
 
 - Compile explicitly encoded basic SHX bigfonts into persisted Han stroke templates using pure Python and the existing ezdxf renderer. Bound source records and recursive subshapes; do not guess Unicode from SHX numbers or filenames.
