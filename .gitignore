@@ -29,3 +29,4 @@ regression_summary.json
 /outputs/
 /catalogs/
 /images/
+*.p2dvec

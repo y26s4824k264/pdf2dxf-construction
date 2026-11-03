@@ -33,10 +33,10 @@ from shapely.geometry import (
     Polygon,
     box,
 )
-from shapely.ops import unary_union
 from shapely.validation import make_valid
 
 from pdf2dxf_stable.engine.curve_sampling import cubic_sample_count
+from .fill import filled_geometry
 from .dashes import parse_dash, dashed_chains
 from .dash_dots import add_dot_paths
 from .stroke_paint import (
@@ -473,6 +473,10 @@ def parse_drawing_chains(
                 r = item[1]
                 x0, y0, x1, y1 = map(float, (r[0], r[1], r[2], r[3]))
                 pts = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+                # PyMuPDF orientation +1 is anticlockwise in PDF coordinates;
+                # its page coordinates have the opposite Y direction.
+                if len(item) < 3 or item[2] == 1:
+                    pts.reverse()
                 segs = [LineSeg(pts[i], pts[(i + 1) % 4]) for i in range(4)]
                 chains.append(PathChain(segs, closed=True))
             elif kind == "qu":
@@ -514,57 +518,7 @@ def rings_to_fill_geometry(
     even_odd: bool,
     stats: KernelStats | None = None,
 ):
-    polygons: list[tuple[Polygon, float]] = []
-    for ring in rings:
-        if len(ring) < 4:
-            continue
-        if not points_close(ring[0], ring[-1], 1e-6):
-            ring = list(ring) + [ring[0]]
-        try:
-            p = Polygon(ring)
-            if not p.is_valid:
-                p = make_valid(p)
-                if stats is not None:
-                    stats.invalid_geometries_repaired += 1
-            if isinstance(p, Polygon) and not p.is_empty and p.area > 1e-10:
-                polygons.append((p, signed_ring_area(ring)))
-            elif isinstance(p, MultiPolygon):
-                polygons.extend(
-                    (g, signed_ring_area(list(g.exterior.coords)))
-                    for g in p.geoms
-                    if g.area > 1e-10
-                )
-            elif isinstance(p, GeometryCollection):
-                # A retraced spike may repair to polygons plus zero-area lines.
-                # Keep every polygon; a mixed collection is not an empty fill.
-                # Repair may reverse GEOS ring orientation, so retain the source
-                # ring's sign for the existing non-zero winding classification.
-                source_area = signed_ring_area(ring)
-                polygons.extend(
-                    (g, source_area)
-                    for g in geometry_parts(p)
-                    if isinstance(g, Polygon) and g.area > 1e-10
-                )
-        except Exception:
-            if stats is not None:
-                stats.malformed_paths += 1
-    if not polygons:
-        return GeometryCollection()
-    if even_odd:
-        geom = GeometryCollection()
-        for p, _ in sorted(polygons, key=lambda z: z[0].area, reverse=True):
-            geom = p if geom.is_empty else geom.symmetric_difference(p)
-        return make_valid(geom)
-    # Non-zero winding approximation: use the largest ring orientation as the
-    # exterior orientation and subtract rings of the opposite orientation.
-    largest = max(polygons, key=lambda z: z[0].area)
-    outer_sign = 1.0 if largest[1] >= 0 else -1.0
-    positive = [p for p, a in polygons if (1.0 if a >= 0 else -1.0) == outer_sign]
-    negative = [p for p, a in polygons if (1.0 if a >= 0 else -1.0) != outer_sign]
-    geom = unary_union(positive)
-    if negative:
-        geom = geom.difference(unary_union(negative))
-    return make_valid(geom)
+    return filled_geometry(rings, even_odd, stats)
 
 
 def drawing_fill_geometry(

@@ -55,7 +55,7 @@ def _add_batch_conversion_options(parser):
         "--outline-font-catalog",
         action="append",
         default=[],
-        help="persisted .p2dfont catalog; repeat for multiple font faces",
+        help="persisted .p2dfont or .p2dvec catalog; repeat for multiple font faces",
     )
     parser.add_argument("--no-path-text", action="store_true")
     parser.add_argument(
@@ -117,7 +117,7 @@ def main(argv=None):
         "--outline-font-catalog",
         action="append",
         default=[],
-        help="persisted .p2dfont catalog; repeat for multiple font faces",
+        help="persisted .p2dfont or .p2dvec catalog; repeat for multiple font faces",
     )
     c.add_argument("--no-strict-validation", action="store_true")
     c.add_argument(
@@ -173,6 +173,10 @@ def main(argv=None):
     font_build.add_argument("font")
     font_build.add_argument("-o", "--output", required=True)
     font_build.add_argument("--face-index", type=int, default=0)
+    font_build.add_argument(
+        "--vector", action="store_true",
+        help="build a .p2dvec Han boundary catalog for resampled/filled outlines",
+    )
     font_build.add_argument(
         "--charset", choices=("chinese", "english", "all"), default="chinese"
     )
@@ -245,18 +249,28 @@ def _execute(a):
         if a.font_catalog_command == "faces":
             o = {"font": str(Path(a.font)), "faces": list_font_faces(a.font)}
         elif a.font_catalog_command == "build":
-            o = build_font_catalog(
-                a.font,
-                a.output,
-                face_index=a.face_index,
-                charset=a.charset,
-            )
+            if a.vector:
+                if a.charset != "chinese":
+                    raise ValueError("vector font catalogs currently support Han only")
+                from .engine.text.vector_catalog import build_vector_font_catalog
+
+                o = build_vector_font_catalog(a.font, a.output, face_index=a.face_index)
+            else:
+                o = build_font_catalog(
+                    a.font, a.output, face_index=a.face_index, charset=a.charset,
+                )
         elif a.font_catalog_command == "inspect-bundle":
             from .engine.text.font_bundle import inspect_font_bundle
 
             o = inspect_font_bundle(a.bundle)
         else:
-            o = inspect_font_catalog(a.catalog)
+            if Path(a.catalog).suffix.lower() == ".p2dvec":
+                from .engine.text.vector_catalog import load_vector_font_catalog
+
+                resource = load_vector_font_catalog(a.catalog)
+                o = {**resource.entry(), "mapped_codepoints": resource.manifest["mapped_codepoints"]}
+            else:
+                o = inspect_font_catalog(a.catalog)
         code = 0
     elif a.command in {"batch", "regress"}:
         from .batch import run_batch, run_regression

@@ -33,6 +33,7 @@ from .font_catalog import (
     FONT_CATALOG_RASTER_DECIMALS,
     MAX_CONTOURS,
     FontGlyphCatalog,
+    FontCatalogError,
     _has_font_fill,
     font_mask_digest,
     is_han_character,
@@ -139,6 +140,9 @@ class GlyphMatch:
     font_catalog_ids: tuple[str, ...] = ()
     font_raster_round_decimals: int | None = None
     font_match_evidence: tuple[tuple[str, str, int], ...] = ()
+    font_vector_error: float | None = None
+    font_vector_error_limit: float | None = None
+    font_vector_grid_pitch: float | None = None
 
     @property
     def height(self) -> float:
@@ -1999,6 +2003,11 @@ def _select_non_overlapping(matches: list[GlyphMatch]) -> tuple[list[GlyphMatch]
 def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
     if right.start != left.end or right.atoms[0].layer != left.atoms[0].layer:
         return False
+    if (left.font_vector_error is not None or right.font_vector_error is not None) and (
+        left.atoms[-1].source_ref[:2] != right.atoms[0].source_ref[:2]
+        or right.atoms[0].source_ref[2] - left.atoms[-1].source_ref[2] != 1
+    ):
+        return False
     if (left.atoms[0].entity.dxftype() == "HATCH") != (
         right.atoms[0].entity.dxftype() == "HATCH"
     ):
@@ -2270,16 +2279,30 @@ def recover_outline_text(
         "templates": len(catalog.templates),
         "characters": len(catalog.characters),
     }
-    font_catalogs, font_catalog_entries = _load_font_catalogs(
-        requested_font_catalogs, mode
-    )
+    vector_paths = [p for p in requested_font_catalogs if Path(p).suffix.lower() == ".p2dvec"]
+    legacy_paths = [p for p in requested_font_catalogs if Path(p).suffix.lower() != ".p2dvec"]
+    font_catalogs, font_catalog_entries = _load_font_catalogs(legacy_paths, mode)
+    vector_catalogs = []
+    if vector_paths:
+        from .vector_catalog import load_vector_font_catalog
+
+        for path in dict.fromkeys(vector_paths):
+            try:
+                resource = load_vector_font_catalog(path)
+            except FontCatalogError as exc:
+                if mode == "required":
+                    raise GlyphCatalogUnavailable("OUTLINE_TEXT_VECTOR_CATALOG_UNAVAILABLE") from exc
+                font_catalog_entries.append({"path": str(path), "status": "unavailable", "error": str(exc)[:240]})
+                continue
+            vector_catalogs.append(resource)
+            font_catalog_entries.append(resource.entry())
     report["font_catalogs"].update(
-        loaded=len(font_catalogs), entries=font_catalog_entries
+        loaded=len(font_catalogs) + len(vector_catalogs), entries=font_catalog_entries
     )
 
     doc = ezdxf.readfile(dxf_path)
     atoms, source_entities, atom_stats = _collect_atoms(
-        doc, page_index, include_fills=bool(font_catalogs)
+        doc, page_index, include_fills=bool(font_catalogs or vector_catalogs)
     )
     report.update(atom_stats)
     matches, scan_metrics = _scan_matches(atoms, catalog)
@@ -2356,6 +2379,18 @@ def recover_outline_text(
         match.font_raster_round_decimals in (3, 5) for match in font_matches
     )
     selected = sorted([*selected, *font_matches], key=lambda match: match.start)
+    if vector_catalogs:
+        from .vector_text import recover_vector_matches
+
+        occupied = {i for m in selected for i in range(m.start, m.end)}
+        vector_matches, vector_metrics = recover_vector_matches(
+            atoms, source_entities, vector_catalogs, occupied, font_catalog_entries,
+            paper_mm=int(doc.header.get("$INSUNITS", 0)) == 4,
+        )
+        report.update(vector_metrics)
+        report["font_catalogs"]["locked"] += vector_metrics["font_vector_locked_catalogs"]
+        report["engine"]["match"] = "exact_masks_or_bounded_vector_boundaries_with_run_consensus"
+        selected = sorted([*selected, *vector_matches], key=lambda m: m.start)
     report["selected_glyph_matches"] = len(selected)
     report["overlapping_glyph_matches_rejected"] = overlap_rejected
     runs = []
@@ -2418,9 +2453,10 @@ def recover_outline_text(
             {catalog_id for match in run for catalog_id in match.font_catalog_ids}
         )
         match_method = (
-            "locked_font_catalog_exact_mask_and_topology"
-            if run_font_catalog_ids
-            else "exact_normalized_mask_and_topology"
+            "bounded_vector_boundary_topology_and_run_consensus"
+            if any(m.font_vector_error is not None for m in run)
+            else "locked_font_catalog_exact_mask_and_topology"
+            if run_font_catalog_ids else "exact_normalized_mask_and_topology"
         )
         start, end = (float(low[0]), float(low[1])), (float(high[0]), float(low[1]))
         text = doc.modelspace().add_text(
@@ -2476,6 +2512,9 @@ def recover_outline_text(
                 "font_raster_round_decimals": [
                     match.font_raster_round_decimals for match in run
                 ],
+                "font_vector_boundary_errors": [m.font_vector_error for m in run],
+                "font_vector_boundary_error_limits": [m.font_vector_error_limit for m in run],
+                "font_vector_printer_grid_mm": [m.font_vector_grid_pitch for m in run],
                 "admission_methods": sorted(
                     {match.template.admission for match in run}
                 ),

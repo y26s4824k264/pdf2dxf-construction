@@ -21,6 +21,7 @@ PRIVATE_SUFFIXES = {
     ".pdf",
     ".dxf",
     ".p2dfont",
+    ".p2dvec",
     ".ttf",
     ".otf",
     ".ttc",

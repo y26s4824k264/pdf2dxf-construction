@@ -1,3 +1,10 @@
+# 2.0.0rc41
+
+- Resolve nonzero/even-odd fills using planar faces and total source winding. Preserve ink islands, disjoint opposite-direction contours and self-crossing regions; honor PDF rectangle orientation.
+- Add optional `.p2dvec` Han font catalogs, Unicode cmap provenance, nested-contour checks, complete bidirectional boundary coverage and multiple coherent source rows. Verified printer-grid quantization has a bounded reported error allowance; exact `.p2dfont` behavior remains available.
+- Build/inspect vector resources with the CLI. Runtime recognition reads saved DXF and persisted numeric templates only; ambiguous labels and incomplete source paints remain geometry. External font resources are excluded from distributions.
+- See [rc41 validation and limits](docs/RELEASE_RC41.md). No full historical PDF-corpus rerun.
+
 # 2.0.0rc40
 
 - Decode missing native Unicode using unique embedded TrueType cmap/glyph-ID evidence, with conflict rejection and provenance. Do not publish raw glyph numbers as Unicode or override valid PDF mappings.

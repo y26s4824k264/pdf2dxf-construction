@@ -1,14 +1,14 @@
 # PDF2DXF Construction
 
-当前版本：**2.0.0rc40**。修复缺失 PDF Unicode 映射导致的乱码、超范围 DXF 来源编号，并加速大文件确定性序列化。中文轮廓仍以持久化 DXF 的字形证据恢复 TEXT，不使用 OCR。结构图代表页及未确认字体、比例、资源限制见 [rc40 说明](docs/RELEASE_RC40.md)；不承诺任意 PDF 的全部文字均可恢复。
+当前版本：**2.0.0rc41**。修复填充孔洞内笔画丢失，新增持久化矢量字库与受限边界匹配，处理打印量化后的中文轮廓。仍按 DXF 字形、拓扑和多行排版证据恢复 TEXT，不使用 OCR；未确认文字保留几何。见 [rc41 说明](docs/RELEASE_RC41.md)。
 
 **简体中文** | [English](README.en.md)
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-版本：`2.0.0rc40`（预发布）。
+版本：`2.0.0rc41`（预发布）。
 
-面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 负责预编译外部轮廓字库，也在 PDF 输入解码时核验内嵌 TrueType cmap；轮廓识别阶段不打开 PDF 或外部字体文件。
+面向施工图的独立 Python PDF→DXF 转换包，输出真实、可读取、持久化的 DXF，提供轮廓文字恢复与比例证据报告。图框拆分与 BIM 建模由下游 DXF 流程负责。Python 代码不需要 CAD 程序，PyMuPDF、NumPy、OpenCV 等依赖仍使用原生二进制 wheel。轮廓文字恢复只读取已保存的 DXF 图元和持久化 `.p2dfont` / `.p2dvec`，不使用 OCR、ONNX Runtime 或 PDF 像素。FontTools 负责预编译外部轮廓字库，也在 PDF 输入解码时核验内嵌 TrueType cmap；轮廓识别阶段不打开 PDF 或外部字体文件。
 
 项目采用 [AGPL-3.0-only](LICENSE)，支持遵守许可证条件的使用、修改、商业使用和再分发。公开仓库与安装包见 [GitHub](https://github.com/y26s4824k264/pdf2dxf-construction) / [Releases](https://github.com/y26s4824k264/pdf2dxf-construction/releases)。第三方依赖与外部字体保留其原有许可，详见 [NOTICE](NOTICE) 和 [第三方说明](THIRD_PARTY_NOTICES.md)。
 
@@ -17,7 +17,7 @@
 要求 Python 3.10+；本轮本地验证 macOS ARM64 / Python 3.12。最新跨平台执行结果见上方 CI 与[验证记录](docs/VALIDATION.md)。建议使用独立虚拟环境，以下为 macOS/Linux 命令；Windows 对应可执行文件位于 `.venv\Scripts\`：
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc40"
+python -m pip install "pdf2dxf-construction==2.0.0rc41"
 ```
 
 ```sh
@@ -199,3 +199,19 @@ AGPL 不是无条件授权。分发受其覆盖的软件或提供修改版网络
 欢迎提交 [Issues](https://github.com/y26s4824k264/pdf2dxf-construction/issues) 和 Pull Requests。开发流程见 [CONTRIBUTING.md](CONTRIBUTING.md)，敏感缺陷见 [SECURITY.md](SECURITY.md)。
 
 项目定位、可核验结果与维护计划见 [项目说明](docs/PROJECT_BRIEF.md)。
+
+## 打印轮廓矢量字库（rc41）
+
+原 `.p2dfont` 精确路径继续保留。经过打印栅格量化、重采样或横向压缩的汉字，可另建矢量字库：
+
+```sh
+pdf2dxf font-catalog build /path/to/authorized-font.ttc --face-index 0 \
+  --vector --charset chinese -o catalogs/font.p2dvec
+pdf2dxf font-catalog inspect catalogs/font.p2dvec
+pdf2dxf convert input.pdf -o output.dxf --outline-chinese required \
+  --outline-font-catalog catalogs/font.p2dvec
+```
+
+矢量回退仅处理具有完整来源映射的闭合 HATCH 汉字；要求轮廓嵌套关系、完整路径双向误差和 em/字距证据，并需至少两行、每行至少五种不同汉字确认字体。扫描图、未知字体、孤立短行和同形异字不会凭相似度或词义补齐。新资源直接通过 `--outline-font-catalog` 传入；现有开源 bundle 格式不变。
+
+字库仅覆盖源字体实际 cmap；覆盖数不等于图纸识别率。外部字体及派生矢量字库遵守原许可，不随主包分发。此次本机核验使用的 SimSun 字体和派生资源均不进入 GitHub/PyPI；开源使用者可自行用有权使用的字体构建。
