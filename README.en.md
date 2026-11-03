@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-Current version: **2.0.0rc39**. Fix Latin-first mixed text caching a Latin-only fallback STYLE for later Han characters. Chinese outlines still become TEXT only through persisted-DXF topology and geometric-template evidence, without OCR. See [rc39 repair notes](docs/RELEASE_RC39.md). Representative pages only; no historical corpus rerun.
+Current version: **2.0.0rc40**. Repair missing native Unicode mappings, large DXF source indices and large-file metadata serialization. Outline-to-TEXT recovery still requires persisted-DXF geometric evidence, without OCR. See [rc40 evidence and limits](docs/RELEASE_RC40.md) for structural samples, unidentified outline fonts, engineering scale and memory budgets; universal text recovery is not claimed.
 
 [简体中文](README.md) | **English**
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc39` (prerelease).
+Version: `2.0.0rc40` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -19,7 +19,7 @@ Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redist
 Python 3.10 or later is required. This release was checked locally on macOS ARM64 / Python 3.12; earlier releases also have Python 3.10 and Linux ARM64 evidence. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc39"
+python -m pip install "pdf2dxf-construction==2.0.0rc40"
 ```
 
 ```sh

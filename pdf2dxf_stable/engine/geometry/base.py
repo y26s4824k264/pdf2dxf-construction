@@ -68,6 +68,13 @@ POINT_EPS = 1e-5
 TAU = math.tau
 
 
+def xdata_integer(value: int) -> tuple[int, int]:
+    value = int(value)
+    if not -(2**31) <= value < 2**31:
+        raise ValueError("DXF XDATA integer exceeds signed 32-bit range")
+    return (1070 if -(2**15) <= value < 2**15 else 1071, value)
+
+
 @dataclass(slots=True)
 class KernelConfig:
     units: Literal["paper_mm", "pdf_pt"] = "paper_mm"
@@ -737,7 +744,7 @@ class GenericGraphicsKernelV14:
                     [
                         (1000, method),
                         (1070, int(page_index)),
-                        (1070, int(seqno)),
+                        xdata_integer(seqno),
                         (1000, str(drawing.get("type", ""))),
                     ],
                 )
@@ -1643,7 +1650,7 @@ class GenericGraphicsKernelV14:
                     payload = [
                         (1000, method),
                         (1070, page_index),
-                        (1070, int(run.seqno)),
+                        xdata_integer(run.seqno),
                         (1000, run.font),
                         (1000, run.layer or ""),
                         (1000, run.source),
@@ -1982,8 +1989,8 @@ class GenericGraphicsKernelV14:
                                 "shading_raster_fallback" if is_shading else "image",
                             ),
                             (1070, page_index),
-                            (1070, xref),
-                            (1070, seqno),
+                            xdata_integer(xref),
+                            xdata_integer(seqno),
                         ],
                     )
                 if is_shading:

@@ -17,6 +17,8 @@ import numpy as np
 from shapely.geometry import box
 from shapely.strtree import STRtree
 
+from .embedded_unicode import repair_embedded_unicode
+
 
 @dataclass(slots=True)
 class TextCharObservation:
@@ -103,6 +105,8 @@ class TextRecoveryDiagnostics:
     unmatched_runs: int = 0
     matched_outline_records: int = 0
     warnings: list[str] = field(default_factory=list)
+    embedded_cmap_chars: int = 0
+    unresolved_unicode_chars: int = 0
 
 
 def _rgb_from_trace(value: Any) -> tuple[int, int, int] | None:
@@ -180,7 +184,7 @@ def _build_trace_runs(traces: list[dict[str, Any]]) -> list[TextRunObservation]:
                 hidden=int(tr.get("type", 0) or 0) == 3,
                 layer=str(tr.get("layer", "") or ""),
                 seqno=int(tr.get("seqno", -1) if tr.get("seqno") is not None else -1),
-                source="texttrace",
+                source=tr.get("unicode_source", "texttrace"),
                 index=index,
             )
         )
@@ -195,7 +199,9 @@ def _build_rawdict_runs(
     page: fitz.Page, trace_runs: list[TextRunObservation]
 ) -> list[TextRunObservation]:
     try:
-        raw = page.get_text("rawdict")
+        raw = page.get_text(
+            "rawdict", flags=fitz.TEXTFLAGS_RAWDICT & ~fitz.TEXT_CID_FOR_UNKNOWN_UNICODE
+        )
     except Exception:
         return []
     lookup: dict[tuple[str, str], list[TextRunObservation]] = {}
@@ -268,7 +274,9 @@ def _repair_trace_unicode(page, runs, diagnostics):
     if not any(char.text == "\ufffd" for run in runs for char in run.chars):
         return
     try:
-        raw = page.get_text("rawdict")
+        raw = page.get_text(
+            "rawdict", flags=fitz.TEXTFLAGS_RAWDICT & ~fitz.TEXT_CID_FOR_UNKNOWN_UNICODE
+        )
     except Exception:
         return
 
@@ -314,6 +322,7 @@ def extract_text_runs(
     except Exception as exc:
         traces = []
         diagnostics.warnings.append(f"get_texttrace failed: {exc}")
+    diagnostics.embedded_cmap_chars = repair_embedded_unicode(page, traces)
     trace_runs = _build_trace_runs(traces)
     _repair_trace_unicode(page, trace_runs, diagnostics)
     diagnostics.texttrace_runs = len(trace_runs)
@@ -329,6 +338,14 @@ def extract_text_runs(
             )
     diagnostics.hidden_runs = sum(r.hidden for r in runs)
     diagnostics.hidden_chars = sum(len(r.nonspace_chars) for r in runs if r.hidden)
+    diagnostics.unresolved_unicode_chars = sum(
+        char.text.count("\ufffd") for run in runs for char in run.chars
+    )
+    if diagnostics.unresolved_unicode_chars:
+        diagnostics.warnings.append(
+            f"NATIVE_UNICODE_UNRESOLVED: {diagnostics.unresolved_unicode_chars} characters; "
+            "glyph IDs were not accepted as Unicode"
+        )
     return runs
 
 

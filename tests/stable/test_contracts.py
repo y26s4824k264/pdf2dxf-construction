@@ -702,8 +702,8 @@ def test_native_unicode_repair_preserves_trace_geometry_and_rejects_ambiguity():
             def get_texttrace(self):
                 return copy.deepcopy(trace)
 
-            def get_text(self, *args):
-                return page.get_text(*args)
+            def get_text(self, *args, **kwargs):
+                return page.get_text(*args, **kwargs)
 
         runs = extract_text_runs(Page())
         assert runs[0].text == "AB"
@@ -711,8 +711,8 @@ def test_native_unicode_repair_preserves_trace_geometry_and_rejects_ambiguity():
         assert runs[0].chars[0].bbox == tuple(original[3])
 
         class Ambiguous(Page):
-            def get_text(self, *args):
-                raw = page.get_text(*args)
+            def get_text(self, *args, **kwargs):
+                raw = page.get_text(*args, **kwargs)
                 span = raw["blocks"][0]["lines"][0]["spans"][0]
                 span["chars"].append({**span["chars"][0], "c": "C"})
                 return raw

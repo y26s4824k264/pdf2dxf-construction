@@ -1,3 +1,10 @@
+# 2.0.0rc40
+
+- Decode missing native Unicode using unique embedded TrueType cmap/glyph-ID evidence, with conflict rejection and provenance. Do not publish raw glyph numbers as Unicode or override valid PDF mappings.
+- Reject unresolved native Unicode as complete graphics. Keep persisted-DXF outline recognition and its original evidence thresholds; no OCR.
+- Use signed 32-bit XDATA for large source indices and validate integer ranges after saving.
+- Accelerate large-file metadata canonicalization using bounded byte copies; verify byte-identical output against rc39. See [rc40 validation and limits](docs/RELEASE_RC40.md).
+
 # 2.0.0rc39
 
 - Select a Han-capable fallback STYLE after inspecting all runs of a source font, so Latin-first mixed text cannot cache Arial for later Chinese characters. Keep character values, original positions and provenance unchanged.

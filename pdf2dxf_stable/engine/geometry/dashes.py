@@ -20,11 +20,7 @@ def parse_dash(spec):
         raise ValueError("PDF_DASH_INVALID")
     values = tuple(float(v) for v in match[1].replace(",", " ").split())
     phase = float(match[2])
-    if (
-        not math.isfinite(phase)
-        or phase < 0
-        or any(not math.isfinite(v) or v < 0 for v in values)
-    ):
+    if not math.isfinite(phase) or any(not math.isfinite(v) or v < 0 for v in values):
         raise ValueError("PDF_DASH_INVALID")
     if not values:
         return (), 0.0
@@ -32,6 +28,8 @@ def parse_dash(spec):
         raise ValueError("PDF_DASH_INVALID")
     if len(values) % 2:
         values *= 2
+    # ISO 32000-2 8.4.3.6 permits negative phase. Normalize it against the
+    # complete paint/gap cycle, including repetition of odd-length arrays.
     return values, phase % sum(values)
 
 

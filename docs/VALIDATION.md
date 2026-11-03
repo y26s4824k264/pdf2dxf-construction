@@ -1,6 +1,6 @@
 # rc34 验证记录 / Validation
 
-Latest: [rc39 mixed-script font repair](RELEASE_RC39.md), with ten added saved-DXF regressions and representative-page checks. [rc38](RELEASE_RC38.md) covers the cached and public stroke conversion paths. Earlier drawing/corpus results remain historical, not full reruns for rc39.
+Latest: [rc40 Unicode/XDATA/large-file repair](RELEASE_RC40.md). Three structural representative pages expose missing native font mappings, default-memory limits and unconfirmed engineering scale; unmatched body outlines remain geometry. Earlier drawing/corpus results remain historical, not full reruns for rc40.
 
 版本 `2.0.0rc34`。本地 macOS ARM64 / Python 3.12.13：源码和隔离安装 wheel 各 **732 项测试通过**；全库 Ruff **29→0**，并在四个平台/版本的 CI 作业中加入 lint 门槛。精确提交的远端 CI 在发布前核验，见发行页和 [CI](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)。
 

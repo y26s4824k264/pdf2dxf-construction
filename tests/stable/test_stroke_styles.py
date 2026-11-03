@@ -13,7 +13,11 @@ from pdf2dxf_stable.engine.pipeline import ConstructionPDF2DXFV15
 
 
 @pytest.fixture(
-    params=[GenericGraphicsKernelV14, ConstructionGraphicsKernelV15, ConstructionPDF2DXFV15]
+    params=[
+        GenericGraphicsKernelV14,
+        ConstructionGraphicsKernelV15,
+        ConstructionPDF2DXFV15,
+    ]
 )
 def kernel(request):
     return request.param()
@@ -92,6 +96,40 @@ def test_dash_intervals_use_original_affine_space(tmp_path, kernel):
     assert sorted(
         (round(e.dxf.start.x / scale), round(e.dxf.end.x / scale)) for e in lines
     ) == [(20, 40), (50, 70)]
+
+
+@pytest.mark.parametrize("phase", [-1, -6])
+def test_negative_dash_phase_keeps_leading_gap_and_painted_intervals(
+    tmp_path, kernel, phase
+):
+    doc = convert(
+        tmp_path, kernel, f"4 w 0 J [3 2] {phase} d 20 50 m 40 50 l S".encode()
+    )
+    # Starting one unit before the cycle ends leaves a one-unit initial gap.
+    scale = 25.4 / 72
+    lines = sorted(
+        (e.dxf.start.x / scale, e.dxf.end.x / scale)
+        for e in doc.modelspace().query("LINE")
+    )
+    assert [v for pair in lines for v in pair] == pytest.approx(
+        [21, 24, 26, 29, 31, 34, 36, 39]
+    )
+    assert area(doc) == pytest.approx(48, abs=0.1)
+
+
+def test_odd_dash_array_negative_phase_matches_iso_example():
+    from pdf2dxf_stable.engine.geometry.dashes import parse_dash
+
+    # ISO 32000-2 8.4.3.6 / Table 55: [2 1 3] -2 begins with two units off.
+    assert parse_dash("[2 1 3] -2") == ((2, 1, 3, 2, 1, 3), 10)
+
+
+@pytest.mark.parametrize("pattern", ["[-1 2] 0", "[0 0] -1", "[1 nan] 0", "[1 2] -inf"])
+def test_negative_phase_support_still_rejects_invalid_dash_lengths(pattern):
+    from pdf2dxf_stable.engine.geometry.dashes import parse_dash
+
+    with pytest.raises(ValueError, match="PDF_DASH_INVALID"):
+        parse_dash(pattern)
 
 
 def test_closed_dash_seam_is_joined(tmp_path, kernel):

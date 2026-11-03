@@ -254,6 +254,22 @@ def validate_dxf(
         for handle in evidence.get("source_entities", {})
     }
     instances, source_instances, errors = collect_dimensions(doc, source_handles)
+    for entity in doc.entitydb.values():
+        if not entity.is_alive or entity.xdata is None:
+            continue
+        for appid, tags in entity.xdata.data.items():
+            for code, value in tags:
+                bits = {1070: 16, 1071: 32}.get(code)
+                if bits and not -(2 ** (bits - 1)) <= value < 2 ** (bits - 1):
+                    errors.append(
+                        {
+                            "code": "XDATA_INTEGER_OUT_OF_RANGE",
+                            "handle": entity.dxf.handle,
+                            "appid": appid,
+                            "group_code": code,
+                            "value": value,
+                        }
+                    )
     if not any(doc.modelspace()):
         errors.append({"code": "MODELSPACE_EMPTY"})
     audit = doc.audit()
@@ -504,6 +520,7 @@ def validate_dxf(
             if any(
                 token in str(value).lower()
                 for token in (
+                    "native_unicode_unresolved",
                     "image extract failed",
                     "image mask rendering failed",
                     "image placement failed",
