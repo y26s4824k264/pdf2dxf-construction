@@ -1,3 +1,10 @@
+# 2.0.0rc47
+
+- Compile zero-ascent basic SHX bigfonts using a complete-Han geometry normalization scale, preserving source header provenance, consistent subset builds and nonzero-ascent compatibility.
+- Confirm complex multi-Han labels only at four independent locations with complete-source, printer-grid, full-font uniqueness, path and measured-layout proof; do not globally lock their font or seed further recoveries.
+- Preserve original ink bounds as separate plain TEXT; reject incomplete, ambiguous, simple or spatially duplicated evidence. No OCR or semantic completion.
+- See [rc47 evidence and limits](docs/RELEASE_RC47.md); only the foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc46
 
 - Recover complete isolated Han from a locked numeric font and two spatially independent, previously strict row occurrences, retaining the original geometry budget, Unicode uniqueness, source completeness and verified printer lattice.

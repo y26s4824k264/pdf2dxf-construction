@@ -36,10 +36,12 @@ SHAPES = {
 }
 
 
-def font_file(path):
-    records = {0: b"Test stroke\0" + bytes([128, 0, 2, 0])}
+def font_file(path, *, above=128, below=0, divisor=1, family=b"Test stroke"):
+    records = {0: family + b"\0" + bytes([above, below, 2, 0])}
     for char, paths in SHAPES.items():
         program = bytearray(b"\0")
+        if divisor != 1:
+            program.extend([3, divisor])
         x = y = 0
 
         def move(point):
@@ -56,6 +58,8 @@ def font_file(path):
                 move(point)
         program.append(2)
         move((120, 0))
+        if divisor != 1:
+            program.extend([4, divisor])
         program.append(0)
         records[int.from_bytes(char.encode("gbk"), "big")] = bytes(program)
     header = b"AutoCAD-86 bigfont 1.0\r\n\x1a" + struct.pack(
@@ -120,6 +124,110 @@ def test_shx_strokes_recover_from_dxf_without_font_access(tmp_path):
         ]
         == 0
     )
+
+
+@pytest.mark.parametrize("below", [0, 128])
+def test_zero_above_bigfont_keeps_geometry_and_derives_numeric_scale(tmp_path, below):
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog, SIGNATURE
+    from pdf2dxf_stable.engine.text.vector_catalog import load_vector_font_catalog
+
+    font = font_file(tmp_path / "zero-above.shx")
+    data = bytearray(font.read_bytes())
+    index = len(SIGNATURE) + 10
+    code, length, offset = struct.unpack_from("<HHI", data, index)
+    assert code == 0
+    start = data.index(0, offset) + 1
+    data[start : start + 2] = bytes([0, below])
+    font.write_bytes(data)
+    catalog = tmp_path / "zero-above.p2dvec"
+    if not below:
+        with pytest.raises(ValueError, match="definition"):
+            build_shx_vector_catalog(font, catalog, encoding="gbk")
+        assert not catalog.exists()
+        return
+    build_shx_vector_catalog(font, catalog, encoding="gbk")
+    numeric = load_vector_font_catalog(catalog)
+    assert numeric.font["source_above"] == 0
+    assert numeric.font["source_below"] == below
+    assert numeric.font["height_policy"] == "full_han_median_ink_height_v1"
+    assert numeric.font["units_per_em"] == 100
+    partial = tmp_path / "partial.p2dvec"
+    build_shx_vector_catalog(font, partial, encoding="gbk", codepoints=[ord("工")])
+    assert load_vector_font_catalog(partial).font["units_per_em"] == 100
+    font.unlink()
+    report = recover_outline_text(stroke_dxf(tmp_path / "zero-above.dxf"), mode="required", font_catalog_paths=[catalog])
+    assert [r["text"] for r in report["accepted"]] == [CHARS, CHARS]
+
+
+@pytest.mark.parametrize("case", ["valid", "small_grid", "three", "duplicate", "spacing", "missing_branch", "no_grid", "alias", "simple"])
+def test_complex_repeated_labels_need_four_independent_complete_locations(tmp_path, monkeypatch, case):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    monkeypatch.setitem(SHAPES, "器", [
+        [(10,100),(30,95)],[(40,90),(60,85)],[(70,80),(90,75)],
+        [(10,65),(30,60)],[(40,55),(60,50)],[(70,45),(90,40)],
+        [(10,30),(30,25)],[(40,20),(60,15)],[(70,10),(90,5)],
+    ])
+    monkeypatch.setitem(SHAPES, "玉", [*SHAPES["王"], [(60,40),(65,35)]])
+    if case == "alias":
+        monkeypatch.setitem(SHAPES, "品", SHAPES["器"])
+    catalog = tmp_path / "labels.p2dvec"
+    build_shx_vector_catalog(font_file(tmp_path / "labels.shx"), catalog, encoding="gbk")
+    doc = ezdxf.new("R2018")
+    doc.header["$INSUNITS"] = 4
+    doc.appids.new("PDF2DXF15")
+    word = "玉本" if case == "simple" else "器本"
+    pitch = 25.4 / 600
+    expected = []
+    for row in range(3 if case == "three" else 4):
+        seq = row * 200
+        for col, char in enumerate(word):
+            points_all = []
+            paths = SHAPES[char][:-1] if row == 3 and char == "器" and case == "missing_branch" else SHAPES[char]
+            for path in paths:
+                small = case == "small_grid"
+                points = np.array(path) * ([0.0105,0.021] if small else [0.035,0.07]) + [col * (1.22 if small else 4.05) + (row * .013 if small else 0) + (0.8 if row == 3 and col and case == "spacing" else 0), 0 if case == "duplicate" and row == 3 else row * 12]
+                if case != "no_grid":
+                    points = np.rint(points / pitch) * pitch
+                points_all.extend(points)
+                e = doc.modelspace().add_lwpolyline(points)
+                e.set_xdata("PDF2DXF15", [(1000,"stroke"),(1070,0),(1070,seq),(1000,"s")])
+                seq += 1
+            expected.append((char,tuple(np.min(points_all,axis=0))))
+    path = tmp_path / "labels.dxf"
+    doc.saveas(path)
+    report = recover_outline_text(path, mode="required", policy="off_layer", font_catalog_paths=[catalog])
+    assert report["font_vector_locked_catalogs"] == 0
+    texts = [r["text"] for r in report["accepted"]]
+    success = case in {"valid", "small_grid"}
+    assert texts == (list(word) * 4 if success else [])
+    assert report.get("font_stroke_repeated_label_glyph_matches",0) == (8 if success else 0)
+    if success:
+        evidence = report["font_stroke_repeated_label_evidence"]
+        assert len(evidence) == 4 and all(len(r["supports"]) == 3 for r in evidence)
+        assert all(limit <= .02 for row in report["accepted"] for limit in row["font_vector_boundary_error_limits"])
+        actual = list(ezdxf.readfile(path).modelspace().query("TEXT"))
+        assert len(actual) == len(expected)
+        for entity,(char,xy) in zip(actual,expected):
+            assert entity.dxf.text == char
+            assert tuple(entity.dxf.insert)[:2] == pytest.approx(xy)
+
+
+def test_zero_above_small_font_preserves_normalized_geometry(tmp_path):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+    from pdf2dxf_stable.engine.text.vector_catalog import load_vector_font_catalog
+
+    normal = tmp_path / "normal.p2dvec"
+    small = tmp_path / "small.p2dvec"
+    build_shx_vector_catalog(font_file(tmp_path / "normal.shx"), normal, encoding="gbk")
+    font = font_file(tmp_path / "small.shx", above=0, below=128, divisor=16, family="测试字库".encode("gbk"))
+    build_shx_vector_catalog(font, small, encoding="gbk")
+    actual = load_vector_font_catalog(small)
+    assert actual.font["units_per_em"] == 7
+    assert actual.font["family"] == "测试字库"
+    np.testing.assert_array_equal(actual.arrays["points.npy"], load_vector_font_catalog(normal).arrays["points.npy"])
 
 
 def test_lone_stroke_row_cannot_lock_font(tmp_path):

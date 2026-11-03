@@ -2002,7 +2002,7 @@ def _select_non_overlapping(matches: list[GlyphMatch]) -> tuple[list[GlyphMatch]
 
 
 def _run_neighbors(left: GlyphMatch, right: GlyphMatch) -> bool:
-    if any(m.template.admission in {"shx_stroke_spaced_row_consensus", "shx_stroke_isolated_repeat_consensus"} for m in (left,right)):
+    if any(m.template.admission in {"shx_stroke_spaced_row_consensus", "shx_stroke_isolated_repeat_consensus", "shx_stroke_repeated_label_consensus"} for m in (left,right)):
         return False
     if right.start != left.end or right.atoms[0].layer != left.atoms[0].layer:
         return False
@@ -2433,7 +2433,7 @@ def recover_outline_text(
             and run[0].template.admission in {"shx_stroke_row_anchor_consensus","shx_stroke_spaced_row_consensus"}
             and run[0].font_vector_layout is not None,
             stroke_repeat_confirmed=len(run) == 1
-            and run[0].template.admission == "shx_stroke_isolated_repeat_consensus"
+            and run[0].template.admission in {"shx_stroke_isolated_repeat_consensus", "shx_stroke_repeated_label_consensus"}
             and run[0].font_vector_layout is not None,
         )
         if publishable:

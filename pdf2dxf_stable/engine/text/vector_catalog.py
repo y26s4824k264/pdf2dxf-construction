@@ -510,7 +510,7 @@ def load_vector_font_catalog(path):
             or type(font.get("face_count")) is not int
             or not 0 <= font["face_index"] < font["face_count"]
             or type(font.get("units_per_em")) is not int
-            or not 16 <= font["units_per_em"] <= 16384
+            or not (1 if stroke else 16) <= font["units_per_em"] <= 16384
         ):
             raise ValueError("invalid vector font provenance")
         if stroke and (

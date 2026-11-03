@@ -93,10 +93,17 @@ class Bigfont:
                 len(definition) != 4
                 or definition[-1] != 0
                 or definition[2] not in (0, 2)
-                or definition[0] < 16
+                or (
+                    definition[0] < 16
+                    and not (definition[0] == 0 and definition[1] > 0)
+                )
             ):
                 raise ValueError("unsupported bigfont definition")
-            self.height, self.below, self.mode = definition[:3]
+            self.above, self.below, self.mode = definition[:3]
+            # Some deployed bigfonts declare zero ascent. This positive seed
+            # only controls curve sampling; the complete Han geometry below
+            # establishes their numeric layout scale, never the descent byte.
+            self.height = self.above or self.below
             self.codes = tuple(records)
             self.programs = {}
             self.errors = {}
@@ -200,10 +207,13 @@ def build_shx_vector_catalog(
     descriptors = []
     skipped = 0
     max_source_paths = 0
-    for done, cp in enumerate(requested, 1):
+    wanted = set(requested)
+    height_samples = []
+    scan = sorted(mapped) if not font.above else requested
+    for cp in scan:
         try:
             paths, advance = font.glyph(mapped[cp])
-            max_source_paths = max(max_source_paths, len(paths))
+            source_paths = len(paths)
             paths = _join_stroke_paths(paths)
             normal, low, extent = _normalise(paths)
             if (
@@ -214,8 +224,13 @@ def build_shx_vector_catalog(
             ):
                 raise ValueError("unsupported stroke glyph geometry")
         except (ValueError, IndexError, KeyError, ZeroDivisionError, OverflowError):
-            skipped += 1
+            skipped += int(cp in wanted)
             continue
+        if not font.above:
+            height_samples.append(float(extent[1]))
+        if cp not in wanted:
+            continue
+        max_source_paths = max(max_source_paths, source_paths)
         if (
             len(cps) >= MAX_ROWS
             or po[-1] + sum(map(len, paths)) > MAX_POINTS
@@ -232,9 +247,17 @@ def build_shx_vector_catalog(
         aspects.append(float(extent[0] / extent[1]))
         descriptors.append(_descriptor(normal))
         if progress:
-            progress(done, len(requested))
+            progress(len(cps) + skipped, len(requested))
     if not cps:
         raise fc.FontCatalogError("font has no supported Han stroke programs")
+    em = font.height
+    height_policy = "declared_above_v1"
+    if not font.above:
+        em = int(np.ceil(np.median(height_samples)))
+        if not 1 <= em <= 16384:
+            raise fc.FontCatalogError("invalid geometry-derived stroke font scale")
+        metrics = [tuple(value * font.height / em for value in m) for m in metrics]
+        height_policy = "full_han_median_ink_height_v1"
     arrays = {
         "points.npy": np.vstack(coords).astype("<f4"),
         "path_offsets.npy": np.asarray(po, dtype="<u4"),
@@ -248,8 +271,12 @@ def build_shx_vector_catalog(
         "sha256": fc._sha256_path(source),
         "face_index": 0,
         "face_count": 1,
-        "units_per_em": font.height,
-        "family": font.name.decode("ascii", errors="replace"),
+        "units_per_em": em,
+        "source_above": font.above,
+        "source_below": font.below,
+        "height_policy": height_policy,
+        "height_reference_glyphs": len(height_samples),
+        "family": font.name.decode("gbk", errors="replace"),
         "source_file": source.name,
         "source_format": "AutoCAD-86 bigfont 1.0",
         "source_encoding": "gbk",

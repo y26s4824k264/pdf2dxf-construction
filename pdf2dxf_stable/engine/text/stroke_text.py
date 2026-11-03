@@ -7,6 +7,7 @@ import numpy as np
 
 from .vector_text import _adjacent, _candidate_group, _placement
 from .vector_catalog import _join_stroke_paths, _normalise, _stroke_paths_agree
+from .stroke_labels import admit_repeated_labels
 
 MAX_ROW_GLYPHS = 96
 
@@ -433,6 +434,8 @@ def recover_stroke_matches(
         "font_stroke_spaced_row_evidence": [],
         "font_stroke_isolated_glyph_matches": 0,
         "font_stroke_isolated_evidence": [],
+        "font_stroke_repeated_label_glyph_matches": 0,
+        "font_stroke_repeated_label_evidence": [],
         "font_vector_glyph_matches": 0,
         "font_vector_candidate_glyphs": 0,
         "font_vector_ambiguous_glyphs": 0,
@@ -721,6 +724,7 @@ def recover_stroke_matches(
             retry = _admit_isolated(
                 retry, singletons, proofs, atoms, matches, retry_metrics
             )
+            retry = admit_repeated_labels(retry, candidates, proofs, atoms, catalogs, retry_metrics)
             return retry, retry_metrics
     spaced, spacing_evidence = _spaced_matches(
         matches,
@@ -738,4 +742,5 @@ def recover_stroke_matches(
     )
     if _prepared is None:
         matches = _admit_isolated(matches, singletons, proofs, atoms, matches, metrics)
+        matches = admit_repeated_labels(matches, candidates, proofs, atoms, catalogs, metrics)
     return matches, metrics
