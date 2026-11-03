@@ -15,9 +15,11 @@ from .vector_catalog import (
 )
 
 
-def _printer_grid(points, *, paper_mm):
+def _printer_grid(points, *, paper_mm, minimum_vertices=12):
     """Admit a printer grid only when every saved vertex supports its lattice."""
-    if not paper_mm or len(points) < 12:
+    if not paper_mm or len(points) < minimum_vertices:
+        return 0.0
+    if minimum_vertices < 12 and len(np.unique(points, axis=0)) < minimum_vertices:
         return 0.0
     if any(len(np.unique(points[:, axis])) < 4 for axis in (0, 1)):
         return 0.0
@@ -189,7 +191,12 @@ def _candidate_group(group, catalogs, metrics, *, paper_mm):
     extent = high - low
     if not 0.08 <= extent.min() or extent.max() > 12:
         return None
-    pitch = _printer_grid(points, paper_mm=paper_mm)
+    stroke_catalogs = all(
+        c.manifest["outline_policy"] == "open_stroke_paths_v1" for c in catalogs
+    )
+    pitch = _printer_grid(
+        points, paper_mm=paper_mm, minimum_vertices=8 if stroke_catalogs else 12
+    )
     # Independent pixel errors in X/Y require an Euclidean diagonal budget.
     grid_factor = (
         np.sqrt(2.0)

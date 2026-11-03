@@ -322,3 +322,20 @@ def test_stroke_resource_contract_rejects_mislabelled_inputs(tmp_path, field, va
             z.writestr(name, data)
     with pytest.raises(FontCatalogError):
         load_vector_font_catalog(out)
+
+
+def test_short_stroke_grid_requires_independent_two_axis_vertices():
+    import numpy as np
+    from pdf2dxf_stable.engine.text.vector_text import _printer_grid
+
+    pitch = 25.4 / 600
+    points = (
+        np.array([(0, 0), (1, 2), (3, 5), (4, 7), (7, 8), (8, 9), (9, 10), (11, 12)])
+        * pitch
+    )
+    assert _printer_grid(points, paper_mm=True) == 0
+    assert _printer_grid(points, paper_mm=True, minimum_vertices=8) == pitch
+    repeated = np.repeat(points[:4], 3, axis=0)
+    assert _printer_grid(repeated, paper_mm=True, minimum_vertices=8) == 0
+    points[-1, 0] += 0.05 * pitch
+    assert _printer_grid(points, paper_mm=True, minimum_vertices=8) == 0
