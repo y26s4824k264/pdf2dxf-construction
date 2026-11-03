@@ -12,6 +12,8 @@ Convert construction PDFs into real, readable DXF files, recover verified outlin
 
 The Python application does not require a CAD application. PyMuPDF, NumPy, OpenCV and other dependencies still use native binary wheels. Outlined-text recognition operates on **persisted DXF geometry and optional persisted font catalogs**. It does not use OCR, ONNX Runtime, PDF pixels, or an AI model.
 
+Native PDF input decoding may verify embedded TrueType cmap tables. The outline matcher never opens PDF files or external font files.
+
 Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redistribution are permitted subject to the license conditions. Dependencies and external fonts retain their own licenses; see [NOTICE](NOTICE) and [third-party notices](THIRD_PARTY_NOTICES.md).
 
 ## Install and convert

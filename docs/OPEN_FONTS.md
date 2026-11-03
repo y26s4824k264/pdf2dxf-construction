@@ -57,7 +57,7 @@ python tools/build_open_font_bundle.py \
   --group extended --output tmp/PDF2DXF-fonts-extended-2026.09.11-r3
 ```
 
-缓存齐全时可加 `--offline`。`--catalog-cache 旧目录/catalogs` 仅复用与当前格式、源字体和构建参数一致的字库，不把旧 r2 缓存当作新格式。已有输出目录不会被覆盖。转换阶段只读保存的 DXF 与字库，不联网、不读字体、不用 OCR。
+缓存齐全时可加 `--offline`。`--catalog-cache 旧目录/catalogs` 仅复用与当前格式、源字体和构建参数一致的字库，不把旧 r2 缓存当作新格式。已有输出目录不会被覆盖。轮廓匹配阶段只读保存的 DXF 与字库，不联网、不读取 PDF 或外部字体、不用 OCR。PDF 输入解码可以独立核验其内嵌 TrueType cmap，不能与轮廓匹配混为一谈。
 
 ## 许可
 
