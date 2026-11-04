@@ -1074,3 +1074,127 @@ def test_short_stroke_grid_requires_independent_two_axis_vertices():
     assert _printer_grid(repeated, paper_mm=True, minimum_vertices=8) == 0
     points[-1, 0] += 0.05 * pitch
     assert _printer_grid(points, paper_mm=True, minimum_vertices=8) == 0
+
+
+@pytest.mark.parametrize(
+    'case',
+    [90, 180, 270, 'pair', 'one_reference', 'duplicate_reference', 'other_page',
+     'missing_branch', 'incomplete_source', 'no_grid', 'unicode_alias', 'rotated_alias',
+     'attached_fragment', 'bad_spacing'],
+)
+def test_rotated_short_labels_need_independent_glyph_and_orientation_proofs(tmp_path, monkeypatch, case):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    monkeypatch.setitem(SHAPES, "木", [[(10, 70), (30, 70), (90, 70)], *SHAPES["木"][1:]])
+    complex_paths = [
+        [(5, 95), (35, 95)], [(5, 95), (5, 70)], [(35, 95), (35, 70)],
+        [(5, 70), (35, 70)], [(65, 95), (95, 95)], [(65, 95), (65, 70)],
+        [(95, 95), (95, 70)], [(65, 70), (95, 70)],
+        [(10, 15), (40, 15)], [(70, 15), (100, 15)],
+        [(10, 40), (40, 40)], [(5, 5), (20, 5)],
+        [(35, 5), (50, 5)], [(65, 5), (80, 5)],
+    ]
+    monkeypatch.setitem(SHAPES, '器', complex_paths)
+    if case == 'unicode_alias':
+        monkeypatch.setitem(SHAPES, '品', complex_paths)
+    elif case == 'rotated_alias':
+        # A competing Unicode label exists only in a different orientation;
+        # it need not occur in a reference row to prevent an isolated decision.
+        monkeypatch.setitem(SHAPES, '品', [[(y, 105 - x) for x, y in p] for p in complex_paths])
+    catalog = tmp_path / 'short-rotation.p2dvec'
+    build_shx_vector_catalog(font_file(tmp_path / 'short-rotation.shx'), catalog, encoding='gbk')
+    doc = ezdxf.new('R2018')
+    doc.header['$INSUNITS'] = 4
+    doc.appids.new('PDF2DXF15')
+    pitch = 25.4 / 600
+    angle = case if isinstance(case, int) else 90
+    matrix = {90: np.array([[0, -1], [1, 0]]), 180: -np.eye(2), 270: np.array([[0, 1], [-1, 0]])}[angle]
+    target_handles = []
+    words = [CHARS + '器', CHARS + ('' if case == 'one_reference' else '器')]
+    words.append('器木' if case in {'pair', 'bad_spacing'} else '器')
+    for row, word in enumerate(words):
+        seq = row * 1000
+        for column, char in enumerate(word):
+            for part, stroke in enumerate(SHAPES[char]):
+                if row == 2 and case == 'missing_branch' and part == 0:
+                    seq += 1
+                    continue
+                y = 0 if row == 1 and case == 'duplicate_reference' else row * 12
+                points = np.rint((np.array(stroke) * [0.035, 0.07] + [column * 4.2, y]) / pitch) * pitch
+                if row == 2:
+                    points = (points - [0, y]) @ matrix.T + [60, 60]
+                    if case == 'no_grid':
+                        points[:, 0] += np.arange(len(points)) * 0.0011
+                    if case == 'bad_spacing' and char == '木':
+                        points[:, 0] += 10 * pitch
+                entity = doc.modelspace().add_lwpolyline(points)
+                entity.set_xdata('PDF2DXF15', [(1000, 'stroke'), (1070, int(row == 2 and case == 'other_page')), (1070, seq), (1000, 's')])
+                if row == 2:
+                    target_handles.append(entity.dxf.handle)
+                    if case == 'incomplete_source' and part == 0:
+                        missing = doc.modelspace().add_point((60, 60))
+                        missing.set_xdata('PDF2DXF15', [(1000, 'stroke'), (1070, 0), (1070, seq), (1000, 's')])
+                seq += 1
+        if row == 2 and case == 'attached_fragment':
+            fragment = doc.modelspace().add_line((57, 61), (57, 62))
+            fragment.set_xdata('PDF2DXF15', [(1000, 'stroke'), (1070, 0), (1070, seq), (1000, 's')])
+    path = tmp_path / 'short-rotation.dxf'
+    doc.saveas(path)
+    before = {h: list(doc.entitydb[h].get_points()) for h in target_handles}
+    report = recover_outline_text(path, mode='required', policy='off_layer', font_catalog_paths=[catalog])
+    targets = [r for r in report['accepted'] if min(r['source_seqnos']) >= 2000]
+    expected = list(words[-1]) if isinstance(case, int) or case == 'pair' else []
+    assert [r['text'] for r in targets] == expected
+    assert all(r['rotation'] == angle for r in targets)
+    if expected:
+        reopened = ezdxf.readfile(path)
+        assert [e.dxf.text for e in reopened.modelspace().query('TEXT') if e.dxf.rotation == angle] == expected
+        for h, points in before.items():
+            assert list(reopened.entitydb[h].get_points()) == points
+        assert not reopened.audit().errors
+        assert reopened.layers.get('PDF_OUTLINE_BACKUP').is_off()
+        assert recover_outline_text(path, mode='required', font_catalog_paths=[catalog])['emitted_text_entities'] == 0
+
+
+def test_short_orientation_rejects_topology_deferred_unicode_rival(tmp_path, monkeypatch):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.outline_text import _collect_atoms
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+    from pdf2dxf_stable.engine.text.stroke_rotation import _unique_orientation
+    from pdf2dxf_stable.engine.text.vector_catalog import load_vector_font_catalog
+    from pdf2dxf_stable.engine.text.vector_text import _candidate_group
+
+    wood = SHAPES['木']
+    loop = [(10, 105), (10, 125), (90, 125), (90, 105), (14, 105)]
+    monkeypatch.setitem(SHAPES, '木', [loop, *wood])
+    # Printer rounding closes the narrow loop envelope; crossing strokes were
+    # repartitioned. 木 remains a complete, font-bounded deferred rival, while
+    # the controlled second label has an exact per-path interpretation.
+    target = [np.rint(np.array(p) * [0.78, 1]) for p in [
+        loop, [(10, 70), (50, 70), (50, 0)],
+        [(50, 100), (50, 70), (90, 70)], *wood[2:],
+    ]]
+    monkeypatch.setitem(SHAPES, '品', [p.astype(int).tolist() for p in target])
+    resource = tmp_path / 'deferred-rival.p2dvec'
+    font = font_file(tmp_path / 'deferred-rival.shx')
+    build_shx_vector_catalog(font, resource, encoding='gbk')
+    font.unlink()
+    catalog = load_vector_font_catalog(resource)
+    pitch = 25.4 / 600
+    paths = [p * pitch for p in target]
+    deferred = []
+    strict = catalog.candidates(paths, max_error=np.sqrt(2) / 125 + 0.001, deferred=deferred)
+    assert [r[0] for r in strict] == ['品']
+    assert [r[0] for r in deferred] == ['木']
+    doc = ezdxf.new('R2018')
+    doc.appids.new('PDF2DXF15')
+    for seq, points in enumerate(paths):
+        e = doc.modelspace().add_lwpolyline(points)
+        e.set_xdata('PDF2DXF15', [(1000, 'stroke'), (1070, 0), (1070, seq), (1000, 's')])
+    path = tmp_path / 'deferred-rival.dxf'
+    doc.saveas(path)
+    atoms, _, _ = _collect_atoms(ezdxf.readfile(path), 0, include_fills=True)
+    ordinary = _candidate_group(atoms, [catalog], {'font_vector_ambiguous_glyphs': 0}, paper_mm=True, deferred=[])
+    assert ordinary is not None and ordinary[0].char == '品'
+    assert not _unique_orientation(ordinary[0], 0, atoms, [catalog])

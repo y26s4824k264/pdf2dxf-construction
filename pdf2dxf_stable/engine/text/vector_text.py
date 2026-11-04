@@ -193,7 +193,9 @@ def _adjacent(a, b, catalog, proofs, *, spaced=False):
     )
 
 
-def _candidate_group(group, catalogs, metrics, *, paper_mm, deferred=None):
+def _candidate_group(
+    group, catalogs, metrics, *, paper_mm, deferred=None, reject_deferred_rivals=False
+):
     from .outline_text import GlyphMatch, GlyphTemplate
 
     indices = [a.sequence_index for a in group]
@@ -244,7 +246,15 @@ def _candidate_group(group, catalogs, metrics, *, paper_mm, deferred=None):
         predictions.extend((catalog, *r) for r in result)
         weak_predictions.extend((catalog, *r) for r in weak)
     labels = {p[1] for p in predictions}
-    if overloaded or len(labels) > 1:
+    if (
+        overloaded
+        or len(labels) > 1
+        or (
+            reject_deferred_rivals
+            and labels
+            and any(p[1] not in labels for p in weak_predictions)
+        )
+    ):
         metrics["font_vector_ambiguous_glyphs"] += 1
         return None
     pending = False

@@ -27,6 +27,40 @@ def _bounds(low, high, angle):
     return points.min(0), points.max(0)
 
 
+def _unique_orientation(match, angle, atoms, catalogs):
+    """Short labels cannot use row layout to disambiguate a quarter turn.
+
+    Search every supplied stroke font in all four orientations, including
+    unseeded labels and topology-deferred rivals. Independent references may
+    confirm geometry, but must never hide a different orientation or Unicode.
+    """
+    interpretations = set()
+    for turn in (0, 90, 180, 270):
+        group = []
+        for atom in atoms[match.start : match.end]:
+            paths = tuple(
+                _turn(p, 360 - turn) if turn else p for p in atom.paths
+            )
+            points = np.vstack(paths)
+            group.append(
+                replace(atom, paths=paths, low=points.min(0), high=points.max(0))
+            )
+        pending = []
+        metrics = {"font_vector_ambiguous_glyphs": 0}
+        result = _candidate_group(
+            group, catalogs, metrics,
+            paper_mm=True, deferred=pending, reject_deferred_rivals=True,
+        )
+        # An ambiguous orientation is not evidence that there is no rival.
+        # _candidate_group increments the metric before rejecting its labels.
+        if metrics["font_vector_ambiguous_glyphs"]:
+            return False
+        if result is not None:
+            pending.append(result)
+        interpretations.update((turn, m.char) for m, _ in pending)
+    return interpretations == {(angle, match.char)}
+
+
 def recover_rotated_strokes(
     atoms, source_entities, catalogs, matches, occupied, *, paper_mm
 ):
@@ -35,6 +69,7 @@ def recover_rotated_strokes(
     metrics = {
         "font_stroke_rotated_windows_scanned": 0,
         "font_stroke_rotated_glyph_matches": 0,
+        "font_stroke_rotated_short_glyph_matches": 0,
         "font_stroke_rotated_row_evidence": [],
     }
     # No labels from single anchors, repeats or this pass may become references.
@@ -204,13 +239,29 @@ def recover_rotated_strokes(
                 if forward[indices[-1]]:
                     continue
                 row = [spans[j] for j in indices]
-                if len({m.char for m in row}) < 3 or not _coherent(
-                    row, catalog, proofs
-                ):
+                if not _coherent(row, catalog, proofs):
                     continue
+                short = len({m.char for m in row}) < 3
+                if short:
+                    if len(row) > 2 or len({m.char for m in row}) != len(row):
+                        continue
+                    if len(row) == 1 and any(
+                        other is not row[0]
+                        and other.start <= row[0].end
+                        and row[0].start <= other.end
+                        for other in candidates
+                    ):
+                        # Do not turn a failed neighbouring row or competing
+                        # partition into apparently isolated characters.
+                        continue
+                    if not all(
+                        _unique_orientation(m, angle, atoms, catalogs) for m in row
+                    ):
+                        continue
                 # At least one complex glyph is needed in addition to the
-                # independent per-glyph references and complete row layout.
-                if not any(
+                # independent references for a multi-character row. A truly
+                # isolated glyph instead needs a unique full-font orientation.
+                if len(row) > 1 and not any(
                     len(
                         catalog.paths(
                             proofs[m.start, m.end, m.char][catalog.catalog_id][1]
@@ -262,6 +313,10 @@ def recover_rotated_strokes(
                                 scan_metrics[m.start, m.end, m.char] for m in row
                             ],
                             "reference_policy": "earlier_strict_upright_rows_same_page",
+                            "orientation_policy": (
+                                "all_supplied_fonts_all_quarter_turns_unique"
+                                if short else "three_label_row_layout"
+                            ),
                             "output_policy": "separate_TEXT_preserving_ink_bounds_and_rotation",
                         },
                     )
@@ -275,6 +330,8 @@ def recover_rotated_strokes(
         ):
             continue
         additions.extend(row)
+        if evidence["orientation_policy"] == "all_supplied_fonts_all_quarter_turns_unique":
+            metrics["font_stroke_rotated_short_glyph_matches"] += len(row)
         metrics["font_stroke_rotated_row_evidence"].append(evidence)
     metrics["font_stroke_rotated_glyph_matches"] = len(additions)
     return additions, metrics

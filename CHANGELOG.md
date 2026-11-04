@@ -1,3 +1,10 @@
+# 2.0.0rc50
+
+- Recover quarter-turned isolated Han and two-character labels from two earlier spatially independent strict glyph references, without requiring an unrelated three-character row.
+- Require a unique character and orientation across all supplied stroke catalogs and four quarter turns, including unseeded and topology-deferred rivals; reject neighboring competing source partitions.
+- Retain full-source, printer-grid, original font budget, complete-path and font-cell gates; two-character rows still need coherent layout and a complex glyph. Preserve ink bounds, rotation and raw geometry without OCR or new-reference feedback.
+- See [rc50 evidence and limits](docs/RELEASE_RC50.md); only foundation/beam representative saved DXFs are replayed.
+
 # 2.0.0rc49
 
 - Propagate target and reference font bounds when checking independent complete stroke paths, including reference X rescaling. Keep the original glyph-to-font cap unchanged.

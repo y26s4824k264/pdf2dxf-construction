@@ -1,12 +1,12 @@
 # PDF2DXF Construction
 
-Current version: **2.0.0rc49**. Propagate both independently verified font error bounds when comparing an observed glyph with earlier references, retaining the original glyph-to-font cap and TEXT placement. No OCR or semantic completion. See [rc49 evidence and limits](docs/RELEASE_RC49.md).
+Current version: **2.0.0rc50**. Recover independently verified quarter-turned single Han and two-character labels, checking all supplied stroke fonts and all four orientations for short-label uniqueness. Preserve the original geometry budget and TEXT placement, without OCR or semantic completion. See [rc50 evidence and limits](docs/RELEASE_RC50.md).
 
 [简体中文](README.md) | **English**
 
 [![Package checks](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml/badge.svg)](https://github.com/y26s4824k264/pdf2dxf-construction/actions/workflows/ci.yml)
 
-Version: `2.0.0rc49` (prerelease).
+Version: `2.0.0rc50` (prerelease).
 
 Convert construction PDFs into real, readable DXF files, recover verified outlined text as editable `TEXT`, and report the evidence behind drawing scale. Frame splitting and BIM modeling belong to the downstream DXF pipeline.
 
@@ -21,7 +21,7 @@ Licensed under [AGPL-3.0-only](LICENSE). Commercial use, modification and redist
 Python 3.10 or later is required. This release was checked locally on macOS ARM64 / Python 3.12; earlier releases also have Python 3.10 and Linux ARM64 evidence. See the CI badge and [validation record](docs/VALIDATION.md) for current platform results.
 
 ```sh
-python -m pip install "pdf2dxf-construction==2.0.0rc49"
+python -m pip install "pdf2dxf-construction==2.0.0rc50"
 ```
 
 ```sh
