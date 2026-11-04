@@ -899,6 +899,89 @@ def test_rotated_han_keep_angle_and_require_preconfirmed_geometry(
         )
 
 
+@pytest.mark.parametrize(
+    "case",
+    [
+        "valid",
+        "reference_scaled",
+        "missing_branch",
+        "outside_font_budget",
+        "one_reference",
+        "duplicate_reference",
+        "unicode_alias",
+    ],
+)
+def test_independent_print_errors_propagate_without_expanding_font_budget(
+    tmp_path, monkeypatch, case
+):
+    import numpy as np
+    from pdf2dxf_stable.engine.text.shx_font import build_shx_vector_catalog
+
+    monkeypatch.setitem(
+        SHAPES, "土", [[(20, 55), (80, 55)], [(50, 100), (50, 5)], [(10, 5), (90, 5)]]
+    )
+    if case == "unicode_alias":
+        monkeypatch.setitem(SHAPES, "玉", SHAPES["本"])
+    catalog = tmp_path / "independent-errors.p2dvec"
+    build_shx_vector_catalog(
+        font_file(tmp_path / "independent-errors.shx"), catalog, encoding="gbk"
+    )
+    doc = ezdxf.new("R2018")
+    doc.header["$INSUNITS"] = 4
+    doc.appids.new("PDF2DXF15")
+    doc.layers.new("TARGET")
+    pitch = 25.4 / 600
+    words = [CHARS + "土", "工木大王土" if case == "one_reference" else CHARS + "土"]
+
+    def draw(char, origin, xscale, seq, target=False):
+        paths = SHAPES[char]
+        if target and case == "missing_branch":
+            paths = paths[:-1]
+        for part, path in enumerate(paths):
+            points = np.array(path) * [xscale, pitch] + origin
+            if char == "本" and part == len(SHAPES["本"]) - 1:
+                points[:, 1] += pitch * (
+                    (-3 if case == "outside_font_budget" else -1) if target else 1
+                )
+            points = np.rint(points / pitch) * pitch
+            entity = doc.modelspace().add_lwpolyline(
+                points, dxfattribs={"layer": "TARGET" if target else "0"}
+            )
+            entity.set_xdata(
+                "PDF2DXF15",
+                [(1000, "stroke"), (1070, 0), (1070, seq + part), (1000, "s")],
+            )
+
+    sx = pitch / (4 if case == "reference_scaled" else 2)
+    for row, word in enumerate(words):
+        seq = 200 * row
+        y = 0 if case == "duplicate_reference" else row * 140 * pitch
+        for col, char in enumerate(word):
+            draw(char, np.array([col * 120 * sx, y]), sx, seq)
+            seq += len(SHAPES[char])
+    draw("本", np.array([900 * pitch, 500 * pitch]), pitch / 2, 10000, True)
+    path = tmp_path / "independent-errors.dxf"
+    doc.saveas(path)
+    report = recover_outline_text(
+        path, mode="required", policy="off_layer", font_catalog_paths=[catalog]
+    )
+    targets = [r for r in report["accepted"] if min(r["source_seqnos"]) >= 10000]
+    success = case in {"valid", "reference_scaled"}
+    assert [r["text"] for r in targets] == (["本"] if success else [])
+    if success:
+        (evidence,) = report["font_stroke_isolated_evidence"]
+        (support,) = evidence["supports"]
+        assert len(support["reference_source_spans"]) == 2
+        (cap,) = targets[0]["font_vector_boundary_error_limits"]
+        assert cap < 0.02
+        assert targets[0]["font_vector_boundary_errors"][0] <= cap
+        # Two opposite one-pixel internal-stroke errors are 2/100 ink heights;
+        # each single-font comparison still uses its original smaller bound.
+        assert cap < 2 / 100 < min(support["glyph_pair_error_limits"])
+        assert max(support["reference_font_error_limits"]) <= 0.02
+        assert not ezdxf.readfile(path).audit().errors
+
+
 @pytest.mark.parametrize("bad_offset", [0, 10000000])
 def test_bigfont_rejects_out_of_bounds_records(tmp_path, bad_offset):
     from pdf2dxf_stable.engine.text.shx_font import Bigfont, SIGNATURE

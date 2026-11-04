@@ -1,3 +1,10 @@
+# 2.0.0rc49
+
+- Propagate target and reference font bounds when checking independent complete stroke paths, including reference X rescaling. Keep the original glyph-to-font cap unchanged.
+- Derive reference aspect from its actual upright paths, including when rotated target matching temporarily transforms reference position bounds.
+- Persist reference font limits and applied pair limits; retain independent-source, font-lock, Unicode-uniqueness, geometry, layout and no-bootstrap gates.
+- See [rc49 evidence and limits](docs/RELEASE_RC49.md); only foundation/beam representative saved DXFs are replayed, without OCR or corpus-wide reruns.
+
 # 2.0.0rc48
 
 - Verify 90/180/270-degree Han using two spatially independent earlier strict upright glyphs per character, the unchanged numeric-font geometry budget, complete source and measured row layout.

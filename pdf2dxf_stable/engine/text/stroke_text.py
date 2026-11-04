@@ -183,13 +183,15 @@ def _repeat_candidates(matches, deferred, atoms):
         for cid in match.font_catalog_ids:
             bucket = prototypes[cid, match.char]
             if len(bucket) >= 8 or any(
-                not _separate_locations(match, ref) for ref, _ in bucket
+                not _separate_locations(match, ref) for ref, _, _ in bucket
             ):
                 continue
-            normal, _, _ = _normalise(
+            normal, _, extent = _normalise(
                 _join_stroke_paths([p for a in match.atoms for p in a.paths])
             )
-            bucket.append((match, normal))
+            # Rotation callers transform reference position bounds while
+            # retaining upright ink. Derive its aspect from the actual paths.
+            bucket.append((match, normal, float(extent[0] / extent[1])))
     used = {i for m in matches for i in range(m.start, m.end)}
     added, evidence = [], []
     for match, proof in deferred:
@@ -206,14 +208,22 @@ def _repeat_candidates(matches, deferred, atoms):
                 match, atoms, catalog, {(match.start, match.end, match.char): proof}
             ):
                 continue
-            votes = [
-                ref
-                for ref, paths in prototypes[cid, match.char]
-                if _separate_locations(match, ref)
-                and _stroke_paths_agree(
-                    normal, paths, extent[0] / extent[1], match.font_vector_error_limit
+            votes, pair_limits = [], []
+            aspect = float(extent[0] / extent[1])
+            for ref, paths, reference_aspect in prototypes[cid, match.char]:
+                # The two observations already pass their unchanged font
+                # bounds. Their mutual error includes both uncertainties,
+                # including the reference X rescaling into target coordinates.
+                pair_limit = (
+                    match.font_vector_error_limit
+                    + ref.font_vector_error_limit * max(1.0, aspect / reference_aspect)
+                    + 2e-6
                 )
-            ]
+                if _separate_locations(match, ref) and _stroke_paths_agree(
+                    normal, paths, aspect, pair_limit
+                ):
+                    votes.append(ref)
+                    pair_limits.append(float(pair_limit))
             if len(votes) < 2:
                 continue
             admitted[cid] = proof[cid]
@@ -227,6 +237,10 @@ def _repeat_candidates(matches, deferred, atoms):
                         [ref.atoms[0].source_ref[2], ref.atoms[-1].source_ref[2]]
                         for ref in votes
                     ],
+                    "reference_font_error_limits": [
+                        float(ref.font_vector_error_limit) for ref in votes
+                    ],
+                    "glyph_pair_error_limits": pair_limits,
                 }
             )
         if not admitted:
@@ -248,6 +262,7 @@ def _repeat_candidates(matches, deferred, atoms):
                 "boundary_error": candidate.font_vector_error,
                 "error_limit": match.font_vector_error_limit,
                 "method": "independent_preconfirmed_path_bijection",
+                "pair_error_policy": "independently_font_bounded_observations_v1",
                 "supports": supports,
                 "span_key": [match.start, match.end, match.char],
             }
